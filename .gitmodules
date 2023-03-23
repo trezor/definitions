@@ -4,6 +4,3 @@
 [submodule "ethereum-lists/chains"]
 	path = ethereum-lists/chains
 	url = https://github.com/ethereum-lists/chains
-[submodule "trezor-common"]
-	path = trezor-common
-	url = https://github.com/trezor/trezor-common
