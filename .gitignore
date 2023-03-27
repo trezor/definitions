@@ -3,3 +3,4 @@ __pycache__
 .pytest_cache
 definitions-cache.json
 definitions-latest
+*.log
