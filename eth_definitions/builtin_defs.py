@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 HERE = Path(__file__).parent
 ROOT = HERE.parent
-TREZOR_COMMON = ROOT / "trezor_common"
+TREZOR_COMMON = ROOT / "coins_details" / "trezor_common"
 ETH_DEFS_DIR = TREZOR_COMMON / "defs" / "ethereum"
 
 
