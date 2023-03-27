@@ -34,7 +34,7 @@ OPTIONAL_KEYS = ("links", "notes", "wallet")
 ALLOWED_SUPPORT_STATUS = ("yes", "no")
 
 WALLETS = coin_info.load_json("wallets.json")
-OVERRIDES = coin_info.load_json("coins_details.override.json")
+OVERRIDES = coin_info.load_json(HERE / "coins_details.override.json")
 
 # automatic wallet entries
 WALLET_SUITE = {"Trezor Suite": "https://suite.trezor.io"}
