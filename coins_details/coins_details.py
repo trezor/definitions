@@ -24,11 +24,16 @@ if TYPE_CHECKING:
         WalletItems,
     )
 
-LOG = logging.getLogger(__name__)
-
 HERE = Path(__file__).parent
 ROOT = HERE.parent
 COINS_DETAILS_JSON = ROOT / "coins_details.json"
+
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler(HERE / "logs.log")
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+LOG.addHandler(file_handler)
 
 OPTIONAL_KEYS = ("links", "notes", "wallet")
 ALLOWED_SUPPORT_STATUS = ("yes", "no")
