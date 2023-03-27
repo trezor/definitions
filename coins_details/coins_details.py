@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any
 
 import click
 
-import coin_info
+import trezor_common.tools.coin_info as coin_info
 
 if TYPE_CHECKING:
     from coin_info import (
@@ -27,6 +27,7 @@ if TYPE_CHECKING:
 HERE = Path(__file__).parent
 ROOT = HERE.parent
 COINS_DETAILS_JSON = ROOT / "coins_details.json"
+DEFINITIONS_LATEST_JSON = ROOT / "definitions-latest.json"
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.DEBUG)
@@ -40,6 +41,7 @@ ALLOWED_SUPPORT_STATUS = ("yes", "no")
 
 WALLETS = coin_info.load_json("wallets.json")
 OVERRIDES = coin_info.load_json(HERE / "coins_details.override.json")
+DEFINITIONS_LATEST = coin_info.load_json(DEFINITIONS_LATEST_JSON)
 
 # automatic wallet entries
 WALLET_SUITE = {"Trezor Suite": "https://suite.trezor.io"}
@@ -147,63 +149,6 @@ def update_bitcoin(coins: Coins, support_info: SupportInfo) -> dict[str, Coin]:
     return res
 
 
-def update_erc20(
-    coins: Coins, networks: Coins, support_info: SupportInfo
-) -> dict[str, Coin]:
-    # TODO skip disabled networks?
-    network_support = {n["chain"]: support_info.get(n["key"]) for n in networks}
-    network_testnets = {n["chain"] for n in networks if "Testnet" in n["name"]}
-    res = update_simple(coins, support_info, "erc20")
-    for coin in coins:
-        key = coin["key"]
-        chain = coin["chain"]
-
-        hidden = False
-        if chain in network_testnets:
-            hidden = True
-        if "deprecation" in coin:
-            hidden = True
-
-        if network_support.get(chain, {}).get("suite"):
-            wallets = WALLET_SUITE
-        else:
-            wallets = WALLETS_ETH_3RDPARTY
-
-        details = dict(
-            network=chain,
-            address=coin["address"],
-            shortcut=coin["shortcut"],
-            links={},
-            wallet=wallets,
-        )
-        if hidden:
-            details["hidden"] = True
-        if coin.get("website"):
-            details["links"]["Homepage"] = coin["website"]
-        if coin.get("social", {}).get("github"):
-            details["links"]["Github"] = coin["social"]["github"]
-
-        dict_merge(res[key], details)
-
-    return res
-
-
-def update_ethereum_networks(
-    coins: Coins, support_info: SupportInfo
-) -> dict[str, Coin]:
-    res = update_simple(coins, support_info, "coin")
-    for coin in coins:
-        key = coin["key"]
-        if support_info[key].get("suite"):
-            wallets = WALLET_SUITE
-        else:
-            wallets = WALLETS_ETH_3RDPARTY
-        details = dict(links=dict(Homepage=coin.get("url")), wallet=wallets)
-        dict_merge(res[key], details)
-
-    return res
-
-
 def update_nem_mosaics(coins: Coins, support_info: SupportInfo) -> dict[str, Coin]:
     res = update_simple(coins, support_info, "mosaic")
     for coin in coins:
@@ -218,12 +163,6 @@ def check_missing_data(coins: dict[str, Coin]) -> None:
     for k, coin in coins.items():
         hide = False
 
-        if "Homepage" not in coin.get("links", {}):
-            level = logging.WARNING
-            if k.startswith("erc20:"):
-                level = logging.INFO
-            LOG.log(level, f"{k}: Missing homepage")
-            hide = True
         if coin["t1_enabled"] not in ALLOWED_SUPPORT_STATUS:
             LOG.error(f"{k}: Unknown t1_enabled: {coin['t1_enabled']}")
             hide = True
@@ -300,20 +239,40 @@ def main(verbose: bool):
     handler.setLevel(log_level)
     root.addHandler(handler)
 
-    defs, _ = coin_info.coin_info_with_duplicates()
-    support_info = coin_info.support_info(defs)
+    coin_info_defs, _ = coin_info.coin_info_with_duplicates()
+    support_info = coin_info.support_info(coin_info_defs)
 
     coins: dict[str, Coin] = {}
-    coins.update(update_bitcoin(defs.bitcoin, support_info))
-    coins.update(update_erc20(defs.erc20, defs.eth, support_info))
-    coins.update(update_ethereum_networks(defs.eth, support_info))
-    coins.update(update_nem_mosaics(defs.nem, support_info))
-    coins.update(update_simple(defs.misc, support_info, "coin"))
+    # Update non-ETH things from coin_info
+    coins.update(update_bitcoin(coin_info_defs.bitcoin, support_info))
+    coins.update(update_nem_mosaics(coin_info_defs.nem, support_info))
+    coins.update(update_simple(coin_info_defs.misc, support_info, "coin"))
+
+    # Update ETH things from our own definitions
+    eth_networks = DEFINITIONS_LATEST["networks"]
+    eth_tokens = DEFINITIONS_LATEST["tokens"]
+    # TODO: remove all testnet networks?
+    for coin in eth_networks + eth_tokens:
+        coin["wallet"] = WALLETS_ETH_3RDPARTY
+        coin["t1_enabled"] = "yes"
+        coin["t2_enabled"] = "yes"
+    key_to_network = {
+        f"eth:{net['shortcut']}:{net['chain_id']}": net for net in eth_networks
+    }
+    key_to_token = {f"erc20:{t['chain']}:{t['shortcut']}": t for t in eth_tokens}
+    coins.update(key_to_network)
+    coins.update(key_to_token)
 
     apply_overrides(coins)
     finalize_wallets(coins)
-
     check_missing_data(coins)
+
+    # Coins should only keep these keys, delete all others
+    keys_to_keep = ("name", "shortcut", "t1_enabled", "t2_enabled", "wallet")
+    for coin in coins.values():
+        for key in list(coin.keys()):
+            if key not in keys_to_keep:
+                del coin[key]
 
     info = summary(coins)
     details = dict(coins=coins, info=info)
