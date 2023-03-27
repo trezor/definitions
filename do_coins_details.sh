@@ -12,8 +12,8 @@ if are_there_git_changes; then
     exit 1
 fi
 
-# Update all submodules
-git submodule update --init --recursive --force
+# Update all submodules to their latest commit
+git submodule update --init --recursive --remote
 
 # If there are some git changes from submodule update, commit them
 if are_there_git_changes; then
