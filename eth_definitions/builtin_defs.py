@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import click
-import requests
 
 from .common import DEFINITIONS_PATH, Network, Token, hash_dict_on_keys, load_json_file
 
@@ -13,10 +12,10 @@ if TYPE_CHECKING:
     from .common import DEFINITION_TYPE
 
 
-GH_COMMON_ETH_LINK = (
-    "https://raw.githubusercontent.com/trezor/trezor-common/master/defs/ethereum/"
-)
-GH_BACKUP_ETH_LINK = "https://raw.githubusercontent.com/trezor/trezor-firmware/marnova/ethereum_defs_from_host/common/defs/ethereum/"
+HERE = Path(__file__).parent
+ROOT = HERE.parent
+TREZOR_COMMON = ROOT / "trezor_common"
+ETH_DEFS_DIR = TREZOR_COMMON / "defs" / "ethereum"
 
 
 @click.command()
@@ -103,15 +102,5 @@ def _check(
 
 
 def _get_eth_file_content(file: str) -> str:
-    """Get the content of a file from `trezor-common` or from branch in `firmware` repo."""
-    try:
-        # try to get the file in common repo - it will not be available unless we merge
-        # the FW PR first
-        response = requests.get(GH_COMMON_ETH_LINK + file)
-        response.raise_for_status()
-    except requests.exceptions.HTTPError:
-        # if we fail, try to get the file from the FW repo
-        response = requests.get(GH_BACKUP_ETH_LINK + file)
-        response.raise_for_status()
-
-    return response.text
+    """Get the content of a file from `trezor-common`."""
+    return (ETH_DEFS_DIR / file).read_text()
