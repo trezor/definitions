@@ -15,16 +15,16 @@ fi
 # Update all submodules to their latest commit
 git submodule update --init --recursive --remote
 
-# If there are some git changes from submodule update, commit them
-if are_there_git_changes; then
-    git commit -am "Submodules update"
-fi
-
-# Download
+# Download definitions
 python cli.py download -v
 
-# Sign with dev private keys
+# Sign them with dev private keys
 python cli.py sign --test-sign
 
+# Generate coins details
+python coins_details/coins_details.py
+
 # Commit with current date in commit message
-git commit -am "Definitions update $(date +'%Y-%m-%d %H:%M:%S')"
+if are_there_git_changes; then
+    git commit -am "Update $(date +'%Y-%m-%d %H:%M:%S')"
+fi
