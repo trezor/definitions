@@ -424,6 +424,10 @@ def download(
         token_deduplicator[(token["chain_id"], token["address"])] = token
     tokens = list(token_deduplicator.values())
 
+    # remove items with empty symbol
+    networks = [n for n in networks if n["shortcut"]]
+    tokens = [t for t in tokens if t["shortcut"]]
+
     # Enforce the maximum field sizes
     _force_networks_fields_sizes_t1(networks)
     _force_tokens_fields_sizes_t1(tokens)
