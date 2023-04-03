@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Callable
 import click
 import ed25519  # type: ignore
 
-from trezorlib import definitions
+from trezorlib import cosi, definitions
 
 from .common import (
     DEFINITIONS_PATH,
@@ -34,9 +34,9 @@ if TYPE_CHECKING:
 # ====== utils ======
 
 
-def _load_prepared_definitions() -> tuple[
-    DefinitionsFileMetadata, list[Network], list[Token]
-]:
+def _load_prepared_definitions() -> (
+    tuple[DefinitionsFileMetadata, list[Network], list[Token]]
+):
     if not DEFINITIONS_PATH.is_file():
         raise click.ClickException(
             f'File "{DEFINITIONS_PATH}" with prepared definitions does not exists.'
@@ -94,6 +94,16 @@ def _add_proof_to_def(
     proof = tree.get_proof(definition["serialized"])
     proof_encoded = definitions.ProofFormat.build(proof)
     definition["serialized"] += proof_encoded + signature
+
+
+def _combine_public_key(sigmask: int) -> bytes:
+    selected_keys = [
+        k
+        for i, k in enumerate(definitions.DEFINITIONS_PUBLIC_KEYS)
+        if sigmask & (1 << i)
+    ]
+    assert len(selected_keys) >= 2
+    return cosi.combine_keys(selected_keys)
 
 
 @click.command(name="sign")
@@ -159,14 +169,21 @@ def sign_definitions(
         )
 
     print(f"Merkle tree root hash: {root_hash_str}")
-    # TODO: create functionality for the production signing
-    if not test_sign:
-        return
-    else:
+    if not test_sign and signature is not None:
+        signature_bytes = bytes.fromhex(signature)
+        if len(signature_bytes) != 65:
+            raise click.ClickException(
+                "Provided `--signature` value is not valid. "
+                "It should be 65 bytes long."
+            )
+        publickey_bytes = _combine_public_key(signature_bytes[0])
+    elif test_sign:
         # Signing the Merkle tree root hash with test/dev keys
         print("Signing the Merkle tree root hash with test/dev keys...")
         signature_bytes = sign_with_dev_keys(root_hash)
         publickey_bytes = get_dev_public_key()
+    else:
+        return
 
     assert signature_bytes is not None
 
