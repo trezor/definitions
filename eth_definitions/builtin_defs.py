@@ -17,6 +17,8 @@ ROOT = HERE.parent
 TREZOR_COMMON = ROOT / "coins_details" / "trezor_common"
 ETH_DEFS_DIR = TREZOR_COMMON / "defs" / "ethereum"
 
+EXCLUDES = ("deleted", "coingecko_id", "coingecko_rank")
+
 
 @click.command()
 @click.option(
@@ -26,36 +28,78 @@ ETH_DEFS_DIR = TREZOR_COMMON / "defs" / "ethereum"
     default=DEFINITIONS_PATH,
     help="File where the definitions will be saved in json format. If file already exists, it is used to check the changes in definitions.",
 )
-def check_builtin(deffile: Path) -> None:
+@click.option(
+    "-t",
+    "--top",
+    type=int,
+    default=50,
+    help="Coingecko rank cutoff that should be built-in.",
+)
+def check_builtin(deffile: Path, top: int) -> None:
     """Comparing current definitions with built-in ones."""
-    check_ok = check_from_definition_file(deffile)
+    check_ok = check_builtin_defs(deffile, top)
     if check_ok:
         print("SUCCESS: validation passed.")
     else:
         raise click.ClickException("ERROR: validation failed. See content above.")
 
 
-def check_from_definition_file(file: Path = DEFINITIONS_PATH) -> bool:
+def check_builtin_defs(file: Path = DEFINITIONS_PATH, top: int = 50) -> bool:
     defs = load_json_file(file)
     networks = defs["networks"]
     tokens = defs["tokens"]
-    return check_builtin_defs(networks, tokens)
-
-
-def check_builtin_defs(networks: list[Network], tokens: list[Token]) -> bool:
-    networks_ok = _check_networks(networks)
-    tokens_ok = _check_tokens(tokens)
-    return networks_ok and tokens_ok
-
-
-def _check_networks(networks: list[Network]) -> bool:
     builtin_networks = _load_raw_builtin_ethereum_networks()
-    return _check(networks, builtin_networks, "NETWORK")
-
-
-def _check_tokens(tokens: list[Token]) -> bool:
     builtin_tokens = _load_raw_builtin_erc20_tokens()
-    return _check(tokens, builtin_tokens, "TOKEN")
+
+    hashes_builtin = {
+        hash_dict_on_keys(b, EXCLUDES): b for b in builtin_networks + builtin_tokens
+    }
+    hashes = {hash_dict_on_keys(d, EXCLUDES) for d in networks + tokens}
+    ids = {(d["chain_id"], d.get("address")): d for d in networks + tokens}
+
+    checks_ok = True
+
+    # check definition differences
+    for builtin_hash, builtin_def in hashes_builtin.items():
+        if builtin_hash not in hashes:
+            checks_ok = False
+            name = "TOKEN" if "address" in builtin_def else "NETWORK"
+            print(f"== BUILT-IN {name} DEFINITION OUTDATED ==")
+            print("BUILT-IN:")
+            print(json.dumps(builtin_def, sort_keys=True, indent=None))
+            print("CURRENT:")
+            key = (builtin_def["chain_id"], builtin_def.get("address"))
+            print(json.dumps(ids[key], sort_keys=True, indent=None))
+
+    # check missing top 50 defs
+    top_networks = [
+        network for network in networks if network.get("coingecko_rank", top + 1) <= top
+    ]
+    top_chains = {network["chain"] for network in top_networks}
+    top_tokens = [
+        token for token in tokens if token.get("coingecko_rank", top + 1) <= top
+    ]
+
+    for network in top_networks:
+        hash = hash_dict_on_keys(network, EXCLUDES)
+        if hash not in hashes_builtin:
+            checks_ok = False
+            print(f"== MISSING BUILT-IN NETWORK DEFINITION ==")
+            print(json.dumps(network, sort_keys=True, indent=None))
+
+    missing_token_heading = False
+    for token in top_tokens:
+        if token["chain"] not in top_chains:
+            continue
+        hash = hash_dict_on_keys(token, EXCLUDES)
+        if hash not in hashes_builtin:
+            checks_ok = False
+            if not missing_token_heading:
+                print(f"== MISSING BUILT-IN TOKEN DEFINITIONS ==")
+                missing_token_heading = True
+            print(json.dumps(token, sort_keys=True, indent=None) + ",")
+
+    return checks_ok
 
 
 def _load_raw_builtin_ethereum_networks() -> list[Network]:
@@ -83,22 +127,11 @@ def _load_raw_builtin_erc20_tokens() -> list[Token]:
     return all_tokens
 
 
-def _check(
-    defs: list["DEFINITION_TYPE"], builtin_defs: list["DEFINITION_TYPE"], name: str
-) -> bool:
+def _check_top_n(n: int, networks: list[Network], tokens: list[Token]) -> bool:
     check_ok = True
-    EXCLUDES = ("deleted", "coingecko_id")
 
-    hashes_builtin = {hash_dict_on_keys(b, EXCLUDES): b for b in builtin_defs}
-    hashes = {hash_dict_on_keys(d, EXCLUDES) for d in defs}
-
-    for builtin_hash, builtin_def in hashes_builtin.items():
-        if builtin_hash not in hashes:
-            check_ok = False
-            print(f"== BUILT-IN {name} DEFINITION OUTDATED ==")
-            print(json.dumps(builtin_def, sort_keys=True, indent=None))
-
-    return check_ok
+    # for network in top_networks.values():
+    #     if
 
 
 def _get_eth_file_content(file: str) -> str:

@@ -19,7 +19,7 @@ def check_definitions_list(
     old_defs: list["DEFINITION_TYPE"],
     new_defs: list["DEFINITION_TYPE"],
     change_strategy: ChangeResolutionStrategy,
-    top100_coingecko_ids: list[str] | None = None,
+    show_all: bool,
 ) -> None:
     # store already processed definitions
     deleted_definitions: list["DEFINITION_TYPE"] = []
@@ -29,7 +29,7 @@ def check_definitions_list(
         return tuple(definition.get(k, None) for k in MAIN_KEYS)
 
     def datahash(definition: "DEFINITION_TYPE") -> bytes:
-        return hash_dict_on_keys(definition, exclude_keys=("deleted",))
+        return hash_dict_on_keys(definition, exclude_keys=("deleted", "coingecko_rank"))
 
     # dict of new definitions based on the primary keys
     defs_index = {key(nd): nd for nd in new_defs}
@@ -50,9 +50,9 @@ def check_definitions_list(
             deleted_definitions.append(old_def)
 
     def any_in_top_100(*definitions: "DEFINITION_TYPE") -> bool:
-        if top100_coingecko_ids is None:
+        if show_all:
             return True
-        return any(d.get("coingecko_id") in top100_coingecko_ids for d in definitions)
+        return any(d.get("coingecko_rank", 101) <= 100 for d in definitions)
 
     # Modified
     for old_def, new_def in modified_definitions:

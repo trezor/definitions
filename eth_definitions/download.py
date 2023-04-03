@@ -106,6 +106,8 @@ class Downloader:
             key += "?" + encoded_params
 
         if self.running_from_cache:
+            if key not in self.cache:
+                raise ValueError(f"Key {key} not found in cache")
             return self.cache.get(key)
 
         logging.info(f"Fetching data from {url}")
@@ -140,6 +142,9 @@ class Downloader:
             # "Forbidden" is raised by Coingecko if no tokens are available under specified id
             if err.response.status_code != requests.codes.forbidden:
                 raise err
+        except ValueError:
+            # cache miss
+            pass
 
         return []
 
@@ -433,7 +438,11 @@ def download(
                 tokens_by_chain_id_and_address[key]["coingecko_id"] = cg_coin["id"]
 
     # get top 100 ids
-    cg_top100_ids = [d["id"] for d in cg_top100]
+    cg_top100_ids = {d["id"]: d for d in cg_top100}
+
+    for item in networks + tokens:
+        if (id := item.get("coingecko_id")) in cg_top100_ids:
+            item["coingecko_rank"] = cg_top100_ids[id]["market_cap_rank"]
 
     if DEFINITIONS_PATH.exists():
         old_defs = load_json_file(DEFINITIONS_PATH)
@@ -442,13 +451,13 @@ def download(
             old_defs=old_defs["networks"],
             new_defs=networks,
             change_strategy=change_strategy,
-            top100_coingecko_ids=cg_top100_ids if not show_all else None,
+            show_all=show_all,
         )
         check_definitions_list(
             old_defs=old_defs["tokens"],
             new_defs=tokens,
             change_strategy=change_strategy,
-            top100_coingecko_ids=cg_top100_ids if not show_all else None,
+            show_all=show_all,
         )
 
     if check_builtin:

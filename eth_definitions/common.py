@@ -71,6 +71,7 @@ class Network(TypedDict):
     slip44: int
 
     coingecko_id: NotRequired[str]
+    coingecko_rank: NotRequired[bool]
     deleted: NotRequired[bool]
 
     serialized: NotRequired[bytes]
@@ -85,6 +86,7 @@ class Token(TypedDict):
     shortcut: str  # change later to symbol
 
     coingecko_id: NotRequired[str]
+    coingecko_rank: NotRequired[bool]
     deleted: NotRequired[bool]
 
     serialized: NotRequired[bytes]
@@ -120,10 +122,7 @@ def get_git_commit_hash() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("utf-8").strip()
 
 
-def hash_dict_on_keys(
-    d: "DEFINITION_TYPE",
-    exclude_keys: Collection[str] = (),
-) -> bytes:
+def hash_dict_on_keys(d: Network | Token, exclude_keys: Collection[str] = ()) -> bytes:
     """Get the hash of a dict, excluding selected keys."""
     tmp_dict = {k: v for k, v in d.items() if k not in exclude_keys}
 
