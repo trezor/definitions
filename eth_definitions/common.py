@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING, Any, Collection, TypedDict
 
 from typing_extensions import NotRequired
 
+import click
 from trezorlib import definitions, protobuf
 from trezorlib.merkle_tree import MerkleTree
 from trezorlib.messages import (
@@ -95,8 +96,8 @@ class Token(TypedDict):
 class DefinitionsFileMetadata(TypedDict):
     datetime: str
     unix_timestamp: int
-    commit_hash: str
-    merkle_tree_hash: str
+    merkle_root: str
+    signature: NotRequired[str]
 
 
 class DefinitionsFileFormat(TypedDict):
@@ -129,7 +130,7 @@ def hash_dict_on_keys(d: Network | Token, exclude_keys: Collection[str] = ()) ->
     return sha256(json.dumps(tmp_dict, sort_keys=True).encode()).digest()
 
 
-def get_definitions_merkle_tree_hash(
+def get_merkle_root(
     networks: list[Network], tokens: list[Token], timestamp: int
 ) -> str:
     # deepcopying not to add serialized field to the original definitions
@@ -190,3 +191,63 @@ def _serialize_eth_info(
         data=buf.getvalue(),
     )
     return payload.build()
+
+
+def load_definitions_data(
+    path: Path = DEFINITIONS_PATH,
+) -> tuple[DefinitionsFileMetadata, list[Network], list[Token]]:
+    if not path.is_file():
+        raise click.ClickException(
+            f'File "{path}" with prepared definitions does not exists.'
+        )
+
+    defs_data: DefinitionsFileFormat = load_json_file(path)
+    try:
+        metadata = defs_data["metadata"]
+        networks = defs_data["networks"]
+        tokens = defs_data["tokens"]
+        return metadata, networks, tokens
+    except KeyError:
+        raise click.ClickException(
+            "File with prepared definitions is not complete. "
+            '"metadata", "networks" and "tokens" section may be missing.'
+        )
+
+
+def store_definitions_data(
+    metadata: DefinitionsFileMetadata,
+    networks: list[Network],
+    tokens: list[Token],
+    *,
+    path: Path = DEFINITIONS_PATH,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    defs = DefinitionsFileFormat(
+        networks=networks,
+        tokens=tokens,
+        metadata=metadata,
+    )
+
+    with open(path, "w") as f:
+        json.dump(defs, f, ensure_ascii=False, sort_keys=True, indent=1)
+        f.write("\n")
+
+    logging.info(f"Success - results saved under {path}")
+
+
+def make_metadata(
+    networks: list[Network],
+    tokens: list[Token],
+    now: datetime.datetime | None = None,
+) -> DefinitionsFileMetadata:
+    if now is None:
+        now = datetime.datetime.now(datetime.timezone.utc)
+    timestamp = int(now.timestamp())
+    time_str = now.isoformat()
+    merkle_root = get_merkle_root(networks, tokens, timestamp)
+    return DefinitionsFileMetadata(
+        datetime=time_str,
+        unix_timestamp=timestamp,
+        merkle_root=merkle_root,
+    )

@@ -17,18 +17,14 @@ from urllib3.util.retry import Retry
 from .builtin_defs import check_builtin_defs
 from .check_definitions import check_definitions_list
 from .common import (
-    CURRENT_TIMESTAMP_STR,
-    CURRENT_UNIX_TIMESTAMP,
     DEFINITIONS_PATH,
     ChangeResolutionStrategy,
-    DefinitionsFileFormat,
-    DefinitionsFileMetadata,
     Network,
     Token,
-    get_definitions_merkle_tree_hash,
-    get_git_commit_hash,
     load_json_file,
+    make_metadata,
     setup_logging,
+    store_definitions_data,
 )
 
 HERE = Path(__file__).parent
@@ -476,25 +472,5 @@ def download(
     tokens.sort(key=lambda x: (x["chain_id"], x["address"]))
 
     # save results
-    with open(DEFINITIONS_PATH, "w") as f:
-        json.dump(
-            DefinitionsFileFormat(
-                metadata=DefinitionsFileMetadata(
-                    datetime=CURRENT_TIMESTAMP_STR,
-                    unix_timestamp=CURRENT_UNIX_TIMESTAMP,
-                    commit_hash=get_git_commit_hash(),
-                    merkle_tree_hash=get_definitions_merkle_tree_hash(
-                        networks, tokens, CURRENT_UNIX_TIMESTAMP
-                    ),
-                ),
-                networks=networks,
-                tokens=tokens,
-            ),
-            f,
-            ensure_ascii=False,
-            sort_keys=True,
-            indent=1,
-        )
-        f.write("\n")
-
-    logging.info(f"Success - results saved under {DEFINITIONS_PATH}")
+    metadata = make_metadata(networks, tokens)
+    store_definitions_data(metadata, networks, tokens)

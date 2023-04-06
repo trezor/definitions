@@ -1,8 +1,7 @@
 {
  "metadata": {
-  "commit_hash": "a7e22e3fad8563a63d3afc8eb7497261f91f6edf",
-  "datetime": "03.04.2023 13:44:24+0000",
-  "merkle_tree_hash": "91d915b0f025a04a4927c18693dc6ccf70fb28bd9cea006e8f8b6f682b89d5eb",
+  "datetime": "2023-04-03T13:44:24+00:00",
+  "merkle_root": "91d915b0f025a04a4927c18693dc6ccf70fb28bd9cea006e8f8b6f682b89d5eb",
   "unix_timestamp": 1680529464
  },
  "networks": [
