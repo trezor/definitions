@@ -93,6 +93,7 @@ class DefinitionsFileMetadata(TypedDict):
     datetime: str
     unix_timestamp: int
     merkle_root: str
+    commit_hash: str
     signature: NotRequired[str]
 
 
@@ -236,4 +237,5 @@ def make_metadata(
         datetime=time_str,
         unix_timestamp=timestamp,
         merkle_root=merkle_root,
+        commit_hash=get_git_commit_hash(),
     )

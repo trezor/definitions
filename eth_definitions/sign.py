@@ -10,11 +10,13 @@ import click
 import ed25519  # type: ignore
 
 from trezorlib import cosi, definitions
+from trezorlib.merkle_tree import MerkleTree
 
 from .common import (
     GENERATED_DEFINITIONS_DIR,
     Network,
     Token,
+    get_git_commit_hash,
     serialize_definitions,
     load_definitions_data,
     setup_logging,
@@ -155,8 +157,11 @@ def sign_definitions(
         print("Signing the Merkle tree root hash with test/dev keys...")
         signature_bytes = sign_with_dev_keys(root_hash)
         publickey_bytes = get_dev_public_key()
-    else:
-        return
+    elif "signature" in metadata:
+        # Use the signature from the loaded definitions
+        print("Regenerating binary definitions from the loaded definitions...")
+        signature_bytes = bytes.fromhex(metadata["signature"])
+        publickey_bytes = _combine_public_key(signature_bytes[0])
 
     assert signature_bytes is not None
 
@@ -172,7 +177,8 @@ def sign_definitions(
     # write out the latest signature
     if not test_sign and signature is not None:
         metadata["signature"] = signature_bytes.hex()
-    store_definitions_data(metadata, networks, tokens)
+        metadata["commit_hash"] = get_git_commit_hash()
+        store_definitions_data(metadata, networks, tokens)
 
     with click.progressbar(serializations.items(), label="Writing definitions") as bar:
         for serialized, item in bar:
