@@ -37,17 +37,17 @@ EXCLUDES = ("deleted", "coingecko_id", "coingecko_rank")
 )
 def check_builtin(deffile: Path, top: int) -> None:
     """Comparing current definitions with built-in ones."""
-    check_ok = check_builtin_defs(deffile, top)
+    defs = load_json_file(deffile)
+    check_ok = check_builtin_defs(defs["networks"], defs["tokens"], top)
     if check_ok:
         print("SUCCESS: validation passed.")
     else:
         raise click.ClickException("ERROR: validation failed. See content above.")
 
 
-def check_builtin_defs(file: Path = DEFINITIONS_PATH, top: int = 50) -> bool:
-    defs = load_json_file(file)
-    networks = defs["networks"]
-    tokens = defs["tokens"]
+def check_builtin_defs(
+    networks: list[Network], tokens: list[Token], top: int = 50
+) -> bool:
     builtin_networks = _load_raw_builtin_ethereum_networks()
     builtin_tokens = _load_raw_builtin_erc20_tokens()
 
@@ -125,13 +125,6 @@ def _load_raw_builtin_erc20_tokens() -> list[Token]:
             all_tokens.append(token)
 
     return all_tokens
-
-
-def _check_top_n(n: int, networks: list[Network], tokens: list[Token]) -> bool:
-    check_ok = True
-
-    # for network in top_networks.values():
-    #     if
 
 
 def _get_eth_file_content(file: str) -> str:
