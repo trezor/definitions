@@ -75,8 +75,6 @@ class Network(TypedDict):
     coingecko_rank: NotRequired[bool]
     deleted: NotRequired[bool]
 
-    serialized: NotRequired[bytes]
-
 
 class Token(TypedDict):
     address: str
@@ -89,8 +87,6 @@ class Token(TypedDict):
     coingecko_id: NotRequired[str]
     coingecko_rank: NotRequired[bool]
     deleted: NotRequired[bool]
-
-    serialized: NotRequired[bytes]
 
 
 class DefinitionsFileMetadata(TypedDict):
@@ -133,48 +129,38 @@ def hash_dict_on_keys(d: Network | Token, exclude_keys: Collection[str] = ()) ->
 def get_merkle_root(
     networks: list[Network], tokens: list[Token], timestamp: int
 ) -> str:
-    # deepcopying not to add serialized field to the original definitions
-    networks, tokens = add_serialized_field_to_definitions(
-        deepcopy(networks), deepcopy(tokens), timestamp
-    )
-    merkle_tree = get_merkle_tree(networks, tokens)
+    serializations = serialize_definitions(networks, tokens, timestamp)
+    merkle_tree = MerkleTree(serializations.keys())
     return merkle_tree.get_root_hash().hex()
 
 
-def get_merkle_tree(networks: list[Network], tokens: list[Token]) -> MerkleTree:
-    return MerkleTree(d["serialized"] for d in networks + tokens)
+def _serialize_network(network: Network, timestamp: int) -> bytes:
+    network_info = EthereumNetworkInfo(
+        chain_id=network["chain_id"],
+        symbol=network["shortcut"],
+        slip44=network["slip44"],
+        name=network["name"],
+    )
+    return _serialize_eth_info(network_info, EthereumDefinitionType.NETWORK, timestamp)
 
 
-def add_serialized_field_to_definitions(
+def _serialize_token(token: Token, timestamp: int) -> bytes:
+    token_info = EthereumTokenInfo(
+        address=bytes.fromhex(token["address"][2:]),
+        chain_id=token["chain_id"],
+        symbol=token["shortcut"],
+        decimals=token["decimals"],
+        name=token["name"],
+    )
+    return _serialize_eth_info(token_info, EthereumDefinitionType.TOKEN, timestamp)
+
+
+def serialize_definitions(
     networks: list[Network], tokens: list[Token], timestamp: int
-) -> tuple[list[Network], list[Token]]:
-    for network in networks:
-        ser = _serialize_eth_info(
-            EthereumNetworkInfo(
-                chain_id=network["chain_id"],
-                symbol=network["shortcut"],
-                slip44=network["slip44"],
-                name=network["name"],
-            ),
-            EthereumDefinitionType.NETWORK,
-            timestamp,
-        )
-        network["serialized"] = ser
-    for token in tokens:
-        ser = _serialize_eth_info(
-            EthereumTokenInfo(
-                address=bytes.fromhex(token["address"][2:]),
-                chain_id=token["chain_id"],
-                symbol=token["shortcut"],
-                decimals=token["decimals"],
-                name=token["name"],
-            ),
-            EthereumDefinitionType.TOKEN,
-            timestamp,
-        )
-        token["serialized"] = ser
-
-    return networks, tokens
+) -> dict[bytes, Network | Token]:
+    network_bytes = {_serialize_network(n, timestamp): n for n in networks}
+    token_bytes = {_serialize_token(t, timestamp): t for t in tokens}
+    return {**network_bytes, **token_bytes}
 
 
 def _serialize_eth_info(

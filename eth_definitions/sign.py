@@ -4,7 +4,7 @@ from __future__ import annotations
 import logging
 import shutil
 from pathlib import Path
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 
 import click
 import ed25519  # type: ignore
@@ -12,15 +12,13 @@ import ed25519  # type: ignore
 from trezorlib import cosi, definitions
 
 from .common import (
-    DEFINITIONS_PATH,
     GENERATED_DEFINITIONS_DIR,
-    DefinitionsFileFormat,
     Network,
     Token,
-    add_serialized_field_to_definitions,
-    get_merkle_tree,
-    load_json_file,
+    serialize_definitions,
+    load_definitions_data,
     setup_logging,
+    store_definitions_data,
 )
 from .definitions_dev_sign import get_dev_public_key, sign_with_dev_keys
 
@@ -28,31 +26,6 @@ LOG = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from trezorlib.merkle_tree import MerkleTree
-    from .common import DEFINITION_TYPE, DefinitionsFileMetadata
-
-
-# ====== utils ======
-
-
-def _load_prepared_definitions() -> (
-    tuple[DefinitionsFileMetadata, list[Network], list[Token]]
-):
-    if not DEFINITIONS_PATH.is_file():
-        raise click.ClickException(
-            f'File "{DEFINITIONS_PATH}" with prepared definitions does not exists.'
-        )
-
-    defs_data: DefinitionsFileFormat = load_json_file(DEFINITIONS_PATH)
-    try:
-        metadata = defs_data["metadata"]
-        networks = defs_data["networks"]
-        tokens = defs_data["tokens"]
-        return metadata, networks, tokens
-    except KeyError:
-        raise click.ClickException(
-            "File with prepared definitions is not complete. "
-            '"metadata", "networks" and "tokens" section may be missing.'
-        )
 
 
 # ====== definitions tools ======
@@ -71,29 +44,29 @@ def _write_path(path: Path, data: bytes, exists_ok: bool = False) -> None:
     path.write_bytes(data)
 
 
-def _generate_token_def(token: Token, base_path: Path) -> None:
+def _generate_token_def(token: Token, serialized: bytes, base_path: Path) -> None:
     address = token["address"][2:].lower()
     file = base_path / "chain-id" / str(token["chain_id"]) / f"token-{address}.dat"
-    _write_path(file, token["serialized"])
+    _write_path(file, serialized)
 
 
-def _generate_network_def(network: Network, base_path: Path) -> None:
+def _generate_network_def(network: Network, serialized: bytes, base_path: Path) -> None:
     # create path for networks identified by chain and slip44 ids
     network_file = base_path / "chain-id" / str(network["chain_id"]) / "network.dat"
     slip44_file = base_path / "slip44" / str(network["slip44"]) / "network.dat"
     # save network definition
-    _write_path(network_file, network["serialized"])
-    _write_path(slip44_file, network["serialized"], exists_ok=True)
+    _write_path(network_file, serialized)
+    _write_path(slip44_file, serialized, exists_ok=True)
 
 
-def _add_proof_to_def(
-    definition: "DEFINITION_TYPE",
+def _make_proof(
+    serialized: bytes,
     tree: MerkleTree,
     signature: bytes,
-) -> None:
-    proof = tree.get_proof(definition["serialized"])
+) -> bytes:
+    proof = tree.get_proof(serialized)
     proof_encoded = definitions.ProofFormat.build(proof)
-    definition["serialized"] += proof_encoded + signature
+    return proof_encoded + signature
 
 
 def _combine_public_key(sigmask: int) -> bytes:
@@ -151,21 +124,21 @@ def sign_definitions(
     signature_bytes = bytes.fromhex(signature) if signature else None
 
     # load prepared definitions
-    metadata, networks, tokens = _load_prepared_definitions()
+    metadata, networks, tokens = load_definitions_data()
     timestamp = metadata["unix_timestamp"]
-    loaded_merkle_tree_hash = metadata["merkle_tree_hash"]
+    loaded_merkle_root = metadata["merkle_root"]
 
     # serialize definitions
-    networks, tokens = add_serialized_field_to_definitions(networks, tokens, timestamp)
+    serializations = serialize_definitions(networks, tokens, timestamp)
 
     # build Merkle tree
-    mt = get_merkle_tree(networks, tokens)
+    mt = MerkleTree(serializations.keys())
     root_hash = mt.get_root_hash()
     root_hash_str = root_hash.hex()
 
-    if loaded_merkle_tree_hash != root_hash_str:
+    if loaded_merkle_root != root_hash_str:
         raise click.ClickException(
-            f"Loaded Merkle tree root hash ({loaded_merkle_tree_hash}) does not match computed one ({root_hash_str})."
+            f"Loaded Merkle tree root hash ({loaded_merkle_root}) does not match computed one ({root_hash_str})."
         )
 
     print(f"Merkle tree root hash: {root_hash_str}")
@@ -196,23 +169,25 @@ def sign_definitions(
             f"Merkle tree root hash ({root_hash_str})."
         )
 
-    # write out definitions
-    def process_item(
-        item: "DEFINITION_TYPE",
-        generate_func: Callable[["DEFINITION_TYPE", Path], None],
-    ):
-        _add_proof_to_def(item, mt, signature_bytes)
-        if len(item["serialized"]) > 1024:
-            print(f"{type(item).__name__} longer than 1024 bytes - {item}")
-            return
+    # write out the latest signature
+    if not test_sign and signature is not None:
+        metadata["signature"] = signature_bytes.hex()
+    store_definitions_data(metadata, networks, tokens)
 
-        # write definition into directory
-        generate_func(item, outdir)
+    with click.progressbar(serializations.items(), label="Writing definitions") as bar:
+        for serialized, item in bar:
+            # add proof to serialized definition
+            serialized += _make_proof(serialized, mt, signature_bytes)
+            if "address" in item:
+                item_type = "token"
+                gen_func = _generate_token_def
+            else:
+                item_type = "network"
+                gen_func = _generate_network_def
 
-    with click.progressbar(networks, label="Writing networks") as networks_bar:
-        for network in networks_bar:
-            process_item(network, _generate_network_def)
+            if len(serialized) > 1024:
+                print(f"{item_type} longer than 1024 bytes - {item}")
+                continue
 
-    with click.progressbar(tokens, label="Writing tokens") as tokens_bar:
-        for token in tokens_bar:
-            process_item(token, _generate_token_def)
+            # write definition into directory
+            gen_func(item, serialized, outdir)
