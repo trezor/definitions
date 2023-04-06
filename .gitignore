@@ -4,3 +4,4 @@ __pycache__
 definitions-cache.json
 definitions-latest
 *.log
+definitions.tar.xz
