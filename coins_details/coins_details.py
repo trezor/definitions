@@ -271,11 +271,23 @@ def main(verbose: bool):
     check_missing_data(coins)
 
     # Coins should only keep these keys, delete all others
-    keys_to_keep = ("name", "shortcut", "t1_enabled", "t2_enabled", "wallet")
+    keys_to_keep = (
+        "name",
+        "shortcut",
+        "t1_enabled",
+        "t2_enabled",
+        "wallet",
+        "coingecko_id",
+    )
     for coin in coins.values():
         for key in list(coin.keys()):
             if key not in keys_to_keep:
                 del coin[key]
+
+    # Adding `coingecko_id: null` for those not having `coingecko_id` key
+    for coin in coins.values():
+        if "coingecko_id" not in coin:
+            coin["coingecko_id"] = None
 
     info = summary(coins)
     details = dict(coins=coins, info=info)
