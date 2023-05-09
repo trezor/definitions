@@ -39,7 +39,7 @@ def test_check_definitions_list_no_change(
                 interactive=False,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert len(caplog.records) == 0
@@ -73,7 +73,7 @@ def test_check_definitions_list_added_new(
                 interactive=False,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert len(caplog.records) == 0
@@ -107,7 +107,7 @@ def test_check_definitions_list_deleted(
                 interactive=False,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert len(caplog.records) == 0
@@ -144,7 +144,7 @@ def test_check_definitions_list_deleted_in_old(
                 interactive=False,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert len(caplog.records) == 0
@@ -177,7 +177,7 @@ def test_check_definitions_list_resurrected(
                 interactive=False,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert len(caplog.records) == 0
@@ -212,7 +212,7 @@ def test_check_definitions_list_modified_name(
                 interactive=False,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert len(caplog.records) == 1
@@ -255,7 +255,7 @@ def test_check_definitions_list_modified_shortcut_no_force(
                 interactive=False,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert len(caplog.records) == 2
@@ -302,7 +302,7 @@ def test_check_definitions_list_modified_shortcut_force(
                 interactive=False,
                 force_accept=True,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert len(caplog.records) == 1
@@ -347,7 +347,7 @@ def test_check_definitions_list_modified_shortcut_interact_accept(
                 interactive=True,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert mock_confirm.call_count == 1
@@ -394,7 +394,7 @@ def test_check_definitions_list_modified_shortcut_interact_decline(
                 interactive=True,
                 force_accept=False,
             ),
-            top100_coingecko_ids=None,
+            show_all=True,
         )
 
         assert mock_confirm.call_count == 1

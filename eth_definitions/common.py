@@ -7,15 +7,14 @@ import logging
 import subprocess
 import sys
 from collections import OrderedDict
-from copy import deepcopy
 from enum import Enum
 from hashlib import sha256
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Collection, TypedDict
 
+import click
 from typing_extensions import NotRequired
 
-import click
 from trezorlib import definitions, protobuf
 from trezorlib.merkle_tree import MerkleTree
 from trezorlib.messages import (
