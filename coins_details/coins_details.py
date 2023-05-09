@@ -47,14 +47,17 @@ DEFINITIONS_LATEST = coin_info.load_json(DEFINITIONS_LATEST_JSON)
 WALLET_SUITE = {"Trezor Suite": "https://suite.trezor.io"}
 WALLET_NEM = {"Nano Wallet": "https://nemplatform.com/wallets/#desktop"}
 WALLETS_ETH_3RDPARTY = {
-    "MyEtherWallet": "https://www.myetherwallet.com",
+    "Trezor Suite": "https://trezor.io/trezor-suite",
     "MyCrypto": "https://mycrypto.com",
+    "Metamask": "https://metamask.io/",
+    "Rabby": "https://rabby.io/",
 }
 
 
 TREZOR_KNOWN_URLS = (
     "https://suite.trezor.io",
     "https://wallet.trezor.io",
+    "https://trezor.io/trezor-suite",
 )
 
 
