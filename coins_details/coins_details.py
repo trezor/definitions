@@ -303,7 +303,7 @@ def main(verbose: bool):
 
     print(json.dumps(info, sort_keys=True, indent=4))
     with open(COINS_DETAILS_JSON, "w") as f:
-        json.dump(details, f, sort_keys=True, indent=4)
+        json.dump(details, f, sort_keys=True, indent=1)
         f.write("\n")
 
 
