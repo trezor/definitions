@@ -4,7 +4,6 @@ from __future__ import annotations
 import logging
 import shutil
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 import click
 import ed25519  # type: ignore
@@ -17,17 +16,14 @@ from .common import (
     Network,
     Token,
     get_git_commit_hash,
-    serialize_definitions,
     load_definitions_data,
+    serialize_definitions,
     setup_logging,
     store_definitions_data,
 )
 from .definitions_dev_sign import get_dev_public_key, sign_with_dev_keys
 
 LOG = logging.getLogger(__name__)
-
-if TYPE_CHECKING:
-    from trezorlib.merkle_tree import MerkleTree
 
 
 # ====== definitions tools ======

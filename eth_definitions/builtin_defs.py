@@ -2,15 +2,10 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 import click
 
 from .common import DEFINITIONS_PATH, Network, Token, hash_dict_on_keys, load_json_file
-
-if TYPE_CHECKING:
-    from .common import DEFINITION_TYPE
-
 
 HERE = Path(__file__).parent
 ROOT = HERE.parent
@@ -84,7 +79,7 @@ def check_builtin_defs(
         hash = hash_dict_on_keys(network, EXCLUDES)
         if hash not in hashes_builtin:
             checks_ok = False
-            print(f"== MISSING BUILT-IN NETWORK DEFINITION ==")
+            print("== MISSING BUILT-IN NETWORK DEFINITION ==")
             print(json.dumps(network, sort_keys=True, indent=None))
 
     missing_token_heading = False
@@ -95,7 +90,7 @@ def check_builtin_defs(
         if hash not in hashes_builtin:
             checks_ok = False
             if not missing_token_heading:
-                print(f"== MISSING BUILT-IN TOKEN DEFINITIONS ==")
+                print("== MISSING BUILT-IN TOKEN DEFINITIONS ==")
                 missing_token_heading = True
             print(json.dumps(token, sort_keys=True, indent=None) + ",")
 
