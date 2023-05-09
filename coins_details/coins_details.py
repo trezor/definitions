@@ -15,7 +15,7 @@ import click
 import trezor_common.tools.coin_info as coin_info
 
 if TYPE_CHECKING:
-    from coin_info import (
+    from trezor_common.tools.coin_info import (
         Coin,
         Coins,
         SupportData,
@@ -252,8 +252,8 @@ def main(verbose: bool):
     coins.update(update_simple(coin_info_defs.misc, support_info, "coin"))
 
     # Update ETH things from our own definitions
-    eth_networks = DEFINITIONS_LATEST["networks"]
-    eth_tokens = DEFINITIONS_LATEST["tokens"]
+    eth_networks: list[Coin] = DEFINITIONS_LATEST["networks"]
+    eth_tokens: list[Coin] = DEFINITIONS_LATEST["tokens"]
     # TODO: remove all testnet networks?
     for coin in eth_networks + eth_tokens:
         coin["wallet"] = WALLETS_ETH_3RDPARTY
@@ -262,6 +262,14 @@ def main(verbose: bool):
     key_to_network = {
         f"eth:{net['shortcut']}:{net['chain_id']}": net for net in eth_networks
     }
+
+    # Put network name/key into token data
+    chain_id_to_network_name: dict[int, str] = {
+        data["chain_id"]: network_name for network_name, data in key_to_network.items()
+    }
+    for token in eth_tokens:
+        token["network"] = chain_id_to_network_name[token["chain_id"]]
+
     key_to_token = {f"erc20:{t['chain']}:{t['shortcut']}": t for t in eth_tokens}
     coins.update(key_to_network)
     coins.update(key_to_token)
@@ -278,6 +286,7 @@ def main(verbose: bool):
         "t2_enabled",
         "wallet",
         "coingecko_id",
+        "network",
     )
     for coin in coins.values():
         for key in list(coin.keys()):
