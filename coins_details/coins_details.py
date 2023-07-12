@@ -68,8 +68,8 @@ def summary(coins: dict[str, Coin]) -> dict[str, Any]:
         if coin.get("hidden"):
             continue
 
-        t1_enabled = coin["t1_enabled"] == "yes"
-        t2_enabled = coin["t2_enabled"] == "yes"
+        t1_enabled = coin["support"]["T1B1"] is True
+        t2_enabled = coin["support"]["T2T1"] is True
         if t1_enabled:
             t1_coins += 1
         if t2_enabled:
@@ -264,11 +264,16 @@ def main(verbose: bool):
     }
 
     # Put network name/key into token data
-    chain_id_to_network_name: dict[int, str] = {
-        data["chain_id"]: network_name for network_name, data in key_to_network.items()
+    chain_id_to_network_info: dict[int, tuple[str, str]] = {
+        network["chain_id"]: (network_code, network["name"])
+        for network_code, network in key_to_network.items()
     }
     for token in eth_tokens:
-        token["network"] = chain_id_to_network_name[token["chain_id"]]
+        code, name = chain_id_to_network_info[token["chain_id"]]
+        token["network"] = {
+            "key": code,
+            "name": name,
+        }
 
     key_to_token = {f"erc20:{t['chain']}:{t['shortcut']}": t for t in eth_tokens}
     coins.update(key_to_network)
@@ -278,12 +283,21 @@ def main(verbose: bool):
     finalize_wallets(coins)
     check_missing_data(coins)
 
+    # Translate <model>_enabled into support dict
+    # For T2B1, assume the same support as for T2T1
+    for coin in coins.values():
+        if "support" not in coin:
+            coin["support"] = {
+                "T1B1": coin["t1_enabled"] == "yes",
+                "T2T1": coin["t2_enabled"] == "yes",
+                "T2B1": coin["t2_enabled"] == "yes",
+            }
+
     # Coins should only keep these keys, delete all others
     keys_to_keep = (
         "name",
         "shortcut",
-        "t1_enabled",
-        "t2_enabled",
+        "support",
         "wallet",
         "coingecko_id",
         "network",
@@ -294,9 +308,12 @@ def main(verbose: bool):
                 del coin[key]
 
     # Adding `coingecko_id: null` for those not having `coingecko_id` key
+    # Same for `network`
     for coin in coins.values():
         if "coingecko_id" not in coin:
             coin["coingecko_id"] = None
+        if "network" not in coin:
+            coin["network"] = None
 
     info = summary(coins)
     details = dict(coins=coins, info=info)
