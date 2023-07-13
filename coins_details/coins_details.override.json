@@ -41,5 +41,17 @@
         "hidden": true,
         "ignore_cmc_rank": true,
         "reason": "delisted incompatible hardfork"
+    },
+    "misc:USDT": {
+        "network": {
+            "key": "bitcoin:BTC",
+            "name": "Bitcoin"
+        }
+    },
+    "misc:MAID": {
+        "network": {
+            "key": "bitcoin:BTC",
+            "name": "Bitcoin"
+        }
     }
 }
