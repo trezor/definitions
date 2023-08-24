@@ -315,6 +315,10 @@ def main(verbose: bool):
         if "network" not in coin:
             coin["network"] = None
 
+    # Adding the object key as ID to all the values
+    for key, coin in coins.items():
+        coin["id"] = key
+
     info = summary(coins)
     details = dict(coins=coins, info=info)
 
