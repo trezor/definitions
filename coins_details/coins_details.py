@@ -61,10 +61,10 @@ TREZOR_KNOWN_URLS = (
 )
 
 
-def summary(coins: dict[str, Coin]) -> dict[str, Any]:
+def summary(coins: Coins) -> dict[str, Any]:
     t1_coins = 0
     t2_coins = 0
-    for coin in coins.values():
+    for coin in coins:
         if coin.get("hidden"):
             continue
 
@@ -101,7 +101,7 @@ def _suite_support(coin: Coin, support: SupportInfoItem) -> bool:
     return any(".trezor.io" in url for url in coin["blockbook"])
 
 
-def dict_merge(orig: dict, new: dict) -> dict:
+def dict_merge(orig: Any, new: Any) -> dict:
     if isinstance(new, dict) and isinstance(orig, dict):
         for k, v in new.items():
             orig[k] = dict_merge(orig.get(k), v)
@@ -110,15 +110,14 @@ def dict_merge(orig: dict, new: dict) -> dict:
         return new
 
 
-def update_simple(
-    coins: Coins, support_info: SupportInfo, type: str
-) -> dict[str, Coin]:
-    res = {}
+def update_simple(coins: Coins, support_info: SupportInfo, type: str) -> Coins:
+    res = []
     for coin in coins:
         key = coin["key"]
         support = support_info[key]
 
         details = dict(
+            key=key,
             name=coin["name"],
             shortcut=coin["shortcut"],
             type=type,
@@ -132,14 +131,14 @@ def update_simple(
 
         details["wallet"].update(WALLETS.get(key, {}))
 
-        res[key] = details
+        res.append(details)
 
     return res
 
 
-def update_bitcoin(coins: Coins, support_info: SupportInfo) -> dict[str, Coin]:
+def update_bitcoin(coins: Coins, support_info: SupportInfo) -> Coins:
     res = update_simple(coins, support_info, "coin")
-    for coin in coins:
+    for coin, updated in zip(coins, res):
         key: str = coin["key"]
         support = support_info[key]
         details = dict(
@@ -147,24 +146,24 @@ def update_bitcoin(coins: Coins, support_info: SupportInfo) -> dict[str, Coin]:
             links=dict(Homepage=coin["website"], Github=coin["github"]),
             wallet=WALLET_SUITE if _suite_support(coin, support) else {},
         )
-        dict_merge(res[key], details)
+        dict_merge(updated, details)
 
     return res
 
 
-def update_nem_mosaics(coins: Coins, support_info: SupportInfo) -> dict[str, Coin]:
+def update_nem_mosaics(coins: Coins, support_info: SupportInfo) -> Coins:
     res = update_simple(coins, support_info, "mosaic")
-    for coin in coins:
-        key = coin["key"]
+    for coin in res:
         details = dict(wallet=WALLET_NEM)
-        dict_merge(res[key], details)
+        dict_merge(coin, details)
 
     return res
 
 
-def check_missing_data(coins: dict[str, Coin]) -> None:
-    for k, coin in coins.items():
+def check_missing_data(coins: Coins) -> Coins:
+    for coin in coins:
         hide = False
+        k = coin["key"]
 
         if coin["t1_enabled"] not in ALLOWED_SUPPORT_STATUS:
             LOG.error(f"{k}: Unknown t1_enabled: {coin['t1_enabled']}")
@@ -201,29 +200,27 @@ def check_missing_data(coins: dict[str, Coin]) -> None:
         if hide:
             coin["hidden"] = 1
 
-    # summary of hidden coins
-    hidden_coins = [k for k, coin in coins.items() if coin.get("hidden")]
-    for key in hidden_coins:
-        del coins[key]
+    return [coin for coin in coins if not coin.get("hidden")]
 
 
-def apply_overrides(coins: dict[str, Coin]) -> None:
+def apply_overrides(coins: Coins) -> None:
     for key, override in OVERRIDES.items():
-        if key not in coins:
+        for coin in coins:
+            if coin["key"] == key:
+                dict_merge(coin, override)
+                break
+        else:
             LOG.warning(f"override without coin: {key}")
-            continue
-
-        dict_merge(coins[key], override)
 
 
-def finalize_wallets(coins: dict[str, Coin]) -> None:
+def finalize_wallets(coins: Coins) -> None:
     def sort_key(w: WalletItems) -> tuple[int, str]:
         if "trezor.io" in w["url"]:
             return 0, w["name"]
         else:
             return 1, w["name"]
 
-    for coin in coins.values():
+    for coin in coins:
         wallets_list = [
             dict(name=name, url=url) for name, url in coin["wallet"].items() if url
         ]
@@ -245,47 +242,50 @@ def main(verbose: bool):
     coin_info_defs, _ = coin_info.coin_info_with_duplicates()
     support_info = coin_info.support_info(coin_info_defs)
 
-    coins: dict[str, Coin] = {}
     # Update non-ETH things from coin_info
-    coins.update(update_bitcoin(coin_info_defs.bitcoin, support_info))
-    coins.update(update_nem_mosaics(coin_info_defs.nem, support_info))
-    coins.update(update_simple(coin_info_defs.misc, support_info, "coin"))
+    coins = (
+        update_bitcoin(coin_info_defs.bitcoin, support_info)
+        + update_nem_mosaics(coin_info_defs.nem, support_info)
+        + update_simple(coin_info_defs.misc, support_info, "coin")
+    )
 
     # Update ETH things from our own definitions
-    eth_networks: list[Coin] = DEFINITIONS_LATEST["networks"]
-    eth_tokens: list[Coin] = DEFINITIONS_LATEST["tokens"]
+    eth_networks: Coins = DEFINITIONS_LATEST["networks"]
+    eth_tokens: Coins = DEFINITIONS_LATEST["tokens"]
     # TODO: remove all testnet networks?
     for coin in eth_networks + eth_tokens:
         coin["wallet"] = WALLETS_ETH_3RDPARTY
         coin["t1_enabled"] = "yes"
         coin["t2_enabled"] = "yes"
-    key_to_network = {
-        f"eth:{net['shortcut']}:{net['chain_id']}": net for net in eth_networks
-    }
+
+    chain_id_to_network = {net["chain_id"]: net for net in eth_networks}
+    assert len(chain_id_to_network) == len(eth_networks), "Duplicate network keys"
+
+    # Put key into network data
+    for network in eth_networks:
+        network["key"] = f"eth:{network['shortcut']}:{network['chain_id']}"
 
     # Put network name/key into token data
-    chain_id_to_network_info: dict[int, tuple[str, str]] = {
-        network["chain_id"]: (network_code, network["name"])
-        for network_code, network in key_to_network.items()
-    }
     for token in eth_tokens:
-        code, name = chain_id_to_network_info[token["chain_id"]]
+        network = chain_id_to_network[token["chain_id"]]
+        token["key"] = f"erc20:{network['chain']}:{token['address']}"
         token["network"] = {
-            "key": code,
-            "name": name,
+            "key": network["key"],
+            "name": network["name"],
         }
 
-    key_to_token = {f"erc20:{t['chain']}:{t['shortcut']}": t for t in eth_tokens}
-    coins.update(key_to_network)
-    coins.update(key_to_token)
+    coins.extend(eth_networks)
+    coins.extend(eth_tokens)
+    coins.sort(key=lambda x: x["key"])
 
     apply_overrides(coins)
     finalize_wallets(coins)
-    check_missing_data(coins)
+
+    coins = check_missing_data(coins)
 
     # Translate <model>_enabled into support dict
     # For T2B1, assume the same support as for T2T1
-    for coin in coins.values():
+    for coin in coins:
         if "support" not in coin:
             coin["support"] = {
                 "T1B1": coin["t1_enabled"] == "yes",
@@ -295,6 +295,7 @@ def main(verbose: bool):
 
     # Coins should only keep these keys, delete all others
     keys_to_keep = (
+        "id",
         "name",
         "shortcut",
         "support",
@@ -302,22 +303,20 @@ def main(verbose: bool):
         "coingecko_id",
         "network",
     )
-    for coin in coins.values():
+    for coin in coins:
+        # we want to use "key" for processing above, but "id" for output
+        coin["id"] = coin["key"]
         for key in list(coin.keys()):
             if key not in keys_to_keep:
                 del coin[key]
 
     # Adding `coingecko_id: null` for those not having `coingecko_id` key
     # Same for `network`
-    for coin in coins.values():
+    for coin in coins:
         if "coingecko_id" not in coin:
             coin["coingecko_id"] = None
         if "network" not in coin:
             coin["network"] = None
-
-    # Adding the object key as ID to all the values
-    for key, coin in coins.items():
-        coin["id"] = key
 
     info = summary(coins)
     details = dict(coins=coins, info=info)
