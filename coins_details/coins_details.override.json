@@ -1,23 +1,14 @@
 {
-    "erc20:eth:BAT": {
-        "name": "Basic Attention Token"
-    },
-    "erc20:eth:LINK (Chainlink)": {
-        "name": "Chainlink"
-    },
-    "erc20:eth:SOL": {
+    "erc20:eth:0x1f54638b7737193ffd86c19ec51907a7c41755d8": {
         "shortcut": "SOLA"
     },
-    "eth:CLO": {
-        "coinmarketcap_alias": "callisto-network"
-    },
-    "eth:ESN": {
+    "eth:ESN:31102": {
         "coinmarketcap_alias": "ethersocial"
     },
     "nem:DIMTOK": {
         "coinmarketcap_alias": "dimcoin"
     },
-    "eth:AUX": {
+    "eth:AUX:28945486": {
         "links": {
             "Github": "https://github.com/auxiliumglobal"
         },
@@ -25,12 +16,12 @@
             "MyEtherWallet": null
         }
     },
-    "eth:EOS": {
+    "eth:EOS:59": {
         "hidden": true,
         "ignore_cmc_rank": true,
-        "reason": "this exists as misc:EOS and the eth: entry is probably a mistake"
+        "reason": "deprecated EOS network"
     },
-    "eth:XDC": {
+    "eth:XDC:50": {
         "wallet": {
             "MyCrypto": null,
             "MyEtherWallet": null,
