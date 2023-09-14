@@ -1,8 +1,9 @@
 {
  "metadata": {
-  "commit_hash": "f37b037c50c6519d4ca4b6082f5bf4fe0a6a48c1",
+  "commit_hash": "2c6d7edfc863a0b10f0f81b5b41ce10130100860",
   "datetime": "2023-09-06T12:08:21.380702+00:00",
   "merkle_root": "b03ebe68c2dbdc43991fc50f3a7872aec30023722372016cbb4a0358f60c086b",
+  "signature": "0385be9cbff7fda49795c0658cc0afedade483279a8639bf383a6aa618cbae3236b5e0693c69732b42c2cc99443f7715046d6a0c4b2c03fd28508641c76f616706",
   "unix_timestamp": 1694002101
  },
  "networks": [
