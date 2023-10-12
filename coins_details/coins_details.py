@@ -254,7 +254,7 @@ def main(verbose: bool):
     eth_tokens: Coins = DEFINITIONS_LATEST["tokens"]
     # TODO: remove all testnet networks?
     for coin in eth_networks + eth_tokens:
-        coin["wallet"] = WALLETS_ETH_3RDPARTY
+        coin["wallet"] = WALLETS_ETH_3RDPARTY.copy()
         coin["t1_enabled"] = "yes"
         coin["t2_enabled"] = "yes"
 
