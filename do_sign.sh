@@ -23,6 +23,13 @@ python cli.py sign -s "$1"
 git add definitions-latest.json
 git commit -m "Sign definitions for $MERKLE_ROOT"
 
+# update the signed branch
+git branch --force signed HEAD
+
 cd definitions-latest
 tar cJf ../definitions.tar.xz *
 echo "Definitions for deployment stored in definitions.tar.xz"
+
+echo "Don't forget to push main & signed branches:"
+echo "  git push origin main"
+echo "  git push origin signed"
