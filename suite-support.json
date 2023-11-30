@@ -1,0 +1,21 @@
+[
+    "bitcoin:BCH",
+    "bitcoin:BTC",
+    "bitcoin:BTG",
+    "bitcoin:DASH",
+    "bitcoin:DGB",
+    "bitcoin:DOGE",
+    "bitcoin:LTC",
+    "bitcoin:NMC",
+    "bitcoin:REGTEST",
+    "bitcoin:TEST",
+    "bitcoin:VTC",
+    "bitcoin:ZEC",
+    "eth:ETH:1",
+    "eth:tETH:3",
+    "eth:ETC:61",
+    "eth:tETC:62",
+    "eth:tETH:17000",
+    "misc:XRP",
+    "misc:tXRP"
+]

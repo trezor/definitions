@@ -28,6 +28,7 @@ HERE = Path(__file__).parent
 ROOT = HERE.parent
 COINS_DETAILS_JSON = ROOT / "coins_details.json"
 DEFINITIONS_LATEST_JSON = ROOT / "definitions-latest.json"
+SUITE_SUPPORT_JSON = ROOT / "suite-support.json"
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.DEBUG)
@@ -42,12 +43,12 @@ ALLOWED_SUPPORT_STATUS = ("yes", "no")
 WALLETS = coin_info.load_json("wallets.json")
 OVERRIDES = coin_info.load_json(HERE / "coins_details.override.json")
 DEFINITIONS_LATEST = coin_info.load_json(DEFINITIONS_LATEST_JSON)
+SUITE_SUPPORT = coin_info.load_json(SUITE_SUPPORT_JSON)
 
 # automatic wallet entries
-WALLET_SUITE = {"Trezor Suite": "https://suite.trezor.io"}
+WALLET_SUITE = {"Trezor Suite": "https://trezor.io/trezor-suite"}
 WALLET_NEM = {"Nano Wallet": "https://nemplatform.com/wallets/#desktop"}
 WALLETS_ETH_3RDPARTY = {
-    "Trezor Suite": "https://trezor.io/trezor-suite",
     "MyCrypto": "https://mycrypto.com",
     "Metamask": "https://metamask.io/",
     "Rabby": "https://rabby.io/",
@@ -89,14 +90,14 @@ def _is_supported(support: SupportData, trezor_version: str) -> str:
     return "yes" if support.get(trezor_version) else "no"
 
 
-def _suite_support(coin: Coin, support: SupportInfoItem) -> bool:
+def _suite_support(coin: Coin) -> bool:
     """Check the "suite" support property.
     If set, check that at least one of the backends run on trezor.io.
     If yes, assume we support the coin in our wallet.
     Otherwise it's probably working with a custom backend, which means don't
     link to our wallet.c
     """
-    if not support.get("suite"):
+    if coin["key"] not in SUITE_SUPPORT:
         return False
     return any(".trezor.io" in url for url in coin["blockbook"])
 
@@ -140,11 +141,10 @@ def update_bitcoin(coins: Coins, support_info: SupportInfo) -> Coins:
     res = update_simple(coins, support_info, "coin")
     for coin, updated in zip(coins, res):
         key: str = coin["key"]
-        support = support_info[key]
         details = dict(
             name=coin["coin_label"],
             links=dict(Homepage=coin["website"], Github=coin["github"]),
-            wallet=WALLET_SUITE if _suite_support(coin, support) else {},
+            wallet=WALLET_SUITE if key in SUITE_SUPPORT else {},
         )
         dict_merge(updated, details)
 
@@ -263,7 +263,9 @@ def main(verbose: bool):
 
     # Put key into network data
     for network in eth_networks:
-        network["key"] = f"eth:{network['shortcut']}:{network['chain_id']}"
+        key = network["key"] = f"eth:{network['shortcut']}:{network['chain_id']}"
+        if key in SUITE_SUPPORT:
+            network["wallet"].update(WALLET_SUITE)
 
     # Put network name/key into token data
     for token in eth_tokens:
@@ -273,6 +275,9 @@ def main(verbose: bool):
             "key": network["key"],
             "name": network["name"],
         }
+
+        if network["key"] in SUITE_SUPPORT:
+            token["wallet"].update(WALLET_SUITE)
 
     coins.extend(eth_networks)
     coins.extend(eth_tokens)
