@@ -12,10 +12,10 @@
     "bitcoin:VTC",
     "bitcoin:ZEC",
     "eth:ETH:1",
-    "eth:tETH:3",
+    "eth:tETH:5",
     "eth:ETC:61",
-    "eth:tETC:62",
     "eth:tETH:17000",
+    "eth:tETH:11155111",
     "misc:XRP",
     "misc:tXRP"
 ]
