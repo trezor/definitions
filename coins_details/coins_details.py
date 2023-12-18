@@ -15,20 +15,14 @@ import click
 import trezor_common.tools.coin_info as coin_info
 
 if TYPE_CHECKING:
-    from trezor_common.tools.coin_info import (
-        Coin,
-        Coins,
-        SupportData,
-        SupportInfo,
-        SupportInfoItem,
-        WalletItems,
-    )
+    from trezor_common.tools.coin_info import Coins, SupportInfo, WalletItems
 
 HERE = Path(__file__).parent
 ROOT = HERE.parent
 COINS_DETAILS_JSON = ROOT / "coins_details.json"
 DEFINITIONS_LATEST_JSON = ROOT / "definitions-latest.json"
 SUITE_SUPPORT_JSON = ROOT / "suite-support.json"
+COINS_LIST = ROOT / "supported_coins_list.txt"
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.DEBUG)
@@ -294,6 +288,11 @@ def main(verbose: int):
     with open(COINS_DETAILS_JSON, "w") as f:
         json.dump(details, f, sort_keys=True, indent=1)
         f.write("\n")
+
+    with open(COINS_LIST, "w") as f:
+        f.write(f"Updated at: {info['updated_at_readable']}\n")
+        for coin in coins:
+            f.write(f'{coin["id"]} {coin["name"]} ({coin["shortcut"]})\n')
 
 
 if __name__ == "__main__":
