@@ -199,10 +199,15 @@ def finalize_wallets(coins: Coins) -> None:
 
 
 @click.command()
-@click.option("-v", "--verbose", is_flag=True, help="Display more info")
-def main(verbose: bool):
+@click.option("-v", "--verbose", count=True, help="Display more info")
+def main(verbose: int):
     # setup logging
-    log_level = logging.DEBUG if verbose else logging.WARNING
+    if verbose == 0:
+        log_level = logging.WARNING
+    elif verbose == 1:
+        log_level = logging.INFO
+    else:
+        log_level = logging.DEBUG
     root = logging.getLogger()
     root.setLevel(log_level)
     handler = logging.StreamHandler(sys.stdout)
