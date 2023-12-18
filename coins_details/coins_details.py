@@ -61,45 +61,23 @@ TREZOR_KNOWN_URLS = (
     "https://trezor.io/trezor-suite",
 )
 
+MODELS = {"T1B1", "T2T1", "T2B1"}
+
 
 def summary(coins: Coins) -> dict[str, Any]:
-    t1_coins = 0
-    t2_coins = 0
+    counter = {model: 0 for model in MODELS}
     for coin in coins:
         if coin.get("hidden"):
             continue
 
-        t1_enabled = coin["support"]["T1B1"] is True
-        t2_enabled = coin["support"]["T2T1"] is True
-        if t1_enabled:
-            t1_coins += 1
-        if t2_enabled:
-            t2_coins += 1
+        for model in counter:
+            counter[model] += coin["support"].get(model, 0)
 
     return dict(
         updated_at=int(time.time()),
         updated_at_readable=time.asctime(),
-        t1_coins=t1_coins,
-        t2_coins=t2_coins,
+        support_counter=counter,
     )
-
-
-def _is_supported(support: SupportData, trezor_version: str) -> str:
-    # True or version string means YES
-    # False or None means NO
-    return "yes" if support.get(trezor_version) else "no"
-
-
-def _suite_support(coin: Coin) -> bool:
-    """Check the "suite" support property.
-    If set, check that at least one of the backends run on trezor.io.
-    If yes, assume we support the coin in our wallet.
-    Otherwise it's probably working with a custom backend, which means don't
-    link to our wallet.c
-    """
-    if coin["key"] not in SUITE_SUPPORT:
-        return False
-    return any(".trezor.io" in url for url in coin["blockbook"])
 
 
 def dict_merge(orig: Any, new: Any) -> dict:
@@ -115,15 +93,14 @@ def update_simple(coins: Coins, support_info: SupportInfo, type: str) -> Coins:
     res = []
     for coin in coins:
         key = coin["key"]
-        support = support_info[key]
+        support = {model: bool(support_info[key].get(model)) for model in MODELS}
 
         details = dict(
             key=key,
             name=coin["name"],
             shortcut=coin["shortcut"],
             type=type,
-            t1_enabled=_is_supported(support, "trezor1"),
-            t2_enabled=_is_supported(support, "trezor2"),
+            support=support,
             wallet={},
         )
         for k in OPTIONAL_KEYS:
@@ -165,13 +142,6 @@ def check_missing_data(coins: Coins) -> Coins:
         hide = False
         k = coin["key"]
 
-        if coin["t1_enabled"] not in ALLOWED_SUPPORT_STATUS:
-            LOG.error(f"{k}: Unknown t1_enabled: {coin['t1_enabled']}")
-            hide = True
-        if coin["t2_enabled"] not in ALLOWED_SUPPORT_STATUS:
-            LOG.error(f"{k}: Unknown t2_enabled: {coin['t2_enabled']}")
-            hide = True
-
         # check wallets
         for wallet in coin["wallet"]:
             name = wallet.get("name")
@@ -183,7 +153,7 @@ def check_missing_data(coins: Coins) -> Coins:
             if "trezor" in name.lower() and url not in TREZOR_KNOWN_URLS:
                 LOG.warning(f"{k}: Strange URL for Trezor Wallet")
 
-        if coin["t1_enabled"] == "no" and coin["t2_enabled"] == "no":
+        if not any(coin["support"][model] for model in MODELS):
             LOG.info(f"{k}: Coin not enabled on either device")
             hide = True
 
@@ -255,8 +225,7 @@ def main(verbose: bool):
     # TODO: remove all testnet networks?
     for coin in eth_networks + eth_tokens:
         coin["wallet"] = WALLETS_ETH_3RDPARTY.copy()
-        coin["t1_enabled"] = "yes"
-        coin["t2_enabled"] = "yes"
+        coin["support"] = {model: True for model in MODELS}
 
     chain_id_to_network = {net["chain_id"]: net for net in eth_networks}
     assert len(chain_id_to_network) == len(eth_networks), "Duplicate network keys"
@@ -287,16 +256,6 @@ def main(verbose: bool):
     finalize_wallets(coins)
 
     coins = check_missing_data(coins)
-
-    # Translate <model>_enabled into support dict
-    # For T2B1, assume the same support as for T2T1
-    for coin in coins:
-        if "support" not in coin:
-            coin["support"] = {
-                "T1B1": coin["t1_enabled"] == "yes",
-                "T2T1": coin["t2_enabled"] == "yes",
-                "T2B1": coin["t2_enabled"] == "yes",
-            }
 
     # Coins should only keep these keys, delete all others
     keys_to_keep = (
