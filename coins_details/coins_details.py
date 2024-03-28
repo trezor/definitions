@@ -34,7 +34,7 @@ LOG.addHandler(file_handler)
 OPTIONAL_KEYS = ("links", "notes", "wallet")
 ALLOWED_SUPPORT_STATUS = ("yes", "no")
 
-WALLETS = coin_info.load_json("wallets.json")
+WALLETS = coin_info.load_json(HERE / "wallets.json")
 OVERRIDES = coin_info.load_json(HERE / "coins_details.override.json")
 DEFINITIONS_LATEST = coin_info.load_json(DEFINITIONS_LATEST_JSON)
 SUITE_SUPPORT = coin_info.load_json(SUITE_SUPPORT_JSON)
