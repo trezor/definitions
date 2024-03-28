@@ -43,7 +43,6 @@ SUITE_SUPPORT = coin_info.load_json(SUITE_SUPPORT_JSON)
 WALLET_SUITE = {"Trezor Suite": "https://trezor.io/trezor-suite"}
 WALLET_NEM = {"Nano Wallet": "https://nemplatform.com/wallets/#desktop"}
 WALLETS_ETH_3RDPARTY = {
-    "MyCrypto": "https://mycrypto.com",
     "Metamask": "https://metamask.io/",
     "Rabby": "https://rabby.io/",
 }
