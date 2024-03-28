@@ -120,5 +120,8 @@
     },
     "bitcoin:ZCR": {
         "Electrum-ZCR": "https://github.com/zcore-coin/electrum-wallet/"
+    },
+    "misc:SOL": {
+        "NuFi": "https://nu.fi"
     }
 }
