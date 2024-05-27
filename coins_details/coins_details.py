@@ -54,7 +54,7 @@ TREZOR_KNOWN_URLS = (
     "https://trezor.io/trezor-suite",
 )
 
-MODELS = {"T1B1", "T2T1", "T2B1"}
+MODELS = {"T1B1", "T2T1", "T2B1", "T3T1"}
 
 
 def summary(coins: Coins) -> dict[str, Any]:
