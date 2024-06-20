@@ -5,66 +5,138 @@ from __future__ import annotations
 
 import json
 import logging
-import sys
 import time
+import typing as t
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from dataclasses import dataclass, field, asdict
 
 import click
 
 import trezor_common.tools.coin_info as coin_info
+from trezor_common.tools.coin_info import Coin
 
-if TYPE_CHECKING:
-    from trezor_common.tools.coin_info import Coins, SupportInfo, WalletItems
+if t.TYPE_CHECKING:
+    from ..eth_definitions.common import Network, Token
+
+
+class NoCoinGeckoId(Exception):
+    pass
+
+
+class WalletInfo(t.TypedDict):
+    name: str
+    url: str
+
+
+SupportEntry = t.Dict[str, bool]
+
+
+@dataclass
+class CoinDetail:
+    id: str
+    coingecko_id: str | None
+    name: str
+    shortcut: str
+    support: SupportEntry
+    networks: set[str | None]
+    wallets: list[WalletInfo] = field(init=False)
+
+    def __post_init__(self) -> None:
+        # make sure to make a copy of the wallets list, it will be modified later
+        wallets = WALLETS.get(self.id, [])
+        self.wallets = wallets[:]
+
+    @classmethod
+    def from_coin(cls, coin: Coin, support_info: dict[str, SupportEntry]) -> CoinDetail:
+        key = coin["key"]
+        cg_id = COINGECKO_IDS.get(key)
+
+        return cls(
+            id=key,
+            coingecko_id=cg_id,
+            name=coin["name"],
+            shortcut=coin["shortcut"],
+            support=support_info[key],
+            networks={cg_id},
+        )
+
+    @classmethod
+    def from_eth_network(cls, network: Network) -> CoinDetail:
+        cg_id = network.get("coingecko_id")
+        key = f"eth:{network['shortcut']}:{network['chain_id']}"
+        new = cls(
+            id=key,
+            coingecko_id=cg_id,
+            name=network["name"],
+            shortcut=network["shortcut"],
+            support={model: True for model in MODELS},
+            networks={cg_id},
+        )
+        new.wallets.extend(WALLETS_ETH_3RDPARTY)
+        return new
+
+    @classmethod
+    def from_eth_token(cls, token: Token, network: Network) -> CoinDetail:
+        cg_id = token.get("coingecko_id")
+        network_cg_id = network.get("coingecko_id")
+
+        key = f"erc20:{network['chain']}:{token['address']}"
+        new = cls(
+            id=key,
+            coingecko_id=cg_id,
+            name=token["name"],
+            shortcut=token["shortcut"],
+            support={model: True for model in MODELS},
+            networks={network_cg_id},
+        )
+        new.wallets.extend(WALLETS_ETH_3RDPARTY)
+        return new
+
+    def merge(self, other: CoinDetail) -> None:
+        assert self.coingecko_id == other.coingecko_id, "Cannot merge different coins"
+        self.support = {
+            model: self.support[model] or other.support[model] for model in MODELS
+        }
+        for wallet in other.wallets:
+            if wallet not in self.wallets:
+                self.wallets.append(wallet)
+        self.networks.update(other.networks)
+
+    def to_json(self) -> dict[str, t.Any]:
+        d = asdict(self)
+        d["networks"] = list(sorted(n for n in self.networks if n))
+        return d
+
 
 HERE = Path(__file__).parent
 ROOT = HERE.parent
 COINS_DETAILS_JSON = ROOT / "coins_details.json"
-DEFINITIONS_LATEST_JSON = ROOT / "definitions-latest.json"
-SUITE_SUPPORT_JSON = ROOT / "suite-support.json"
 COINS_LIST = ROOT / "supported_coins_list.txt"
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler(HERE / "logs.log")
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-file_handler.setFormatter(formatter)
-LOG.addHandler(file_handler)
-
-OPTIONAL_KEYS = ("links", "notes", "wallet")
-ALLOWED_SUPPORT_STATUS = ("yes", "no")
 
 WALLETS = coin_info.load_json(HERE / "wallets.json")
 OVERRIDES = coin_info.load_json(HERE / "coins_details.override.json")
-DEFINITIONS_LATEST = coin_info.load_json(DEFINITIONS_LATEST_JSON)
-SUITE_SUPPORT = coin_info.load_json(SUITE_SUPPORT_JSON)
+COINGECKO_IDS = coin_info.load_json(HERE / "coingecko_ids.json")
+DEFINITIONS_LATEST = coin_info.load_json(ROOT / "definitions-latest.json")
 
 # automatic wallet entries
-WALLET_SUITE = {"Trezor Suite": "https://trezor.io/trezor-suite"}
-WALLET_NEM = {"Nano Wallet": "https://nemplatform.com/wallets/#desktop"}
-WALLETS_ETH_3RDPARTY = {
-    "Metamask": "https://metamask.io/",
-    "Rabby": "https://rabby.io/",
-}
+WALLET_SUITE = WalletInfo(name="Trezor Suite", url="https://trezor.io/trezor-suite")
+WALLETS_ETH_3RDPARTY = [
+    WalletInfo(name="Metamask", url="https://metamask.io/"),
+    WalletInfo(name="Rabby", url="https://rabby.io/"),
+]
 
-
-TREZOR_KNOWN_URLS = (
-    "https://suite.trezor.io",
-    "https://wallet.trezor.io",
-    "https://trezor.io/trezor-suite",
-)
+TREZOR_KNOWN_URLS = ("https://trezor.io/trezor-suite",)
 
 MODELS = {"T1B1", "T2T1", "T2B1", "T3T1"}
 
 
-def summary(coins: Coins) -> dict[str, Any]:
+def summary(coins: dict[str, t.Any]) -> dict[str, t.Any]:
     counter = {model: 0 for model in MODELS}
-    for coin in coins:
-        if coin.get("hidden"):
-            continue
-
+    for coin in coins.values():
         for model in counter:
-            counter[model] += coin["support"].get(model, 0)
+            counter[model] += coin["support"].get(model, False)
 
     return dict(
         updated_at=int(time.time()),
@@ -73,122 +145,62 @@ def summary(coins: Coins) -> dict[str, Any]:
     )
 
 
-def dict_merge(orig: Any, new: Any) -> dict:
+def dict_merge(orig: t.Any, new: t.Any) -> t.Any:
     if isinstance(new, dict) and isinstance(orig, dict):
         for k, v in new.items():
             orig[k] = dict_merge(orig.get(k), v)
         return orig
+    elif isinstance(new, list) and isinstance(orig, list):
+        if new and new[0] == "...":
+            return orig + new[1:]
+        return new
     else:
         return new
 
 
-def update_simple(coins: Coins, support_info: SupportInfo, type: str) -> Coins:
-    res = []
-    for coin in coins:
-        key = coin["key"]
-        support = {model: bool(support_info[key].get(model)) for model in MODELS}
+def check_missing_data(cg_ids: dict[str | None, CoinDetail]) -> dict[str, CoinDetail]:
+    res = {}
+    for cg_id, coin in cg_ids.items():
+        if cg_id is None:
+            LOG.info("Skipping coins without coingecko_id")
+            continue
 
-        details = dict(
-            key=key,
-            name=coin["name"],
-            shortcut=coin["shortcut"],
-            type=type,
-            support=support,
-            wallet={},
-        )
-        for k in OPTIONAL_KEYS:
-            if k in coin:
-                details[k] = coin[k]
-
-        details["wallet"].update(WALLETS.get(key, {}))
-
-        res.append(details)
-
-    return res
-
-
-def update_bitcoin(coins: Coins, support_info: SupportInfo) -> Coins:
-    res = update_simple(coins, support_info, "coin")
-    for coin, updated in zip(coins, res):
-        key: str = coin["key"]
-        details = dict(
-            name=coin["coin_label"],
-            links=dict(Homepage=coin["website"], Github=coin["github"]),
-            wallet=WALLET_SUITE if key in SUITE_SUPPORT else {},
-        )
-        dict_merge(updated, details)
-
-    return res
-
-
-def update_nem_mosaics(coins: Coins, support_info: SupportInfo) -> Coins:
-    res = update_simple(coins, support_info, "mosaic")
-    for coin in res:
-        details = dict(wallet=WALLET_NEM)
-        dict_merge(coin, details)
-
-    return res
-
-
-def check_missing_data(coins: Coins) -> Coins:
-    for coin in coins:
         hide = False
-        k = coin["key"]
-
         # check wallets
-        for wallet in coin["wallet"]:
+        for wallet in coin.wallets:
             name = wallet.get("name")
             url = wallet.get("url")
             if not name or not url:
-                LOG.warning(f"{k}: Bad wallet entry")
+                LOG.warning(f"{coin.coingecko_id}: Bad wallet entry")
                 hide = True
                 continue
             if "trezor" in name.lower() and url not in TREZOR_KNOWN_URLS:
-                LOG.warning(f"{k}: Strange URL for Trezor Wallet")
+                LOG.warning(f"{coin.coingecko_id}: Strange URL for Trezor Wallet")
 
-        if not any(coin["support"][model] for model in MODELS):
-            LOG.info(f"{k}: Coin not enabled on either device")
+        if not any(coin.support[model] for model in MODELS):
+            LOG.info(f"{coin.coingecko_id}: Coin not enabled on either device")
             hide = True
 
-        if len(coin.get("wallet", [])) == 0:
-            LOG.debug(f"{k}: Missing wallet")
+        if not coin.wallets:
+            LOG.debug(f"{coin.coingecko_id}: Missing wallet")
 
-        if "Testnet" in coin["name"] or "Regtest" in coin["name"]:
-            LOG.debug(f"{k}: Hiding testnet")
+        if "Testnet" in coin.name or "Regtest" in coin.name:
+            LOG.debug(f"{coin.coingecko_id}: Hiding testnet")
             hide = True
 
-        if not hide and coin.get("hidden"):
-            LOG.info(f"{k}: Details are OK, but coin is still hidden")
+        if not hide:
+            res[cg_id] = coin
 
-        if hide:
-            coin["hidden"] = 1
-
-    return [coin for coin in coins if not coin.get("hidden")]
+    return res
 
 
-def apply_overrides(coins: Coins) -> None:
+def apply_overrides(coins: dict[str, t.Any]) -> None:
     for key, override in OVERRIDES.items():
-        for coin in coins:
-            if coin["key"] == key:
-                dict_merge(coin, override)
-                break
-        else:
+        if key not in coins:
             LOG.warning(f"override without coin: {key}")
+            continue
 
-
-def finalize_wallets(coins: Coins) -> None:
-    def sort_key(w: WalletItems) -> tuple[int, str]:
-        if "trezor.io" in w["url"]:
-            return 0, w["name"]
-        else:
-            return 1, w["name"]
-
-    for coin in coins:
-        wallets_list = [
-            dict(name=name, url=url) for name, url in coin["wallet"].items() if url
-        ]
-        wallets_list.sort(key=sort_key)
-        coin["wallet"] = wallets_list
+        dict_merge(coins[key], override)
 
 
 @click.command()
@@ -201,87 +213,48 @@ def main(verbose: int):
         log_level = logging.INFO
     else:
         log_level = logging.DEBUG
-    root = logging.getLogger()
-    root.setLevel(log_level)
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(log_level)
-    root.addHandler(handler)
+    logging.basicConfig(level=log_level)
 
     coin_info_defs, _ = coin_info.coin_info_with_duplicates()
-    support_info = coin_info.support_info(coin_info_defs)
+    support_info = {
+        key: {model: bool(value.get(model)) for model in MODELS}
+        for key, value in coin_info.support_info(coin_info_defs).items()
+    }
+
+    cg_ids_unfiltered: dict[str | None, CoinDetail] = {}
 
     # Update non-ETH things from coin_info
-    coins = (
-        update_bitcoin(coin_info_defs.bitcoin, support_info)
-        + update_nem_mosaics(coin_info_defs.nem, support_info)
-        + update_simple(coin_info_defs.misc, support_info, "coin")
-    )
+    for coin in coin_info_defs.bitcoin + coin_info_defs.misc:
+        cdet = CoinDetail.from_coin(coin, support_info)
+        cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
+
+    for coin in coin_info_defs.nem:
+        cdet = CoinDetail.from_coin(coin, support_info)
+        cdet.networks = {"nem"}
+        cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
     # Update ETH things from our own definitions
-    eth_networks: Coins = DEFINITIONS_LATEST["networks"]
-    eth_tokens: Coins = DEFINITIONS_LATEST["tokens"]
-    # TODO: remove all testnet networks?
-    for coin in eth_networks + eth_tokens:
-        coin["wallet"] = WALLETS_ETH_3RDPARTY.copy()
-        coin["support"] = {model: True for model in MODELS}
+    eth_networks: list[Network] = DEFINITIONS_LATEST["networks"]
+    eth_tokens: list[Token] = DEFINITIONS_LATEST["tokens"]
+
+    for network in eth_networks:
+        cdet = CoinDetail.from_eth_network(network)
+        cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
     chain_id_to_network = {net["chain_id"]: net for net in eth_networks}
     assert len(chain_id_to_network) == len(eth_networks), "Duplicate network keys"
 
-    # Put key into network data
-    for network in eth_networks:
-        key = network["key"] = f"eth:{network['shortcut']}:{network['chain_id']}"
-        if key in SUITE_SUPPORT:
-            network["wallet"].update(WALLET_SUITE)
-
-    # Put network name/key into token data
     for token in eth_tokens:
         network = chain_id_to_network[token["chain_id"]]
-        token["key"] = f"erc20:{network['chain']}:{token['address']}"
-        token["network"] = {
-            "key": network["key"],
-            "name": network["name"],
-        }
+        cdet = CoinDetail.from_eth_token(token, network)
+        cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
-        if network["key"] in SUITE_SUPPORT:
-            token["wallet"].update(WALLET_SUITE)
+    cg_ids = check_missing_data(cg_ids_unfiltered)
 
-    coins.extend(eth_networks)
-    coins.extend(eth_tokens)
-    coins.sort(key=lambda x: x["key"])
-
-    apply_overrides(coins)
-    finalize_wallets(coins)
-
-    coins = check_missing_data(coins)
-
-    # Coins should only keep these keys, delete all others
-    keys_to_keep = (
-        "id",
-        "name",
-        "shortcut",
-        "support",
-        "wallet",
-        "coingecko_id",
-        "network",
-    )
-    for coin in coins:
-        # we want to use "key" for processing above, but "id" for output
-        coin["id"] = coin["key"]
-        for key in list(coin.keys()):
-            if key not in keys_to_keep:
-                del coin[key]
-
-    # Adding `coingecko_id: null` for those not having `coingecko_id` key
-    # Same for `network`
-    for coin in coins:
-        if "coingecko_id" not in coin:
-            coin["coingecko_id"] = None
-        if "network" not in coin:
-            coin["network"] = None
-
-    info = summary(coins)
-    details = dict(coins=coins, info=info)
+    cg_json = {cg_id: coin.to_json() for cg_id, coin in cg_ids.items()}
+    apply_overrides(cg_json)
+    info = summary(cg_json)
+    details = dict(coins=cg_json, info=info)
 
     print(json.dumps(info, sort_keys=True, indent=4))
     with open(COINS_DETAILS_JSON, "w") as f:
@@ -290,8 +263,8 @@ def main(verbose: int):
 
     with open(COINS_LIST, "w") as f:
         f.write(f"Updated at: {info['updated_at_readable']}\n")
-        for coin in coins:
-            f.write(f'{coin["id"]} {coin["name"]} ({coin["shortcut"]})\n')
+        for cg_id, coin in cg_json.items():
+            f.write(f'{cg_id} {coin["name"]} ({coin["shortcut"]})\n')
 
 
 if __name__ == "__main__":

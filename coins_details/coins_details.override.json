@@ -1,48 +1,16 @@
 {
-    "erc20:eth:0x1f54638b7737193ffd86c19ec51907a7c41755d8": {
-        "shortcut": "SOLA"
+    "xdc-network": {
+        "wallets": [
+            {
+                "name": "XDC Wallet",
+                "url": "https://wallet.xinfin.network"
+            }
+        ]
     },
-    "eth:ESN:31102": {
-        "coinmarketcap_alias": "ethersocial"
+    "tether": {
+        "networks": ["...", "bitcoin"]
     },
-    "nem:DIMTOK": {
-        "coinmarketcap_alias": "dimcoin"
-    },
-    "eth:AUX:28945486": {
-        "links": {
-            "Github": "https://github.com/auxiliumglobal"
-        },
-        "wallet": {
-            "MyEtherWallet": null
-        }
-    },
-    "eth:EOS:59": {
-        "hidden": true,
-        "ignore_cmc_rank": true,
-        "reason": "deprecated EOS network"
-    },
-    "eth:XDC:50": {
-        "wallet": {
-            "MyCrypto": null,
-            "MyEtherWallet": null,
-            "XDC Wallet": "https://wallet.xinfin.network"
-        }
-    },
-    "misc:LSK": {
-        "hidden": true,
-        "ignore_cmc_rank": true,
-        "reason": "delisted incompatible hardfork"
-    },
-    "misc:USDT": {
-        "network": {
-            "key": "bitcoin:BTC",
-            "name": "Bitcoin"
-        }
-    },
-    "misc:MAID": {
-        "network": {
-            "key": "bitcoin:BTC",
-            "name": "Bitcoin"
-        }
+    "maidsafecoin-token": {
+        "networks": ["bitcoin"]
     }
 }
