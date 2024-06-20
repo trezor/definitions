@@ -13,8 +13,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Collection, TypedDict
 
 import click
-from typing_extensions import NotRequired
-
 from trezorlib import definitions, protobuf
 from trezorlib.merkle_tree import MerkleTree
 from trezorlib.messages import (
@@ -22,6 +20,7 @@ from trezorlib.messages import (
     EthereumNetworkInfo,
     EthereumTokenInfo,
 )
+from typing_extensions import NotRequired
 
 if TYPE_CHECKING:
     from typing import TypeVar

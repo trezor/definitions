@@ -7,7 +7,6 @@ from pathlib import Path
 
 import click
 import ed25519  # type: ignore
-
 from trezorlib import cosi, definitions
 from trezorlib.merkle_tree import MerkleTree
 

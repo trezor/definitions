@@ -7,20 +7,15 @@ import json
 import logging
 import time
 import typing as t
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from dataclasses import dataclass, field, asdict
 
 import click
-
 import trezor_common.tools.coin_info as coin_info
 from trezor_common.tools.coin_info import Coin
 
 if t.TYPE_CHECKING:
     from ..eth_definitions.common import Network, Token
-
-
-class NoCoinGeckoId(Exception):
-    pass
 
 
 class WalletInfo(t.TypedDict):
