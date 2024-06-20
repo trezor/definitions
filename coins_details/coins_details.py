@@ -84,6 +84,8 @@ class CoinDetail:
             support={model: True for model in MODELS},
             networks={network_cg_id},
         )
+        network_key = f"eth:{network['shortcut']}:{network['chain_id']}"
+        new.wallets.extend(WALLETS.get(network_key, []))
         new.wallets.extend(WALLETS_ETH_3RDPARTY)
         return new
 
