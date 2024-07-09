@@ -331,12 +331,6 @@
             "url": "https://trezor.io/trezor-suite"
         }
     ],
-    "misc:BNB": [
-        {
-            "name": "Binance Wallet",
-            "url": "https://binance.org/unlock"
-        }
-    ],
     "misc:EOS": [
         {
             "name": "Bloks.io",
