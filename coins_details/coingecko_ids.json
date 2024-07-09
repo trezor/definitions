@@ -34,5 +34,6 @@
   "misc:XMR": "monero",
   "misc:XTZ": "tezos",
   "misc:MAID": "maidsafecoin-token",
-  "nem:XEM": "nem"
+  "nem:XEM": "nem",
+  "misc:BNB": "binancecoin"
 }
