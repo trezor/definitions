@@ -1,4 +1,4 @@
-Updated at: Tue Jul  9 12:03:15 2024
+Updated at: Tue Jul 16 13:48:05 2024
 bitcoin Bitcoin (BTC)
 actinium Actinium (ACM)
 axe Axe (AXE)
@@ -34,6 +34,7 @@ maidsafecoin-token MaidSafeCoin (MAID)
 solana Solana (SOL)
 stellar Stellar (XLM)
 monero Monero (XMR)
+xrp Ripple (XRP)
 tezos Tezos (XTZ)
 nem NEM (XEM)
 ethereum Ethereum (ETH)
