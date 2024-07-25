@@ -32,7 +32,7 @@
   "misc:SOL": "solana",
   "misc:XLM": "stellar",
   "misc:XMR": "monero",
-  "misc:XRP": "xrp",
+  "misc:XRP": "ripple",
   "misc:XTZ": "tezos",
   "misc:MAID": "maidsafecoin-token",
   "nem:XEM": "nem",
