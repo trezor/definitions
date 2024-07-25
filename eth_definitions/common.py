@@ -70,6 +70,7 @@ class Network(TypedDict):
     slip44: int
 
     coingecko_id: NotRequired[str]
+    coingecko_network_id: NotRequired[str]
     coingecko_rank: NotRequired[bool]
     deleted: NotRequired[bool]
 
