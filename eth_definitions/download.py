@@ -232,13 +232,18 @@ def _load_erc20_tokens_from_coingecko(
 ) -> list[Token]:
     tokens: list[Token] = []
     for network in networks:
-        if (coingecko_id := network.get("coingecko_id")) is not None:
-            all_tokens = downloader.get_coingecko_tokens_for_network(coingecko_id)
+        network_id = network.get("coingecko_network_id")
+        if network_id is None:
+            network_id = network.get("coingecko_id")
+        if network_id is None:
+            continue
 
-            for token in all_tokens:
-                t = _build_token(token, network["chain_id"], network["chain"])
-                if t is not None:
-                    tokens.append(t)
+        all_tokens = downloader.get_coingecko_tokens_for_network(network_id)
+
+        for token in all_tokens:
+            t = _build_token(token, network["chain_id"], network["chain"])
+            if t is not None:
+                tokens.append(t)
 
     return tokens
 
@@ -366,12 +371,17 @@ def download(
 
     # coingecko API
     cg_platforms = downloader.get_coingecko_asset_platforms()
-    cg_platforms_by_chain_id: dict[int, str] = {}
+    cg_platforms_by_chain_id: dict[int, tuple[str, str]] = {}
     for chain in cg_platforms:
         # We want only information about chains, that have both chain id and coingecko id,
         # otherwise we could not link local and coingecko networks.
-        if chain["chain_identifier"] is not None and chain["id"] is not None:
-            cg_platforms_by_chain_id[chain["chain_identifier"]] = chain["id"]
+        if chain["chain_identifier"] is not None:
+            assert chain["id"] is not None
+            assert chain["native_coin_id"] is not None
+            cg_platforms_by_chain_id[chain["chain_identifier"]] = (
+                chain["id"],
+                chain["native_coin_id"],
+            )
 
     # defillama API
     dl_chains = downloader.get_defillama_chains()
@@ -392,7 +402,9 @@ def download(
         if network.get("coingecko_id") is None:
             # from coingecko via chain_id
             if chain_id in cg_platforms_by_chain_id:
-                network["coingecko_id"] = cg_platforms_by_chain_id[chain_id]
+                network_id, cg_id = cg_platforms_by_chain_id[chain_id]
+                network["coingecko_id"] = cg_id
+                network["coingecko_network_id"] = network_id
             # from defillama via chain_id
             elif chain_id in dl_chains_by_chain_id:
                 network["coingecko_id"] = dl_chains_by_chain_id[chain_id]
