@@ -6,8 +6,8 @@ import shutil
 from pathlib import Path
 
 import click
-import ed25519  # type: ignore
-from trezorlib import cosi, definitions
+from cryptography.exceptions import InvalidSignature
+from trezorlib import cosi, definitions, _ed25519 as ed25519
 from trezorlib.merkle_tree import MerkleTree
 
 from .common import (
@@ -160,10 +160,9 @@ def sign_definitions(
 
     assert signature_bytes is not None
 
-    verify_key = ed25519.VerifyingKey(publickey_bytes)  # type: ignore
     try:
-        verify_key.verify(signature_bytes[1:], root_hash)  # type: ignore
-    except ed25519.BadSignatureError:  # type: ignore
+        ed25519.checkvalid(signature_bytes[1:], root_hash, publickey_bytes)
+    except InvalidSignature:
         raise click.ClickException(
             "Provided `--signature` value is not valid for computed "
             f"Merkle tree root hash ({root_hash_str})."
