@@ -231,8 +231,12 @@ def main(verbose: int):
         cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
     # Update ETH things from our own definitions
-    eth_networks: list[Network] = DEFINITIONS_LATEST["networks"]
-    eth_tokens: list[Token] = DEFINITIONS_LATEST["tokens"]
+    eth_networks: list[Network] = [
+        d for d in DEFINITIONS_LATEST["networks"] if not d.get("deleted")
+    ]
+    eth_tokens: list[Token] = [
+        d for d in DEFINITIONS_LATEST["tokens"] if not d.get("deleted")
+    ]
 
     for network in eth_networks:
         cdet = CoinDetail.from_eth_network(network)
