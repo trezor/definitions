@@ -1216,6 +1216,31 @@
     }
    ]
   },
+  "alvey-chain": {
+   "coingecko_id": "alvey-chain",
+   "id": "eth:ALV:3797",
+   "name": "AlveyChain",
+   "networks": [
+    "alvey-chain"
+   ],
+   "shortcut": "ALV",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "amber": {
    "coingecko_id": "amber",
    "id": "eth:AMB:16718",
@@ -5039,6 +5064,32 @@
     }
    ]
   },
+  "brla-digital-brla": {
+   "coingecko_id": "brla-digital-brla",
+   "id": "erc20:mbeam:0xfeb25f3fddad13f82c4d6dbc1481516f62236429",
+   "name": "BRLA Digital BRLA",
+   "networks": [
+    "celo",
+    "moonbeam"
+   ],
+   "shortcut": "BRLA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "brz": {
    "coingecko_id": "brz",
    "id": "erc20:rsk:0xe355c280131dfaf18bf1c3648aee3c396db6b5fd",
@@ -7103,6 +7154,33 @@
     }
    ]
   },
+  "dackie-usd": {
+   "coingecko_id": "dackie-usd",
+   "id": "erc20:tomo:0x5637991aa4d7f016acb7634129b0fb18c23d5d17",
+   "name": "Dackie USD",
+   "networks": [
+    "mantle",
+    "mode",
+    "tomochain"
+   ],
+   "shortcut": "DCKUSD",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "dackieswap": {
    "coingecko_id": "dackieswap",
    "id": "erc20:tomo:0xaedc38bd52b0380b2af4980948925734fd54fbf4",
@@ -7542,6 +7620,31 @@
     "defi-kingdoms"
    ],
    "shortcut": "JEWEL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "defichain": {
+   "coingecko_id": "defichain",
+   "id": "eth:DFI:1130",
+   "name": "DeFiChain EVM Network",
+   "networks": [
+    "defichain"
+   ],
+   "shortcut": "DFI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -10772,6 +10875,31 @@
     }
    ]
   },
+  "g-token": {
+   "coingecko_id": "g-token",
+   "id": "eth:G.:1625",
+   "name": "Gravity Alpha",
+   "networks": [
+    "g-token"
+   ],
+   "shortcut": "G.",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "galatasaray-fan-token": {
    "coingecko_id": "galatasaray-fan-token",
    "id": "erc20:ivar:0x6dab8fe8e5d425f2eb063aae58540aa04e273e0d",
@@ -11741,6 +11869,31 @@
     "fantom"
    ],
    "shortcut": "GRAIN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "graphlinq-protocol": {
+   "coingecko_id": "graphlinq-protocol",
+   "id": "eth:GLQ:614",
+   "name": "Graphlinq Blockchain",
+   "networks": [
+    "graphlinq-protocol"
+   ],
+   "shortcut": "GLQ",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -13571,6 +13724,31 @@
     "bittorrent"
    ],
    "shortcut": "TORR",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "injective-protocol": {
+   "coingecko_id": "injective-protocol",
+   "id": "eth:INJ:2525",
+   "name": "inEVM",
+   "networks": [
+    "injective-protocol"
+   ],
+   "shortcut": "INJ",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -15514,6 +15692,56 @@
     }
    ]
   },
+  "l2-standard-bridged-fxs-fraxtal": {
+   "coingecko_id": "l2-standard-bridged-fxs-fraxtal",
+   "id": "erc20:fraxtal:0xfc00000000000000000000000000000000000002",
+   "name": "L2 Standard Bridged FXS  Fraxtal ",
+   "networks": [
+    "fraxtal"
+   ],
+   "shortcut": "FXS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "l2-standard-bridged-sfrxeth-fraxtal": {
+   "coingecko_id": "l2-standard-bridged-sfrxeth-fraxtal",
+   "id": "erc20:fraxtal:0xfc00000000000000000000000000000000000005",
+   "name": "L2 Standard Bridged sfrxETH  Fraxtal ",
+   "networks": [
+    "fraxtal"
+   ],
+   "shortcut": "SFRXETH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "l2-standard-bridged-weth-modee": {
    "coingecko_id": "l2-standard-bridged-weth-modee",
    "id": "erc20:mode:0x4200000000000000000000000000000000000006",
@@ -15589,6 +15817,56 @@
     }
    ]
   },
+  "lair-staked-kaia": {
+   "coingecko_id": "lair-staked-kaia",
+   "id": "erc20:kaia-mainnet:0x42952b873ed6f7f0a7e4992e2a9818e3a9001995",
+   "name": "Lair Staked KAIA",
+   "networks": [
+    "klay-token"
+   ],
+   "shortcut": "STKAIA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "larissa-blockchain": {
+   "coingecko_id": "larissa-blockchain",
+   "id": "eth:LRS:9898",
+   "name": "Larissa Chain",
+   "networks": [
+    "larissa-blockchain"
+   ],
+   "shortcut": "LRS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "latoken": {
    "coingecko_id": "latoken",
    "id": "eth:LA:225",
@@ -15597,6 +15875,31 @@
     "latoken"
    ],
    "shortcut": "LA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "lava": {
+   "coingecko_id": "lava",
+   "id": "eth:LAVA:1339",
+   "name": "Elysium",
+   "networks": [
+    "lava"
+   ],
+   "shortcut": "LAVA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -19603,6 +19906,31 @@
     }
    ]
   },
+  "multivac": {
+   "coingecko_id": "multivac",
+   "id": "eth:MTV:62621",
+   "name": "MultiVAC",
+   "networks": [
+    "multivac"
+   ],
+   "shortcut": "MTV",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "mummy-finance": {
    "coingecko_id": "mummy-finance",
    "id": "erc20:ftm:0x01e77288b38b416f972428d562454fb329350bac",
@@ -19661,6 +19989,31 @@
     "fantom"
    ],
    "shortcut": "MUTTSKI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "mxc": {
+   "coingecko_id": "mxc",
+   "id": "eth:MXC:18686",
+   "name": "MXC zkEVM Moonchain",
+   "networks": [
+    "mxc"
+   ],
+   "shortcut": "MXC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -20153,6 +20506,31 @@
     "energi"
    ],
    "shortcut": "NU",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "nuls": {
+   "coingecko_id": "nuls",
+   "id": "eth:NULS:119",
+   "name": "ENULS",
+   "networks": [
+    "nuls"
+   ],
+   "shortcut": "NULS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -22192,6 +22570,31 @@
     }
    ]
   },
+  "platon-network": {
+   "coingecko_id": "platon-network",
+   "id": "eth:lat:210425",
+   "name": "PlatON",
+   "networks": [
+    "platon-network"
+   ],
+   "shortcut": "lat",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "polis": {
    "coingecko_id": "polis",
    "id": "eth:POLIS:333999",
@@ -22404,6 +22807,31 @@
     "rootstock"
    ],
    "shortcut": "POWA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "power": {
+   "coingecko_id": "power",
+   "id": "eth:PWR:10201",
+   "name": "MaxxChain",
+   "networks": [
+    "power"
+   ],
+   "shortcut": "PWR",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -22842,6 +23270,56 @@
     }
    ]
   },
+  "pulsechain-bridged-hex-pulsechain": {
+   "coingecko_id": "pulsechain-bridged-hex-pulsechain",
+   "id": "erc20:pls:0x57fde0a71132198bbec939b98976993d8d89d225",
+   "name": "Pulsechain Bridged HEX  Pulsechain ",
+   "networks": [
+    "pulsechain"
+   ],
+   "shortcut": "HEX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "pulsechain-bridged-weth-pulsechain": {
+   "coingecko_id": "pulsechain-bridged-weth-pulsechain",
+   "id": "erc20:pls:0x02dcdd04e3f455d838cd1249292c58f3b79e3c3c",
+   "name": "Pulsechain Bridged WETH  Pulsechain ",
+   "networks": [
+    "pulsechain"
+   ],
+   "shortcut": "WETH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "pulsechain-flow": {
    "coingecko_id": "pulsechain-flow",
    "id": "erc20:pls:0x39b9d781dad0810d07e24426c876217218ad353d",
@@ -23175,6 +23653,31 @@
     "q-protocol"
    ],
    "shortcut": "Q",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "qitmeer-network": {
+   "coingecko_id": "qitmeer-network",
+   "id": "eth:MEER:813",
+   "name": "Qitmeer Network",
+   "networks": [
+    "qitmeer-network"
+   ],
+   "shortcut": "MEER",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -24157,31 +24660,6 @@
     "telos"
    ],
    "shortcut": "RBN",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true
-   },
-   "wallets": [
-    {
-     "name": "Metamask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "rockocoin": {
-   "coingecko_id": "rockocoin",
-   "id": "erc20:bitrock:0x55042d507502a703e6cae5ee8534d784155d58a4",
-   "name": "RockoCoin",
-   "networks": [
-    "bitrock"
-   ],
-   "shortcut": "ROCKO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -25713,7 +26191,8 @@
    "id": "erc20:bnb:0x4aae823a6a0b376de6a78e74ecc5b079d38cbcf7",
    "name": "Solv Protocol solvBTC",
    "networks": [
-    "binancecoin"
+    "binancecoin",
+    "mantle"
    ],
    "shortcut": "SOLVBTC",
    "support": {
@@ -25816,6 +26295,31 @@
     "songbird"
    ],
    "shortcut": "SFIN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "sonic-goat": {
+   "coingecko_id": "sonic-goat",
+   "id": "erc20:ftm:0x43f9a13675e352154f745d6402e853fecc388aa5",
+   "name": "Sonic Goat",
+   "networks": [
+    "fantom"
+   ],
+   "shortcut": "SGOAT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -26942,6 +27446,31 @@
     }
    ]
   },
+  "sun-minimeal": {
+   "coingecko_id": "sun-minimeal",
+   "id": "erc20:pls:0x22b2f187e6ee1f9bc8f7fc38bb0d9357462800e4",
+   "name": "SUN Minimeal",
+   "networks": [
+    "pulsechain"
+   ],
+   "shortcut": "SOIL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "superalgorithmicmoney": {
    "coingecko_id": "superalgorithmicmoney",
    "id": "erc20:fraxtal:0x4bfba51ae91420302fb49680da38ca068e0ee6ea",
@@ -27965,6 +28494,31 @@
     "fantom"
    ],
    "shortcut": "TETU",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "texan": {
+   "coingecko_id": "texan",
+   "id": "erc20:pls:0xcfcffe432a48db53f59c301422d2edd77b2a88d7",
+   "name": "Texan",
+   "networks": [
+    "pulsechain"
+   ],
+   "shortcut": "TEXAN",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -29012,6 +29566,31 @@
     }
    ]
   },
+  "ufo-token": {
+   "coingecko_id": "ufo-token",
+   "id": "erc20:pls:0x456548a9b56efbbd89ca0309edd17a9e20b04018",
+   "name": "UFO Token",
+   "networks": [
+    "pulsechain"
+   ],
+   "shortcut": "UFO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "ultron": {
    "coingecko_id": "ultron",
    "id": "eth:ULX:1231",
@@ -30000,31 +30579,6 @@
     }
    ]
   },
-  "virtucoin": {
-   "coingecko_id": "virtucoin",
-   "id": "erc20:ftm:0x0a16aeab4418cb8dcdef9717e801a1c4fceb2b03",
-   "name": "Virtucoin",
-   "networks": [
-    "fantom"
-   ],
-   "shortcut": "V",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true
-   },
-   "wallets": [
-    {
-     "name": "Metamask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "vitality": {
    "coingecko_id": "vitality",
    "id": "erc20:iotex-mainnet:0xb8744ae4032be5e5ef9fab94ee9c3bf38d5d2ae0",
@@ -30454,8 +31008,8 @@
   },
   "wbnb": {
    "coingecko_id": "wbnb",
-   "id": "erc20:esc:0x51b85f3889c7ea8f6d5edebfbadada0fdce236c9",
-   "name": "Wrapped BNB",
+   "id": "eth:BNB:9980",
+   "name": "Combo",
    "networks": [
     "callisto",
     "elastos",
@@ -30464,9 +31018,10 @@
     "meter",
     "moonriver",
     "telos",
-    "velas"
+    "velas",
+    "wbnb"
    ],
-   "shortcut": "WBNB",
+   "shortcut": "BNB",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -30797,14 +31352,14 @@
     }
    ]
   },
-  "worldcore-2": {
-   "coingecko_id": "worldcore-2",
-   "id": "erc20:eth:0x7d7513bba1af295574c24bbe425873d0c431ff9f",
-   "name": "Worldcore",
+  "wormhole-bridged-usdc-fantom": {
+   "coingecko_id": "wormhole-bridged-usdc-fantom",
+   "id": "erc20:ftm:0x2f733095b80a04b38b0d10cc884524a3d09b836a",
+   "name": "Wormhole Bridged USDC  Fantom ",
    "networks": [
-    "ethereum"
+    "fantom"
    ],
-   "shortcut": "WRC",
+   "shortcut": "USDC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -30812,10 +31367,6 @@
     "T3T1": true
    },
    "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
     {
      "name": "Metamask",
      "url": "https://metamask.io/"
@@ -30826,14 +31377,39 @@
     }
    ]
   },
-  "wormhole-bridged-usdc-fantom": {
-   "coingecko_id": "wormhole-bridged-usdc-fantom",
-   "id": "erc20:ftm:0x2f733095b80a04b38b0d10cc884524a3d09b836a",
-   "name": "Wormhole Bridged USDC  Fantom ",
+  "wormhole-bridged-weth-celo": {
+   "coingecko_id": "wormhole-bridged-weth-celo",
+   "id": "erc20:celo:0x66803fb87abd4aac3cbb3fad7c3aa01f6f3fb207",
+   "name": "Wormhole Bridged WETH  Celo ",
    "networks": [
-    "fantom"
+    "celo"
    ],
-   "shortcut": "USDC",
+   "shortcut": "WETH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "wormhole-bridged-weth-moonbeam": {
+   "coingecko_id": "wormhole-bridged-weth-moonbeam",
+   "id": "erc20:mbeam:0xab3f0245b83feb11d15aaffefd7ad465a59817ed",
+   "name": "Wormhole Bridged WETH  Moonbeam ",
+   "networks": [
+    "moonbeam"
+   ],
+   "shortcut": "WETH",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -31488,6 +32064,31 @@
     }
    ]
   },
+  "wrapped-jbc": {
+   "coingecko_id": "wrapped-jbc",
+   "id": "eth:JBC:8899",
+   "name": "JIBCHAIN L1",
+   "networks": [
+    "wrapped-jbc"
+   ],
+   "shortcut": "JBC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "wrapped-kava": {
    "coingecko_id": "wrapped-kava",
    "id": "erc20:kava:0xc86c7c0efbd6a49b35e8714c5f59d99de09a225b",
@@ -32075,31 +32676,6 @@
     "energi"
    ],
    "shortcut": "WTRX",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true
-   },
-   "wallets": [
-    {
-     "name": "Metamask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "wrapped-turtlecoin": {
-   "coingecko_id": "wrapped-turtlecoin",
-   "id": "erc20:ftm:0x6a31aca4d2f7398f04d9b6ffae2d898d9a8e7938",
-   "name": "Wrapped TurtleCoin",
-   "networks": [
-    "fantom"
-   ],
-   "shortcut": "WTRTL",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -33598,12 +34174,12 @@
  },
  "info": {
   "support_counter": {
-   "T1B1": 1331,
-   "T2B1": 1327,
-   "T2T1": 1334,
-   "T3T1": 1327
+   "T1B1": 1354,
+   "T2B1": 1350,
+   "T2T1": 1357,
+   "T3T1": 1350
   },
-  "updated_at": 1724682498,
-  "updated_at_readable": "Mon Aug 26 16:28:18 2024"
+  "updated_at": 1725628039,
+  "updated_at_readable": "Fri Sep  6 15:07:19 2024"
  }
 }
