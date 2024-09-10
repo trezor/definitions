@@ -1,31 +1,35 @@
 from __future__ import annotations
 
-import json
 import logging
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any
+import typing as t
 
-import click
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.live import Live
+import readchar
 
 from .common import ChangeResolutionStrategy, hash_dict_on_keys
 
-if TYPE_CHECKING:
+if t.TYPE_CHECKING:
     from .common import DEFINITION_TYPE
 
 MAIN_KEYS = ("chain_id", "address")
 
 
 def check_definitions_list(
-    old_defs: list["DEFINITION_TYPE"],
-    new_defs: list["DEFINITION_TYPE"],
+    old_defs: list[DEFINITION_TYPE],
+    new_defs: list[DEFINITION_TYPE],
     change_strategy: ChangeResolutionStrategy,
     show_all: bool,
+    update_callback: t.Callable[[], None],
 ) -> None:
     # store already processed definitions
     deleted_definitions: list["DEFINITION_TYPE"] = []
     modified_definitions: list[tuple["DEFINITION_TYPE", "DEFINITION_TYPE"]] = []
 
-    def key(definition: "DEFINITION_TYPE") -> tuple[Any, ...]:
+    def key(definition: "DEFINITION_TYPE") -> tuple[t.Any, ...]:
         return tuple(definition.get(k, None) for k in MAIN_KEYS)
 
     def datahash(definition: "DEFINITION_TYPE") -> bytes:
@@ -88,6 +92,11 @@ def check_definitions_list(
             if prompt_user and user_wants_change is False:
                 user_wants_to_revert = True
 
+            if user_wants_change is True:
+                old_def.clear()
+                old_def.update(new_def)
+                update_callback()
+
         # Reject the change completely if symbol/decimals changed and the user
         # does not want to change it.
         if symbol_or_decimals_changed and (
@@ -113,13 +122,45 @@ def _print_definition_change(
 ) -> bool | None:
     """Print changes made between definitions and ask for prompt if requested.
     Returns the prompt result if prompted otherwise None."""
-    print(f"== {def_type} MODIFIED ==")
-    print("OLD:")
-    print(json.dumps(old, sort_keys=True))
-    print("NEW:")
-    print(json.dumps(new, sort_keys=True))
 
-    if prompt:
-        return click.confirm("Confirm change:", default=False)
-    else:
+    console = Console()
+
+    table = Table(title=f"{def_type} MODIFIED")
+    table.add_column("Field", justify="left", style="blue", no_wrap=True)
+    table.add_column("OLD", justify="left", style="cyan", no_wrap=True)
+    table.add_column("NEW", justify="left", style="cyan", no_wrap=True)
+
+    for key in old.keys():
+        old_value = old[key]
+        new_value = new.get(key, "")
+        if old_value != new_value:
+            table.add_row(
+                key,
+                f"[bold red]{old_value}[/bold red]",
+                f"[bold red]{new_value}[/bold red]",
+            )
+        else:
+            table.add_row(key, str(old_value), str(new_value))
+
+    accept_change = False
+    if not prompt:
+        console.print(Panel(table))
         return None
+
+    with Live(table, auto_refresh=False, console=console) as live:
+        while True:
+            # Update table highlighting
+            for col in table.columns:
+                col.header_style = "bold cyan"
+            table.columns[int(accept_change) + 1].header_style = "black on white"
+            live.update(table, refresh=True)
+
+            key = readchar.readkey()
+            if key == readchar.key.RIGHT:
+                accept_change = True
+            elif key == readchar.key.LEFT:
+                accept_change = False
+            elif key == readchar.key.ENTER:
+                break
+
+    return bool(accept_change)

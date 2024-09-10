@@ -458,18 +458,24 @@ def download(
 
     if DEFINITIONS_PATH.exists():
         old_defs = load_json_file(DEFINITIONS_PATH)
+
+        def callback():
+            DEFINITIONS_PATH.write_text(json.dumps(old_defs, indent=2) + "\n")
+
         # check networks and tokens
         check_definitions_list(
             old_defs=old_defs["networks"],
             new_defs=networks,
             change_strategy=change_strategy,
             show_all=show_all,
+            update_callback=callback,
         )
         check_definitions_list(
             old_defs=old_defs["tokens"],
             new_defs=tokens,
             change_strategy=change_strategy,
             show_all=show_all,
+            update_callback=callback,
         )
 
     if check_builtin:
