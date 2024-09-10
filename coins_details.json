@@ -6074,31 +6074,6 @@
     }
    ]
   },
-  "chirp-finance": {
-   "coingecko_id": "chirp-finance",
-   "id": "erc20:pls:0xca66b54a8a4ad9a231dd70d3605d1ff6ae95d427",
-   "name": "Chirp Finance",
-   "networks": [
-    "pulsechain"
-   ],
-   "shortcut": "CHIRP",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true
-   },
-   "wallets": [
-    {
-     "name": "Metamask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "circuits-of-value": {
    "coingecko_id": "circuits-of-value",
    "id": "erc20:gno:0x8b8407c6184f1f0fd1082e83d6a3b8349caced12",
@@ -13366,6 +13341,31 @@
     }
    ]
   },
+  "hyzen-ai": {
+   "coingecko_id": "hyzen-ai",
+   "id": "erc20:hedera-mainnet:0x000000000000000000000000000000000051db5a",
+   "name": "Hyzen AI",
+   "networks": [
+    "hedera-hashgraph"
+   ],
+   "shortcut": "HAI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "ice-token": {
    "coingecko_id": "ice-token",
    "id": "erc20:ftm:0xf16e81dce15b08f326220742020379b855b87df9",
@@ -15170,6 +15170,31 @@
     }
    ]
   },
+  "kindness-for-the-soul-ali": {
+   "coingecko_id": "kindness-for-the-soul-ali",
+   "id": "erc20:pls:0x828f3c8e22cb8ccfe5ff2de59680096959a2571c",
+   "name": "Kindness For The Soul ALI",
+   "networks": [
+    "pulsechain"
+   ],
+   "shortcut": "ALI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "kinetixfi": {
    "coingecko_id": "kinetixfi",
    "id": "erc20:kava:0x52369b1539ea8f4e1eadeef18d85462dcf9a3658",
@@ -16295,7 +16320,7 @@
   "liquid-crypto": {
    "coingecko_id": "liquid-crypto",
    "id": "erc20:mantle:0x872952d3c1caf944852c5adda65633f1ef218a26",
-   "name": "Liquid Crypto",
+   "name": "Reddex",
    "networks": [
     "mantle"
    ],
@@ -18043,6 +18068,31 @@
     }
    ]
   },
+  "millennium-club-staked-ftm": {
+   "coingecko_id": "millennium-club-staked-ftm",
+   "id": "erc20:ftm:0x62227c75908b7d358a9d70ea4670f57f8b012ccc",
+   "name": "Millennium Club Staked FTM",
+   "networks": [
+    "fantom"
+   ],
+   "shortcut": "MFTM",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "millenniumclub-coin-new": {
    "coingecko_id": "millenniumclub-coin-new",
    "id": "erc20:ftm:0x5deb27e51dbeef691ba1175a2e563870499c2acb",
@@ -19182,10 +19232,9 @@
   },
   "multichain": {
    "coingecko_id": "multichain",
-   "id": "erc20:ftm:0x9fb9a33956351cf4fa040f65a13b835a3c8764e3",
+   "id": "erc20:mriver:0x9fb9a33956351cf4fa040f65a13b835a3c8764e3",
    "name": "Multichain",
    "networks": [
-    "fantom",
     "moonriver"
    ],
    "shortcut": "MULTI",
@@ -19889,6 +19938,31 @@
     "telos"
    ],
    "shortcut": "WETH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true
+   },
+   "wallets": [
+    {
+     "name": "Metamask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "multichain-fantom": {
+   "coingecko_id": "multichain-fantom",
+   "id": "erc20:ftm:0x9fb9a33956351cf4fa040f65a13b835a3c8764e3",
+   "name": "Multichain  Fantom ",
+   "networks": [
+    "fantom"
+   ],
+   "shortcut": "MULTI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -30956,31 +31030,6 @@
     }
    ]
   },
-  "wavelength": {
-   "coingecko_id": "wavelength",
-   "id": "erc20:vlx:0x117e0b609c7eedafef1a83ad692de52817a0b2f6",
-   "name": "Wavelength",
-   "networks": [
-    "velas"
-   ],
-   "shortcut": "WAVE",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true
-   },
-   "wallets": [
-    {
-     "name": "Metamask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "wazirx": {
    "coingecko_id": "wazirx",
    "id": "erc20:nrg:0x0894840ba7d57c7adf2caf8fd3c41eb79af5b8e7",
@@ -34174,12 +34223,12 @@
  },
  "info": {
   "support_counter": {
-   "T1B1": 1354,
-   "T2B1": 1350,
-   "T2T1": 1357,
-   "T3T1": 1350
+   "T1B1": 1356,
+   "T2B1": 1352,
+   "T2T1": 1359,
+   "T3T1": 1352
   },
-  "updated_at": 1725628039,
-  "updated_at_readable": "Fri Sep  6 15:07:19 2024"
+  "updated_at": 1725959635,
+  "updated_at_readable": "Tue Sep 10 11:13:55 2024"
  }
 }
