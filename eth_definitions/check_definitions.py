@@ -130,8 +130,10 @@ def _print_definition_change(
     table.add_column("OLD", justify="left", style="cyan", no_wrap=True)
     table.add_column("NEW", justify="left", style="cyan", no_wrap=True)
 
-    for key in old.keys():
-        old_value = old[key]
+    all_keys = set(old.keys()) | set(new.keys())
+
+    for key in sorted(all_keys):
+        old_value = old.get(key, "")
         new_value = new.get(key, "")
         if old_value != new_value:
             table.add_row(
