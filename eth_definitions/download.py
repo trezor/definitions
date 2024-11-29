@@ -396,6 +396,7 @@ def download(
     # to load tokens from coingecko. We won't use coingecko networks, because we don't know which
     # ones are EVM based.
     network_to_cid: dict[str, int] = {}
+    native_coin_to_network: dict[str, Network] = {}
     for network in networks:
         # Assign coingecko_id if possible and not there already
         chain_id = network["chain_id"]
@@ -406,6 +407,7 @@ def download(
                 network["coingecko_id"] = cg_id
                 network["coingecko_network_id"] = network_id
                 network_to_cid[network_id] = chain_id
+                native_coin_to_network[cg_id] = network
             # from defillama via chain_id
             elif chain_id in dl_chains:
                 network["coingecko_network_id"] = dl_chains[chain_id]
@@ -449,6 +451,10 @@ def download(
             key = (network_to_cid.get(platform_name), address)
             if key in tokens_by_chain_id_and_address:
                 tokens_by_chain_id_and_address[key]["coingecko_id"] = cg_coin["id"]
+        # enrich networks by symbols known from coingecko
+        if (network := native_coin_to_network.get(cg_coin["id"])) is not None:
+            network["name"] = cg_coin["name"]
+            network["shortcut"] = cg_coin["symbol"].upper()
 
     # get top 100 ids
     cg_top100_ids = {d["id"]: d for d in cg_top100}
