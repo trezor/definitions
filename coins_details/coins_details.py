@@ -73,7 +73,7 @@ class CoinDetail:
     @classmethod
     def from_eth_token(cls, token: Token, network: Network) -> CoinDetail:
         cg_id = token.get("coingecko_id")
-        network_cg_id = network.get("coingecko_id")
+        network_cg_id = network.get("coingecko_network_id")
 
         key = f"erc20:{network['chain']}:{token['address']}"
         new = cls(
