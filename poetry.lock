@@ -136,6 +136,52 @@ files = [
 ]
 
 [[package]]
+name = "construct"
+version = "2.10.70"
+description = "A powerful declarative symmetric parser/builder for binary data"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "construct-2.10.70-py3-none-any.whl", hash = "sha256:c80be81ef595a1a821ec69dc16099550ed22197615f4320b57cc9ce2a672cb30"},
+    {file = "construct-2.10.70.tar.gz", hash = "sha256:4d2472f9684731e58cc9c56c463be63baa1447d674e0d66aeb5627b22f512c29"},
+]
+
+[package.extras]
+extras = ["arrow", "cloudpickle", "cryptography", "lz4", "numpy", "ruamel.yaml"]
+
+[[package]]
+name = "construct-classes"
+version = "0.1.2"
+description = "Parse your binary structs into dataclasses"
+optional = false
+python-versions = ">=3.6.2,<4.0"
+files = [
+    {file = "construct-classes-0.1.2.tar.gz", hash = "sha256:72ac1abbae5bddb4918688713f991f5a7fb6c9b593646a82f4bf3ac53de7eeb5"},
+    {file = "construct_classes-0.1.2-py3-none-any.whl", hash = "sha256:e82437261790758bda41e45fb3d5622b54cfbf044ceb14774af68346faf5e08e"},
+]
+
+[package.dependencies]
+construct = ">=2.10,<3.0"
+
+[[package]]
+name = "ecdsa"
+version = "0.19.0"
+description = "ECDSA cryptographic signature library (pure python)"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.6"
+files = [
+    {file = "ecdsa-0.19.0-py2.py3-none-any.whl", hash = "sha256:2cea9b88407fdac7bbeca0833b189e4c9c53f2ef1e1eaa29f6224dbc809b707a"},
+    {file = "ecdsa-0.19.0.tar.gz", hash = "sha256:60eaad1199659900dd0af521ed462b793bbdf867432b3948e87416ae4caf6bf8"},
+]
+
+[package.dependencies]
+six = ">=1.9.0"
+
+[package.extras]
+gmpy = ["gmpy"]
+gmpy2 = ["gmpy2"]
+
+[[package]]
 name = "idna"
 version = "3.7"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -144,6 +190,19 @@ python-versions = ">=3.5"
 files = [
     {file = "idna-3.7-py3-none-any.whl", hash = "sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0"},
     {file = "idna-3.7.tar.gz", hash = "sha256:028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc"},
+]
+
+[[package]]
+name = "libusb1"
+version = "3.2.0"
+description = "Pure-python wrapper for libusb-1.0"
+optional = false
+python-versions = "*"
+files = [
+    {file = "libusb1-3.2.0-py3-none-any.whl", hash = "sha256:048d4fb79021ec05af667a32e51a911578fc63ab3ed48a4f4fe0f67da797f416"},
+    {file = "libusb1-3.2.0-py3-none-win32.whl", hash = "sha256:5dc48d6f5207e184cb53278527e7d8e5f4051d8bc419bd15b564c37dc5cca268"},
+    {file = "libusb1-3.2.0-py3-none-win_amd64.whl", hash = "sha256:b13acc618263348c91bc4476fadada47be98b7924d6f60e79e3f1da67ac39ddc"},
+    {file = "libusb1-3.2.0.tar.gz", hash = "sha256:a11a6095e718cd49418a96329314da271cca6be7b4317a142724523371ac8961"},
 ]
 
 [[package]]
@@ -179,6 +238,17 @@ python-versions = ">=3.7"
 files = [
     {file = "mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8"},
     {file = "mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba"},
+]
+
+[[package]]
+name = "mnemonic"
+version = "0.21"
+description = "Implementation of Bitcoin BIP-0039"
+optional = false
+python-versions = ">=3.8.1"
+files = [
+    {file = "mnemonic-0.21-py3-none-any.whl", hash = "sha256:72dc9de16ec5ef47287237b9b6943da11647a03fe7cf1f139fc3d7c4a7439288"},
+    {file = "mnemonic-0.21.tar.gz", hash = "sha256:1fe496356820984f45559b1540c80ff10de448368929b9c60a2b55744cc88acf"},
 ]
 
 [[package]]
@@ -246,6 +316,58 @@ pygments = ">=2.13.0,<3.0.0"
 jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
+name = "six"
+version = "1.17.0"
+description = "Python 2 and 3 compatibility utilities"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+files = [
+    {file = "six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"},
+    {file = "six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"},
+]
+
+[[package]]
+name = "trezor"
+version = "0.13.9"
+description = "Python library for communicating with Trezor Hardware Wallet"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "trezor-0.13.9-py3-none-any.whl", hash = "sha256:30ffcbefb5f9300fe1ac34754a593ff10ae400bce22e2a062c45870ed4949fd5"},
+    {file = "trezor-0.13.9.tar.gz", hash = "sha256:9450bd7bb9d23e5e33a3c9e58e18f058b44c9d9c34ca664b4981a795aa9fb1ef"},
+]
+
+[package.dependencies]
+click = ">=7,<8.2"
+construct = ">=2.9,<2.10.55 || >2.10.55"
+construct-classes = ">=0.1.2"
+ecdsa = ">=0.9"
+libusb1 = ">=1.6.4"
+mnemonic = ">=0.20"
+requests = ">=2.4.0"
+typing-extensions = ">=4.7.1"
+
+[package.extras]
+authentication = ["cryptography (>=41)"]
+ethereum = ["web3 (>=5)"]
+extra = ["Pillow (>=10)"]
+full = ["Pillow (>=10)", "PyQt5", "cryptography (>=41)", "hidapi (>=0.7.99.post20)", "stellar-sdk (>=6)", "web3 (>=5)"]
+hidapi = ["hidapi (>=0.7.99.post20)"]
+qt-widgets = ["PyQt5"]
+stellar = ["stellar-sdk (>=6)"]
+
+[[package]]
+name = "typing-extensions"
+version = "4.12.2"
+description = "Backported and Experimental Type Hints for Python 3.8+"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d"},
+    {file = "typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"},
+]
+
+[[package]]
 name = "urllib3"
 version = "1.26.19"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -264,4 +386,4 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "81fe8b7199f339a7946126251858f59ef776683159021831b73875111ee69b71"
+content-hash = "eec0aadcb420e876b0021afc620db8ac63a2d0cf36623006da8b1d2507981a54"
