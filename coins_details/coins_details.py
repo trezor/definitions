@@ -23,7 +23,7 @@ class WalletInfo(t.TypedDict):
     url: str
 
 
-SupportEntry = t.Dict[str, bool]
+SupportEntry = t.Dict[str, list[str]]
 
 
 @dataclass
@@ -46,12 +46,18 @@ class CoinDetail:
         key = coin["key"]
         cg_id = COINGECKO_IDS.get(key)
 
+        support = {model: [] for model in MODELS}
+
+        for model in MODELS:
+            if model in support_info[key]:
+                support[model].extend(support_info[key][model])
+
         return cls(
             id=key,
             coingecko_id=cg_id,
             name=coin["name"],
             shortcut=coin["shortcut"],
-            support=support_info[key],
+            support=support,
             networks={cg_id},
         )
 
@@ -59,13 +65,25 @@ class CoinDetail:
     def from_eth_network(cls, network: Network) -> CoinDetail:
         cg_id = network.get("coingecko_id")
         key = f"eth:{network['shortcut']}:{network['chain_id']}"
+
+        support = {model: [] for model in MODELS}
+
+        for model in MODELS:
+            if network_cg_id:
+                support[model].append(network_cg_id)
+
         new = cls(
             id=key,
             coingecko_id=cg_id,
             name=network["name"],
             shortcut=network["shortcut"],
+<<<<<<< HEAD
             support={model: True for model in MODELS},
             networks={cg_id},
+=======
+            support=support,
+            networks={network_cg_id},
+>>>>>>> a42f976 (feat: supported networks per device)
         )
         new.wallets.extend(WALLETS_ETH_3RDPARTY)
         return new
@@ -75,13 +93,19 @@ class CoinDetail:
         cg_id = token.get("coingecko_id")
         network_cg_id = network.get("coingecko_network_id")
 
+        support = {model: [] for model in MODELS}
+
+        for model in MODELS:
+            if network_cg_id:
+                support[model].append(network_cg_id)
+
         key = f"erc20:{network['chain']}:{token['address']}"
         new = cls(
             id=key,
             coingecko_id=cg_id,
             name=token["name"],
             shortcut=token["shortcut"],
-            support={model: True for model in MODELS},
+            support=support,
             networks={network_cg_id},
         )
         network_key = f"eth:{network['shortcut']}:{network['chain_id']}"
@@ -91,12 +115,17 @@ class CoinDetail:
 
     def merge(self, other: CoinDetail) -> None:
         assert self.coingecko_id == other.coingecko_id, "Cannot merge different coins"
-        self.support = {
-            model: self.support[model] or other.support[model] for model in MODELS
-        }
-        for wallet in other.wallets:
-            if wallet not in self.wallets:
-                self.wallets.append(wallet)
+
+        for model in MODELS:
+            if not isinstance(self.support[model], list): 
+                self.support[model] = []
+            if not isinstance(other.support[model], list):  
+                other.support[model] = []
+
+            combined_support = set(self.support[model]) 
+            combined_support.update(other.support[model]) 
+            self.support[model] = list(combined_support) 
+
         self.networks.update(other.networks)
 
     def to_json(self) -> dict[str, t.Any]:
@@ -131,9 +160,6 @@ MODELS = {"T1B1", "T2T1", "T2B1", "T3T1"}
 
 def summary(coins: dict[str, t.Any]) -> dict[str, t.Any]:
     counter = {model: 0 for model in MODELS}
-    for coin in coins.values():
-        for model in counter:
-            counter[model] += coin["support"].get(model, False)
 
     return dict(
         updated_at=int(time.time()),
@@ -214,9 +240,17 @@ def main(verbose: int):
 
     coin_info_defs, _ = coin_info.coin_info_with_duplicates()
     support_info = {
-        key: {model: bool(value.get(model)) for model in MODELS}
-        for key, value in coin_info.support_info(coin_info_defs).items()
+        key: {model: [] for model in MODELS}
+        for key in coin_info.support_info(coin_info_defs)
     }
+
+    for key, value in coin_info.support_info(coin_info_defs).items():
+        for model in MODELS:
+            if value.get(model):
+                if key in COINGECKO_IDS:
+                    support_info[key][model].append(COINGECKO_IDS[key]) 
+                else:
+                    support_info[key][model].append(key)
 
     cg_ids_unfiltered: dict[str | None, CoinDetail] = {}
 
