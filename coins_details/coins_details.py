@@ -58,6 +58,8 @@ class CoinDetail:
     @classmethod
     def from_eth_network(cls, network: Network) -> CoinDetail:
         cg_id = network.get("coingecko_id")
+        network_cg_id = network.get("coingecko_network_id")
+
         key = f"eth:{network['shortcut']}:{network['chain_id']}"
         new = cls(
             id=key,
@@ -65,7 +67,7 @@ class CoinDetail:
             name=network["name"],
             shortcut=network["shortcut"],
             support={model: True for model in MODELS},
-            networks={cg_id},
+            networks={network_cg_id},
         )
         new.wallets.extend(WALLETS_ETH_3RDPARTY)
         return new
@@ -118,7 +120,6 @@ COINGECKO_IDS = coin_info.load_json(HERE / "coingecko_ids.json")
 DEFINITIONS_LATEST = coin_info.load_json(ROOT / "definitions-latest.json")
 
 # automatic wallet entries
-WALLET_SUITE = WalletInfo(name="Trezor Suite", url="https://trezor.io/trezor-suite")
 WALLETS_ETH_3RDPARTY = [
     WalletInfo(name="Metamask", url="https://metamask.io/"),
     WalletInfo(name="Rabby", url="https://rabby.io/"),

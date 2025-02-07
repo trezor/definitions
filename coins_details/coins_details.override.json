@@ -1,14 +1,6 @@
 {
-    "xdc-network": {
-        "wallets": [
-            {
-                "name": "XDC Wallet",
-                "url": "https://wallet.xinfin.network"
-            }
-        ]
-    },
     "tether": {
-        "networks": ["...", "bitcoin"]
+        "networks": ["...", "arbitrum-one", "base", "optimistic-ethereum", "polygon-pos", "binance-smart-chain"]
     },
     "maidsafecoin-token": {
         "networks": ["bitcoin"]
