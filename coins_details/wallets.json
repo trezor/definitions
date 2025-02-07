@@ -1,28 +1,16 @@
 {
-    "bitcoin:ACM": [
-        {
-            "name": "Actilectrum",
-            "url": "https://actilectrum.org"
-        }
-    ],
-    "bitcoin:AXE": [
-        {
-            "name": "Electrum-AXE",
-            "url": "https://github.com/AXErunners/electrum-axe"
-        }
-    ],
     "bitcoin:BCH": [
         {
             "name": "Trezor Suite",
             "url": "https://trezor.io/trezor-suite"
         },
         {
-            "name": "Electron Cash",
-            "url": "https://electroncash.org"
-        },
-        {
             "name": "Exodus",
             "url": "https://www.exodus.io"
+        },
+        {
+            "name": "Electron Cash",
+            "url": "https://electroncash.org"
         }
     ],
     "bitcoin:BTC": [
@@ -39,17 +27,7 @@
             "url": "https://www.exodus.io"
         }
     ],
-    "bitcoin:BTCP": [
-        {
-            "name": "BTCP Electrum",
-            "url": "https://github.com/BTCPrivate/electrum-btcp"
-        }
-    ],
     "bitcoin:BTG": [
-        {
-            "name": "Trezor Suite",
-            "url": "https://trezor.io/trezor-suite"
-        },
         {
             "name": "ElectrumG",
             "url": "https://github.com/BTCGPU/electrum"
@@ -59,33 +37,7 @@
             "url": "https://www.exodus.io"
         }
     ],
-    "bitcoin:BTX": [
-        {
-            "name": "Electrum-BTX",
-            "url": "https://github.com/LIMXTEC/electrum-btx"
-        }
-    ],
-    "bitcoin:CPU": [
-        {
-            "name": "Electrum-CPU",
-            "url": "https://cpuchain.org/download-page.html"
-        }
-    ],
-    "bitcoin:CRW": [
-        {
-            "name": "Crown-Electrum",
-            "url": "https://github.com/Crowndev/crown-electrum"
-        }
-    ],
     "bitcoin:DASH": [
-        {
-            "name": "Trezor Suite",
-            "url": "https://trezor.io/trezor-suite"
-        },
-        {
-            "name": "Dash Electrum",
-            "url": "https://electrum.dash.org"
-        },
         {
             "name": "DMT",
             "url": "https://github.com/Bertrand256/dash-masternode-tool"
@@ -102,10 +54,6 @@
         }
     ],
     "bitcoin:DGB": [
-        {
-            "name": "Trezor Suite",
-            "url": "https://trezor.io/trezor-suite"
-        },
         {
             "name": "Exodus",
             "url": "https://www.exodus.io"
@@ -131,24 +79,6 @@
             "url": "https://github.com/firoorg/znode-tool-evo"
         }
     ],
-    "bitcoin:FJC": [
-        {
-            "name": "Electrum-FJC",
-            "url": "http://www.fujicoin.org/downloads.php"
-        }
-    ],
-    "bitcoin:FLO": [
-        {
-            "name": "Chaintek",
-            "url": "https://wallet.chaintek.net/"
-        }
-    ],
-    "bitcoin:FTC": [
-        {
-            "name": "Electrum-FTC",
-            "url": "https://github.com/Feathercoin-Foundation/electrum-ftc"
-        }
-    ],
     "bitcoin:GRS": [
         {
             "name": "Electrum-GRS",
@@ -159,12 +89,6 @@
         {
             "name": "AtomicDEX",
             "url": "https://app.atomicdex.io/"
-        }
-    ],
-    "bitcoin:KOTO": [
-        {
-            "name": "Electrum-KOTO",
-            "url": "https://electrum.kotocoin.info"
         }
     ],
     "bitcoin:LTC": [
@@ -181,126 +105,22 @@
             "url": "https://www.exodus.io"
         }
     ],
-    "bitcoin:MONA": [
-        {
-            "name": "Electrum-MONA",
-            "url": "https://electrum-mona.org"
-        }
-    ],
     "bitcoin:NMC": [
-        {
-            "name": "Trezor Suite",
-            "url": "https://trezor.io/trezor-suite"
-        },
         {
             "name": "Electrum-NMC",
             "url": "https://github.com/namecoin/electrum-nmc"
-        }
-    ],
-    "bitcoin:PART": [
-        {
-            "name": "Particl Core",
-            "url": "https://github.com/particl/particl-core/releases"
-        }
-    ],
-    "bitcoin:QTUM": [
-        {
-            "name": "Qtum-Electrum",
-            "url": "https://github.com/qtumproject/qtum-electrum"
-        }
-    ],
-    "bitcoin:REGTEST": [
-        {
-            "name": "Trezor Suite",
-            "url": "https://trezor.io/trezor-suite"
-        }
-    ],
-    "bitcoin:RITO": [
-        {
-            "name": "Chaintek",
-            "url": "https://wallet.chaintek.net/"
         }
     ],
     "bitcoin:RVN": [
         {
             "name": "Chaintek",
             "url": "https://wallet.chaintek.net/"
-        },
-        {
-            "name": "Electrum-RVN",
-            "url": "https://github.com/traysi/electrum-raven"
-        }
-    ],
-    "bitcoin:SMART": [
-        {
-            "name": "Electrum-SMART",
-            "url": "https://github.com/smartcash/electrum-smart"
-        }
-    ],
-    "bitcoin:SYS": [
-        {
-            "name": "Electrum-SYS",
-            "url": "https://github.com/syscoin/electrum"
-        }
-    ],
-    "bitcoin:TEST": [
-        {
-            "name": "Trezor Suite",
-            "url": "https://trezor.io/trezor-suite"
-        }
-    ],
-    "bitcoin:UNO": [
-        {
-            "name": "Electrum-UNO",
-            "url": "https://github.com/flurbos/electrum-uno"
         }
     ],
     "bitcoin:VIA": [
         {
             "name": "Vialectrum",
             "url": "https://vialectrum.org"
-        }
-    ],
-    "bitcoin:VIPS": [
-        {
-            "name": "Electrum-VIPS",
-            "url": "https://electrum-vips.info"
-        }
-    ],
-    "bitcoin:VTC": [
-        {
-            "name": "Trezor Suite",
-            "url": "https://trezor.io/trezor-suite"
-        }
-    ],
-    "bitcoin:XPM": [
-        {
-            "name": "Electrum-XPM",
-            "url": "https://github.com/justjamesdev/electrum-xpm"
-        }
-    ],
-    "bitcoin:XRC": [
-        {
-            "name": "Electrum-XRC",
-            "url": "https://electrum.xrhodium.org"
-        }
-    ],
-    "bitcoin:XSN": [
-        {
-            "name": "Stakenet",
-            "url": "https://xsnexplorer.io/trezor"
-        }
-    ],
-    "bitcoin:XVG": [
-        {
-            "name": "Electrum",
-            "url": "https://github.com/vergecurrency/electrum/releases"
-        }
-    ],
-    "bitcoin:ZCR": [
-        {
-            "name": "Electrum-ZCR",
-            "url": "https://github.com/zcore-coin/electrum-wallet/"
         }
     ],
     "bitcoin:ZEC": [
@@ -325,16 +145,44 @@
             "url": "https://trezor.io/trezor-suite"
         }
     ],
-    "misc:ADA": [
+    "eth:ETH:42161": [
         {
             "name": "Trezor Suite",
             "url": "https://trezor.io/trezor-suite"
         }
     ],
-    "misc:EOS": [
+    "eth:ETH:8453": [
         {
-            "name": "Bloks.io",
-            "url": "https://bloks.io/wallet"
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        }
+    ],
+    "eth:ETH:10": [
+        {
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        }
+    ],
+    "eth:BNB:56": [
+        {
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        }
+    ],
+    "eth:POL:137": [
+        {
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        }
+    ],
+    "misc:ADA": [
+        {
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        },
+        {
+            "name": "AdaLite",
+            "url": "https://adalite.io/"
         }
     ],
     "misc:SOL": [
@@ -345,11 +193,15 @@
         {
             "name": "NuFi",
             "url": "https://nu.fi"
+        },
+        {
+            "name": "Backpack",
+            "url": "https://backpack.app/"
         }
     ],
     "misc:XLM": [
         {
-            "name": "Account Viewer",
+            "name": "Stellar Account Viewer",
             "url": "https://accountviewer.stellar.org/"
         },
         {
@@ -375,12 +227,6 @@
         {
             "name": "Exodus",
             "url": "https://www.exodus.io"
-        }
-    ],
-    "misc:XTZ": [
-        {
-            "name": "Briskett",
-            "url": "https://briskett.app"
         }
     ]
 }
