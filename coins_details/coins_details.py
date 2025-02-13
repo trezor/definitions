@@ -121,7 +121,7 @@ DEFINITIONS_LATEST = coin_info.load_json(ROOT / "definitions-latest.json")
 
 # automatic wallet entries
 WALLETS_ETH_3RDPARTY = [
-    WalletInfo(name="Metamask", url="https://metamask.io/"),
+    WalletInfo(name="MetaMask", url="https://metamask.io/"),
     WalletInfo(name="Rabby", url="https://rabby.io/"),
 ]
 
