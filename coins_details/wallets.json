@@ -7,10 +7,6 @@
         {
             "name": "Exodus",
             "url": "https://www.exodus.io"
-        },
-        {
-            "name": "Electron Cash",
-            "url": "https://electroncash.org"
         }
     ],
     "bitcoin:BTC": [
@@ -29,19 +25,11 @@
     ],
     "bitcoin:BTG": [
         {
-            "name": "ElectrumG",
-            "url": "https://github.com/BTCGPU/electrum"
-        },
-        {
             "name": "Exodus",
             "url": "https://www.exodus.io"
         }
     ],
     "bitcoin:DASH": [
-        {
-            "name": "DMT",
-            "url": "https://github.com/Bertrand256/dash-masternode-tool"
-        },
         {
             "name": "Exodus",
             "url": "https://www.exodus.io"
@@ -69,58 +57,20 @@
             "url": "https://www.exodus.io"
         }
     ],
-    "bitcoin:FIRO": [
-        {
-            "name": "Electrum-FIRO",
-            "url": "https://github.com/firoorg/electrum-firo"
-        },
-        {
-            "name": "Znode Tool",
-            "url": "https://github.com/firoorg/znode-tool-evo"
-        }
-    ],
-    "bitcoin:GRS": [
-        {
-            "name": "Electrum-GRS",
-            "url": "https://www.groestlcoin.org/groestlcoin-electrum-wallet"
-        }
-    ],
-    "bitcoin:KMD": [
-        {
-            "name": "AtomicDEX",
-            "url": "https://app.atomicdex.io/"
-        }
-    ],
     "bitcoin:LTC": [
         {
             "name": "Trezor Suite",
             "url": "https://trezor.io/trezor-suite"
         },
         {
-            "name": "Electrum-LTC",
-            "url": "https://electrum-ltc.org"
-        },
-        {
             "name": "Exodus",
             "url": "https://www.exodus.io"
-        }
-    ],
-    "bitcoin:NMC": [
-        {
-            "name": "Electrum-NMC",
-            "url": "https://github.com/namecoin/electrum-nmc"
         }
     ],
     "bitcoin:RVN": [
         {
             "name": "Chaintek",
             "url": "https://wallet.chaintek.net/"
-        }
-    ],
-    "bitcoin:VIA": [
-        {
-            "name": "Vialectrum",
-            "url": "https://vialectrum.org"
         }
     ],
     "bitcoin:ZEC": [
