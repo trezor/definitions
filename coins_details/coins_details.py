@@ -121,6 +121,11 @@ WALLETS = coin_info.load_json(HERE / "wallets.json")
 OVERRIDES = coin_info.load_json(HERE / "coins_details.override.json")
 COINGECKO_IDS = coin_info.load_json(HERE / "coingecko_ids.json")
 DEFINITIONS_LATEST = coin_info.load_json(ROOT / "definitions-latest.json")
+DEFINITIONS_BLACKLIST = coin_info.load_json(HERE / "definitions-blacklist.json")
+
+DEFINITIONS_LATEST["networks"] = [
+    chain for chain in DEFINITIONS_LATEST["networks"] if chain.get("chain") not in DEFINITIONS_BLACKLIST["networks"]
+]
 
 # automatic wallet entries
 WALLETS_ETH_3RDPARTY = [
@@ -250,7 +255,11 @@ def main(verbose: int):
     assert len(chain_id_to_network) == len(eth_networks), "Duplicate network keys"
 
     for token in eth_tokens:
-        network = chain_id_to_network[token["chain_id"]]
+        network = chain_id_to_network.get(token["chain_id"])
+
+        if network is None:
+            continue 
+
         cdet = CoinDetail.from_eth_token(token, network)
         cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
