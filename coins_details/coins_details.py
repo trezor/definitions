@@ -99,6 +99,9 @@ class CoinDetail:
         for wallet in other.wallets:
             if wallet not in self.wallets:
                 self.wallets.append(wallet)
+
+        self.wallets.sort(key=lambda w: w in WALLETS_ETH_3RDPARTY) # 3rd party wallets as last
+
         self.networks.update(other.networks)
 
     def to_json(self) -> dict[str, t.Any]:
