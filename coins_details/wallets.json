@@ -23,12 +23,6 @@
             "url": "https://www.exodus.io"
         }
     ],
-    "bitcoin:BTG": [
-        {
-            "name": "Exodus",
-            "url": "https://www.exodus.io"
-        }
-    ],
     "bitcoin:DASH": [
         {
             "name": "Exodus",
@@ -65,12 +59,6 @@
         {
             "name": "Exodus",
             "url": "https://www.exodus.io"
-        }
-    ],
-    "bitcoin:RVN": [
-        {
-            "name": "Chaintek",
-            "url": "https://wallet.chaintek.net/"
         }
     ],
     "bitcoin:ZEC": [
