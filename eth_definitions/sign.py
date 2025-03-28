@@ -13,7 +13,8 @@ from trezorlib.merkle_tree import MerkleTree
 from .common import (
     GENERATED_DEFINITIONS_DIR,
     Network,
-    Token,
+    ERC20Token,
+    SolanaToken,
     get_git_commit_hash,
     load_definitions_data,
     serialize_definitions,
@@ -41,7 +42,7 @@ def _write_path(path: Path, data: bytes, exists_ok: bool = False) -> None:
     path.write_bytes(data)
 
 
-def _generate_token_def(token: Token, serialized: bytes, base_path: Path) -> None:
+def _generate_erc20_token_def(token: ERC20Token, serialized: bytes, base_path: Path) -> None:
     address = token["address"][2:].lower()
     file = base_path / "chain-id" / str(token["chain_id"]) / f"token-{address}.dat"
     _write_path(file, serialized)
@@ -54,6 +55,11 @@ def _generate_network_def(network: Network, serialized: bytes, base_path: Path) 
     # save network definition
     _write_path(network_file, serialized)
     _write_path(slip44_file, serialized, exists_ok=True)
+
+
+def _generate_solana_token_def(token: SolanaToken, serialized: bytes, base_path: Path) -> None:
+    # TODO: implement
+    pass
 
 
 def _make_proof(
@@ -121,12 +127,12 @@ def sign_definitions(
     signature_bytes = bytes.fromhex(signature) if signature else None
 
     # load prepared definitions
-    metadata, networks, tokens = load_definitions_data()
+    metadata, networks, erc20_tokens, solana_tokens = load_definitions_data()
     timestamp = metadata["unix_timestamp"]
     loaded_merkle_root = metadata["merkle_root"]
 
     # serialize definitions
-    serializations = serialize_definitions(networks, tokens, timestamp)
+    serializations = serialize_definitions(networks, erc20_tokens, solana_tokens, timestamp)
 
     # build Merkle tree
     mt = MerkleTree(serializations.keys())
@@ -172,15 +178,18 @@ def sign_definitions(
     if not test_sign and signature is not None:
         metadata["signature"] = signature_bytes.hex()
         metadata["commit_hash"] = get_git_commit_hash()
-        store_definitions_data(metadata, networks, tokens)
+        store_definitions_data(metadata, networks, erc20_tokens, solana_tokens)
 
     with click.progressbar(serializations.items(), label="Writing definitions") as bar:
         for serialized, item in bar:
             # add proof to serialized definition
             serialized += _make_proof(serialized, mt, signature_bytes)
             if "address" in item:
-                item_type = "token"
-                gen_func = _generate_token_def
+                item_type = "erc20_token"
+                gen_func = _generate_erc20_token_def
+            # elif "mint" in item:
+            #     item_type = "solana_token"
+            #     gen_func = _generate_solana_token_def
             else:
                 item_type = "network"
                 gen_func = _generate_network_def

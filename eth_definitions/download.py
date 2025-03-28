@@ -20,7 +20,8 @@ from .common import (
     DEFINITIONS_PATH,
     ChangeResolutionStrategy,
     Network,
-    Token,
+    ERC20Token,
+    SolanaToken,
     load_json_file,
     make_metadata,
     setup_logging,
@@ -208,7 +209,7 @@ def _load_ethereum_networks_from_repo() -> list[Network]:
 
 def _build_token(
     complex_token: dict[str, Any], chain_id: int, chain: str
-) -> Token | None:
+) -> ERC20Token | None:
     # simple validation
     if complex_token["address"][:2] != "0x" or int(complex_token["decimals"]) < 0:
         return None
@@ -217,7 +218,7 @@ def _build_token(
     except ValueError:
         return None
 
-    return Token(
+    return ERC20Token(
         address=str(complex_token["address"]).lower(),
         chain=chain,
         chain_id=chain_id,
@@ -229,8 +230,8 @@ def _build_token(
 
 def _load_erc20_tokens_from_coingecko(
     downloader: Downloader, networks: list[Network]
-) -> list[Token]:
-    tokens: list[Token] = []
+) -> list[ERC20Token]:
+    tokens: list[ERC20Token] = []
     for network in networks:
         network_id = network.get("coingecko_network_id")
         if network_id is None:
@@ -248,9 +249,9 @@ def _load_erc20_tokens_from_coingecko(
     return tokens
 
 
-def _load_erc20_tokens_from_repo(networks: list[Network]) -> list[Token]:
+def _load_erc20_tokens_from_repo(networks: list[Network]) -> list[ERC20Token]:
     """Load ERC20 tokens from submodule."""
-    tokens: list[Token] = []
+    tokens: list[ERC20Token] = []
     for network in networks:
         chain_path = TOKENS_PATH / network["chain"]
         for file in chain_path.glob("*.json"):
@@ -278,7 +279,7 @@ def _force_networks_fields_sizes_t1(networks: list[Network]) -> None:
             network["shortcut"] = network["shortcut"][:limit]
 
 
-def _force_tokens_fields_sizes_t1(tokens: list[Token]) -> None:
+def _force_tokens_fields_sizes_t1(tokens: list[ERC20Token]) -> None:
     """Check sizes of embeded token fields for Trezor model 1 based on
     "legacy/firmware/protob/messages-ethereum.options"."""
     # EthereumTokenInfo.name    max_size:256
@@ -313,6 +314,39 @@ def _force_tokens_fields_sizes_t1(tokens: list[Token]) -> None:
     idxs_to_remove.sort(reverse=True)
     for idx in idxs_to_remove:
         tokens.pop(idx)
+
+
+def _build_solana_token(complex_token: dict[str, Any]) -> SolanaToken | None:
+    """Build a Solana token from jup.ag data."""
+    # simple validation
+    if not complex_token.get("address") or not complex_token.get("symbol"):
+        return None
+
+    # Determine program_id based on tags
+    program_id = "token2022" if "token-2022" in complex_token.get("tags", []) else "token"
+
+    return {
+        "mint": complex_token["address"],
+        "program_id": program_id,
+        "name": complex_token["name"],
+        "shortcut": complex_token["symbol"].upper(),
+        "coingecko_id": complex_token.get("extensions", {}).get("coingeckoId"),
+    }
+
+
+def _load_solana_tokens_from_jup(downloader: Downloader) -> list[SolanaToken]:
+    """Load Solana tokens from jup.ag API."""
+    tokens: list[SolanaToken] = []
+    try:
+        url = "https://tokens.jup.ag/tokens?tags=verified"
+        all_tokens = downloader._download_json(url)
+        for token in all_tokens:
+            t = _build_solana_token(token)
+            if t is not None:
+                tokens.append(t)
+    except Exception as e:
+        logging.warning(f"Failed to load Solana tokens from jup.ag: {e}")
+    return tokens
 
 
 @click.command()
@@ -419,6 +453,7 @@ def download(
     # get tokens
     cg_tokens = _load_erc20_tokens_from_coingecko(downloader, networks)
     repo_tokens = _load_erc20_tokens_from_repo(networks)
+    solana_tokens = _load_solana_tokens_from_jup(downloader)
 
     # get data used in further processing now to be able to save cache before we do any
     # token collision process and others
@@ -430,22 +465,22 @@ def download(
     downloader.save_cache()
 
     # merge tokens - CoinGecko have precedence, so starting with Ethereum repo first
-    token_deduplicator: dict[tuple[int, str], Token] = {}
+    token_deduplicator: dict[tuple[int, str], ERC20Token] = {}
     for token in repo_tokens + cg_tokens:
         token_deduplicator[(token["chain_id"], token["address"])] = token
-    tokens = list(token_deduplicator.values())
+    erc20_tokens = list(token_deduplicator.values())
 
     # remove items with empty symbol
     networks = [n for n in networks if n["shortcut"]]
-    tokens = [t for t in tokens if t["shortcut"]]
+    erc20_tokens = [t for t in erc20_tokens if t["shortcut"]]
 
     # Enforce the maximum field sizes
     _force_networks_fields_sizes_t1(networks)
-    _force_tokens_fields_sizes_t1(tokens)
+    _force_tokens_fields_sizes_t1(erc20_tokens)
 
     # map coingecko ids to tokens
     # NOTE: changes the `tokens` in place!
-    tokens_by_chain_id_and_address = {(t["chain_id"], t["address"]): t for t in tokens}
+    tokens_by_chain_id_and_address = {(t["chain_id"], t["address"]): t for t in erc20_tokens}
     for cg_coin in cg_coin_list:
         for platform_name, address in cg_coin.get("platforms", {}).items():
             key = (network_to_cid.get(platform_name), address)
@@ -459,7 +494,7 @@ def download(
     # get top 100 ids
     cg_top100_ids = {d["id"]: d for d in cg_top100}
 
-    for item in networks + tokens:
+    for item in networks + erc20_tokens + solana_tokens:
         if (id := item.get("coingecko_id")) in cg_top100_ids:
             item["coingecko_rank"] = cg_top100_ids[id]["market_cap_rank"]
 
@@ -478,8 +513,15 @@ def download(
             update_callback=callback,
         )
         check_definitions_list(
-            old_defs=old_defs["tokens"],
-            new_defs=tokens,
+            old_defs=old_defs["erc20_tokens"],
+            new_defs=erc20_tokens,
+            change_strategy=change_strategy,
+            show_all=show_all,
+            update_callback=callback,
+        )
+        check_definitions_list(
+            old_defs=old_defs["solana_tokens"],
+            new_defs=solana_tokens,
             change_strategy=change_strategy,
             show_all=show_all,
             update_callback=callback,
@@ -487,15 +529,16 @@ def download(
 
     if check_builtin:
         # check built-in definitions against generated ones
-        if not check_builtin_defs(networks, tokens):
+        if not check_builtin_defs(networks, erc20_tokens):
             logging.warning(
                 "\nWARNING: Built-in definitions differ from the generated ones."
             )
 
     # sort networks and tokens
     networks.sort(key=lambda x: x["chain_id"])
-    tokens.sort(key=lambda x: (x["chain_id"], x["address"]))
+    erc20_tokens.sort(key=lambda x: (x["chain_id"], x["address"]))
+    solana_tokens.sort(key=lambda x: x["mint"])
 
     # save results
-    metadata = make_metadata(networks, tokens)
-    store_definitions_data(metadata, networks, tokens)
+    metadata = make_metadata(networks, erc20_tokens, solana_tokens)
+    store_definitions_data(metadata, networks, erc20_tokens, solana_tokens)

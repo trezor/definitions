@@ -25,7 +25,7 @@ from typing_extensions import NotRequired
 if TYPE_CHECKING:
     from typing import TypeVar
 
-    DEFINITION_TYPE = TypeVar("DEFINITION_TYPE", "Network", "Token")
+    DEFINITION_TYPE = TypeVar("DEFINITION_TYPE", "Network", "ERC20Token", "SolanaToken")
 
 HERE = Path(__file__).parent
 ROOT = HERE.parent
@@ -75,11 +75,22 @@ class Network(TypedDict):
     deleted: NotRequired[bool]
 
 
-class Token(TypedDict):
+class ERC20Token(TypedDict):
     address: str
     chain: str
     chain_id: int
     decimals: int
+    name: str
+    shortcut: str  # change later to symbol
+
+    coingecko_id: NotRequired[str]
+    coingecko_rank: NotRequired[bool]
+    deleted: NotRequired[bool]
+
+
+class SolanaToken(TypedDict):
+    mint: str
+    program_id: str
     name: str
     shortcut: str  # change later to symbol
 
@@ -98,7 +109,8 @@ class DefinitionsFileMetadata(TypedDict):
 
 class DefinitionsFileFormat(TypedDict):
     networks: list[Network]
-    tokens: list[Token]
+    erc20_tokens: list[ERC20Token]
+    solana_tokens: list[SolanaToken]
     metadata: DefinitionsFileMetadata
 
 
@@ -119,17 +131,23 @@ def get_git_commit_hash() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("utf-8").strip()
 
 
-def hash_dict_on_keys(d: Network | Token, exclude_keys: Collection[str] = ()) -> bytes:
+def hash_dict_on_keys(
+    d: Network | ERC20Token | SolanaToken, exclude_keys: Collection[str] = ()
+) -> bytes:
     """Get the hash of a dict, excluding selected keys."""
     tmp_dict = {k: v for k, v in d.items() if k not in exclude_keys}
-
     return sha256(json.dumps(tmp_dict, sort_keys=True).encode()).digest()
 
 
 def get_merkle_root(
-    networks: list[Network], tokens: list[Token], timestamp: int
+    networks: list[Network],
+    erc20_tokens: list[ERC20Token],
+    solana_tokens: list[SolanaToken],
+    timestamp: int,
 ) -> str:
-    serializations = serialize_definitions(networks, tokens, timestamp)
+    serializations = serialize_definitions(
+        networks, erc20_tokens, solana_tokens, timestamp
+    )
     merkle_tree = MerkleTree(serializations.keys())
     return merkle_tree.get_root_hash().hex()
 
@@ -144,7 +162,7 @@ def _serialize_network(network: Network, timestamp: int) -> bytes:
     return _serialize_eth_info(network_info, EthereumDefinitionType.NETWORK, timestamp)
 
 
-def _serialize_token(token: Token, timestamp: int) -> bytes:
+def _serialize_token(token: ERC20Token, timestamp: int) -> bytes:
     token_info = EthereumTokenInfo(
         address=bytes.fromhex(token["address"][2:]),
         chain_id=token["chain_id"],
@@ -156,11 +174,15 @@ def _serialize_token(token: Token, timestamp: int) -> bytes:
 
 
 def serialize_definitions(
-    networks: list[Network], tokens: list[Token], timestamp: int
-) -> dict[bytes, Network | Token]:
+    networks: list[Network],
+    erc20_tokens: list[ERC20Token],
+    solana_tokens: list[SolanaToken],
+    timestamp: int,
+) -> dict[bytes, Network | ERC20Token | SolanaToken]:
     network_bytes = {_serialize_network(n, timestamp): n for n in networks}
-    token_bytes = {_serialize_token(t, timestamp): t for t in tokens}
-    return {**network_bytes, **token_bytes}
+    erc20_token_bytes = {_serialize_token(t, timestamp): t for t in erc20_tokens}
+    # solana_token_bytes = {_serialize_solana_token(t, timestamp): t for t in solana_tokens}
+    return {**network_bytes, **erc20_token_bytes}
 
 
 def _serialize_eth_info(
@@ -181,7 +203,7 @@ def _serialize_eth_info(
 
 def load_definitions_data(
     path: Path = DEFINITIONS_PATH,
-) -> tuple[DefinitionsFileMetadata, list[Network], list[Token]]:
+) -> tuple[DefinitionsFileMetadata, list[Network], list[ERC20Token], list[SolanaToken]]:
     if not path.is_file():
         raise click.ClickException(
             f'File "{path}" with prepared definitions does not exists.'
@@ -191,19 +213,21 @@ def load_definitions_data(
     try:
         metadata = defs_data["metadata"]
         networks = defs_data["networks"]
-        tokens = defs_data["tokens"]
-        return metadata, networks, tokens
+        erc20_tokens = defs_data["erc20_tokens"]
+        solana_tokens = defs_data["solana_tokens"]
+        return metadata, networks, erc20_tokens, solana_tokens
     except KeyError:
         raise click.ClickException(
             "File with prepared definitions is not complete. "
-            '"metadata", "networks" and "tokens" section may be missing.'
+            '"metadata", "networks", "erc20_tokens" and "solana_tokens" sections may be missing.'
         )
 
 
 def store_definitions_data(
     metadata: DefinitionsFileMetadata,
     networks: list[Network],
-    tokens: list[Token],
+    erc20_tokens: list[ERC20Token],
+    solana_tokens: list[SolanaToken],
     *,
     path: Path = DEFINITIONS_PATH,
 ) -> None:
@@ -211,7 +235,8 @@ def store_definitions_data(
 
     defs = DefinitionsFileFormat(
         networks=networks,
-        tokens=tokens,
+        erc20_tokens=erc20_tokens,
+        solana_tokens=solana_tokens,
         metadata=metadata,
     )
 
@@ -224,14 +249,15 @@ def store_definitions_data(
 
 def make_metadata(
     networks: list[Network],
-    tokens: list[Token],
+    erc20_tokens: list[ERC20Token],
+    solana_tokens: list[SolanaToken],
     now: datetime.datetime | None = None,
 ) -> DefinitionsFileMetadata:
     if now is None:
         now = datetime.datetime.now(datetime.timezone.utc)
     timestamp = int(now.timestamp())
     time_str = now.isoformat()
-    merkle_root = get_merkle_root(networks, tokens, timestamp)
+    merkle_root = get_merkle_root(networks, erc20_tokens, solana_tokens, timestamp)
     return DefinitionsFileMetadata(
         datetime=time_str,
         unix_timestamp=timestamp,

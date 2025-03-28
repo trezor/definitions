@@ -23,7 +23,7 @@ def check_definitions_list(
     new_defs: list[DEFINITION_TYPE],
     change_strategy: ChangeResolutionStrategy,
     show_all: bool,
-    update_callback: t.Callable[[], None],
+    update_callback: t.Callable[[], None] = lambda: None,
 ) -> None:
     # store already processed definitions
     deleted_definitions: list["DEFINITION_TYPE"] = []

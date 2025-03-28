@@ -5,7 +5,13 @@ from pathlib import Path
 
 import click
 
-from .common import DEFINITIONS_PATH, Network, Token, hash_dict_on_keys, load_json_file
+from .common import (
+    DEFINITIONS_PATH,
+    Network,
+    ERC20Token,
+    hash_dict_on_keys,
+    load_json_file,
+)
 
 HERE = Path(__file__).parent
 ROOT = HERE.parent
@@ -41,7 +47,7 @@ def check_builtin(deffile: Path, top: int) -> None:
 
 
 def check_builtin_defs(
-    networks: list[Network], tokens: list[Token], top: int = 50
+    networks: list[Network], tokens: list[ERC20Token], top: int = 50
 ) -> bool:
     builtin_networks = _load_raw_builtin_ethereum_networks()
     builtin_tokens = _load_raw_builtin_erc20_tokens()
@@ -103,12 +109,12 @@ def _load_raw_builtin_ethereum_networks() -> list[Network]:
     return json.loads(content)
 
 
-def _load_raw_builtin_erc20_tokens() -> list[Token]:
+def _load_raw_builtin_erc20_tokens() -> list[ERC20Token]:
     """Load ERC20 tokens from `ethereum/tokens.json`."""
     content = _get_eth_file_content("tokens.json")
     tokens_data = json.loads(content)
 
-    all_tokens: list[Token] = []
+    all_tokens: list[ERC20Token] = []
 
     for chain_id_and_chain, tokens in tokens_data.items():
         chain_id, chain = chain_id_and_chain.split(";", maxsplit=1)

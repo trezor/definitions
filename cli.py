@@ -25,7 +25,7 @@ def current_merkle_root():
     """Print out the Merkle root stored in the definitions.
 
     Used in the shell script instead of having to get jq."""
-    metadata, _, _ = load_definitions_data()
+    metadata, _, _, _ = load_definitions_data()
     print(metadata["merkle_root"])
 
 
