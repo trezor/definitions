@@ -22,6 +22,7 @@ from .common import (
     Network,
     ERC20Token,
     SolanaToken,
+    DefinitionsData,
     load_json_file,
     make_metadata,
     setup_logging,
@@ -389,7 +390,7 @@ def download(
     check_builtin: bool,
     verbose: bool,
 ) -> None:
-    """Prepare Ethereum definitions."""
+    """Download and prepare token definitions."""
     setup_logging(verbose)
 
     # validating change resolution strategy - max one of the options can be used
@@ -539,6 +540,13 @@ def download(
     erc20_tokens.sort(key=lambda x: (x["chain_id"], x["address"]))
     solana_tokens.sort(key=lambda x: x["mint"])
 
+    # create definitions data
+    definitions_data = DefinitionsData(
+        networks=networks,
+        erc20_tokens=erc20_tokens,
+        solana_tokens=solana_tokens,
+    )
+
     # save results
-    metadata = make_metadata(networks, erc20_tokens, solana_tokens)
-    store_definitions_data(metadata, networks, erc20_tokens, solana_tokens)
+    metadata = make_metadata(definitions_data)
+    store_definitions_data(metadata, definitions_data)

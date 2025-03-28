@@ -15,6 +15,7 @@ from .common import (
     Network,
     ERC20Token,
     SolanaToken,
+    DefinitionsData,
     get_git_commit_hash,
     load_definitions_data,
     serialize_definitions,
@@ -127,12 +128,12 @@ def sign_definitions(
     signature_bytes = bytes.fromhex(signature) if signature else None
 
     # load prepared definitions
-    metadata, networks, erc20_tokens, solana_tokens = load_definitions_data()
+    metadata, definitions_data = load_definitions_data()
     timestamp = metadata["unix_timestamp"]
     loaded_merkle_root = metadata["merkle_root"]
 
     # serialize definitions
-    serializations = serialize_definitions(networks, erc20_tokens, solana_tokens, timestamp)
+    serializations = serialize_definitions(definitions_data, timestamp)
 
     # build Merkle tree
     mt = MerkleTree(serializations.keys())
@@ -178,7 +179,7 @@ def sign_definitions(
     if not test_sign and signature is not None:
         metadata["signature"] = signature_bytes.hex()
         metadata["commit_hash"] = get_git_commit_hash()
-        store_definitions_data(metadata, networks, erc20_tokens, solana_tokens)
+        store_definitions_data(metadata, definitions_data)
 
     with click.progressbar(serializations.items(), label="Writing definitions") as bar:
         for serialized, item in bar:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import dataclasses
 import datetime
 import io
 import json
@@ -114,6 +115,29 @@ class DefinitionsFileFormat(TypedDict):
     metadata: DefinitionsFileMetadata
 
 
+@dataclasses.dataclass
+class DefinitionsData:
+    networks: list[Network]
+    erc20_tokens: list[ERC20Token]
+    solana_tokens: list[SolanaToken]
+
+    @classmethod
+    def from_dict(cls, data: DefinitionsFileFormat) -> "DefinitionsData":
+        return cls(
+            networks=data["networks"],
+            erc20_tokens=data["erc20_tokens"],
+            solana_tokens=data["solana_tokens"],
+        )
+
+    def to_dict(self, metadata: DefinitionsFileMetadata) -> DefinitionsFileFormat:
+        return {
+            "networks": self.networks,
+            "erc20_tokens": self.erc20_tokens,
+            "solana_tokens": self.solana_tokens,
+            "metadata": metadata,
+        }
+
+
 def setup_logging(verbose: bool):
     log_level = logging.DEBUG if verbose else logging.WARNING
     root = logging.getLogger()
@@ -139,15 +163,8 @@ def hash_dict_on_keys(
     return sha256(json.dumps(tmp_dict, sort_keys=True).encode()).digest()
 
 
-def get_merkle_root(
-    networks: list[Network],
-    erc20_tokens: list[ERC20Token],
-    solana_tokens: list[SolanaToken],
-    timestamp: int,
-) -> str:
-    serializations = serialize_definitions(
-        networks, erc20_tokens, solana_tokens, timestamp
-    )
+def get_merkle_root(definitions_data: DefinitionsData, timestamp: int) -> str:
+    serializations = serialize_definitions(definitions_data, timestamp)
     merkle_tree = MerkleTree(serializations.keys())
     return merkle_tree.get_root_hash().hex()
 
@@ -174,14 +191,15 @@ def _serialize_token(token: ERC20Token, timestamp: int) -> bytes:
 
 
 def serialize_definitions(
-    networks: list[Network],
-    erc20_tokens: list[ERC20Token],
-    solana_tokens: list[SolanaToken],
-    timestamp: int,
+    definitions_data: DefinitionsData, timestamp: int
 ) -> dict[bytes, Network | ERC20Token | SolanaToken]:
-    network_bytes = {_serialize_network(n, timestamp): n for n in networks}
-    erc20_token_bytes = {_serialize_token(t, timestamp): t for t in erc20_tokens}
-    # solana_token_bytes = {_serialize_solana_token(t, timestamp): t for t in solana_tokens}
+    network_bytes = {
+        _serialize_network(n, timestamp): n for n in definitions_data.networks
+    }
+    erc20_token_bytes = {
+        _serialize_token(t, timestamp): t for t in definitions_data.erc20_tokens
+    }
+    # solana_token_bytes = {_serialize_solana_token(t, timestamp): t for t in definitions_data.solana_tokens}
     return {**network_bytes, **erc20_token_bytes}
 
 
@@ -203,7 +221,7 @@ def _serialize_eth_info(
 
 def load_definitions_data(
     path: Path = DEFINITIONS_PATH,
-) -> tuple[DefinitionsFileMetadata, list[Network], list[ERC20Token], list[SolanaToken]]:
+) -> tuple[DefinitionsFileMetadata, DefinitionsData]:
     if not path.is_file():
         raise click.ClickException(
             f'File "{path}" with prepared definitions does not exists.'
@@ -212,10 +230,8 @@ def load_definitions_data(
     defs_data: DefinitionsFileFormat = load_json_file(path)
     try:
         metadata = defs_data["metadata"]
-        networks = defs_data["networks"]
-        erc20_tokens = defs_data["erc20_tokens"]
-        solana_tokens = defs_data["solana_tokens"]
-        return metadata, networks, erc20_tokens, solana_tokens
+        definitions_data = DefinitionsData.from_dict(defs_data)
+        return metadata, definitions_data
     except KeyError:
         raise click.ClickException(
             "File with prepared definitions is not complete. "
@@ -225,20 +241,13 @@ def load_definitions_data(
 
 def store_definitions_data(
     metadata: DefinitionsFileMetadata,
-    networks: list[Network],
-    erc20_tokens: list[ERC20Token],
-    solana_tokens: list[SolanaToken],
+    definitions_data: DefinitionsData,
     *,
     path: Path = DEFINITIONS_PATH,
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    defs = DefinitionsFileFormat(
-        networks=networks,
-        erc20_tokens=erc20_tokens,
-        solana_tokens=solana_tokens,
-        metadata=metadata,
-    )
+    defs = definitions_data.to_dict(metadata)
 
     with open(path, "w") as f:
         json.dump(defs, f, ensure_ascii=False, sort_keys=True, indent=1)
@@ -248,16 +257,13 @@ def store_definitions_data(
 
 
 def make_metadata(
-    networks: list[Network],
-    erc20_tokens: list[ERC20Token],
-    solana_tokens: list[SolanaToken],
-    now: datetime.datetime | None = None,
+    definitions_data: DefinitionsData, now: datetime.datetime | None = None
 ) -> DefinitionsFileMetadata:
     if now is None:
         now = datetime.datetime.now(datetime.timezone.utc)
     timestamp = int(now.timestamp())
     time_str = now.isoformat()
-    merkle_root = get_merkle_root(networks, erc20_tokens, solana_tokens, timestamp)
+    merkle_root = get_merkle_root(definitions_data, timestamp)
     return DefinitionsFileMetadata(
         datetime=time_str,
         unix_timestamp=timestamp,
