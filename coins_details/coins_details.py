@@ -15,7 +15,7 @@ import trezor_common.tools.coin_info as coin_info
 from trezor_common.tools.coin_info import Coin
 
 if t.TYPE_CHECKING:
-    from ..eth_definitions.common import Network, Token
+    from ..eth_definitions.common import Network, ERC20Token, SolanaToken
 
 
 class WalletInfo(t.TypedDict):
@@ -73,7 +73,7 @@ class CoinDetail:
         return new
 
     @classmethod
-    def from_eth_token(cls, token: Token, network: Network) -> CoinDetail:
+    def from_eth_token(cls, token: ERC20Token, network: Network) -> CoinDetail:
         cg_id = token.get("coingecko_id")
         network_cg_id = network.get("coingecko_network_id")
 
@@ -88,6 +88,22 @@ class CoinDetail:
         )
         network_key = f"eth:{network['shortcut']}:{network['chain_id']}"
         new.wallets.extend(WALLETS.get(network_key, []))
+        new.wallets.extend(WALLETS_ETH_3RDPARTY)
+        return new
+
+    @classmethod
+    def from_solana_token(cls, token: SolanaToken) -> CoinDetail:
+        cg_id = token.get("coingecko_id")
+
+        key = f"solana:{token['mint']}"
+        new = cls(
+            id=key,
+            coingecko_id=cg_id,
+            name=token["name"],
+            shortcut=token["shortcut"],
+            support={model: True for model in MODELS},
+            networks={"solana"},
+        )
         new.wallets.extend(WALLETS_ETH_3RDPARTY)
         return new
 
@@ -243,8 +259,11 @@ def main(verbose: int):
     eth_networks: list[Network] = [
         d for d in DEFINITIONS_LATEST["networks"] if not d.get("deleted")
     ]
-    eth_tokens: list[Token] = [
-        d for d in DEFINITIONS_LATEST["tokens"] if not d.get("deleted")
+    eth_tokens: list[ERC20Token] = [
+        d for d in DEFINITIONS_LATEST["erc20_tokens"] if not d.get("deleted")
+    ]
+    solana_tokens: list[SolanaToken] = [
+        d for d in DEFINITIONS_LATEST["solana_tokens"] if not d.get("deleted")
     ]
 
     for network in eth_networks:
@@ -261,6 +280,11 @@ def main(verbose: int):
             continue 
 
         cdet = CoinDetail.from_eth_token(token, network)
+        cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
+
+    # Process Solana tokens
+    for token in solana_tokens:
+        cdet = CoinDetail.from_solana_token(token)
         cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
     cg_ids = check_missing_data(cg_ids_unfiltered)
