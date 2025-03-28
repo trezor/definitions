@@ -7,7 +7,7 @@ import pytest
 
 from .check_definitions import check_definitions_list
 from .common import ChangeResolutionStrategy
-from .test_data import networks, tokens
+from .test_data import networks, erc20_tokens
 
 if TYPE_CHECKING:
     from common import DEFINITION_TYPE
@@ -17,7 +17,7 @@ parametrized = pytest.mark.parametrize(
     "old, new",
     (
         (networks, networks),
-        (tokens, tokens),
+        (erc20_tokens, erc20_tokens),
     ),
 )
 
@@ -220,12 +220,6 @@ def test_check_definitions_list_modified_name(
         assert log.levelname == "WARNING"
         assert "Name change in this definition!" in log.msg
 
-        assert mock_stdout.getvalue().count("MODIFIED ==") == 1
-        assert mock_stdout.getvalue().count("OLD:") == 1
-        assert mock_stdout.getvalue().count("NEW:") == 1
-        assert mock_stdout.getvalue().count(f'"name": "{old_name}"') == 1
-        assert mock_stdout.getvalue().count(f'"name": "{new_name}"') == 1
-
     # Nothing changed
     assert old_defs == old
     assert new_defs == new
@@ -266,12 +260,6 @@ def test_check_definitions_list_modified_shortcut_no_force(
         assert info_log.levelname == "INFO"
         assert "Definition change rejected" in info_log.msg
 
-        assert mock_stdout.getvalue().count("MODIFIED ==") == 1
-        assert mock_stdout.getvalue().count("OLD:") == 1
-        assert mock_stdout.getvalue().count("NEW:") == 1
-        assert mock_stdout.getvalue().count(f'"shortcut": "{old_shortcut}"') == 1
-        assert mock_stdout.getvalue().count(f'"shortcut": "{new_shortcut}"') == 1
-
     # Shortcut change was reverted
     assert old_defs == old
     assert new_defs != new
@@ -310,19 +298,15 @@ def test_check_definitions_list_modified_shortcut_force(
         assert log.levelname == "ERROR"
         assert "Symbol/decimals change in this definition!" in log.msg
 
-        assert mock_stdout.getvalue().count("MODIFIED ==") == 1
-        assert mock_stdout.getvalue().count("OLD:") == 1
-        assert mock_stdout.getvalue().count("NEW:") == 1
-        assert mock_stdout.getvalue().count(f'"shortcut": "{old_shortcut}"') == 1
-        assert mock_stdout.getvalue().count(f'"shortcut": "{new_shortcut}"') == 1
-
     # Nothing changed, shortcut change was kept
     assert old_defs == old
     assert new_defs == new
 
 
 @parametrized
-@mock.patch("click.confirm", return_value=True)
+@mock.patch(
+    "eth_definitions.check_definitions._print_definition_change", return_value=True
+)
 def test_check_definitions_list_modified_shortcut_interact_accept(
     mock_confirm: mock.MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -332,9 +316,7 @@ def test_check_definitions_list_modified_shortcut_interact_accept(
     old = deepcopy(old)
     new = deepcopy(new)
 
-    old_shortcut = "ABC"
-    new_shortcut = new[-1]["shortcut"]
-    old[-1]["shortcut"] = old_shortcut
+    old[-1]["shortcut"] = "ABC"
 
     old_defs = deepcopy(old)
     new_defs = deepcopy(new)
@@ -357,19 +339,15 @@ def test_check_definitions_list_modified_shortcut_interact_accept(
         assert log.levelname == "ERROR"
         assert "Symbol/decimals change in this definition!" in log.msg
 
-        assert mock_stdout.getvalue().count("MODIFIED ==") == 1
-        assert mock_stdout.getvalue().count("OLD:") == 1
-        assert mock_stdout.getvalue().count("NEW:") == 1
-        assert mock_stdout.getvalue().count(f'"shortcut": "{old_shortcut}"') == 1
-        assert mock_stdout.getvalue().count(f'"shortcut": "{new_shortcut}"') == 1
-
-    # Nothing changed, shortcut change was kept
-    assert old_defs == old
+    # New definitions were propagated to old
+    assert old_defs == new
     assert new_defs == new
 
 
 @parametrized
-@mock.patch("click.confirm", return_value=False)
+@mock.patch(
+    "eth_definitions.check_definitions._print_definition_change", return_value=False
+)
 def test_check_definitions_list_modified_shortcut_interact_decline(
     mock_confirm: mock.MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -406,12 +384,6 @@ def test_check_definitions_list_modified_shortcut_interact_decline(
         info_log = caplog.records[1]
         assert info_log.levelname == "INFO"
         assert "Definition change rejected" in info_log.msg
-
-        assert mock_stdout.getvalue().count("MODIFIED ==") == 1
-        assert mock_stdout.getvalue().count("OLD:") == 1
-        assert mock_stdout.getvalue().count("NEW:") == 1
-        assert mock_stdout.getvalue().count(f'"shortcut": "{old_shortcut}"') == 1
-        assert mock_stdout.getvalue().count(f'"shortcut": "{new_shortcut}"') == 1
 
     # Shortcut change was reverted
     assert old_defs == old

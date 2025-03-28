@@ -1,4 +1,4 @@
-from .common import Network, Token
+from .common import Network, ERC20Token
 
 networks: list[Network] = [
     {
@@ -36,7 +36,7 @@ networks: list[Network] = [
     },
 ]
 
-tokens: list[Token] = [
+erc20_tokens: list[ERC20Token] = [
     {
         "address": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
         "chain": "eth",
