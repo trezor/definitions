@@ -129,12 +129,12 @@
             "url": "https://trezor.io/trezor-suite"
         },
         {
-            "name": "NuFi",
-            "url": "https://nu.fi"
-        },
-        {
             "name": "Backpack",
             "url": "https://backpack.app/"
+        },
+        {
+            "name": "NuFi",
+            "url": "https://nu.fi"
         }
     ],
     "misc:XLM": [

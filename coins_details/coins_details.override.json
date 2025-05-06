@@ -1,14 +1,8 @@
 {
     "tether": {
-        "networks": ["...", "arbitrum-one", "base", "optimistic-ethereum", "polygon-pos", "binance-smart-chain", "solana"]
-    },
-    "usd-coin": {
-        "networks": ["...", "solana"]
+        "networks": ["...", "arbitrum-one", "base", "optimistic-ethereum", "polygon-pos", "binance-smart-chain"]
     },
     "maidsafecoin-token": {
         "networks": ["bitcoin"]
-    },
-    "bonk": {
-        "networks": ["...", "solana"]
     }
 }
