@@ -41,6 +41,11 @@ NETWORKS_PATH = ETHEREUM_LISTS / "chains" / "_data" / "chains"
 TOKENS_PATH = ETHEREUM_LISTS / "tokens" / "tokens"
 
 
+class CacheableError(Exception):
+    def __init__(self, error_code: int):
+        self.error_code = error_code
+
+
 # ====== utils ======
 
 
@@ -49,8 +54,10 @@ class CachedDict(dict[str, Any]):
 
     def __init__(self, cache_file: Path) -> None:
         self.cache_file = cache_file
+        self.dirty = False
         if not self.cache_file.exists():
             self.cache_file.write_text(r"{}\n")
+        self.load()
 
     def is_valid(self) -> bool:
         return not self._is_empty() and not self._is_expired()
@@ -60,36 +67,42 @@ class CachedDict(dict[str, Any]):
 
     def _is_expired(self) -> bool:
         mtime = self.cache_file.stat().st_mtime if self.cache_file.exists() else 0
-        return mtime <= time.time() - 3600
+        time_diff = time.time() - mtime
+        return time_diff > 3600
 
     def load(self) -> None:
         self.clear()
         self.update(json.loads(self.cache_file.read_text()))
 
-    def save(self) -> None:
+    def save(self, force: bool = False) -> None:
+        if not self.dirty and not force:
+            return
         jsontext = json.dumps(self, sort_keys=True, indent=1)
         self.cache_file.write_text(jsontext + "\n")
+        self.dirty = False
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        super().__setitem__(key, value)
+        self.dirty = True
 
 
 class Downloader:
     """Class that handles all the downloading and caching of Ethereum definitions."""
 
     def __init__(self, refresh: bool | None = None) -> None:
-        force_refresh = refresh is True
-        disable_refresh = refresh is False
-        self.running_from_cache = False
+        """
+        Args:
+            refresh: If True, force refresh of data. If False, use cached data. If None,
+            use cached data if available, otherwise force refresh.
+        """
         self.cache = CachedDict(CACHE_PATH)
-
-        if disable_refresh or (self.cache.is_valid() and not force_refresh):
-            logging.info("Loading cached Ethereum definitions data")
-            self.cache.load()
-            self.running_from_cache = True
-        else:
-            self._init_requests_session()
+        self.refresh = refresh
+        if refresh is None and not self.cache.is_valid():
+            self.refresh = True
+        self._init_requests_session()
 
     def save_cache(self):
-        if not self.running_from_cache:
-            self.cache.save()
+        self.cache.save()
 
     def _download_json(self, url: str, **url_params: Any) -> Any:
         params = None
@@ -103,14 +116,24 @@ class Downloader:
             encoded_params = urlencode(sorted(params.items()))
             key += "?" + encoded_params
 
-        if self.running_from_cache:
-            if key not in self.cache:
-                raise ValueError(f"Key {key} not found in cache")
-            return self.cache.get(key)
+        if self.refresh is False and key not in self.cache:
+            # refresh was explicitly disabled and key not found in cache
+            raise ValueError(f"Key {key} not found in cache")
+
+        if self.refresh is not True:
+            # refresh was not explicitly enabled, so use cached data if available
+            cached_result = self.cache.get(key)
+            if cached_result is not None:
+                if isinstance(cached_result, dict) and "error" in cached_result:
+                    raise CacheableError(cached_result["error"])
+                return cached_result
 
         logging.info(f"Fetching data from {url}")
 
         r = self.session.get(url, params=encoded_params, timeout=60)
+        if r.status_code == requests.codes.forbidden:
+            self.cache[key] = {"error": r.status_code}
+            raise CacheableError(r.status_code)
         r.raise_for_status()
         data = r.json()
         self.cache[key] = data
@@ -136,13 +159,11 @@ class Downloader:
         try:
             data = self._download_json(url)
             return data.get("tokens", [])
-        except requests.exceptions.HTTPError as err:
+        except CacheableError as err:
             # "Forbidden" is raised by Coingecko if no tokens are available under specified id
-            if err.response.status_code != requests.codes.forbidden:
-                raise err
-        except ValueError:
-            # cache miss
             pass
+        except requests.exceptions.HTTPError as err:
+            raise err
 
         return []
 
