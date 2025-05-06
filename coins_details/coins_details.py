@@ -151,7 +151,7 @@ WALLETS_ETH_3RDPARTY = [
 
 TREZOR_KNOWN_URLS = ("https://trezor.io/trezor-suite",)
 
-MODELS = {"T1B1", "T2T1", "T2B1", "T3T1"}
+MODELS = {"T1B1", "T2T1", "T2B1", "T3T1", "T3W1"}
 
 
 def summary(coins: dict[str, t.Any]) -> dict[str, t.Any]:
