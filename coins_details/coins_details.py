@@ -101,10 +101,9 @@ class CoinDetail:
             coingecko_id=cg_id,
             name=token["name"],
             shortcut=token["shortcut"],
-            support={model: True for model in MODELS},
+            support={model: model != "T1B1" for model in MODELS if model},
             networks={"solana"},
         )
-        new.wallets.extend(WALLETS_ETH_3RDPARTY)
         return new
 
     def merge(self, other: CoinDetail) -> None:
@@ -282,9 +281,11 @@ def main(verbose: int):
         cdet = CoinDetail.from_eth_token(token, network)
         cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
+    solana_coin = cg_ids_unfiltered["solana"]
     # Process Solana tokens
     for token in solana_tokens:
         cdet = CoinDetail.from_solana_token(token)
+        cdet.wallets.extend(solana_coin.wallets)
         cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
     cg_ids = check_missing_data(cg_ids_unfiltered)
