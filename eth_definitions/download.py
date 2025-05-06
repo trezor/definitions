@@ -13,6 +13,7 @@ import click
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from trezorlib import tools
 
 from .builtin_defs import check_builtin_defs
 from .check_definitions import check_definitions_list
@@ -344,30 +345,27 @@ def _build_solana_token(complex_token: dict[str, Any]) -> SolanaToken | None:
     if not complex_token.get("address") or not complex_token.get("symbol"):
         return None
 
-    # Determine program_id based on tags
-    program_id = "token2022" if "token-2022" in complex_token.get("tags", []) else "token"
+    try:
+        tools.b58decode(complex_token["address"])
+    except Exception as e:
+        logging.warning(f"Failed to decode Solana token: {e}")
+        return None
 
     return {
         "mint": complex_token["address"],
-        "program_id": program_id,
         "name": complex_token["name"],
         "shortcut": complex_token["symbol"].upper(),
-        "coingecko_id": complex_token.get("extensions", {}).get("coingeckoId"),
     }
 
 
-def _load_solana_tokens_from_jup(downloader: Downloader) -> list[SolanaToken]:
-    """Load Solana tokens from jup.ag API."""
+def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaToken]:
+    """Load Solana tokens from coingecko API."""
     tokens: list[SolanaToken] = []
-    try:
-        url = "https://tokens.jup.ag/tokens?tags=verified"
-        all_tokens = downloader._download_json(url)
-        for token in all_tokens:
-            t = _build_solana_token(token)
-            if t is not None:
-                tokens.append(t)
-    except Exception as e:
-        logging.warning(f"Failed to load Solana tokens from jup.ag: {e}")
+    all_tokens = downloader.get_coingecko_tokens_for_network("solana")
+    for token in all_tokens:
+        t = _build_solana_token(token)
+        if t is not None:
+            tokens.append(t)
     return tokens
 
 
@@ -475,7 +473,7 @@ def download(
     # get tokens
     cg_tokens = _load_erc20_tokens_from_coingecko(downloader, networks)
     repo_tokens = _load_erc20_tokens_from_repo(networks)
-    solana_tokens = _load_solana_tokens_from_jup(downloader)
+    solana_tokens = _load_solana_tokens_from_coingecko(downloader)
 
     # get data used in further processing now to be able to save cache before we do any
     # token collision process and others
@@ -502,12 +500,17 @@ def download(
 
     # map coingecko ids to tokens
     # NOTE: changes the `tokens` in place!
-    tokens_by_chain_id_and_address = {(t["chain_id"], t["address"]): t for t in erc20_tokens}
+    tokens_by_chain_id_and_address = {
+        (t["chain_id"], t["address"]): t for t in erc20_tokens
+    }
+    solana_tokens_by_mint = {(t["mint"]): t for t in solana_tokens}
     for cg_coin in cg_coin_list:
         for platform_name, address in cg_coin.get("platforms", {}).items():
             key = (network_to_cid.get(platform_name), address)
             if key in tokens_by_chain_id_and_address:
                 tokens_by_chain_id_and_address[key]["coingecko_id"] = cg_coin["id"]
+            if platform_name == "solana" and address in solana_tokens_by_mint:
+                solana_tokens_by_mint[address]["coingecko_id"] = cg_coin["id"]
         # enrich networks by symbols known from coingecko
         if (network := native_coin_to_network.get(cg_coin["id"])) is not None:
             network["name"] = cg_coin["name"]
