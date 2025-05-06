@@ -15,7 +15,6 @@ from .common import (
     Network,
     ERC20Token,
     SolanaToken,
-    DefinitionsData,
     get_git_commit_hash,
     load_definitions_data,
     serialize_definitions,

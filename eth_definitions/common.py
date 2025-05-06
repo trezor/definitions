@@ -14,14 +14,35 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Collection, TypedDict
 
 import click
-from trezorlib import definitions, protobuf
+from trezorlib import definitions, protobuf, tools
 from trezorlib.merkle_tree import MerkleTree
 from trezorlib.messages import (
-    EthereumDefinitionType,
+    DefinitionType,
     EthereumNetworkInfo,
     EthereumTokenInfo,
 )
 from typing_extensions import NotRequired
+
+
+class SolanaTokenInfo(protobuf.MessageType):
+    MESSAGE_WIRE_TYPE = None
+    FIELDS = {
+        1: protobuf.Field("mint", "bytes", repeated=False, required=True),
+        2: protobuf.Field("symbol", "string", repeated=False, required=True),
+        3: protobuf.Field("name", "string", repeated=False, required=True),
+    }
+
+    def __init__(
+        self,
+        *,
+        mint: "bytes",
+        symbol: "str",
+        name: "str",
+    ) -> None:
+        self.mint = mint
+        self.symbol = symbol
+        self.name = name
+
 
 if TYPE_CHECKING:
     from typing import TypeVar
@@ -91,7 +112,6 @@ class ERC20Token(TypedDict):
 
 class SolanaToken(TypedDict):
     mint: str
-    program_id: str
     name: str
     shortcut: str  # change later to symbol
 
@@ -169,17 +189,17 @@ def get_merkle_root(definitions_data: DefinitionsData, timestamp: int) -> str:
     return merkle_tree.get_root_hash().hex()
 
 
-def _serialize_network(network: Network, timestamp: int) -> bytes:
+def _serialize_eth_network(network: Network, timestamp: int) -> bytes:
     network_info = EthereumNetworkInfo(
         chain_id=network["chain_id"],
         symbol=network["shortcut"],
         slip44=network["slip44"],
         name=network["name"],
     )
-    return _serialize_eth_info(network_info, EthereumDefinitionType.NETWORK, timestamp)
+    return _encode_payload(network_info, DefinitionType.ETHEREUM_NETWORK, timestamp)
 
 
-def _serialize_token(token: ERC20Token, timestamp: int) -> bytes:
+def _serialize_eth_token(token: ERC20Token, timestamp: int) -> bytes:
     token_info = EthereumTokenInfo(
         address=bytes.fromhex(token["address"][2:]),
         chain_id=token["chain_id"],
@@ -187,25 +207,42 @@ def _serialize_token(token: ERC20Token, timestamp: int) -> bytes:
         decimals=token["decimals"],
         name=token["name"],
     )
-    return _serialize_eth_info(token_info, EthereumDefinitionType.TOKEN, timestamp)
+    return _encode_payload(token_info, DefinitionType.ETHEREUM_TOKEN, timestamp)
+
+
+def _serialize_solana_token(token: SolanaToken, timestamp: int) -> bytes:
+    try:
+        token_info = SolanaTokenInfo(
+            mint=tools.b58decode(token["mint"]),
+            symbol=token["shortcut"],
+            name=token["name"],
+        )
+    except Exception as e:
+        print(f"Error serializing solana token: {e}")
+        print(token)
+        raise e
+
+    return _encode_payload(token_info, DefinitionType.SOLANA_TOKEN, timestamp)
 
 
 def serialize_definitions(
     definitions_data: DefinitionsData, timestamp: int
 ) -> dict[bytes, Network | ERC20Token | SolanaToken]:
     network_bytes = {
-        _serialize_network(n, timestamp): n for n in definitions_data.networks
+        _serialize_eth_network(n, timestamp): n for n in definitions_data.networks
     }
     erc20_token_bytes = {
-        _serialize_token(t, timestamp): t for t in definitions_data.erc20_tokens
+        _serialize_eth_token(t, timestamp): t for t in definitions_data.erc20_tokens
     }
-    # solana_token_bytes = {_serialize_solana_token(t, timestamp): t for t in definitions_data.solana_tokens}
-    return {**network_bytes, **erc20_token_bytes}
+    solana_token_bytes = {
+        _serialize_solana_token(t, timestamp): t for t in definitions_data.solana_tokens
+    }
+    return {**network_bytes, **erc20_token_bytes, **solana_token_bytes}
 
 
-def _serialize_eth_info(
-    info: EthereumNetworkInfo | EthereumTokenInfo,
-    data_type_num: EthereumDefinitionType,
+def _encode_payload(
+    info: EthereumNetworkInfo | EthereumTokenInfo | SolanaTokenInfo,
+    data_type_num: DefinitionType,
     timestamp: int,
 ) -> bytes:
     buf = io.BytesIO()
