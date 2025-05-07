@@ -44,22 +44,22 @@ def _write_path(path: Path, data: bytes, exists_ok: bool = False) -> None:
 
 def _generate_erc20_token_def(token: ERC20Token, serialized: bytes, base_path: Path) -> None:
     address = token["address"][2:].lower()
-    file = base_path / "chain-id" / str(token["chain_id"]) / f"token-{address}.dat"
+    file = base_path / "eth" / "chain-id" / str(token["chain_id"]) / f"token-{address}.dat"
     _write_path(file, serialized)
 
 
 def _generate_network_def(network: Network, serialized: bytes, base_path: Path) -> None:
     # create path for networks identified by chain and slip44 ids
-    network_file = base_path / "chain-id" / str(network["chain_id"]) / "network.dat"
-    slip44_file = base_path / "slip44" / str(network["slip44"]) / "network.dat"
+    network_file = base_path / "eth" / "chain-id" / str(network["chain_id"]) / "network.dat"
+    slip44_file = base_path / "eth" / "slip44" / str(network["slip44"]) / "network.dat"
     # save network definition
     _write_path(network_file, serialized)
     _write_path(slip44_file, serialized, exists_ok=True)
 
 
 def _generate_solana_token_def(token: SolanaToken, serialized: bytes, base_path: Path) -> None:
-    # TODO: implement
-    pass
+    token_file = base_path / "solana" / "token" / f"{token['mint']}.dat"
+    _write_path(token_file, serialized)
 
 
 def _make_proof(
@@ -187,9 +187,9 @@ def sign_definitions(
             if "address" in item:
                 item_type = "erc20_token"
                 gen_func = _generate_erc20_token_def
-            # elif "mint" in item:
-            #     item_type = "solana_token"
-            #     gen_func = _generate_solana_token_def
+            elif "mint" in item:
+                item_type = "solana_token"
+                gen_func = _generate_solana_token_def
             else:
                 item_type = "network"
                 gen_func = _generate_network_def
