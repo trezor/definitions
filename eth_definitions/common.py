@@ -7,11 +7,11 @@ import json
 import logging
 import subprocess
 import sys
+import typing as t
 from collections import OrderedDict
 from enum import Enum
 from hashlib import sha256
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Collection, TypedDict
 
 import click
 from trezorlib import definitions, protobuf, tools
@@ -21,7 +21,6 @@ from trezorlib.messages import (
     EthereumNetworkInfo,
     EthereumTokenInfo,
 )
-from typing_extensions import NotRequired
 
 
 class SolanaTokenInfo(protobuf.MessageType):
@@ -44,7 +43,7 @@ class SolanaTokenInfo(protobuf.MessageType):
         self.name = name
 
 
-if TYPE_CHECKING:
+if t.TYPE_CHECKING:
     from typing import TypeVar
 
     DEFINITION_TYPE = TypeVar("DEFINITION_TYPE", "Network", "ERC20Token", "SolanaToken")
@@ -54,6 +53,7 @@ ROOT = HERE.parent
 
 DEFINITIONS_PATH = ROOT / "definitions-latest.json"
 GENERATED_DEFINITIONS_DIR = ROOT / "definitions-latest"
+DEPLOY_DEFINITIONS_TAR = ROOT / "definitions-deploy.tar.xz"
 
 CURRENT_TIME = datetime.datetime.now(datetime.timezone.utc)
 TIMESTAMP_FORMAT = "%d.%m.%Y %X%z"
@@ -83,7 +83,7 @@ class ChangeResolutionStrategy(Enum):
             return cls.REJECT_ALL_CHANGES
 
 
-class Network(TypedDict):
+class Network(t.TypedDict):
     chain: str
     chain_id: int
     is_testnet: bool
@@ -91,13 +91,13 @@ class Network(TypedDict):
     shortcut: str  # change later to symbol
     slip44: int
 
-    coingecko_id: NotRequired[str]
-    coingecko_network_id: NotRequired[str]
-    coingecko_rank: NotRequired[bool]
-    deleted: NotRequired[bool]
+    coingecko_id: t.NotRequired[str]
+    coingecko_network_id: t.NotRequired[str]
+    coingecko_rank: t.NotRequired[bool]
+    deleted: t.NotRequired[bool]
 
 
-class ERC20Token(TypedDict):
+class ERC20Token(t.TypedDict):
     address: str
     chain: str
     chain_id: int
@@ -105,30 +105,30 @@ class ERC20Token(TypedDict):
     name: str
     shortcut: str  # change later to symbol
 
-    coingecko_id: NotRequired[str]
-    coingecko_rank: NotRequired[bool]
-    deleted: NotRequired[bool]
+    coingecko_id: t.NotRequired[str]
+    coingecko_rank: t.NotRequired[bool]
+    deleted: t.NotRequired[bool]
 
 
-class SolanaToken(TypedDict):
+class SolanaToken(t.TypedDict):
     mint: str
     name: str
     shortcut: str  # change later to symbol
 
-    coingecko_id: NotRequired[str]
-    coingecko_rank: NotRequired[bool]
-    deleted: NotRequired[bool]
+    coingecko_id: t.NotRequired[str]
+    coingecko_rank: t.NotRequired[bool]
+    deleted: t.NotRequired[bool]
 
 
-class DefinitionsFileMetadata(TypedDict):
+class DefinitionsFileMetadata(t.TypedDict):
     datetime: str
     unix_timestamp: int
     merkle_root: str
     commit_hash: str
-    signature: NotRequired[str]
+    signature: t.NotRequired[str]
 
 
-class DefinitionsFileFormat(TypedDict):
+class DefinitionsFileFormat(t.TypedDict):
     networks: list[Network]
     erc20_tokens: list[ERC20Token]
     solana_tokens: list[SolanaToken]
@@ -167,7 +167,7 @@ def setup_logging(verbose: bool):
     root.addHandler(handler)
 
 
-def load_json_file(file: str | Path) -> Any:
+def load_json_file(file: str | Path) -> t.Any:
     return json.loads(Path(file).read_text(), object_pairs_hook=OrderedDict)
 
 
@@ -176,7 +176,7 @@ def get_git_commit_hash() -> str:
 
 
 def hash_dict_on_keys(
-    d: Network | ERC20Token | SolanaToken, exclude_keys: Collection[str] = ()
+    d: Network | ERC20Token | SolanaToken, exclude_keys: t.Collection[str] = ()
 ) -> bytes:
     """Get the hash of a dict, excluding selected keys."""
     tmp_dict = {k: v for k, v in d.items() if k not in exclude_keys}
@@ -226,16 +226,27 @@ def _serialize_solana_token(token: SolanaToken, timestamp: int) -> bytes:
 
 
 def serialize_definitions(
-    definitions_data: DefinitionsData, timestamp: int
+    definitions_data: DefinitionsData,
+    timestamp: int,
+    progress: t.Callable[[int], None] = lambda _: None,
 ) -> dict[bytes, Network | ERC20Token | SolanaToken]:
+    T = t.TypeVar("T")
+
+    def wrap(i: t.Iterable[T]) -> t.Iterator[T]:
+        for item in i:
+            yield item
+            progress(1)
+
     network_bytes = {
-        _serialize_eth_network(n, timestamp): n for n in definitions_data.networks
+        _serialize_eth_network(n, timestamp): n for n in wrap(definitions_data.networks)
     }
     erc20_token_bytes = {
-        _serialize_eth_token(t, timestamp): t for t in definitions_data.erc20_tokens
+        _serialize_eth_token(t, timestamp): t
+        for t in wrap(definitions_data.erc20_tokens)
     }
     solana_token_bytes = {
-        _serialize_solana_token(t, timestamp): t for t in definitions_data.solana_tokens
+        _serialize_solana_token(t, timestamp): t
+        for t in wrap(definitions_data.solana_tokens)
     }
     return {**network_bytes, **erc20_token_bytes, **solana_token_bytes}
 

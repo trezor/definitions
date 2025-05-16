@@ -19,7 +19,7 @@ fi
 
 MERKLE_ROOT=$(python cli.py current-merkle-root)
 
-python cli.py sign -s "$1"
+python cli.py sign --verify "$1"
 git add definitions-latest.json
 git commit -m "Sign definitions for $MERKLE_ROOT"
 
