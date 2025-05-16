@@ -26,9 +26,7 @@ git commit -m "Sign definitions for $MERKLE_ROOT"
 # update the signed branch
 git branch --force signed HEAD
 
-cd definitions-latest
-tar cJf ../definitions.tar.xz *
-echo "Definitions for deployment stored in definitions.tar.xz"
+python cli.py generate
 
 echo "Don't forget to push main & signed branches:"
 echo "  git push origin main"
