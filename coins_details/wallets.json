@@ -139,6 +139,10 @@
     ],
     "misc:XLM": [
         {
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        },
+        {
             "name": "Stellar Account Viewer",
             "url": "https://accountviewer.stellar.org/"
         },
