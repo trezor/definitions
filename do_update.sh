@@ -19,7 +19,7 @@ git submodule update --init --recursive --remote
 python cli.py download -v
 
 # Sign them with dev private keys
-python cli.py sign --test-sign
+python cli.py generate --dev-sign
 
 # Generate coins details
 python coins_details/coins_details.py
