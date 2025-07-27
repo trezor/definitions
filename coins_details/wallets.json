@@ -121,6 +121,10 @@
         {
             "name": "AdaLite",
             "url": "https://adalite.io/"
+        },
+        {
+            "name": "NuFi",
+            "url": "https://nu.fi"
         }
     ],
     "misc:SOL": [
@@ -147,12 +151,12 @@
             "url": "https://accountviewer.stellar.org/"
         },
         {
-            "name": "Exodus",
-            "url": "https://www.exodus.io"
+            "name": "StellarTerm",
+            "url": "https://stellarterm.com/account/"
         },
         {
-            "name": "Stellarport",
-            "url": "https://stellarport.io/"
+            "name": "Exodus",
+            "url": "https://www.exodus.io"
         }
     ],
     "misc:XMR": [
