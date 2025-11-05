@@ -57,7 +57,7 @@ class CachedDict(dict[str, Any]):
         self.cache_file = cache_file
         self.dirty = False
         if not self.cache_file.exists():
-            self.cache_file.write_text(r"{}\n")
+            self.cache_file.write_text("{}\n")
         self.load()
 
     def is_valid(self) -> bool:
