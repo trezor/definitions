@@ -113,6 +113,12 @@
             "url": "https://trezor.io/trezor-suite"
         }
     ],
+    "eth:AVAX:43114": [
+        {
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        }
+    ],
     "misc:ADA": [
         {
             "name": "Trezor Suite",
@@ -163,6 +169,10 @@
         {
             "name": "Monero CLI/GUI",
             "url": "https://www.getmonero.org/downloads/"
+        },
+        {
+            "name": "Feather",
+            "url": "https://featherwallet.org/"
         }
     ],
     "misc:XRP": [
