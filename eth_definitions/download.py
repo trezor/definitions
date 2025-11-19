@@ -90,13 +90,14 @@ class CachedDict(dict[str, Any]):
 class Downloader:
     """Class that handles all the downloading and caching of Ethereum definitions."""
 
-    def __init__(self, refresh: bool | None = None) -> None:
+    def __init__(self, refresh: bool | None = None, sleep_duration: float = 0.0) -> None:
         """
         Args:
             refresh: If True, force refresh of data. If False, use cached data. If None,
             use cached data if available, otherwise force refresh.
         """
         self.cache = CachedDict(CACHE_PATH)
+        self.sleep_duration = sleep_duration
         self.refresh = refresh
         if refresh is None and not self.cache.is_valid():
             self.refresh = True
@@ -138,6 +139,8 @@ class Downloader:
         r.raise_for_status()
         data = r.json()
         self.cache[key] = data
+        if self.sleep_duration:
+            time.sleep(self.sleep_duration)
         return data
 
     def _init_requests_session(self) -> None:
@@ -400,6 +403,12 @@ def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaTok
     is_flag=True,
     help="Compares results with Trezor builtin definitions.",
 )
+@click.option(
+    "--sleep-duration",
+    type=float,
+    default=0,
+    help="Amount of seconds to sleep after each download.",
+)
 @click.option("-v", "--verbose", is_flag=True, help="Display more info")
 def download(
     refresh: bool | None,
@@ -408,6 +417,7 @@ def download(
     show_all: bool,
     check_builtin: bool,
     verbose: bool,
+    sleep_duration: float,
 ) -> None:
     """Download and prepare token definitions."""
     setup_logging(verbose)
@@ -419,7 +429,7 @@ def download(
     )
 
     # init Ethereum definitions downloader
-    downloader = Downloader(refresh)
+    downloader = Downloader(refresh, sleep_duration)
 
     networks = _load_ethereum_networks_from_repo()
 
