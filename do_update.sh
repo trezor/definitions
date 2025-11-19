@@ -16,7 +16,7 @@ fi
 git submodule update --init --recursive --remote
 
 # Download definitions
-python cli.py download -v
+python cli.py download -v --sleep-duration 2.5
 
 # Sign them with dev private keys
 python cli.py generate --dev-sign
