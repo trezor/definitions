@@ -12,18 +12,18 @@ from urllib.parse import urlencode
 import click
 import requests
 from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 from trezorlib import tools
+from urllib3.util.retry import Retry
 
 from .builtin_defs import check_builtin_defs
 from .check_definitions import check_definitions_list
 from .common import (
     DEFINITIONS_PATH,
     ChangeResolutionStrategy,
-    Network,
-    ERC20Token,
-    SolanaToken,
     DefinitionsData,
+    ERC20Token,
+    Network,
+    SolanaToken,
     load_json_file,
     make_metadata,
     setup_logging,
@@ -90,7 +90,9 @@ class CachedDict(dict[str, Any]):
 class Downloader:
     """Class that handles all the downloading and caching of Ethereum definitions."""
 
-    def __init__(self, refresh: bool | None = None, sleep_duration: float = 0.0) -> None:
+    def __init__(
+        self, refresh: bool | None = None, sleep_duration: float = 0.0
+    ) -> None:
         """
         Args:
             refresh: If True, force refresh of data. If False, use cached data. If None,
@@ -439,9 +441,11 @@ def download(
     for chain in cg_platforms_json:
         # We want only information about chains, that have both chain id and coingecko id,
         # otherwise we could not link local and coingecko networks.
-        if chain["chain_identifier"] is not None:
-            assert chain["id"] is not None
-            assert chain["native_coin_id"] is not None
+        if (
+            chain["chain_identifier"] is not None
+            and chain["id"] is not None
+            and chain["native_coin_id"] is not None
+        ):
             cg_platforms[chain["chain_identifier"]] = (
                 chain["id"],
                 chain["native_coin_id"],
