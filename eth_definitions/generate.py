@@ -17,6 +17,7 @@ from trezorlib.merkle_tree import MerkleTree
 from .common import (
     GENERATED_DEFINITIONS_DIR,
     Network,
+    ERC20DisplayFormat,
     ERC20Token,
     SolanaToken,
     DefinitionsData,
@@ -38,8 +39,24 @@ class OutputPath:
     exists_ok: bool = False
 
     @classmethod
-    def from_item(cls, item: Network | ERC20Token | SolanaToken) -> t.Iterator[t.Self]:
-        if "address" in item:
+    def from_item(
+        cls, item: Network | ERC20Token | SolanaToken | ERC20DisplayFormat
+    ) -> t.Iterator[t.Self]:
+        # Display formats must be checked before tokens — both carry "address",
+        # but display formats also carry "func_sig".
+        if "func_sig" in item:
+            address = item["address"][2:].lower()
+            func_sig = item["func_sig"][2:].lower()
+            yield cls(
+                (
+                    "eth",
+                    "chain-id",
+                    str(item["chain_id"]),
+                    "display-format",
+                    f"{address}-{func_sig}.dat",
+                )
+            )
+        elif "address" in item:
             address = item["address"][2:].lower()
             yield cls(
                 ("eth", "chain-id", str(item["chain_id"]), f"token-{address}.dat")
@@ -69,11 +86,12 @@ def _write_path(path: Path, data: bytes, exists_ok: bool = False) -> None:
 
 def serialize_with_progress(
     definitions_data: DefinitionsData, timestamp: int
-) -> dict[bytes, Network | ERC20Token | SolanaToken]:
+) -> dict[bytes, Network | ERC20Token | SolanaToken | ERC20DisplayFormat]:
     with click.progressbar(
         length=len(definitions_data.networks)
         + len(definitions_data.erc20_tokens)
-        + len(definitions_data.solana_tokens),
+        + len(definitions_data.solana_tokens)
+        + len(definitions_data.erc20_display_formats),
         label="Serializing definitions",
     ) as bar:
         return serialize_definitions(definitions_data, timestamp, progress=bar.update)

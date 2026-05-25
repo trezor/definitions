@@ -15,23 +15,25 @@ from .common import ChangeResolutionStrategy, hash_dict_on_keys
 if t.TYPE_CHECKING:
     from .common import DEFINITION_TYPE
 
-MAIN_KEYS = ("chain_id", "address")
-
-
 def check_definitions_list(
     old_defs: list[DEFINITION_TYPE],
     new_defs: list[DEFINITION_TYPE],
     change_strategy: ChangeResolutionStrategy,
     show_all: bool,
+    show_added: bool = False,
     update_callback: t.Callable[[], None] = lambda: None,
     decimals_resolver: t.Callable[[int, str], int | None] | None = None,
+    *,
+    main_keys: tuple[str, ...] = ("chain_id", "address"),
+    def_type: str | None = None,
 ) -> None:
     # store already processed definitions
     deleted_definitions: list["DEFINITION_TYPE"] = []
     modified_definitions: list[tuple["DEFINITION_TYPE", "DEFINITION_TYPE"]] = []
+    added_definitions: list["DEFINITION_TYPE"] = []
 
     def key(definition: "DEFINITION_TYPE") -> tuple[t.Any, ...]:
-        return tuple(definition.get(k, None) for k in MAIN_KEYS)
+        return tuple(definition.get(k, None) for k in main_keys)
 
     def datahash(definition: "DEFINITION_TYPE") -> bytes:
         return hash_dict_on_keys(definition, exclude_keys=("deleted", "coingecko_rank"))
@@ -40,6 +42,8 @@ def check_definitions_list(
     defs_index = {key(nd): nd for nd in new_defs}
     # set of new definitions data hashes
     defs_data_hashed = {datahash(nd) for nd in new_defs}
+    # set of old keys, used below to detect additions
+    old_keys = {key(od) for od in old_defs}
 
     # mark all modified or deleted definitions
     for old_def in old_defs:
@@ -54,8 +58,17 @@ def check_definitions_list(
             # definition was deleted
             deleted_definitions.append(old_def)
 
+    # mark added definitions
+    if show_added:
+        for new_def in new_defs:
+            if key(new_def) not in old_keys:
+                added_definitions.append(new_def)
+
     def any_in_top_100(*definitions: "DEFINITION_TYPE") -> bool:
         if show_all:
+            return True
+        # If neither side has a rank concept (e.g. display formats), always show.
+        if not any("coingecko_rank" in d for d in definitions):
             return True
         return any(d.get("coingecko_rank", 101) <= 100 for d in definitions)
 
@@ -109,8 +122,13 @@ def check_definitions_list(
         user_wants_to_revert = False
         if print_change:
             prompt_user = change_strategy == ChangeResolutionStrategy.PROMPT_USER
+            inferred_def_type = (
+                def_type
+                if def_type is not None
+                else ("TOKEN" if "address" in old_def else "NETWORK")
+            )
             user_wants_change = _print_definition_change(
-                def_type="TOKEN" if "address" in old_def else "NETWORK",
+                def_type=inferred_def_type,
                 old=old_def,
                 new=new_def,
                 prompt=prompt_user,
@@ -139,19 +157,35 @@ def check_definitions_list(
         new_definition["deleted"] = True
         new_defs.append(new_definition)
 
+    # Added (informational; no prompt)
+    for definition in added_definitions:
+        inferred_def_type = (
+            def_type
+            if def_type is not None
+            else ("TOKEN" if "address" in definition else "NETWORK")
+        )
+        _print_definition_change(
+            def_type=inferred_def_type,
+            old={},
+            new=definition,
+            prompt=False,
+            action="ADDED",
+        )
+
 
 def _print_definition_change(
     def_type: str,
     old: "DEFINITION_TYPE",
     new: "DEFINITION_TYPE",
     prompt: bool = False,
+    action: str = "MODIFIED",
 ) -> bool | None:
     """Print changes made between definitions and ask for prompt if requested.
     Returns the prompt result if prompted otherwise None."""
 
     console = Console()
 
-    table = Table(title=f"{def_type} MODIFIED")
+    table = Table(title=f"{def_type} {action}")
     table.add_column("Field", justify="left", style="blue", no_wrap=True)
     table.add_column("OLD", justify="left", style="cyan", no_wrap=True)
     table.add_column("NEW", justify="left", style="cyan", no_wrap=True)

@@ -15,8 +15,11 @@ fi
 # Update all submodules to their latest commit
 git submodule update --init --recursive --remote
 
+SHOW_ADDED=""
+if [[ "$1" == "--show-added" ]]; then SHOW_ADDED="--show-added"; fi
+
 # Download definitions
-python cli.py download -v --sleep-duration 2.5
+python cli.py download -v --sleep-duration 2.5 $SHOW_ADDED
 
 # Sign them with dev private keys
 python cli.py generate --dev-sign

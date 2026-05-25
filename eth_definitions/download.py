@@ -23,6 +23,7 @@ from .common import (
     DEFINITIONS_PATH,
     ChangeResolutionStrategy,
     DefinitionsData,
+    ERC20DisplayFormat,
     ERC20Token,
     Network,
     SolanaToken,
@@ -31,10 +32,12 @@ from .common import (
     setup_logging,
     store_definitions_data,
 )
+from .erc7730 import load_display_formats
 
 HERE = Path(__file__).parent
 ROOT_DIR = HERE.parent
 ETHEREUM_LISTS = ROOT_DIR / "ethereum-lists"
+ERC7730_REGISTRY = ROOT_DIR / "ethereum" / "clear-signing-erc7730-registry"
 
 TESTNET_WORDS = ("testnet", "devnet")
 
@@ -42,6 +45,7 @@ CACHE_PATH = HERE / "definitions-cache.json"
 
 NETWORKS_PATH = ETHEREUM_LISTS / "chains" / "_data" / "chains"
 TOKENS_PATH = ETHEREUM_LISTS / "tokens" / "tokens"
+DISPLAY_FORMATS_PATH = ERC7730_REGISTRY / "registry"
 
 
 class CacheableError(Exception):
@@ -365,6 +369,47 @@ def _build_solana_token(complex_token: dict[str, Any]) -> SolanaToken | None:
     }
 
 
+def _load_display_formats_from_repo(
+    networks: list[Network],
+) -> list[ERC20DisplayFormat]:
+    """Load ERC-7730 calldata display formats from the registry submodule.
+
+    Only `calldata-*.json` files are scanned (the proto's `func_sig` is
+    calldata-specific). `common-*.json` files reach us via the `includes`
+    merge; `eip712-*.json` files aren't representable in our schema.
+
+    Skips files under `tests/` subdirectories and records for chain_ids
+    we don't otherwise know about.
+
+    Deduplicates on `(chain_id, address, func_sig)`;
+    later files override earlier ones.
+    """
+
+    known_chain_ids = {n["chain_id"] for n in networks}
+    dedup: dict[tuple[int, str, str], ERC20DisplayFormat] = {}
+
+    for path in sorted(DISPLAY_FORMATS_PATH.glob("*/calldata-*.json")):
+        if "tests" in path.parts:
+            continue
+
+        # TODO: gradually allow more providers to pass through as we test them
+        if "lifi" not in path.parts:
+            continue
+
+        try:
+            records = load_display_formats(path)
+        except Exception as e:
+            logging.warning(f"failed to parse {path.relative_to(ROOT_DIR)}: {e}")
+            continue
+        for r in records:
+            if r["chain_id"] not in known_chain_ids:
+                continue
+            key = (r["chain_id"], r["address"], r["func_sig"])
+            dedup[key] = r
+
+    return list(dedup.values())
+
+
 def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaToken]:
     """Load Solana tokens from coingecko API."""
     tokens: list[SolanaToken] = []
@@ -402,6 +447,12 @@ def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaTok
     help="Show the differences of all definitions. By default only changes to top 100 definitions (by Coingecko market cap ranking) are shown.",
 )
 @click.option(
+    "-a",
+    "--show-added",
+    is_flag=True,
+    help="Show newly added definitions.",
+)
+@click.option(
     "-c",
     "--check-builtin",
     is_flag=True,
@@ -429,6 +480,7 @@ def download(
     interactive: bool,
     force_changes: bool,
     show_all: bool,
+    show_added: bool,
     check_builtin: bool,
     verbose: bool,
     sleep_duration: float,
@@ -502,6 +554,9 @@ def download(
     cg_tokens = _load_erc20_tokens_from_coingecko(downloader, networks)
     repo_tokens = _load_erc20_tokens_from_repo(networks)
     solana_tokens = _load_solana_tokens_from_coingecko(downloader)
+
+    # get ERC-7730 display formats from the registry submodule
+    display_formats = _load_display_formats_from_repo(networks)
 
     # get data used in further processing now to be able to save cache before we do any
     # token collision process and others
@@ -602,6 +657,7 @@ def download(
             new_defs=networks,
             change_strategy=change_strategy,
             show_all=show_all,
+            show_added=show_added,
             update_callback=callback,
         )
         check_definitions_list(
@@ -609,6 +665,7 @@ def download(
             new_defs=erc20_tokens,
             change_strategy=change_strategy,
             show_all=show_all,
+            show_added=show_added,
             update_callback=callback,
             decimals_resolver=decimals_resolver,
         )
@@ -617,7 +674,18 @@ def download(
             new_defs=solana_tokens,
             change_strategy=change_strategy,
             show_all=show_all,
+            show_added=show_added,
             update_callback=callback,
+        )
+        check_definitions_list(
+            old_defs=old_defs.get("erc20_display_formats", []),
+            new_defs=display_formats,
+            change_strategy=change_strategy,
+            show_all=show_all,
+            show_added=show_added,
+            update_callback=callback,
+            main_keys=("chain_id", "address", "func_sig"),
+            def_type="DISPLAY_FORMAT",
         )
 
     if check_builtin:
@@ -631,12 +699,16 @@ def download(
     networks.sort(key=lambda x: x["chain_id"])
     erc20_tokens.sort(key=lambda x: (x["chain_id"], x["address"]))
     solana_tokens.sort(key=lambda x: x["mint"])
+    display_formats.sort(
+        key=lambda x: (x["chain_id"], x["address"], x["func_sig"])
+    )
 
     # create definitions data
     definitions_data = DefinitionsData(
         networks=networks,
         erc20_tokens=erc20_tokens,
         solana_tokens=solana_tokens,
+        erc20_display_formats=display_formats,
     )
 
     # save results
