@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -412,6 +413,11 @@ def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaTok
     help="Amount of seconds to sleep after each download.",
 )
 @click.option("-v", "--verbose", is_flag=True, help="Display more info")
+@click.option(
+    "--trace-address",
+    default=None,
+    help="Trace which source provided token info for this contract address, then exit.",
+)
 def download(
     refresh: bool | None,
     interactive: bool,
@@ -420,6 +426,7 @@ def download(
     check_builtin: bool,
     verbose: bool,
     sleep_duration: float,
+    trace_address: str | None,
 ) -> None:
     """Download and prepare token definitions."""
     setup_logging(verbose)
@@ -503,6 +510,43 @@ def download(
     for token in repo_tokens + cg_tokens:
         token_deduplicator[(token["chain_id"], token["address"])] = token
     erc20_tokens = list(token_deduplicator.values())
+
+    if trace_address:
+        addr = trace_address.lower()
+        print(f"\n=== TRACING ADDRESS: {addr} ===")
+
+        repo_match = next((t for t in repo_tokens if t["address"] == addr), None)
+        cg_match = next((t for t in cg_tokens if t["address"] == addr), None)
+
+        if repo_match:
+            for network in networks:
+                if network["chain_id"] == repo_match["chain_id"]:
+                    chain_path = TOKENS_PATH / network["chain"]
+                    for f in chain_path.glob("*.json"):
+                        data = load_json_file(f)
+                        if data.get("address", "").lower() == addr:
+                            print(f"  [REPO] File: {f}")
+                            print(f"  [REPO] Data: {repo_match}")
+                            break
+                    break
+
+        if cg_match:
+            for network in networks:
+                if network["chain_id"] == cg_match["chain_id"]:
+                    cg_network_id = network.get("coingecko_network_id") or network.get("coingecko_id")
+                    print(f"  [COINGECKO] Network ID: {cg_network_id}")
+                    print(f"  [COINGECKO] API URL: https://tokens.coingecko.com/{cg_network_id}/all.json")
+                    print(f"  [COINGECKO] Data: {cg_match}")
+                    break
+
+        if not repo_match and not cg_match:
+            print("  NOT FOUND in any source.")
+        else:
+            winner_source = "COINGECKO" if cg_match is not None else "REPO"
+            print(f"\n  >>> FINAL SOURCE: {winner_source} (CoinGecko overrides repo when both present)")
+
+        print("=== END TRACE ===\n")
+        sys.exit(0)
 
     # remove items with empty symbol
     networks = [n for n in networks if n["shortcut"]]
