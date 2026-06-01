@@ -18,6 +18,7 @@ from urllib3.util.retry import Retry
 
 from .builtin_defs import check_builtin_defs
 from .check_definitions import check_definitions_list
+from .onchain import OnchainDecimalsResolver
 from .common import (
     DEFINITIONS_PATH,
     ChangeResolutionStrategy,
@@ -418,6 +419,11 @@ def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaTok
     default=None,
     help="Trace which source provided token info for this contract address, then exit.",
 )
+@click.option(
+    "--no-onchain-decimals",
+    is_flag=True,
+    help="Disable verifying conflicting token decimals against the contract on-chain.",
+)
 def download(
     refresh: bool | None,
     interactive: bool,
@@ -427,6 +433,7 @@ def download(
     verbose: bool,
     sleep_duration: float,
     trace_address: str | None,
+    no_onchain_decimals: bool,
 ) -> None:
     """Download and prepare token definitions."""
     setup_logging(verbose)
@@ -587,6 +594,8 @@ def download(
         def callback():
             DEFINITIONS_PATH.write_text(json.dumps(old_defs, indent=2) + "\n")
 
+        decimals_resolver = None if no_onchain_decimals else OnchainDecimalsResolver()
+
         # check networks and tokens
         check_definitions_list(
             old_defs=old_defs["networks"],
@@ -601,6 +610,7 @@ def download(
             change_strategy=change_strategy,
             show_all=show_all,
             update_callback=callback,
+            decimals_resolver=decimals_resolver,
         )
         check_definitions_list(
             old_defs=old_defs["solana_tokens"],
