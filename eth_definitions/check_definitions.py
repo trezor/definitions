@@ -24,6 +24,7 @@ def check_definitions_list(
     change_strategy: ChangeResolutionStrategy,
     show_all: bool,
     update_callback: t.Callable[[], None] = lambda: None,
+    decimals_resolver: t.Callable[[int, str], int | None] | None = None,
 ) -> None:
     # store already processed definitions
     deleted_definitions: list["DEFINITION_TYPE"] = []
@@ -60,6 +61,31 @@ def check_definitions_list(
 
     # Modified
     for old_def, new_def in modified_definitions:
+        # Decimals are immutable on-chain, so a detected decimals "change" is bad
+        # metadata, not a real event. Resolve it from the contract itself rather
+        # than blindly reverting to the stored (possibly wrong) value below.
+        if (
+            decimals_resolver is not None
+            and "address" in new_def
+            and old_def.get("decimals") != new_def.get("decimals")
+        ):
+            chain_decimals = decimals_resolver(new_def["chain_id"], new_def["address"])
+            if chain_decimals is not None:
+                if chain_decimals not in (
+                    old_def.get("decimals"),
+                    new_def.get("decimals"),
+                ):
+                    logging.warning(
+                        f"\nWARNING: on-chain decimals ({chain_decimals}) for "
+                        f"{new_def['address']} differ from both stored "
+                        f"({old_def.get('decimals')}) and source "
+                        f"({new_def.get('decimals')}); using on-chain value."
+                    )
+                # Authoritative value on both sides: removes the decimals diff so
+                # the conflict resolution below cannot revert it.
+                new_def["decimals"] = chain_decimals
+                old_def["decimals"] = chain_decimals
+
         print_change = any_in_top_100(old_def, new_def)
         symbol_or_decimals_changed = False
 
