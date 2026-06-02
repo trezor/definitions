@@ -16,19 +16,27 @@ from pathlib import Path
 import click
 from trezorlib import definitions, protobuf, tools
 from trezorlib.merkle_tree import MerkleTree
-from trezorlib.messages import (
-    DefinitionType,
-    EthereumABITupleInfo,
-    EthereumABIType,
-    EthereumABIValueInfo,
-    EthereumDisplayFormatInfo,
-    EthereumERC7730ContainerPath,
-    EthereumERC7730FieldFormatterType,
-    EthereumERC7730FieldInfo,
-    EthereumERC7730Path,
-    EthereumNetworkInfo,
-    EthereumTokenInfo,
-)
+try:
+    from trezorlib.messages import (
+        DefinitionType,
+        EthereumABITupleInfo,
+        EthereumABIType,
+        EthereumABIValueInfo,
+        EthereumDisplayFormatInfo,
+        EthereumERC7730ContainerPath,
+        EthereumERC7730FieldFormatterType,
+        EthereumERC7730FieldInfo,
+        EthereumERC7730Path,
+        EthereumNetworkInfo,
+        EthereumTokenInfo,
+    )
+except ImportError as e:
+    raise SystemExit(
+        f"Import error: {e}\n\n"
+        "Your trezorlib is outdated. Run:\n"
+        "  uv pip install -e ../trezor-firmware/python\n"
+        "  uv run --no-sync ./do_update.sh"
+    ) from None
 
 
 class SolanaTokenInfo(protobuf.MessageType):
