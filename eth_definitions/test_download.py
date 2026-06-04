@@ -1,7 +1,80 @@
 from copy import deepcopy
 
-from .download import _force_networks_fields_sizes_t1, _force_tokens_fields_sizes_t1
+from . import download as dl
+from .download import (
+    _dedup_display_formats,
+    _force_networks_fields_sizes_t1,
+    _force_tokens_fields_sizes_t1,
+    _write_display_formats_log,
+)
 from .test_data import networks, erc20_tokens
+
+
+def _rec(chain_id=1, address="0x" + "11" * 20, func_sig="0xdeadbeef", intent="Swap"):
+    return {
+        "chain_id": chain_id,
+        "address": address,
+        "func_sig": func_sig,
+        "intent": intent,
+        "parameter_definitions": [],
+        "field_definitions": [],
+    }
+
+
+# ====== display-format dedup / override-conflict detection ======
+
+
+def test_dedup_detects_conflicting_override():
+    a = _rec(intent="Swap")
+    b = _rec(intent="Exchange")  # same key, different payload
+    emitted, conflicts = _dedup_display_formats(
+        [("provA/f.json", True, [a]), ("provB/g.json", True, [b])], {1}
+    )
+    assert len(conflicts) == 1
+    _key, overridden, kept = conflicts[0]
+    assert overridden == "provA/f.json"
+    assert kept == "provB/g.json"
+    assert emitted == [b]  # later file wins
+
+
+def test_dedup_identical_definitions_not_a_conflict():
+    emitted, conflicts = _dedup_display_formats(
+        [("x.json", True, [_rec()]), ("y.json", True, [_rec()])], {1}
+    )
+    assert conflicts == []
+    assert len(emitted) == 1
+
+
+def test_dedup_conflicts_span_gated_and_ungated_but_only_gated_emitted():
+    ungated = _rec(intent="A")
+    gated = _rec(intent="B")
+    emitted, conflicts = _dedup_display_formats(
+        [("other/f.json", False, [ungated]), ("lifi/g.json", True, [gated])], {1}
+    )
+    assert len(conflicts) == 1
+    assert emitted == [gated]  # ungated provider does not feed output
+
+
+def test_dedup_ignores_unknown_chains():
+    emitted, conflicts = _dedup_display_formats(
+        [("x.json", True, [_rec(chain_id=999)])], {1}
+    )
+    assert emitted == []
+    assert conflicts == []
+
+
+def test_write_display_formats_log_has_both_sections(tmp_path, monkeypatch):
+    monkeypatch.setattr(dl, "DISPLAY_FORMATS_LOG_PATH", tmp_path / "out.log")
+    _write_display_formats_log(
+        unsupported=[("provA/f.json", "unsupported-formatter", "enum (field 'X')")],
+        conflicts=[("chain=1 address=0xabc selector=0xdead", "provA/f.json", "provB/g.json")],
+    )
+    text = (tmp_path / "out.log").read_text()
+    assert "unsupported features" in text
+    assert "unsupported-formatter" in text
+    assert "Conflicting overrides" in text
+    assert "kept:     provB/g.json" in text
+    assert "overrode: provA/f.json" in text
 
 
 def test_force_tokens_fields_sizes_t1_no_change():

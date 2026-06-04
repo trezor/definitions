@@ -6,6 +6,7 @@ import logging
 import re
 import sys
 import time
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlencode
@@ -21,6 +22,7 @@ from .check_definitions import check_definitions_list
 from .onchain import OnchainDecimalsResolver
 from .common import (
     DEFINITIONS_PATH,
+    DISPLAY_FORMATS_LOG_PATH,
     ChangeResolutionStrategy,
     DefinitionsData,
     ERC20DisplayFormat,
@@ -32,7 +34,7 @@ from .common import (
     setup_logging,
     store_definitions_data,
 )
-from .erc7730 import load_display_formats
+from .erc7730 import UnsupportedFeature, load_display_formats
 
 HERE = Path(__file__).parent
 ROOT_DIR = HERE.parent
@@ -381,33 +383,150 @@ def _load_display_formats_from_repo(
     Skips files under `tests/` subdirectories and records for chain_ids
     we don't otherwise know about.
 
+    A descriptor that uses any feature we can't faithfully represent is skipped
+    in full (we never emit a display format with a field missing). Every such
+    feature is collected and written to `definitions-latest.log`. The whole
+    registry is scanned for that inventory, but only enabled providers feed the
+    emitted records.
+
     Deduplicates on `(chain_id, address, func_sig)`;
     later files override earlier ones.
     """
 
     known_chain_ids = {n["chain_id"] for n in networks}
-    dedup: dict[tuple[int, str, str], ERC20DisplayFormat] = {}
+    unsupported: list[tuple[str, str, str]] = []
+    loaded: list[tuple[str, bool, list[ERC20DisplayFormat]]] = []
 
     for path in sorted(DISPLAY_FORMATS_PATH.glob("*/calldata-*.json")):
         if "tests" in path.parts:
             continue
 
-        # TODO: gradually allow more providers to pass through as we test them
-        if "lifi" not in path.parts:
-            continue
-
         try:
-            records = load_display_formats(path)
+            # Scan every file so the unsupported-features log covers the whole
+            # registry, regardless of which providers are enabled below.
+            records = load_display_formats(path, unsupported=unsupported)
+        except UnsupportedFeature as e:
+            # File skipped — its features were already collected into `unsupported`.
+            logging.info(f"skipping {path.relative_to(ROOT_DIR)} — {e}")
+            continue
         except Exception as e:
             logging.warning(f"failed to parse {path.relative_to(ROOT_DIR)}: {e}")
             continue
+
+        rel = str(path.relative_to(ROOT_DIR))
+        # TODO: gradually allow more providers to pass through as we test them
+        gated = "lifi" in path.parts
+        loaded.append((rel, gated, records))
+
+    display_formats, conflicts = _dedup_display_formats(loaded, known_chain_ids)
+    for key_str, overridden, kept in conflicts:
+        logging.warning(
+            f"display-format override: {kept} redefines {key_str} (was {overridden})"
+        )
+
+    if loaded or unsupported:
+        _write_display_formats_log(unsupported, conflicts)
+    else:
+        # Nothing scanned at all — the registry submodule is most likely
+        # uninitialized (e.g. a shallow checkout). Surface the probable cause
+        # instead of writing a misleading "0 files" log.
+        logging.warning(
+            f"no ERC-7730 descriptors found under {DISPLAY_FORMATS_PATH} — is the "
+            "clear-signing-erc7730-registry submodule initialized?"
+        )
+    return display_formats
+
+
+def _dedup_display_formats(
+    loaded: list[tuple[str, bool, list[ERC20DisplayFormat]]],
+    known_chain_ids: set[int],
+) -> tuple[list[ERC20DisplayFormat], list[tuple[str, str, str]]]:
+    """Deduplicate display formats on `(chain_id, address, func_sig)`.
+
+    `loaded` is a list of `(source, gated, records)` in processing order. Only
+    `gated` records feed the emitted output (later files override earlier ones),
+    but conflicts are detected registry-wide: whenever any two files define the
+    same key with a *different* payload it's reported as an override conflict
+    `(key, overridden_source, kept_source)` — even for not-yet-enabled providers.
+    Identical redefinitions are harmless duplicates and not reported.
+    """
+    dedup: dict[tuple[int, str, str], ERC20DisplayFormat] = {}
+    seen: dict[tuple[int, str, str], tuple[ERC20DisplayFormat, str]] = {}
+    conflicts: list[tuple[str, str, str]] = []
+
+    for source, gated, records in loaded:
         for r in records:
             if r["chain_id"] not in known_chain_ids:
                 continue
             key = (r["chain_id"], r["address"], r["func_sig"])
-            dedup[key] = r
+            prev = seen.get(key)
+            if prev is not None and prev[0] != r:
+                key_str = f"chain={key[0]} address={key[1]} selector={key[2]}"
+                conflicts.append((key_str, prev[1], source))
+            seen[key] = (r, source)
+            if gated:
+                dedup[key] = r
 
-    return list(dedup.values())
+    return list(dedup.values()), conflicts
+
+
+def _write_display_formats_log(
+    unsupported: list[tuple[str, str, str]],
+    conflicts: list[tuple[str, str, str]],
+) -> None:
+    """Write the ERC-7730 processing log (`definitions-latest.log`).
+
+    Two independent sections: skipped descriptors grouped by unsupported feature,
+    and conflicting overrides (the same key redefined differently by multiple
+    files). Conflicts are *not* unsupported features — they get their own section.
+    """
+    by_feature_count: Counter[str] = Counter(feat for _, feat, _ in unsupported)
+    by_feature_files: dict[str, set[str]] = defaultdict(set)
+    by_file: dict[str, list[tuple[str, str]]] = defaultdict(list)
+    for source, feat, detail in unsupported:
+        by_feature_files[feat].add(source)
+        by_file[source].append((feat, detail))
+
+    lines = [
+        "# ERC-7730 unsupported features",
+        f"# {len(by_file)} file(s) skipped, "
+        f"{len(unsupported)} feature occurrence(s)",
+        "",
+        "## By feature",
+    ]
+    if not unsupported:
+        lines.append("(none)")
+    for feat in sorted(by_feature_count, key=lambda f: (-by_feature_count[f], f)):
+        lines.append(
+            f"{by_feature_count[feat]:5d}  "
+            f"{len(by_feature_files[feat]):4d} file(s)  {feat}"
+        )
+    lines += ["", "## By file"]
+    for source in sorted(by_file):
+        lines.append(source)
+        for feat, detail in sorted(by_file[source]):
+            lines.append(f"    {feat}: {detail}")
+        lines.append("")
+
+    lines += [
+        "",
+        "# Conflicting overrides (later file wins)",
+        f"# {len(conflicts)} key(s) redefined with a different payload",
+        "",
+    ]
+    if not conflicts:
+        lines.append("(none)")
+    for key_str, overridden, kept in sorted(conflicts):
+        lines.append(key_str)
+        lines.append(f"    kept:     {kept}")
+        lines.append(f"    overrode: {overridden}")
+        lines.append("")
+
+    DISPLAY_FORMATS_LOG_PATH.write_text("\n".join(lines).rstrip() + "\n")
+    logging.info(
+        f"wrote {DISPLAY_FORMATS_LOG_PATH.name} "
+        f"({len(by_file)} file(s) skipped, {len(conflicts)} conflict(s))"
+    )
 
 
 def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaToken]:

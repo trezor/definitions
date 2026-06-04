@@ -70,6 +70,7 @@ HERE = Path(__file__).parent
 ROOT = HERE.parent
 
 DEFINITIONS_PATH = ROOT / "definitions-latest.json"
+DISPLAY_FORMATS_LOG_PATH = ROOT / "definitions-latest.log"
 GENERATED_DEFINITIONS_DIR = ROOT / "definitions-latest"
 DEPLOY_DEFINITIONS_TAR = ROOT / "definitions-deploy.tar.xz"
 
