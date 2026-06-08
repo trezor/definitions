@@ -5,6 +5,7 @@ import click
 
 from eth_definitions.builtin_defs import check_builtin
 from eth_definitions.download import download
+from eth_definitions.erc7730_validate import validate_display_formats
 from eth_definitions.generate import generate_definitions
 from eth_definitions.sign import sign_definitions
 
@@ -20,6 +21,7 @@ cli.add_command(download)
 cli.add_command(check_builtin)
 cli.add_command(generate_definitions)
 cli.add_command(sign_definitions)
+cli.add_command(validate_display_formats)
 
 @cli.command()
 def current_merkle_root():

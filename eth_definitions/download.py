@@ -34,7 +34,8 @@ from .common import (
     setup_logging,
     store_definitions_data,
 )
-from .erc7730 import UnsupportedFeature, load_display_formats
+from .erc7730 import UnsupportedFeature, load_descriptor, load_display_formats
+from .erc7730_validate import validate_file_strict
 
 HERE = Path(__file__).parent
 ROOT_DIR = HERE.parent
@@ -414,8 +415,19 @@ def _load_display_formats_from_repo(
             continue
 
         rel = str(path.relative_to(ROOT_DIR))
+
         # TODO: gradually allow more providers to pass through as we test them
         gated = "lifi" in path.parts
+
+        # Independently cross-check the emitted records against the source
+        # descriptor (faithful labels/formatters/paths, full deployment
+        # coverage, no silently dropped fields). Raises on any mismatch so a
+        # representation bug crashes the download instead of shipping silently.
+        # Only gated providers feed the output, so only they are validated —
+        # a not-yet-enabled provider's quirks shouldn't abort the whole download.
+        if gated and records:
+            validate_file_strict(rel, load_descriptor(path), records)
+
         loaded.append((rel, gated, records))
 
     display_formats, conflicts = _dedup_display_formats(loaded, known_chain_ids)
