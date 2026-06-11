@@ -155,14 +155,40 @@ def _resolve_indices(path_str: str, inputs: list) -> list[int] | None:
     return indices
 
 
+def _native_includes_zero(params: dict[str, Any], constants: dict[str, Any]) -> bool:
+    """Whether `nativeCurrencyAddress` lists the zero address (token defaults to
+    null). Mirrors the extractor's rule for treating a token-less `tokenAmount`
+    as native. Entries may be literal addresses or `$.metadata.constants.*` refs.
+    """
+    raw = params.get("nativeCurrencyAddress")
+    if raw is None:
+        return False
+    prefix = "$.metadata.constants."
+    for entry in raw if isinstance(raw, list) else [raw]:
+        s = str(entry)
+        if s.startswith("$"):
+            if not s.startswith(prefix):
+                continue
+            val = constants.get(s[len(prefix):])
+            if val is None:
+                continue
+            s = str(val)
+        s = s[2:] if s.lower().startswith("0x") else s
+        try:
+            if int(s, 16) == 0:
+                return True
+        except ValueError:
+            continue
+    return False
+
+
 class _ExpectedField:
     __slots__ = ("label", "formatter", "path", "container_path", "token_path", "has_token_path")
 
-    def __init__(self, field: dict[str, Any], inputs: list):
+    def __init__(self, field: dict[str, Any], inputs: list, constants: dict[str, Any]):
         fmt = field["format"]
         path_str = str(field.get("path", ""))
         self.label: str = field.get("label", "")
-        self.formatter: str | None = _FORMATTER_MAP.get(fmt)
         self.container_path = _resolve_container(path_str)
         self.path = _resolve_indices(path_str, inputs)
         params = field.get("params") or {}
@@ -171,12 +197,30 @@ class _ExpectedField:
         self.token_path = (
             _resolve_indices(str(token_path_str), inputs) if token_path_str else None
         )
+        # A token-less `tokenAmount` whose null token is declared native (zero
+        # address in nativeCurrencyAddress) is emitted as the native AMOUNT
+        # formatter — mirror that, otherwise we'd flag the extractor's output.
+        if (
+            fmt == "tokenAmount"
+            and not token_path_str
+            and not params.get("token")
+            and _native_includes_zero(params, constants)
+        ):
+            self.formatter: str | None = _FORMATTER_MAP["amount"]
+        else:
+            self.formatter = _FORMATTER_MAP.get(fmt)
 
 
 class _ExpectedFormat:
     __slots__ = ("name", "selector", "intent", "fields")
 
-    def __init__(self, sig: str, display_format: dict[str, Any], definitions: dict[str, Any]):
+    def __init__(
+        self,
+        sig: str,
+        display_format: dict[str, Any],
+        definitions: dict[str, Any],
+        constants: dict[str, Any],
+    ):
         parsed = parse_signature(sig)
         inputs = list(parsed.inputs or [])
         self.name = sig.split("(")[0]
@@ -189,7 +233,7 @@ class _ExpectedFormat:
             f = _resolve_ref(f, definitions)
             if not _is_displayed(f):
                 continue
-            self.fields.append(_ExpectedField(f, inputs))
+            self.fields.append(_ExpectedField(f, inputs, constants))
 
 
 def _valid_deployment_count(descriptor: dict[str, Any]) -> int:
@@ -222,12 +266,13 @@ def derive_expected(descriptor: dict[str, Any]) -> dict[str, _ExpectedFormat]:
     display = descriptor.get("display") or {}
     formats = display.get("formats") or {}
     definitions = display.get("definitions") or {}
+    constants = (descriptor.get("metadata") or {}).get("constants") or {}
     expected: dict[str, _ExpectedFormat] = {}
     for sig, fmt in formats.items():
         if sig.startswith("0x") or not isinstance(fmt, dict):
             continue  # selector-only entries carry no signature to re-derive
         try:
-            ef = _ExpectedFormat(sig, fmt, definitions)
+            ef = _ExpectedFormat(sig, fmt, definitions, constants)
         except Exception:
             continue  # unparseable signature — extractor skips it too
         expected[ef.selector] = ef

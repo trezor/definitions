@@ -390,6 +390,34 @@ def _resolve_constant(path_str: str, constants: dict[str, Any]) -> Any | None:
     return constants.get(parts[2])
 
 
+def _native_currency_includes_zero(
+    params: dict[str, Any], constants: dict[str, Any]
+) -> bool:
+    """Whether `nativeCurrencyAddress` lists the zero address.
+
+    A `tokenAmount` with no `tokenPath`/`token` has a null (zero-address) token.
+    When the descriptor declares the zero address as a native-currency sentinel,
+    that null token *is* the chain's native currency, so the amount is native.
+    Entries may be literal addresses or `$.metadata.constants.*` references.
+    """
+    raw = params.get("nativeCurrencyAddress")
+    if raw is None:
+        return False
+    for entry in raw if isinstance(raw, list) else [raw]:
+        s = str(entry)
+        if s.startswith("$"):
+            resolved = _resolve_constant(s, constants)
+            if resolved is None:
+                continue
+            s = str(resolved)
+        try:
+            if int(_normalize_hex(s), 16) == 0:
+                return True
+        except ValueError:
+            continue
+    return False
+
+
 def _resolve_ref(
     field_def: dict[str, Any],
     definitions: dict[str, Any],
@@ -515,23 +543,40 @@ def build_field_dict(
             # A hardcoded `token` address isn't in calldata, and the proto only
             # carries a `token_path`. Emitting this amount with no token would
             # mislabel it as the chain's native currency, so skip the file.
-            # (No `tokenPath`/`token` at all is fine — that's a native amount.)
             raise UnsupportedFeature(
                 "tokenamount-hardcoded-token",
                 f"{params.get('token')} (field {label!r})",
             )
-        threshold = params.get("threshold")
-        if isinstance(threshold, str) and threshold.startswith("$"):
-            resolved_const = _resolve_constant(threshold, constants)
-            if resolved_const is None:
-                raise UnsupportedFeature(
-                    "unresolvable-threshold", f"{threshold} (field {label!r})"
-                )
-            threshold = resolved_const
-        if isinstance(threshold, str):
-            out["threshold"] = _normalize_hex(threshold)
-        elif isinstance(threshold, int):
-            out["threshold"] = _normalize_hex(hex(threshold))
+        elif _native_currency_includes_zero(params, constants):
+            # No `tokenPath`/`token`: the token defaults to the null address, and
+            # the descriptor lists the zero address in `nativeCurrencyAddress`,
+            # declaring this amount as native currency. `FORMATTER_TOKEN_AMOUNT`
+            # is meaningless (and unconstructable on-device) without a token, so
+            # emit the native `AMOUNT` formatter instead.
+            out["formatter"] = _FORMATTER_MAP["amount"]
+        else:
+            # No token and no native sentinel. Per the ERC-7730 spec this is an
+            # "unknown token" shown as a raw value with a warning — for which we
+            # have no faithful formatter — so skip rather than mislabel.
+            raise UnsupportedFeature(
+                "tokenamount-unknown-token",
+                f"tokenAmount with no token reference (field {label!r})",
+            )
+        # `threshold` applies only to a real token amount; the native `AMOUNT`
+        # formatter ignores it on-device.
+        if "token_path" in out:
+            threshold = params.get("threshold")
+            if isinstance(threshold, str) and threshold.startswith("$"):
+                resolved_const = _resolve_constant(threshold, constants)
+                if resolved_const is None:
+                    raise UnsupportedFeature(
+                        "unresolvable-threshold", f"{threshold} (field {label!r})"
+                    )
+                threshold = resolved_const
+            if isinstance(threshold, str):
+                out["threshold"] = _normalize_hex(threshold)
+            elif isinstance(threshold, int):
+                out["threshold"] = _normalize_hex(hex(threshold))
     elif fmt == "unit":
         if params.get("decimals") is not None:
             try:

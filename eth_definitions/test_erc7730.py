@@ -253,13 +253,16 @@ def test_addressname_on_uint_skips_file():
     ]
 
 
-def test_tokenamount_on_uint_is_kept():
+def test_tokenamount_no_token_skips_file():
+    # tokenAmount on a numeric value with no token reference at all: the token is
+    # unknown and FORMATTER_TOKEN_AMOUNT is unconstructable on-device, so skip.
     desc = _descriptor(
         formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": "tokenAmount"}]}}
     )
-    [rec] = build_display_formats(desc)
-    [field] = rec["field_definitions"]
-    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
 
 
 def test_tokenamount_on_bytes_skips_file():
@@ -335,10 +338,8 @@ def test_tokenamount_hardcoded_token_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"tokenamount-hardcoded-token"}
 
 
-def test_tokenamount_native_only_is_kept_without_token_path():
-    # No tokenPath and only nativeCurrencyAddress = a native-currency amount,
-    # correctly represented by a token_path-less tokenAmount (e.g. lifi ...ToNative).
-    desc = _descriptor(
+def _tokenamount_native_desc(native_addresses, constants=None):
+    return _descriptor(
         formats={
             "f(uint256 amount)": {
                 "fields": [
@@ -346,7 +347,59 @@ def test_tokenamount_native_only_is_kept_without_token_path():
                         "path": "amount",
                         "label": "Min out",
                         "format": "tokenAmount",
-                        "params": {"nativeCurrencyAddress": ["0x" + "ee" * 20]},
+                        "params": {"nativeCurrencyAddress": native_addresses},
+                    }
+                ]
+            }
+        },
+        constants=constants,
+    )
+
+
+def test_tokenamount_no_token_with_null_native_is_amount():
+    # No tokenPath: the token defaults to the null address. nativeCurrencyAddress
+    # lists the zero address, so this is a native amount -> AMOUNT formatter, no
+    # token_path (e.g. lifi ...ToNative "Minimum to receive"). FORMATTER_TOKEN_AMOUNT
+    # without a token is meaningless and unconstructable on-device.
+    desc = _tokenamount_native_desc(["0x" + "ee" * 20, "0x" + "00" * 20])
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_AMOUNT"
+    assert "token_path" not in field
+
+
+def test_tokenamount_no_token_via_constant_null_is_amount():
+    # The zero-address sentinel may be a $.metadata.constants.* reference.
+    desc = _tokenamount_native_desc(
+        ["$.metadata.constants.addressAsNull"],
+        constants={"addressAsNull": "0x" + "00" * 20},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_AMOUNT"
+
+
+def test_tokenamount_no_token_without_null_native_skips_file():
+    # No tokenPath and no zero-address sentinel -> the null token isn't declared
+    # native, so it's an unknown token we can't represent -> skip.
+    desc = _tokenamount_native_desc(["0x" + "ee" * 20])
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
+
+
+def test_container_value_token_amount_native_is_amount():
+    # @.value is numeric (kind-compatible with tokenAmount). With no token but the
+    # zero address declared native, it resolves to a native AMOUNT on the VALUE path.
+    desc = _descriptor(
+        formats={
+            "f()": {
+                "fields": [
+                    {
+                        "path": "@.value",
+                        "label": "Sent",
+                        "format": "tokenAmount",
+                        "params": {"nativeCurrencyAddress": ["0x" + "00" * 20]},
                     }
                 ]
             }
@@ -354,18 +407,8 @@ def test_tokenamount_native_only_is_kept_without_token_path():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
-    assert "token_path" not in field
-
-
-def test_container_value_accepts_token_amount():
-    desc = _descriptor(
-        formats={"f()": {"fields": [{"path": "@.value", "label": "Sent", "format": "tokenAmount"}]}}
-    )
-    [rec] = build_display_formats(desc)
-    [field] = rec["field_definitions"]
     assert field["path"] == {"container_path": "VALUE"}
-    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["formatter"] == "FORMATTER_AMOUNT"
 
 
 def test_container_value_rejects_address_name():
