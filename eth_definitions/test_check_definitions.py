@@ -51,7 +51,7 @@ def test_check_definitions_list_no_change(
 
 
 @parametrized
-def test_check_definitions_list_added_new(
+def test_check_definitions_list_added_new_show_all(
     caplog: pytest.LogCaptureFixture,
     old: list["DEFINITION_TYPE"],
     new: list["DEFINITION_TYPE"],
@@ -73,13 +73,51 @@ def test_check_definitions_list_added_new(
                 interactive=False,
                 force_accept=False,
             ),
-            show_all=True,
+            show_all=False,
+            show_added=True,
         )
 
         assert len(caplog.records) == 0
+        # With show_added=True, additions are reported.
+        assert "ADDED" in mock_stdout.getvalue()
+
+    # The data itself is unchanged (added entry was already in new_defs).
+    assert old_defs == old
+    assert new_defs == new
+
+
+@parametrized
+def test_check_definitions_list_added_new_silent(
+    caplog: pytest.LogCaptureFixture,
+    old: list["DEFINITION_TYPE"],
+    new: list["DEFINITION_TYPE"],
+):
+    old = deepcopy(old)
+    new = deepcopy(new)
+
+    # Simulating addition
+    old = old[:-1]
+
+    old_defs = deepcopy(old)
+    new_defs = deepcopy(new)
+
+    with mock.patch("sys.stdout", new=StringIO()) as mock_stdout:
+        check_definitions_list(
+            old_defs=old_defs,
+            new_defs=new_defs,
+            change_strategy=ChangeResolutionStrategy.from_args(
+                interactive=False,
+                force_accept=False,
+            ),
+            show_all=False,
+            show_added=False,
+        )
+
+        assert len(caplog.records) == 0
+        # Without show_added, additions are silent.
         assert mock_stdout.getvalue() == ""
 
-    # Nothing changed
+    # The data itself is unchanged.
     assert old_defs == old
     assert new_defs == new
 

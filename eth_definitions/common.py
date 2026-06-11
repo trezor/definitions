@@ -16,11 +16,27 @@ from pathlib import Path
 import click
 from trezorlib import definitions, protobuf, tools
 from trezorlib.merkle_tree import MerkleTree
-from trezorlib.messages import (
-    DefinitionType,
-    EthereumNetworkInfo,
-    EthereumTokenInfo,
-)
+try:
+    from trezorlib.messages import (
+        DefinitionType,
+        EthereumABITupleInfo,
+        EthereumABIType,
+        EthereumABIValueInfo,
+        EthereumDisplayFormatInfo,
+        EthereumERC7730ContainerPath,
+        EthereumERC7730FieldFormatterType,
+        EthereumERC7730FieldInfo,
+        EthereumERC7730Path,
+        EthereumNetworkInfo,
+        EthereumTokenInfo,
+    )
+except ImportError as e:
+    raise SystemExit(
+        f"Import error: {e}\n\n"
+        "Your trezorlib is outdated. Run:\n"
+        "  uv pip install -e ../trezor-firmware/python\n"
+        "  uv run --no-sync ./do_update.sh"
+    ) from None
 
 
 class SolanaTokenInfo(protobuf.MessageType):
@@ -46,12 +62,15 @@ class SolanaTokenInfo(protobuf.MessageType):
 if t.TYPE_CHECKING:
     from typing import TypeVar
 
-    DEFINITION_TYPE = TypeVar("DEFINITION_TYPE", "Network", "ERC20Token", "SolanaToken")
+    DEFINITION_TYPE = TypeVar(
+        "DEFINITION_TYPE", "Network", "ERC20Token", "SolanaToken", "ERC20DisplayFormat"
+    )
 
 HERE = Path(__file__).parent
 ROOT = HERE.parent
 
 DEFINITIONS_PATH = ROOT / "definitions-latest.json"
+DISPLAY_FORMATS_LOG_PATH = ROOT / "definitions-latest.log"
 GENERATED_DEFINITIONS_DIR = ROOT / "definitions-latest"
 DEPLOY_DEFINITIONS_TAR = ROOT / "definitions-deploy.tar.xz"
 
@@ -120,6 +139,67 @@ class SolanaToken(t.TypedDict):
     deleted: t.NotRequired[bool]
 
 
+class ABITuple(t.TypedDict):
+    fields: list["ABIValue"]
+    is_dynamic: bool
+
+
+class _AtomicABI(t.TypedDict):
+    atomic: str
+
+
+class _DynamicABI(t.TypedDict):
+    dynamic: str
+
+
+class _TupleABI(t.TypedDict):
+    tuple: ABITuple
+
+
+class _ArrayABI(t.TypedDict):
+    array: "ABIValue"
+
+
+ABIValue = _AtomicABI | _DynamicABI | _TupleABI | _ArrayABI
+
+
+class _ContainerPath(t.TypedDict):
+    container_path: str  # "FROM" | "VALUE" | "TO"
+
+
+class _DataPath(t.TypedDict):
+    path: list[int]
+
+
+ERC7730Path = _ContainerPath | _DataPath
+
+
+class ERC7730Field(t.TypedDict):
+    path: ERC7730Path
+    label: str
+    formatter: str  # e.g. "FORMATTER_ADDRESS_NAME"
+
+    # TokenAmountFormatter params
+    token_path: t.NotRequired[ERC7730Path]
+    threshold: t.NotRequired[str]  # hex (no 0x prefix)
+
+    # UnitFormatter params
+    decimals: t.NotRequired[int]
+    base: t.NotRequired[str]
+    prefix: t.NotRequired[bool]
+
+
+class ERC20DisplayFormat(t.TypedDict):
+    chain_id: int
+    address: str  # 0x-prefixed lowercase hex (20 bytes)
+    func_sig: str  # 0x-prefixed lowercase hex (4 bytes)
+    intent: str
+    parameter_definitions: list[ABIValue]
+    field_definitions: list[ERC7730Field]
+
+    deleted: t.NotRequired[bool]
+
+
 class DefinitionsFileMetadata(t.TypedDict):
     datetime: str
     unix_timestamp: int
@@ -132,6 +212,7 @@ class DefinitionsFileFormat(t.TypedDict):
     networks: list[Network]
     erc20_tokens: list[ERC20Token]
     solana_tokens: list[SolanaToken]
+    erc20_display_formats: list[ERC20DisplayFormat]
     metadata: DefinitionsFileMetadata
 
 
@@ -140,6 +221,7 @@ class DefinitionsData:
     networks: list[Network]
     erc20_tokens: list[ERC20Token]
     solana_tokens: list[SolanaToken]
+    erc20_display_formats: list[ERC20DisplayFormat]
 
     @classmethod
     def from_dict(cls, data: DefinitionsFileFormat) -> "DefinitionsData":
@@ -147,6 +229,7 @@ class DefinitionsData:
             networks=data["networks"],
             erc20_tokens=data["erc20_tokens"],
             solana_tokens=data["solana_tokens"],
+            erc20_display_formats=data["erc20_display_formats"],
         )
 
     def to_dict(self, metadata: DefinitionsFileMetadata) -> DefinitionsFileFormat:
@@ -154,6 +237,7 @@ class DefinitionsData:
             "networks": self.networks,
             "erc20_tokens": self.erc20_tokens,
             "solana_tokens": self.solana_tokens,
+            "erc20_display_formats": self.erc20_display_formats,
             "metadata": metadata,
         }
 
@@ -176,7 +260,8 @@ def get_git_commit_hash() -> str:
 
 
 def hash_dict_on_keys(
-    d: Network | ERC20Token | SolanaToken, exclude_keys: t.Collection[str] = ()
+    d: Network | ERC20Token | SolanaToken | ERC20DisplayFormat,
+    exclude_keys: t.Collection[str] = (),
 ) -> bytes:
     """Get the hash of a dict, excluding selected keys."""
     tmp_dict = {k: v for k, v in d.items() if k not in exclude_keys}
@@ -225,11 +310,92 @@ def _serialize_solana_token(token: SolanaToken, timestamp: int) -> bytes:
     return _encode_payload(token_info, DefinitionType.SOLANA_TOKEN, timestamp)
 
 
+_ABI_VARIANT_KEYS = frozenset({"atomic", "dynamic", "tuple", "array"})
+_PATH_VARIANT_KEYS = frozenset({"container_path", "path"})
+
+
+def _build_abi_value_info(d: ABIValue) -> EthereumABIValueInfo:
+    variants = _ABI_VARIANT_KEYS & d.keys()
+    if len(variants) != 1:
+        raise ValueError(
+            f"ABIValue must have exactly one variant key, got {sorted(variants)}: {d}"
+        )
+    if "atomic" in d:
+        return EthereumABIValueInfo(atomic=EthereumABIType[d["atomic"]])
+    if "dynamic" in d:
+        return EthereumABIValueInfo(dynamic=EthereumABIType[d["dynamic"]])
+    if "tuple" in d:
+        tup = d["tuple"]
+        return EthereumABIValueInfo(
+            tuple=EthereumABITupleInfo(
+                fields=[_build_abi_value_info(f) for f in tup["fields"]],
+                is_dynamic=tup["is_dynamic"],
+            )
+        )
+    if "array" in d:
+        return EthereumABIValueInfo(array=_build_abi_value_info(d["array"]))
+    raise AssertionError("unreachable")
+
+
+def _build_erc7730_path(d: ERC7730Path) -> EthereumERC7730Path:
+    variants = _PATH_VARIANT_KEYS & d.keys()
+    if len(variants) != 1:
+        raise ValueError(
+            f"ERC7730Path must have exactly one variant key, got {sorted(variants)}: {d}"
+        )
+    if "container_path" in d:
+        return EthereumERC7730Path(
+            container_path=EthereumERC7730ContainerPath[d["container_path"]]
+        )
+    if "path" in d:
+        return EthereumERC7730Path(path=list(d["path"]))
+    raise AssertionError("unreachable")
+
+
+def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
+    return EthereumERC7730FieldInfo(
+        path=_build_erc7730_path(d["path"]),
+        label=d["label"],
+        formatter=EthereumERC7730FieldFormatterType[d["formatter"]],
+        token_path=(
+            _build_erc7730_path(d["token_path"]) if "token_path" in d else None
+        ),
+        threshold=bytes.fromhex(d["threshold"]) if "threshold" in d else None,
+        decimals=d.get("decimals"),
+        base=d.get("base"),
+        prefix=d.get("prefix"),
+    )
+
+
+def _strip_0x(label: str, value: str) -> str:
+    if not value.startswith("0x"):
+        raise ValueError(f"{label} must start with '0x', got {value!r}")
+    return value[2:]
+
+
+def _serialize_eth_display_format(
+    display_format: ERC20DisplayFormat, timestamp: int
+) -> bytes:
+    info = EthereumDisplayFormatInfo(
+        chain_id=display_format["chain_id"],
+        address=bytes.fromhex(_strip_0x("address", display_format["address"])),
+        func_sig=bytes.fromhex(_strip_0x("func_sig", display_format["func_sig"])),
+        intent=display_format["intent"],
+        parameter_definitions=[
+            _build_abi_value_info(p) for p in display_format["parameter_definitions"]
+        ],
+        field_definitions=[
+            _build_erc7730_field_info(f) for f in display_format["field_definitions"]
+        ],
+    )
+    return _encode_payload(info, DefinitionType.ETHEREUM_DISPLAY_FORMAT, timestamp)
+
+
 def serialize_definitions(
     definitions_data: DefinitionsData,
     timestamp: int,
     progress: t.Callable[[int], None] = lambda _: None,
-) -> dict[bytes, Network | ERC20Token | SolanaToken]:
+) -> dict[bytes, Network | ERC20Token | SolanaToken | ERC20DisplayFormat]:
     T = t.TypeVar("T")
 
     def wrap(i: t.Iterable[T]) -> t.Iterator[T]:
@@ -248,11 +414,23 @@ def serialize_definitions(
         _serialize_solana_token(t, timestamp): t
         for t in wrap(definitions_data.solana_tokens)
     }
-    return {**network_bytes, **erc20_token_bytes, **solana_token_bytes}
+    display_format_bytes = {
+        _serialize_eth_display_format(df, timestamp): df
+        for df in wrap(definitions_data.erc20_display_formats)
+    }
+    return {
+        **network_bytes,
+        **erc20_token_bytes,
+        **solana_token_bytes,
+        **display_format_bytes,
+    }
 
 
 def _encode_payload(
-    info: EthereumNetworkInfo | EthereumTokenInfo | SolanaTokenInfo,
+    info: EthereumNetworkInfo
+    | EthereumTokenInfo
+    | SolanaTokenInfo
+    | EthereumDisplayFormatInfo,
     data_type_num: DefinitionType,
     timestamp: int,
 ) -> bytes:
