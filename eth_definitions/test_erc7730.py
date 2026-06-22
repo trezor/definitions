@@ -582,17 +582,39 @@ def test_raw_constant_field_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"non-path-field"}
 
 
-def test_one_bad_field_skips_the_whole_file():
-    # First function is fine; the second has an unsupported formatter. The whole
-    # file must be skipped — no records emitted for the good function either.
+def test_bad_format_is_skipped_clean_formats_kept():
+    # First function is fine; the second has an unsupported formatter. Only the
+    # bad display format is dropped — the good one is still emitted — and the
+    # bad one's feature is recorded.
     desc = _descriptor(
         formats={
             "good(address x)": {"fields": [{"path": "x", "label": "Addr", "format": "addressName"}]},
             "bad(uint256 y)": {"fields": [{"path": "y", "label": "Y", "format": "date"}]},
         }
     )
+    unsupported: list = []
+    recs = build_display_formats(desc, unsupported=unsupported)
+    # One clean format x one deployment.
+    assert len(recs) == 1
+    assert recs[0]["field_definitions"][0]["label"] == "Addr"
+    # The dropped format's feature is still logged.
+    assert "unsupported-formatter" in {feat for _src, feat, _det in unsupported}
+
+
+def test_all_formats_bad_skips_whole_file():
+    # When no display format survives, the whole file is skipped (raises).
+    desc = _descriptor(
+        formats={
+            "bad1(uint256 y)": {"fields": [{"path": "y", "label": "Y", "format": "date"}]},
+            "bad2(uint256 z)": {"fields": [{"path": "z", "label": "Z", "format": "enum"}]},
+        }
+    )
+    unsupported: list = []
     with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc)
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {
+        "unsupported-formatter",
+    }
 
 
 def test_hidden_field_with_bad_path_does_not_skip_file():

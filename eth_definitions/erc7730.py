@@ -662,11 +662,16 @@ def build_display_formats(
 
     Yields one record per (deployment × signature) pair.
 
-    If the descriptor contains *any* unsupported feature (a displayed field we
-    can't represent, a selector-only entry, an unparseable signature, …), the
-    whole file is skipped: no records are emitted and `UnsupportedFeature` is
-    raised. Every distinct feature found is appended to `unsupported` (if given)
-    as `(source, feature, detail)` for later logging.
+    Skipping is per *display format* (signature): a display format with any
+    unsupported feature (a displayed field we can't represent, an unparseable
+    signature, a selector-only entry, …) is dropped whole — we never emit a
+    display format with a field silently missing — but the other clean display
+    formats in the same file are still emitted. Every distinct feature found is
+    appended to `unsupported` (if given) as `(source, feature, detail)` for
+    later logging.
+
+    If *no* display format survives (every one was skipped), `UnsupportedFeature`
+    is raised so the caller can treat the whole file as skipped.
     """
     context = descriptor.get("context") or {}
     contract = context.get("contract") or {}
@@ -679,8 +684,8 @@ def build_display_formats(
         LOG.info("%s: no deployments, skipping", source)
         return []
 
-    # Distinct unsupported features found in THIS file. A non-empty set means we
-    # skip the whole file instead of emitting display formats with missing fields.
+    # Distinct unsupported features found in THIS file, for logging. Tracked at
+    # file level (deduped), but skipping is decided per display format below.
     file_features: list[tuple[str, str]] = []
     seen_features: set[tuple[str, str]] = set()
 
@@ -690,10 +695,14 @@ def build_display_formats(
             seen_features.add(key)
             file_features.append(key)
 
-    # Fully-built candidates; only expanded into records if the file is clean.
+    # Candidates from clean display formats; expanded into records below.
     pending: list[tuple[str, str, list[ABIValue], list[ERC7730Field]]] = []
 
     for sig_key, display_format in formats.items():
+        # A display format is dropped whole if it accrues any feature; snapshot
+        # the count so we can tell whether this one stayed clean.
+        features_before = len(file_features)
+
         if sig_key.startswith("0x"):
             # Hex selector — we can't derive parameter types without an ABI.
             note("selector-only-entry", sig_key)
@@ -755,12 +764,20 @@ def build_display_formats(
             if built is not None:
                 field_defs.append(built)
 
+        # Drop this display format whole if any field/param was unsupported —
+        # never emit one with a field silently missing. Other formats survive.
+        if len(file_features) > features_before:
+            continue
+
         intent = _get_intent(display_format)
         pending.append((func_sig_hex, intent, parameter_definitions, field_defs))
 
-    if file_features:
-        if unsupported is not None:
-            unsupported.extend((source, feat, detail) for feat, detail in file_features)
+    # Log every feature found, even when some display formats were still emitted.
+    if unsupported is not None:
+        unsupported.extend((source, feat, detail) for feat, detail in file_features)
+
+    # Nothing representable in the whole file — let the caller skip it.
+    if not pending and file_features:
         raise UnsupportedFeature(
             "descriptor-skipped",
             f"{source}: {len(file_features)} unsupported feature(s)",
