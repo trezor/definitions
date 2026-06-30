@@ -219,19 +219,26 @@ _CONTAINER_MAP = {
 # Leaf-value kinds used for formatter ↔ type compatibility checks.
 KIND_ADDRESS = "address"
 KIND_NUMERIC = "numeric"  # any uint*
-KIND_OTHER = "other"  # bytes/bool/string/tuple/array/unknown — no formatter accepts it
+KIND_BYTES = "bytes"  # bool / bytesN / bytes / string — a scalar leaf only `raw` renders
+KIND_OTHER = "other"  # un-indexed array, tuple, or unknown — nothing renders it as one field
 
 
 def _classify_kind(base_type: str, array_depth: int) -> str:
     """Classify a resolved leaf Solidity type into a formatter-compat kind."""
     if array_depth > 0:
         # The leaf is still an array (e.g. an un-indexed `uint256[]`); no scalar
-        # formatter can render it.
+        # formatter can render it (a `.[]` iteration peels the dimension first).
         return KIND_OTHER
     if base_type == "address":
         return KIND_ADDRESS
     if base_type.startswith("uint"):
         return KIND_NUMERIC
+    if base_type == "bool" or base_type == "string" or base_type.startswith("bytes"):
+        # A scalar bool / bytesN / bytes / string leaf — the firmware's
+        # RawFormatter renders these (bytes as hex, bool as text, string as-is),
+        # but no other formatter does.
+        return KIND_BYTES
+    # tuple / unknown — not representable as a single rendered value.
     return KIND_OTHER
 
 
@@ -324,14 +331,25 @@ _FORMATTER_MAP = {
     "amount": "FORMATTER_AMOUNT",
     "tokenAmount": "FORMATTER_TOKEN_AMOUNT",
     "unit": "FORMATTER_UNIT",
+    # The firmware renders `raw` per Solidity type (int as decimal, address/bytes
+    # as hex, bool as text, string as-is) and `date` as a human-readable unix
+    # timestamp. A `date` with a `blockheight` encoding is overridden to RAW in
+    # build_field_dict, since it's a block number rather than a time.
+    "raw": "FORMATTER_RAW",
+    "date": "FORMATTER_DATE",
 }
 
-# The leaf-value kind each formatter expects the field's path to resolve to.
+# The leaf-value kind(s) each formatter accepts. A field whose path resolves to a
+# kind outside this set is unrepresentable, so the descriptor is skipped.
 _FORMATTER_VALUE_KIND = {
-    "addressName": KIND_ADDRESS,
-    "amount": KIND_NUMERIC,
-    "tokenAmount": KIND_NUMERIC,
-    "unit": KIND_NUMERIC,
+    "addressName": frozenset({KIND_ADDRESS}),
+    "amount": frozenset({KIND_NUMERIC}),
+    "tokenAmount": frozenset({KIND_NUMERIC}),
+    "unit": frozenset({KIND_NUMERIC}),
+    # `raw` renders any scalar leaf; only whole arrays / tuples are rejected.
+    "raw": frozenset({KIND_ADDRESS, KIND_NUMERIC, KIND_BYTES}),
+    # `date` paths point at a uint timestamp/blockheight.
+    "date": frozenset({KIND_NUMERIC}),
 }
 
 
@@ -520,12 +538,12 @@ def build_field_dict(
     if fmt not in _FORMATTER_MAP:
         raise UnsupportedFeature("unsupported-formatter", f"{fmt} (field {label!r})")
 
-    expected_kind = _FORMATTER_VALUE_KIND.get(fmt)
-    if expected_kind is not None and value_kind != expected_kind:
+    allowed_kinds = _FORMATTER_VALUE_KIND.get(fmt)
+    if allowed_kinds is not None and value_kind not in allowed_kinds:
         raise UnsupportedFeature(
             "formatter-type-mismatch",
-            f"{fmt} expects {expected_kind} but {path_str!r} is {value_kind} "
-            f"(field {label!r})",
+            f"{fmt} expects {'/'.join(sorted(allowed_kinds))} but {path_str!r} is "
+            f"{value_kind} (field {label!r})",
         )
 
     out: ERC7730Field = {
@@ -618,6 +636,13 @@ def build_field_dict(
             out["base"] = str(params["base"])
         if params.get("prefix") is not None:
             out["prefix"] = bool(params["prefix"])
+    elif fmt == "date":
+        # FORMATTER_DATE renders a unix timestamp (seconds) as a human-readable
+        # date on-device. The `blockheight` encoding is a plain block number, not
+        # a time — the date formatter would misrender it — so fall back to the
+        # raw integer for anything other than a timestamp.
+        if params.get("encoding", "timestamp") != "timestamp":
+            out["formatter"] = _FORMATTER_MAP["raw"]
 
     return out
 
