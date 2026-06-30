@@ -198,6 +198,14 @@ def test_unresolvable_ref_field_skips_file():
 
 _ADDR_FIELD = {"f(address x)": {"fields": [{"path": "x", "label": "L", "format": "addressName"}]}}
 
+# A bespoke `format` value that is deliberately not a real ERC-7730 formatter, so
+# tests that just need "some unsupported formatter" don't silently go stale if we
+# later add support for a real one (e.g. `date`, `enum`). `_field_is_displayed`
+# only checks that a `format` is present, and `build_field_dict` rejects anything
+# absent from `_FORMATTER_MAP`, so this routes through the `unsupported-formatter`
+# path exactly like a real-but-unsupported name would.
+_UNSUPPORTED_FORMAT = "notAFormatter"
+
 
 def test_record_shape():
     [rec] = build_display_formats(_descriptor(formats=_ADDR_FIELD))
@@ -562,7 +570,7 @@ def test_unit_non_numeric_decimals_skips_file():
 
 def test_unsupported_formatter_skips_file_and_is_collected():
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": "enum"}]}}
+        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": _UNSUPPORTED_FORMAT}]}}
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
@@ -589,7 +597,7 @@ def test_bad_format_is_skipped_clean_formats_kept():
     desc = _descriptor(
         formats={
             "good(address x)": {"fields": [{"path": "x", "label": "Addr", "format": "addressName"}]},
-            "bad(uint256 y)": {"fields": [{"path": "y", "label": "Y", "format": "date"}]},
+            "bad(uint256 y)": {"fields": [{"path": "y", "label": "Y", "format": _UNSUPPORTED_FORMAT}]},
         }
     )
     unsupported: list = []
@@ -601,12 +609,31 @@ def test_bad_format_is_skipped_clean_formats_kept():
     assert "unsupported-formatter" in {feat for _src, feat, _det in unsupported}
 
 
+def test_duplicate_unsupported_feature_across_formats_skips_each():
+    # Regression: two broken formats raise the *same* (feature, detail) — here an
+    # identical unsupported formatter on an identically-labelled field. The first
+    # seeds the deduped feature log; the second's note() finds it already present
+    # and adds nothing, so a "did the feature log grow?" check would think the
+    # second format stayed clean and emit it with its field silently dropped.
+    # Each broken format must be skipped on its own; only the clean one survives.
+    desc = _descriptor(
+        formats={
+            "good(address x)": {"fields": [{"path": "x", "label": "Addr", "format": "addressName"}]},
+            "bad1(uint256 y)": {"fields": [{"path": "y", "label": "Amt", "format": _UNSUPPORTED_FORMAT}]},
+            "bad2(uint256 z)": {"fields": [{"path": "z", "label": "Amt", "format": _UNSUPPORTED_FORMAT}]},
+        }
+    )
+    recs = build_display_formats(desc)
+    assert len(recs) == 1
+    assert recs[0]["field_definitions"][0]["label"] == "Addr"
+
+
 def test_all_formats_bad_skips_whole_file():
     # When no display format survives, the whole file is skipped (raises).
     desc = _descriptor(
         formats={
-            "bad1(uint256 y)": {"fields": [{"path": "y", "label": "Y", "format": "date"}]},
-            "bad2(uint256 z)": {"fields": [{"path": "z", "label": "Z", "format": "enum"}]},
+            "bad1(uint256 y)": {"fields": [{"path": "y", "label": "Y", "format": _UNSUPPORTED_FORMAT}]},
+            "bad2(uint256 z)": {"fields": [{"path": "z", "label": "Z", "format": _UNSUPPORTED_FORMAT}]},
         }
     )
     unsupported: list = []
@@ -614,6 +641,30 @@ def test_all_formats_bad_skips_whole_file():
         build_display_formats(desc, unsupported=unsupported)
     assert {feat for _src, feat, _det in unsupported} == {
         "unsupported-formatter",
+    }
+
+
+def test_all_unsupported_features_in_one_format_are_logged():
+    # The fields loop keeps scanning after the first unsupported field, so a
+    # single (doomed) display format logs *every* distinct feature it hits, not
+    # just the first. Here one format has two displayed fields with two different
+    # problems; both must be recorded.
+    desc = _descriptor(
+        formats={
+            "f(address a, address b)": {
+                "fields": [
+                    {"path": "a", "label": "A", "format": _UNSUPPORTED_FORMAT},
+                    {"path": "b", "label": "", "format": "addressName"},
+                ]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {
+        "unsupported-formatter",  # field a's bespoke formatter
+        "missing-label",  # field b's empty label
     }
 
 
@@ -644,7 +695,7 @@ def test_hidden_field_with_format_but_visible_never_is_skipped():
             "f(address to, bytes raw)": {
                 "fields": [
                     {"path": "to", "label": "To", "format": "addressName"},
-                    {"path": "raw", "label": "R", "format": "enum", "visible": "never"},
+                    {"path": "raw", "label": "R", "format": _UNSUPPORTED_FORMAT, "visible": "never"},
                 ]
             }
         }

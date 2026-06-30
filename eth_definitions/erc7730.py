@@ -660,7 +660,7 @@ def build_display_formats(
 ) -> list[ERC20DisplayFormat]:
     """Turn a single (post-includes) ERC-7730 descriptor into a list of records.
 
-    Yields one record per (deployment × signature) pair.
+    Yields one record per (deployment x signature) pair.
 
     Skipping is per *display format* (signature): a display format with any
     unsupported feature (a displayed field we can't represent, an unparseable
@@ -688,8 +688,16 @@ def build_display_formats(
     # file level (deduped), but skipping is decided per display format below.
     file_features: list[tuple[str, str]] = []
     seen_features: set[tuple[str, str]] = set()
+    # Whether the display format currently being processed hit any unsupported
+    # feature. Reset per signature below and flipped by note() on *every* call —
+    # even one whose (feature, detail) was already seen in an earlier signature
+    # and thus deduped out of file_features. The drop decision must not depend on
+    # file_features growing, or a repeated feature would emit a broken format.
+    had_issue = False
 
     def note(feature: str, detail: str) -> None:
+        nonlocal had_issue
+        had_issue = True
         key = (feature, detail)
         if key not in seen_features:
             seen_features.add(key)
@@ -699,9 +707,10 @@ def build_display_formats(
     pending: list[tuple[str, str, list[ABIValue], list[ERC7730Field]]] = []
 
     for sig_key, display_format in formats.items():
-        # A display format is dropped whole if it accrues any feature; snapshot
-        # the count so we can tell whether this one stayed clean.
-        features_before = len(file_features)
+        # A display format is dropped whole if it hits any unsupported feature;
+        # note() flips this flag (even for a feature already seen in an earlier
+        # signature, which file_features would dedupe away).
+        had_issue = False
 
         if sig_key.startswith("0x"):
             # Hex selector — we can't derive parameter types without an ABI.
@@ -766,7 +775,7 @@ def build_display_formats(
 
         # Drop this display format whole if any field/param was unsupported —
         # never emit one with a field silently missing. Other formats survive.
-        if len(file_features) > features_before:
+        if had_issue:
             continue
 
         intent = _get_intent(display_format)
