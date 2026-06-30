@@ -346,8 +346,61 @@ def test_tokenpath_non_address_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"unresolvable-token-path"}
 
 
-def test_tokenamount_hardcoded_token_skips_file():
-    # A literal `token` address can't be encoded as a token_path — skip the file.
+def _const_token_desc(token, constants=None):
+    return _descriptor(
+        formats={
+            "f(uint256 amount)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": {"token": token},
+                    }
+                ]
+            }
+        },
+        constants=constants,
+    )
+
+
+def test_tokenamount_literal_token_is_const_token_address():
+    # A literal `token` address is emitted directly as const_token_address.
+    [rec] = build_display_formats(_const_token_desc("0x" + "ab" * 20))
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["const_token_address"] == "ab" * 20
+    assert "token_path" not in field
+
+
+def test_tokenamount_constant_ref_token_is_resolved():
+    # The token may be a $.metadata.constants.* reference resolved by the parser.
+    desc = _const_token_desc(
+        "$.metadata.constants.usdc", constants={"usdc": "0x" + "cd" * 20}
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["const_token_address"] == "cd" * 20
+
+
+def test_tokenamount_invalid_const_token_skips_file():
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(_const_token_desc("not-an-address"), unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"invalid-const-token"}
+
+
+def test_tokenamount_unresolvable_constant_token_skips_file():
+    # A $.metadata.constants.* reference with no matching constant is invalid.
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(
+            _const_token_desc("$.metadata.constants.missing"), unsupported=unsupported
+        )
+    assert {feat for _src, feat, _det in unsupported} == {"invalid-const-token"}
+
+
+def test_tokenamount_literal_zero_token_with_native_is_amount():
+    # A literal zero token is the null/native token: native AMOUNT when declared.
     desc = _descriptor(
         formats={
             "f(uint256 amount)": {
@@ -356,16 +409,62 @@ def test_tokenamount_hardcoded_token_skips_file():
                         "path": "amount",
                         "label": "Amt",
                         "format": "tokenAmount",
-                        "params": {"token": "0x" + "ab" * 20},
+                        "params": {
+                            "token": "0x" + "00" * 20,
+                            "nativeCurrencyAddress": ["0x" + "00" * 20],
+                        },
                     }
                 ]
             }
         }
     )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_AMOUNT"
+    assert "const_token_address" not in field
+
+
+def test_tokenamount_literal_zero_token_without_native_skips_file():
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-hardcoded-token"}
+        build_display_formats(_const_token_desc("0x" + "00" * 20), unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
+
+
+def test_tokenamount_const_token_keeps_threshold():
+    desc = _descriptor(
+        formats={
+            "f(uint256 amount)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": {"token": "0x" + "ab" * 20, "threshold": "0xff"},
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["const_token_address"] == "ab" * 20
+    assert field["threshold"] == "ff"
+
+
+def test_const_token_address_serializes_to_proto():
+    # The const_token_address hex makes it onto the proto field as raw bytes.
+    from .common import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "Amt",
+            "formatter": "FORMATTER_TOKEN_AMOUNT",
+            "const_token_address": "ab" * 20,
+        }
+    )
+    assert info.const_token_address == bytes.fromhex("ab" * 20)
 
 
 def _tokenamount_native_desc(native_addresses, constants=None):
