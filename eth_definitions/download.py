@@ -49,6 +49,22 @@ NETWORKS_PATH = ETHEREUM_LISTS / "chains" / "_data" / "chains"
 TOKENS_PATH = ETHEREUM_LISTS / "tokens" / "tokens"
 DISPLAY_FORMATS_PATH = ERC7730_REGISTRY / "registry"
 
+ENABLED_PROVIDERS = frozenset(
+    {
+        "lifi",
+        "lido",
+        "morpho",
+        "kiln",
+        "poap",
+        "starkgate",
+        "walletconnect",
+        "yieldxyz",
+        "corestake",
+        "ethena",
+        "fellow-fund",
+    }
+)
+
 
 class CacheableError(Exception):
     def __init__(self, error_code: int):
@@ -414,8 +430,8 @@ def _load_display_formats_from_repo(
             raise
 
         rel = str(path.relative_to(ROOT_DIR))
-        # TODO: gradually allow more providers to pass through as we test them
-        gated = "lifi" in path.parts
+        # `*/calldata-*.json` glob → the provider is the file's parent directory.
+        gated = path.parent.name in ENABLED_PROVIDERS
         loaded.append((rel, gated, records))
 
     display_formats, conflicts = _dedup_display_formats(loaded, known_chain_ids)
