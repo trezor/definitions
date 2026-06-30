@@ -182,6 +182,7 @@ class ERC7730Field(t.TypedDict):
     # TokenAmountFormatter params
     token_path: t.NotRequired[ERC7730Path]
     threshold: t.NotRequired[str]  # hex (no 0x prefix)
+    const_token_address: t.NotRequired[str]  # hex (no 0x prefix), 20 bytes
 
     # UnitFormatter params
     decimals: t.NotRequired[int]
@@ -364,6 +365,11 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
         decimals=d.get("decimals"),
         base=d.get("base"),
         prefix=d.get("prefix"),
+        const_token_address=(
+            bytes.fromhex(d["const_token_address"])
+            if "const_token_address" in d
+            else None
+        ),
     )
 
 

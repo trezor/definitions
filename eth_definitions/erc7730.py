@@ -411,6 +411,24 @@ def _resolve_constant(path_str: str, constants: dict[str, Any]) -> Any | None:
     return constants.get(parts[2])
 
 
+def _resolve_address_ref(value: Any, constants: dict[str, Any]) -> str | None:
+    """Resolve a token-address reference to normalized 20-byte hex (no `0x`).
+
+    ``value`` is a literal address string or a ``$.metadata.constants.*``
+    reference. Returns None if it can't be resolved to a valid 20-byte address.
+    """
+    s = str(value)
+    if s.startswith("$"):
+        resolved = _resolve_constant(s, constants)
+        if resolved is None:
+            return None
+        s = str(resolved)
+    s = _normalize_hex(s)
+    if len(s) != 40 or set(s) - _HEX_DIGITS:
+        return None
+    return s
+
+
 def _native_currency_includes_zero(
     params: dict[str, Any], constants: dict[str, Any]
 ) -> bool:
@@ -566,13 +584,27 @@ def build_field_dict(
                     f"{token_path_str} (field {label!r})",
                 )
         elif params.get("token"):
-            # A hardcoded `token` address isn't in calldata, and the proto only
-            # carries a `token_path`. Emitting this amount with no token would
-            # mislabel it as the chain's native currency, so skip the file.
-            raise UnsupportedFeature(
-                "tokenamount-hardcoded-token",
-                f"{params.get('token')} (field {label!r})",
-            )
+            # A hardcoded / constant token address isn't in calldata; the proto
+            # carries it directly as `const_token_address` (often a
+            # `$.metadata.constants.*` reference resolved here). The firmware uses
+            # it in place of a calldata-derived `token_path`.
+            const_addr = _resolve_address_ref(params["token"], constants)
+            if const_addr is None:
+                raise UnsupportedFeature(
+                    "invalid-const-token", f"{params['token']!r} (field {label!r})"
+                )
+            if int(const_addr, 16) == 0:
+                # The zero address is the null/native token, not a real ERC-20.
+                # Treat it like the no-token case: native if declared, else skip.
+                if _native_currency_includes_zero(params, constants):
+                    out["formatter"] = _FORMATTER_MAP["amount"]
+                else:
+                    raise UnsupportedFeature(
+                        "tokenamount-unknown-token",
+                        f"tokenAmount with null token (field {label!r})",
+                    )
+            else:
+                out["const_token_address"] = const_addr
         elif _native_currency_includes_zero(params, constants):
             # No `tokenPath`/`token`: the token defaults to the null address, and
             # the descriptor lists the zero address in `nativeCurrencyAddress`,
@@ -588,9 +620,9 @@ def build_field_dict(
                 "tokenamount-unknown-token",
                 f"tokenAmount with no token reference (field {label!r})",
             )
-        # `threshold` applies only to a real token amount; the native `AMOUNT`
-        # formatter ignores it on-device.
-        if "token_path" in out:
+        # `threshold` applies only to a real token amount (calldata- or
+        # constant-addressed); the native `AMOUNT` fallback ignores it on-device.
+        if "token_path" in out or "const_token_address" in out:
             threshold = params.get("threshold")
             if isinstance(threshold, str) and threshold.startswith("$"):
                 resolved_const = _resolve_constant(threshold, constants)
