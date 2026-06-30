@@ -251,9 +251,15 @@ def path_to_dict(
     used by the caller to check the field's formatter against the type the
     path actually points at.
 
+    A trailing `.[]` (whole-array iteration) is supported: the path points at
+    the array itself and the firmware formats each element. The peeled element
+    kind is returned, so formatter compatibility is checked against the element
+    type (e.g. `amounts.[]` over `uint256[]` is numeric).
+
     Returns None for unsupported paths (caller should skip the field):
       * `$.metadata.constants.X` (descriptor paths)
-      * `.[]` array iteration / slices
+      * a non-trailing `.[]` (per-element field extraction) or array slices
+      * `.[]` over a non-array, or leaving a still-nested array
       * unknown name segments
 
     Raises UnsupportedFeature for an unsupported container path (anything under
@@ -297,7 +303,14 @@ def path_to_dict(
     current = inputs
     leaf_base: str | None = None
     leaf_array_depth = 0
+    saw_array_iter = False
     for element in parsed.elements:
+        if saw_array_iter:
+            # A `.[]` resolves the path to the whole array, which the firmware
+            # formats element-by-element — so nothing may follow it. A per-element
+            # field extraction (`swaps.[].amount`) can't be expressed as a flat
+            # index path, so reject it.
+            return None
         if isinstance(element, PathField):
             name_to_idx = {p.name: i for i, p in enumerate(current) if p.name}
             if element.identifier not in name_to_idx:
@@ -312,7 +325,18 @@ def path_to_dict(
             indices.append(element.index)
             if leaf_array_depth > 0:
                 leaf_array_depth -= 1  # indexing peels one array dimension
-        elif isinstance(element, (Array, ArraySlice)):
+        elif isinstance(element, Array):
+            # `.[]` whole-array iteration. The proto path points at the array
+            # itself (no index appended); the firmware applies the field's
+            # formatter to each element and joins the results. Peel one array
+            # dimension so the leaf kind reflects the per-element type — a leaf
+            # that is still an array (e.g. `uint256[][]`) then classifies as
+            # KIND_OTHER, since only flat arrays of scalars can be iterated.
+            if leaf_array_depth <= 0:
+                return None  # `.[]` on a non-array leaf
+            leaf_array_depth -= 1
+            saw_array_iter = True
+        elif isinstance(element, ArraySlice):
             return None
         else:
             return None
@@ -636,6 +660,7 @@ def build_field_dict(
                 # `_normalize_hex` doesn't validate: a non-hex value would slip
                 # through and crash `bytes.fromhex` at serialization. Reject it
                 # here as an unrepresentable field instead.
+                # TODO: Revisit for a better validation logic. maybe do validate while normalizing.
                 if set(normalized) - _HEX_DIGITS:
                     raise UnsupportedFeature(
                         "invalid-threshold", f"{threshold!r} (field {label!r})"

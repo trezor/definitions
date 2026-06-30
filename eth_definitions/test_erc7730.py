@@ -100,6 +100,46 @@ def test_path_to_dict_unindexed_array_is_other():
     )
 
 
+def test_path_to_dict_array_iteration_peels_to_element_kind():
+    # A trailing `.[]` points the path at the array itself (no extra index); the
+    # returned kind is the per-element type, so a scalar formatter accepts it.
+    assert path_to_dict("amounts.[]", _inputs("f(uint256[] amounts)")) == (
+        {"path": [0]},
+        KIND_NUMERIC,
+    )
+    assert path_to_dict("xs.[]", _inputs("f(address[] xs)")) == (
+        {"path": [0]},
+        KIND_ADDRESS,
+    )
+    assert path_to_dict("ds.[]", _inputs("f(bytes[] ds)")) == (
+        {"path": [0]},
+        KIND_BYTES,
+    )
+
+
+def test_path_to_dict_array_iteration_on_non_array_is_none():
+    assert path_to_dict("x.[]", _inputs("f(uint256 x)")) is None
+
+
+def test_path_to_dict_array_iteration_leaving_nested_array_is_other():
+    # One `.[]` over a 2D array still leaves an array element — not flat-iterable.
+    assert path_to_dict("x.[]", _inputs("f(uint256[][] x)")) == (
+        {"path": [0]},
+        KIND_OTHER,
+    )
+
+
+def test_path_to_dict_double_array_iteration_is_none():
+    # Nothing may follow a `.[]` — including a second `.[]`.
+    assert path_to_dict("x.[].[]", _inputs("f(uint256[][] x)")) is None
+
+
+def test_path_to_dict_non_trailing_array_iteration_is_none():
+    # A per-element field extraction can't be expressed as a flat index path.
+    inputs = _inputs("f((address t, bytes d)[] swaps)")
+    assert path_to_dict("swaps.[].t", inputs) is None
+
+
 def test_path_to_dict_container_paths():
     assert path_to_dict("@.from", []) == ({"container_path": "FROM"}, KIND_ADDRESS)
     assert path_to_dict("@.to", []) == ({"container_path": "TO"}, KIND_ADDRESS)
@@ -732,6 +772,77 @@ def test_date_blockheight_encoding_falls_back_to_raw():
 def test_date_on_non_numeric_skips_file():
     desc = _single_field_desc(
         "f(address x)", {"path": "x", "label": "L", "format": "date"}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
+
+
+# =====================================================================
+#                array (multi-value) formatters via `.[]`
+# =====================================================================
+
+
+def test_amount_over_array_is_kept():
+    # `amounts.[]` renders the amount formatter once per array element on-device;
+    # the emitted path points at the array itself.
+    desc = _single_field_desc(
+        "f(uint256[] amounts)",
+        {"path": "amounts.[]", "label": "Amounts", "format": "unit", "params": {"decimals": 9}},
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0]}
+    assert field["formatter"] == "FORMATTER_UNIT"
+
+
+def test_addressname_over_array_is_kept():
+    desc = _single_field_desc(
+        "f(address[] recipients)",
+        {"path": "recipients.[]", "label": "To", "format": "addressName"},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_ADDRESS_NAME"
+
+
+def test_raw_over_array_is_kept():
+    desc = _single_field_desc(
+        "f(bytes[] datas)", {"path": "datas.[]", "label": "Data", "format": "raw"}
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_RAW"
+
+
+def test_tokenamount_over_array_with_shared_token_path():
+    # An array of amounts sharing a single token: the amount path iterates, the
+    # token_path resolves to one (scalar) token address.
+    desc = _descriptor(
+        formats={
+            "f(uint256[] amounts, address token)": {
+                "fields": [
+                    {
+                        "path": "amounts.[]",
+                        "label": "Amounts",
+                        "format": "tokenAmount",
+                        "params": {"tokenPath": "token"},
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0]}
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["token_path"] == {"path": [1]}
+
+
+def test_unindexed_array_without_iteration_skips_file():
+    # A bare array path (no `.[]`) is still unrenderable.
+    desc = _single_field_desc(
+        "f(uint256[] amounts)",
+        {"path": "amounts", "label": "Amounts", "format": "amount"},
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
