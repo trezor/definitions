@@ -6,6 +6,7 @@ from erc7730.model.abi import Component
 
 from .erc7730 import (
     KIND_ADDRESS,
+    KIND_BYTES,
     KIND_NUMERIC,
     KIND_OTHER,
     UnsupportedFeature,
@@ -64,11 +65,12 @@ def test_path_to_dict_numeric():
     )
 
 
-def test_path_to_dict_other_for_bytes():
-    assert path_to_dict("data", _inputs("f(bytes data)")) == (
-        {"path": [0]},
-        KIND_OTHER,
-    )
+def test_path_to_dict_bytes_and_string_and_bool_are_kind_bytes():
+    # Scalar bytes/string/bool leaves are renderable only by `raw`.
+    assert path_to_dict("data", _inputs("f(bytes data)")) == ({"path": [0]}, KIND_BYTES)
+    assert path_to_dict("s", _inputs("f(string s)")) == ({"path": [0]}, KIND_BYTES)
+    assert path_to_dict("ok", _inputs("f(bool ok)")) == ({"path": [0]}, KIND_BYTES)
+    assert path_to_dict("h", _inputs("f(bytes32 h)")) == ({"path": [0]}, KIND_BYTES)
 
 
 def test_path_to_dict_into_tuple():
@@ -561,6 +563,81 @@ def test_unit_non_numeric_decimals_skips_file():
     )
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc)
+
+
+# =====================================================================
+#                       raw / date formatters
+# =====================================================================
+
+
+def _single_field_desc(signature, field):
+    return _descriptor(formats={signature: {"fields": [field]}})
+
+
+@pytest.mark.parametrize(
+    "signature",
+    [
+        "f(uint256 x)",
+        "f(address x)",
+        "f(bytes x)",
+        "f(bytes32 x)",
+        "f(string x)",
+        "f(bool x)",
+    ],
+)
+def test_raw_renders_any_scalar_leaf(signature):
+    # `raw` accepts every scalar leaf kind (numeric/address/bytes/string/bool).
+    desc = _single_field_desc(signature, {"path": "x", "label": "L", "format": "raw"})
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_RAW"
+
+
+def test_raw_on_whole_array_skips_file():
+    # An un-indexed array is not a single value, so even `raw` can't render it.
+    desc = _single_field_desc(
+        "f(uint256[] xs)", {"path": "xs", "label": "L", "format": "raw"}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
+
+
+def test_date_default_encoding_is_date_formatter():
+    desc = _single_field_desc(
+        "f(uint256 t)", {"path": "t", "label": "Deadline", "format": "date"}
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_DATE"
+
+
+def test_date_timestamp_encoding_is_date_formatter():
+    desc = _single_field_desc(
+        "f(uint256 t)",
+        {"path": "t", "label": "Deadline", "format": "date", "params": {"encoding": "timestamp"}},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_DATE"
+
+
+def test_date_blockheight_encoding_falls_back_to_raw():
+    # A block number is not a time — render it as a plain integer, not a date.
+    desc = _single_field_desc(
+        "f(uint256 b)",
+        {"path": "b", "label": "Block", "format": "date", "params": {"encoding": "blockheight"}},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_RAW"
+
+
+def test_date_on_non_numeric_skips_file():
+    desc = _single_field_desc(
+        "f(address x)", {"path": "x", "label": "L", "format": "date"}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
 # =====================================================================
