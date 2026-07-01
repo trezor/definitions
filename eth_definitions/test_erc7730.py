@@ -12,6 +12,7 @@ from .erc7730 import (
     UnsupportedFeature,
     _resolve_ref,
     build_abi_value,
+    build_const_field,
     build_display_formats,
     path_to_dict,
 )
@@ -851,6 +852,95 @@ def test_unindexed_array_without_iteration_skips_file():
 
 
 # =====================================================================
+#                  constant (non-path) value fields
+# =====================================================================
+
+
+def test_build_const_field_literal():
+    assert build_const_field({"label": "Note", "format": "raw", "value": "Hello"}, {}) == {
+        "path": {"const_value": "Hello"},
+        "label": "Note",
+        "formatter": "FORMATTER_RAW",
+    }
+
+
+def test_build_const_field_constant_ref_is_resolved():
+    field = {"label": "Share ticker", "format": "raw", "value": "$.metadata.constants.vaultTicker"}
+    assert build_const_field(field, {"vaultTicker": "kmgcEURC"}) == {
+        "path": {"const_value": "kmgcEURC"},
+        "label": "Share ticker",
+        "formatter": "FORMATTER_RAW",
+    }
+
+
+def test_build_const_field_unresolvable_ref_is_none():
+    field = {"label": "X", "format": "raw", "value": "$.metadata.constants.missing"}
+    assert build_const_field(field, {}) is None
+
+
+def test_build_const_field_non_raw_format_is_none():
+    # Only `raw` constants are representable (rendered as a string on-device).
+    assert build_const_field({"label": "X", "format": "amount", "value": "5"}, {}) is None
+
+
+def test_build_const_field_missing_value_or_label_is_none():
+    assert build_const_field({"label": "X", "format": "raw"}, {}) is None
+    assert build_const_field({"format": "raw", "value": "hi"}, {}) is None
+
+
+def test_const_field_end_to_end_keeps_display_format():
+    # kiln-style deposit: an amount, a constant "Share ticker" label, a recipient.
+    # The constant no longer drops the whole display format.
+    desc = _descriptor(
+        formats={
+            "deposit(uint256 assets, address receiver)": {
+                "fields": [
+                    {"path": "assets", "label": "Deposit asset", "format": "tokenAmount",
+                     "params": {"token": "0x" + "ab" * 20}},
+                    {"label": "Share ticker", "format": "raw",
+                     "value": "$.metadata.constants.vaultTicker"},
+                    {"path": "receiver", "label": "Send shares to", "format": "addressName"},
+                ]
+            }
+        },
+        constants={"vaultTicker": "kmgcEURC"},
+    )
+    [rec] = build_display_formats(desc)
+    fields = rec["field_definitions"]
+    assert len(fields) == 3
+    assert fields[1] == {
+        "path": {"const_value": "kmgcEURC"},
+        "label": "Share ticker",
+        "formatter": "FORMATTER_RAW",
+    }
+
+
+def test_const_value_serializes_to_proto():
+    from .common import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"const_value": "kmgcEURC"},
+            "label": "Share ticker",
+            "formatter": "FORMATTER_RAW",
+        }
+    )
+    assert info.path.const_value == "kmgcEURC"
+
+
+def test_non_raw_non_path_field_still_drops_format():
+    # A displayed non-path field that isn't a resolvable `raw` constant remains
+    # unrepresentable and drops the display format.
+    desc = _descriptor(
+        formats={"f(uint256 x)": {"fields": [{"label": "X", "format": "amount", "value": "5"}]}}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"non-path-field"}
+
+
+# =====================================================================
 #       build_display_formats — file skip, collection, hidden fields
 # =====================================================================
 
@@ -866,15 +956,19 @@ def test_unsupported_formatter_skips_file_and_is_collected():
     assert unsupported[0][1] == "unsupported-formatter"
 
 
-def test_raw_constant_field_skips_file():
-    # A displayed field bound to a constant (no calldata `path`).
+def test_raw_constant_field_is_emitted():
+    # A displayed `raw` field bound to a literal constant (no calldata `path`) is
+    # emitted as a const_value field rather than dropping the display format.
     desc = _descriptor(
         formats={"f(uint256 x)": {"fields": [{"label": "Summary", "format": "raw", "value": "hi"}]}}
     )
-    unsupported: list = []
-    with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"non-path-field"}
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field == {
+        "path": {"const_value": "hi"},
+        "label": "Summary",
+        "formatter": "FORMATTER_RAW",
+    }
 
 
 def test_nested_field_group_skips_file():
