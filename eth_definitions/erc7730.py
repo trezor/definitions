@@ -219,19 +219,26 @@ _CONTAINER_MAP = {
 # Leaf-value kinds used for formatter ↔ type compatibility checks.
 KIND_ADDRESS = "address"
 KIND_NUMERIC = "numeric"  # any uint*
-KIND_OTHER = "other"  # bytes/bool/string/tuple/array/unknown — no formatter accepts it
+KIND_BYTES = "bytes"  # bool / bytesN / bytes / string — a scalar leaf only `raw` renders
+KIND_OTHER = "other"  # un-indexed array, tuple, or unknown — nothing renders it as one field
 
 
 def _classify_kind(base_type: str, array_depth: int) -> str:
     """Classify a resolved leaf Solidity type into a formatter-compat kind."""
     if array_depth > 0:
         # The leaf is still an array (e.g. an un-indexed `uint256[]`); no scalar
-        # formatter can render it.
+        # formatter can render it (a `.[]` iteration peels the dimension first).
         return KIND_OTHER
     if base_type == "address":
         return KIND_ADDRESS
     if base_type.startswith("uint"):
         return KIND_NUMERIC
+    if base_type == "bool" or base_type == "string" or base_type.startswith("bytes"):
+        # A scalar bool / bytesN / bytes / string leaf — the firmware's
+        # RawFormatter renders these (bytes as hex, bool as text, string as-is),
+        # but no other formatter does.
+        return KIND_BYTES
+    # tuple / unknown — not representable as a single rendered value.
     return KIND_OTHER
 
 
@@ -244,9 +251,15 @@ def path_to_dict(
     used by the caller to check the field's formatter against the type the
     path actually points at.
 
+    A trailing `.[]` (whole-array iteration) is supported: the path points at
+    the array itself and the firmware formats each element. The peeled element
+    kind is returned, so formatter compatibility is checked against the element
+    type (e.g. `amounts.[]` over `uint256[]` is numeric).
+
     Returns None for unsupported paths (caller should skip the field):
       * `$.metadata.constants.X` (descriptor paths)
-      * `.[]` array iteration / slices
+      * a non-trailing `.[]` (per-element field extraction) or array slices
+      * `.[]` over a non-array, or leaving a still-nested array
       * unknown name segments
 
     Raises UnsupportedFeature for an unsupported container path (anything under
@@ -290,7 +303,14 @@ def path_to_dict(
     current = inputs
     leaf_base: str | None = None
     leaf_array_depth = 0
+    saw_array_iter = False
     for element in parsed.elements:
+        if saw_array_iter:
+            # A `.[]` resolves the path to the whole array, which the firmware
+            # formats element-by-element — so nothing may follow it. A per-element
+            # field extraction (`swaps.[].amount`) can't be expressed as a flat
+            # index path, so reject it.
+            return None
         if isinstance(element, PathField):
             name_to_idx = {p.name: i for i, p in enumerate(current) if p.name}
             if element.identifier not in name_to_idx:
@@ -305,7 +325,18 @@ def path_to_dict(
             indices.append(element.index)
             if leaf_array_depth > 0:
                 leaf_array_depth -= 1  # indexing peels one array dimension
-        elif isinstance(element, (Array, ArraySlice)):
+        elif isinstance(element, Array):
+            # `.[]` whole-array iteration. The proto path points at the array
+            # itself (no index appended); the firmware applies the field's
+            # formatter to each element and joins the results. Peel one array
+            # dimension so the leaf kind reflects the per-element type — a leaf
+            # that is still an array (e.g. `uint256[][]`) then classifies as
+            # KIND_OTHER, since only flat arrays of scalars can be iterated.
+            if leaf_array_depth <= 0:
+                return None  # `.[]` on a non-array leaf
+            leaf_array_depth -= 1
+            saw_array_iter = True
+        elif isinstance(element, ArraySlice):
             return None
         else:
             return None
@@ -324,14 +355,25 @@ _FORMATTER_MAP = {
     "amount": "FORMATTER_AMOUNT",
     "tokenAmount": "FORMATTER_TOKEN_AMOUNT",
     "unit": "FORMATTER_UNIT",
+    # The firmware renders `raw` per Solidity type (int as decimal, address/bytes
+    # as hex, bool as text, string as-is) and `date` as a human-readable unix
+    # timestamp. A `date` with a `blockheight` encoding is overridden to RAW in
+    # build_field_dict, since it's a block number rather than a time.
+    "raw": "FORMATTER_RAW",
+    "date": "FORMATTER_DATE",
 }
 
-# The leaf-value kind each formatter expects the field's path to resolve to.
+# The leaf-value kind(s) each formatter accepts. A field whose path resolves to a
+# kind outside this set is unrepresentable, so the descriptor is skipped.
 _FORMATTER_VALUE_KIND = {
-    "addressName": KIND_ADDRESS,
-    "amount": KIND_NUMERIC,
-    "tokenAmount": KIND_NUMERIC,
-    "unit": KIND_NUMERIC,
+    "addressName": frozenset({KIND_ADDRESS}),
+    "amount": frozenset({KIND_NUMERIC}),
+    "tokenAmount": frozenset({KIND_NUMERIC}),
+    "unit": frozenset({KIND_NUMERIC}),
+    # `raw` renders any scalar leaf; only whole arrays / tuples are rejected.
+    "raw": frozenset({KIND_ADDRESS, KIND_NUMERIC, KIND_BYTES}),
+    # `date` paths point at a uint timestamp/blockheight.
+    "date": frozenset({KIND_NUMERIC}),
 }
 
 
@@ -391,6 +433,24 @@ def _resolve_constant(path_str: str, constants: dict[str, Any]) -> Any | None:
     if parts is None or parts[:2] != ("metadata", "constants"):
         return None
     return constants.get(parts[2])
+
+
+def _resolve_address_ref(value: Any, constants: dict[str, Any]) -> str | None:
+    """Resolve a token-address reference to normalized 20-byte hex (no `0x`).
+
+    ``value`` is a literal address string or a ``$.metadata.constants.*``
+    reference. Returns None if it can't be resolved to a valid 20-byte address.
+    """
+    s = str(value)
+    if s.startswith("$"):
+        resolved = _resolve_constant(s, constants)
+        if resolved is None:
+            return None
+        s = str(resolved)
+    s = _normalize_hex(s)
+    if len(s) != 40 or set(s) - _HEX_DIGITS:
+        return None
+    return s
 
 
 def _native_currency_includes_zero(
@@ -520,12 +580,12 @@ def build_field_dict(
     if fmt not in _FORMATTER_MAP:
         raise UnsupportedFeature("unsupported-formatter", f"{fmt} (field {label!r})")
 
-    expected_kind = _FORMATTER_VALUE_KIND.get(fmt)
-    if expected_kind is not None and value_kind != expected_kind:
+    allowed_kinds = _FORMATTER_VALUE_KIND.get(fmt)
+    if allowed_kinds is not None and value_kind not in allowed_kinds:
         raise UnsupportedFeature(
             "formatter-type-mismatch",
-            f"{fmt} expects {expected_kind} but {path_str!r} is {value_kind} "
-            f"(field {label!r})",
+            f"{fmt} expects {'/'.join(sorted(allowed_kinds))} but {path_str!r} is "
+            f"{value_kind} (field {label!r})",
         )
 
     out: ERC7730Field = {
@@ -548,13 +608,27 @@ def build_field_dict(
                     f"{token_path_str} (field {label!r})",
                 )
         elif params.get("token"):
-            # A hardcoded `token` address isn't in calldata, and the proto only
-            # carries a `token_path`. Emitting this amount with no token would
-            # mislabel it as the chain's native currency, so skip the file.
-            raise UnsupportedFeature(
-                "tokenamount-hardcoded-token",
-                f"{params.get('token')} (field {label!r})",
-            )
+            # A hardcoded / constant token address isn't in calldata; the proto
+            # carries it directly as `const_token_address` (often a
+            # `$.metadata.constants.*` reference resolved here). The firmware uses
+            # it in place of a calldata-derived `token_path`.
+            const_addr = _resolve_address_ref(params["token"], constants)
+            if const_addr is None:
+                raise UnsupportedFeature(
+                    "invalid-const-token", f"{params['token']!r} (field {label!r})"
+                )
+            if int(const_addr, 16) == 0:
+                # The zero address is the null/native token, not a real ERC-20.
+                # Treat it like the no-token case: native if declared, else skip.
+                if _native_currency_includes_zero(params, constants):
+                    out["formatter"] = _FORMATTER_MAP["amount"]
+                else:
+                    raise UnsupportedFeature(
+                        "tokenamount-unknown-token",
+                        f"tokenAmount with null token (field {label!r})",
+                    )
+            else:
+                out["const_token_address"] = const_addr
         elif _native_currency_includes_zero(params, constants):
             # No `tokenPath`/`token`: the token defaults to the null address, and
             # the descriptor lists the zero address in `nativeCurrencyAddress`,
@@ -570,9 +644,9 @@ def build_field_dict(
                 "tokenamount-unknown-token",
                 f"tokenAmount with no token reference (field {label!r})",
             )
-        # `threshold` applies only to a real token amount; the native `AMOUNT`
-        # formatter ignores it on-device.
-        if "token_path" in out:
+        # `threshold` applies only to a real token amount (calldata- or
+        # constant-addressed); the native `AMOUNT` fallback ignores it on-device.
+        if "token_path" in out or "const_token_address" in out:
             threshold = params.get("threshold")
             if isinstance(threshold, str) and threshold.startswith("$"):
                 resolved_const = _resolve_constant(threshold, constants)
@@ -586,6 +660,7 @@ def build_field_dict(
                 # `_normalize_hex` doesn't validate: a non-hex value would slip
                 # through and crash `bytes.fromhex` at serialization. Reject it
                 # here as an unrepresentable field instead.
+                # TODO: Revisit for a better validation logic. maybe do validate while normalizing.
                 if set(normalized) - _HEX_DIGITS:
                     raise UnsupportedFeature(
                         "invalid-threshold", f"{threshold!r} (field {label!r})"
@@ -618,6 +693,13 @@ def build_field_dict(
             out["base"] = str(params["base"])
         if params.get("prefix") is not None:
             out["prefix"] = bool(params["prefix"])
+    elif fmt == "date":
+        # FORMATTER_DATE renders a unix timestamp (seconds) as a human-readable
+        # date on-device. The `blockheight` encoding is a plain block number, not
+        # a time — the date formatter would misrender it — so fall back to the
+        # raw integer for anything other than a timestamp.
+        if params.get("encoding", "timestamp") != "timestamp":
+            out["formatter"] = _FORMATTER_MAP["raw"]
 
     return out
 

@@ -6,6 +6,7 @@ from erc7730.model.abi import Component
 
 from .erc7730 import (
     KIND_ADDRESS,
+    KIND_BYTES,
     KIND_NUMERIC,
     KIND_OTHER,
     UnsupportedFeature,
@@ -64,11 +65,12 @@ def test_path_to_dict_numeric():
     )
 
 
-def test_path_to_dict_other_for_bytes():
-    assert path_to_dict("data", _inputs("f(bytes data)")) == (
-        {"path": [0]},
-        KIND_OTHER,
-    )
+def test_path_to_dict_bytes_and_string_and_bool_are_kind_bytes():
+    # Scalar bytes/string/bool leaves are renderable only by `raw`.
+    assert path_to_dict("data", _inputs("f(bytes data)")) == ({"path": [0]}, KIND_BYTES)
+    assert path_to_dict("s", _inputs("f(string s)")) == ({"path": [0]}, KIND_BYTES)
+    assert path_to_dict("ok", _inputs("f(bool ok)")) == ({"path": [0]}, KIND_BYTES)
+    assert path_to_dict("h", _inputs("f(bytes32 h)")) == ({"path": [0]}, KIND_BYTES)
 
 
 def test_path_to_dict_into_tuple():
@@ -96,6 +98,46 @@ def test_path_to_dict_unindexed_array_is_other():
         {"path": [0]},
         KIND_OTHER,
     )
+
+
+def test_path_to_dict_array_iteration_peels_to_element_kind():
+    # A trailing `.[]` points the path at the array itself (no extra index); the
+    # returned kind is the per-element type, so a scalar formatter accepts it.
+    assert path_to_dict("amounts.[]", _inputs("f(uint256[] amounts)")) == (
+        {"path": [0]},
+        KIND_NUMERIC,
+    )
+    assert path_to_dict("xs.[]", _inputs("f(address[] xs)")) == (
+        {"path": [0]},
+        KIND_ADDRESS,
+    )
+    assert path_to_dict("ds.[]", _inputs("f(bytes[] ds)")) == (
+        {"path": [0]},
+        KIND_BYTES,
+    )
+
+
+def test_path_to_dict_array_iteration_on_non_array_is_none():
+    assert path_to_dict("x.[]", _inputs("f(uint256 x)")) is None
+
+
+def test_path_to_dict_array_iteration_leaving_nested_array_is_other():
+    # One `.[]` over a 2D array still leaves an array element — not flat-iterable.
+    assert path_to_dict("x.[]", _inputs("f(uint256[][] x)")) == (
+        {"path": [0]},
+        KIND_OTHER,
+    )
+
+
+def test_path_to_dict_double_array_iteration_is_none():
+    # Nothing may follow a `.[]` — including a second `.[]`.
+    assert path_to_dict("x.[].[]", _inputs("f(uint256[][] x)")) is None
+
+
+def test_path_to_dict_non_trailing_array_iteration_is_none():
+    # A per-element field extraction can't be expressed as a flat index path.
+    inputs = _inputs("f((address t, bytes d)[] swaps)")
+    assert path_to_dict("swaps.[].t", inputs) is None
 
 
 def test_path_to_dict_container_paths():
@@ -344,8 +386,61 @@ def test_tokenpath_non_address_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"unresolvable-token-path"}
 
 
-def test_tokenamount_hardcoded_token_skips_file():
-    # A literal `token` address can't be encoded as a token_path — skip the file.
+def _const_token_desc(token, constants=None):
+    return _descriptor(
+        formats={
+            "f(uint256 amount)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": {"token": token},
+                    }
+                ]
+            }
+        },
+        constants=constants,
+    )
+
+
+def test_tokenamount_literal_token_is_const_token_address():
+    # A literal `token` address is emitted directly as const_token_address.
+    [rec] = build_display_formats(_const_token_desc("0x" + "ab" * 20))
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["const_token_address"] == "ab" * 20
+    assert "token_path" not in field
+
+
+def test_tokenamount_constant_ref_token_is_resolved():
+    # The token may be a $.metadata.constants.* reference resolved by the parser.
+    desc = _const_token_desc(
+        "$.metadata.constants.usdc", constants={"usdc": "0x" + "cd" * 20}
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["const_token_address"] == "cd" * 20
+
+
+def test_tokenamount_invalid_const_token_skips_file():
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(_const_token_desc("not-an-address"), unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"invalid-const-token"}
+
+
+def test_tokenamount_unresolvable_constant_token_skips_file():
+    # A $.metadata.constants.* reference with no matching constant is invalid.
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(
+            _const_token_desc("$.metadata.constants.missing"), unsupported=unsupported
+        )
+    assert {feat for _src, feat, _det in unsupported} == {"invalid-const-token"}
+
+
+def test_tokenamount_literal_zero_token_with_native_is_amount():
+    # A literal zero token is the null/native token: native AMOUNT when declared.
     desc = _descriptor(
         formats={
             "f(uint256 amount)": {
@@ -354,16 +449,62 @@ def test_tokenamount_hardcoded_token_skips_file():
                         "path": "amount",
                         "label": "Amt",
                         "format": "tokenAmount",
-                        "params": {"token": "0x" + "ab" * 20},
+                        "params": {
+                            "token": "0x" + "00" * 20,
+                            "nativeCurrencyAddress": ["0x" + "00" * 20],
+                        },
                     }
                 ]
             }
         }
     )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_AMOUNT"
+    assert "const_token_address" not in field
+
+
+def test_tokenamount_literal_zero_token_without_native_skips_file():
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-hardcoded-token"}
+        build_display_formats(_const_token_desc("0x" + "00" * 20), unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
+
+
+def test_tokenamount_const_token_keeps_threshold():
+    desc = _descriptor(
+        formats={
+            "f(uint256 amount)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": {"token": "0x" + "ab" * 20, "threshold": "0xff"},
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["const_token_address"] == "ab" * 20
+    assert field["threshold"] == "ff"
+
+
+def test_const_token_address_serializes_to_proto():
+    # The const_token_address hex makes it onto the proto field as raw bytes.
+    from .common import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "Amt",
+            "formatter": "FORMATTER_TOKEN_AMOUNT",
+            "const_token_address": "ab" * 20,
+        }
+    )
+    assert info.const_token_address == bytes.fromhex("ab" * 20)
 
 
 def _tokenamount_native_desc(native_addresses, constants=None):
@@ -561,6 +702,152 @@ def test_unit_non_numeric_decimals_skips_file():
     )
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc)
+
+
+# =====================================================================
+#                       raw / date formatters
+# =====================================================================
+
+
+def _single_field_desc(signature, field):
+    return _descriptor(formats={signature: {"fields": [field]}})
+
+
+@pytest.mark.parametrize(
+    "signature",
+    [
+        "f(uint256 x)",
+        "f(address x)",
+        "f(bytes x)",
+        "f(bytes32 x)",
+        "f(string x)",
+        "f(bool x)",
+    ],
+)
+def test_raw_renders_any_scalar_leaf(signature):
+    # `raw` accepts every scalar leaf kind (numeric/address/bytes/string/bool).
+    desc = _single_field_desc(signature, {"path": "x", "label": "L", "format": "raw"})
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_RAW"
+
+
+def test_raw_on_whole_array_skips_file():
+    # An un-indexed array is not a single value, so even `raw` can't render it.
+    desc = _single_field_desc(
+        "f(uint256[] xs)", {"path": "xs", "label": "L", "format": "raw"}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
+
+
+def test_date_default_encoding_is_date_formatter():
+    desc = _single_field_desc(
+        "f(uint256 t)", {"path": "t", "label": "Deadline", "format": "date"}
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_DATE"
+
+
+def test_date_timestamp_encoding_is_date_formatter():
+    desc = _single_field_desc(
+        "f(uint256 t)",
+        {"path": "t", "label": "Deadline", "format": "date", "params": {"encoding": "timestamp"}},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_DATE"
+
+
+def test_date_blockheight_encoding_falls_back_to_raw():
+    # A block number is not a time — render it as a plain integer, not a date.
+    desc = _single_field_desc(
+        "f(uint256 b)",
+        {"path": "b", "label": "Block", "format": "date", "params": {"encoding": "blockheight"}},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_RAW"
+
+
+def test_date_on_non_numeric_skips_file():
+    desc = _single_field_desc(
+        "f(address x)", {"path": "x", "label": "L", "format": "date"}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
+
+
+# =====================================================================
+#                array (multi-value) formatters via `.[]`
+# =====================================================================
+
+
+def test_amount_over_array_is_kept():
+    # `amounts.[]` renders the amount formatter once per array element on-device;
+    # the emitted path points at the array itself.
+    desc = _single_field_desc(
+        "f(uint256[] amounts)",
+        {"path": "amounts.[]", "label": "Amounts", "format": "unit", "params": {"decimals": 9}},
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0]}
+    assert field["formatter"] == "FORMATTER_UNIT"
+
+
+def test_addressname_over_array_is_kept():
+    desc = _single_field_desc(
+        "f(address[] recipients)",
+        {"path": "recipients.[]", "label": "To", "format": "addressName"},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_ADDRESS_NAME"
+
+
+def test_raw_over_array_is_kept():
+    desc = _single_field_desc(
+        "f(bytes[] datas)", {"path": "datas.[]", "label": "Data", "format": "raw"}
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_RAW"
+
+
+def test_tokenamount_over_array_with_shared_token_path():
+    # An array of amounts sharing a single token: the amount path iterates, the
+    # token_path resolves to one (scalar) token address.
+    desc = _descriptor(
+        formats={
+            "f(uint256[] amounts, address token)": {
+                "fields": [
+                    {
+                        "path": "amounts.[]",
+                        "label": "Amounts",
+                        "format": "tokenAmount",
+                        "params": {"tokenPath": "token"},
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0]}
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["token_path"] == {"path": [1]}
+
+
+def test_unindexed_array_without_iteration_skips_file():
+    # A bare array path (no `.[]`) is still unrenderable.
+    desc = _single_field_desc(
+        "f(uint256[] amounts)",
+        {"path": "amounts", "label": "Amounts", "format": "amount"},
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
 # =====================================================================
