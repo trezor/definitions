@@ -39,6 +39,28 @@ except ImportError as e:
     ) from None
 
 
+# A trezorlib that predates the ERC-7730 clear-signing proto additions (the
+# FORMATTER_RAW / FORMATTER_DATE enum members and the const_token_address field)
+# imports fine but is missing them — which would otherwise surface only as a
+# cryptic KeyError deep inside serialization. Fail fast with the same guidance.
+_missing_proto = [
+    f"EthereumERC7730FieldFormatterType.{name}"
+    for name in ("FORMATTER_RAW", "FORMATTER_DATE")
+    if not hasattr(EthereumERC7730FieldFormatterType, name)
+]
+if not any(
+    f.name == "const_token_address" for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.const_token_address")
+if _missing_proto:
+    raise SystemExit(
+        "Your trezorlib is outdated — missing " + ", ".join(_missing_proto) + ".\n"
+        "The ERC-7730 clear-signing formatters need the updated proto. Run:\n"
+        "  uv pip install -e ../trezor-firmware/python\n"
+        "  uv run --no-sync ./do_update.sh"
+    )
+
+
 class SolanaTokenInfo(protobuf.MessageType):
     MESSAGE_WIRE_TYPE = None
     FIELDS = {
