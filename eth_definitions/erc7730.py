@@ -535,6 +535,46 @@ def _field_is_displayed(field_def: dict[str, Any]) -> bool:
     return field_def.get("visible") not in (False, "never")
 
 
+def build_const_field(
+    field_def: dict[str, Any],
+    constants: dict[str, Any],
+) -> ERC7730Field | None:
+    """Build a field bound to a constant `value` (no calldata `path`).
+
+    ERC-7730 `raw` fields may carry a literal `value` (or a
+    `$.metadata.constants.*` reference) instead of a `path` — a static label
+    such as a vault's share ticker. The device shows it via the RAW formatter
+    from a `const_value` path (nothing is walked from calldata), so resolve the
+    value to a string here.
+
+    Returns None if the field isn't a representable constant (not `raw`, no
+    label, missing `value`, or an unresolvable constant reference) — the caller
+    then treats it as an unsupported non-path field.
+    """
+    # Only `raw` constants are representable: the device renders `const_value`
+    # via the RAW formatter (a string as-is); other formatters need a typed
+    # calldata value.
+    if field_def.get("format") != "raw":
+        return None
+    label = field_def.get("label", "")
+    if not label:
+        return None
+    value = field_def.get("value")
+    if value is None:
+        return None
+    s = str(value)
+    if s.startswith("$"):
+        resolved = _resolve_constant(s, constants)
+        if resolved is None:
+            return None
+        s = str(resolved)
+    return {
+        "path": {"const_value": s},
+        "label": label,
+        "formatter": _FORMATTER_MAP["raw"],
+    }
+
+
 def build_field_dict(
     field_def: dict[str, Any],
     inputs: list[Component],
@@ -834,13 +874,19 @@ def build_display_formats(
                 continue
             f = resolved
             if "path" not in f:
-                # Constant/text field (`format: raw` with a `value`) or similar —
-                # a displayed field not bound to a calldata parameter.
+                # A displayed field not bound to a calldata parameter. A `raw`
+                # constant (`value` literal or `$.metadata.constants.*` ref) is
+                # emitted as a const_value field; anything else is unrepresentable
+                # and drops this display format.
                 if _field_is_displayed(f):
-                    note(
-                        "non-path-field",
-                        f"{sig_key}: {f.get('format')} (label {f.get('label')!r})",
-                    )
+                    const_field = build_const_field(f, constants)
+                    if const_field is not None:
+                        field_defs.append(const_field)
+                    else:
+                        note(
+                            "non-path-field",
+                            f"{sig_key}: {f.get('format')} (label {f.get('label')!r})",
+                        )
                 continue
             try:
                 built = build_field_dict(
