@@ -833,6 +833,14 @@ def build_display_formats(
                 note("unresolvable-ref", f"{sig_key}: {f.get('$ref')!r}")
                 continue
             f = resolved
+            if isinstance(f.get("fields"), list):
+                # A nested field group (a `path` scoping sub-`fields`, e.g.
+                # `#.marketParams` in Morpho Blue). The group itself has no
+                # `format`, so it would otherwise be skipped as hidden — but its
+                # sub-fields ARE displayed and we can't express their relative
+                # paths, so drop the whole display format instead.
+                note("nested-fields", f"{sig_key}: path {f.get('path')!r}")
+                continue
             if "path" not in f:
                 # Constant/text field (`format: raw` with a `value`) or similar —
                 # a displayed field not bound to a calldata parameter.

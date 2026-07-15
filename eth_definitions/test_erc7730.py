@@ -877,6 +877,30 @@ def test_raw_constant_field_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"non-path-field"}
 
 
+def test_nested_field_group_skips_file():
+    # A nested field group (`path` scoping sub-`fields`, as in Morpho Blue's
+    # `#.marketParams`) has no `format` of its own, but its sub-fields are
+    # displayed — it must drop the display format, not be skipped as hidden.
+    desc = _descriptor(
+        formats={
+            "f((address loanToken, uint256 lltv) marketParams)": {
+                "fields": [
+                    {
+                        "path": "#.marketParams",
+                        "fields": [
+                            {"path": "loanToken", "label": "Loan Token", "format": "addressName"},
+                        ],
+                    }
+                ]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"nested-fields"}
+
+
 def test_bad_format_is_skipped_clean_formats_kept():
     # First function is fine; the second has an unsupported formatter. Only the
     # bad display format is dropped — the good one is still emitted — and the
