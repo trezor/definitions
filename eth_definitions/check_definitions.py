@@ -26,6 +26,7 @@ def check_definitions_list(
     *,
     main_keys: tuple[str, ...] = ("chain_id", "address"),
     def_type: str | None = None,
+    only_mark_as_deleted: bool = True,
 ) -> None:
     # store already processed definitions
     deleted_definitions: list["DEFINITION_TYPE"] = []
@@ -152,6 +153,17 @@ def check_definitions_list(
 
     # Deleted
     for definition in deleted_definitions:
+        if not only_mark_as_deleted:
+            # Drop the definition for real — it will no longer be signed or
+            # published. Report it so the removal is visible in the update log.
+            _print_definition_change(
+                def_type=def_type or ("TOKEN" if "address" in definition else "NETWORK"),
+                old=definition,
+                new={},
+                prompt=False,
+                action="DELETED",
+            )
+            continue
         # mark definition as deleted
         new_definition = deepcopy(definition)
         new_definition["deleted"] = True
