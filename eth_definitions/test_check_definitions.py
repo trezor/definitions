@@ -194,6 +194,76 @@ def test_check_definitions_list_deleted_in_old(
 
 
 @parametrized
+def test_check_definitions_list_deleted_no_tombstone(
+    caplog: pytest.LogCaptureFixture,
+    old: list["DEFINITION_TYPE"],
+    new: list["DEFINITION_TYPE"],
+):
+    old = deepcopy(old)
+    new = deepcopy(new)
+
+    # Simulating deletion
+    new = new[:-1]
+
+    old_defs = deepcopy(old)
+    new_defs = deepcopy(new)
+
+    with mock.patch("sys.stdout", new=StringIO()) as mock_stdout:
+        check_definitions_list(
+            old_defs=old_defs,
+            new_defs=new_defs,
+            change_strategy=ChangeResolutionStrategy.from_args(
+                interactive=False,
+                force_accept=False,
+            ),
+            show_all=True,
+            only_mark_as_deleted=False,
+        )
+
+        assert len(caplog.records) == 0
+        # The removal is reported...
+        assert "DELETED" in mock_stdout.getvalue()
+
+    # ...and the definition is really gone, no tombstone appended.
+    assert old_defs == old
+    assert new_defs == new
+
+
+@parametrized
+def test_check_definitions_list_no_tombstone_purges_old_tombstones(
+    caplog: pytest.LogCaptureFixture,
+    old: list["DEFINITION_TYPE"],
+    new: list["DEFINITION_TYPE"],
+):
+    old = deepcopy(old)
+
+    # Old defs contain a previously tombstoned definition, absent from new
+    old = old[:1]
+    old[0]["deleted"] = True
+    old_defs = deepcopy(old)
+    new_defs: list["DEFINITION_TYPE"] = []
+
+    with mock.patch("sys.stdout", new=StringIO()) as mock_stdout:
+        check_definitions_list(
+            old_defs=old_defs,
+            new_defs=new_defs,
+            change_strategy=ChangeResolutionStrategy.from_args(
+                interactive=False,
+                force_accept=False,
+            ),
+            show_all=True,
+            only_mark_as_deleted=False,
+        )
+
+        assert len(caplog.records) == 0
+        assert "DELETED" in mock_stdout.getvalue()
+
+    # The old tombstone is not carried over
+    assert old_defs == old
+    assert new_defs == []
+
+
+@parametrized
 def test_check_definitions_list_resurrected(
     caplog: pytest.LogCaptureFixture,
     old: list["DEFINITION_TYPE"],

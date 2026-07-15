@@ -821,6 +821,9 @@ def download(
             update_callback=callback,
             main_keys=("chain_id", "address", "func_sig"),
             def_type="DISPLAY_FORMAT",
+            # A wrong display format is worse than a missing one: no tombstones —
+            # formats the parser stops emitting are removed and stop being signed.
+            only_mark_as_deleted=False,
         )
 
     if check_builtin:
