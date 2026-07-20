@@ -49,6 +49,11 @@ NETWORKS_PATH = ETHEREUM_LISTS / "chains" / "_data" / "chains"
 TOKENS_PATH = ETHEREUM_LISTS / "tokens" / "tokens"
 DISPLAY_FORMATS_PATH = ERC7730_REGISTRY / "registry"
 
+ROBINHOOD_CHAIN_ID = 4663
+ROBINHOOD_ASSETS_URL = "https://api.robinhood.com/rhj/assets"
+# https://docs.robinhood.com/chain/stock-tokens/
+ROBINHOOD_STOCK_TOKEN_DECIMALS = 18
+
 ENABLED_PROVIDERS = frozenset(
     {
         "lifi",
@@ -184,6 +189,13 @@ class Downloader:
         url = "https://api.llama.fi/chains"
         return self._download_json(url)
 
+    def get_robinhood_assets(self) -> list[Any]:
+        data = self._download_json(ROBINHOOD_ASSETS_URL)
+        assets = data.get("assets") if isinstance(data, dict) else None
+        if not isinstance(assets, list) or not assets:
+            raise ValueError("Robinhood asset registry returned no assets")
+        return assets
+
     def get_coingecko_tokens_for_network(self, coingecko_network_id: str) -> list[Any]:
         url = f"https://tokens.coingecko.com/{coingecko_network_id}/all.json"
         try:
@@ -313,6 +325,95 @@ def _load_erc20_tokens_from_repo(networks: list[Network]) -> list[ERC20Token]:
                 tokens.append(t)
 
     return tokens
+
+
+def _load_robinhood_tokens_from_registry(
+    downloader: Downloader,
+    networks: list[Network],
+) -> list[ERC20Token]:
+    """Load canonical Robinhood stock tokens from Robinhood's asset registry.
+
+    The registry is authoritative for identity (chain, address, name, and symbol).
+    Robinhood specifies that every stock token is an ERC-20 with 18 decimals.
+    """
+    network = next(
+        (network for network in networks if network["chain_id"] == ROBINHOOD_CHAIN_ID),
+        None,
+    )
+    if network is None:
+        return []
+
+    tokens_by_address: dict[str, ERC20Token] = {}
+
+    for asset in downloader.get_robinhood_assets():
+        if not isinstance(asset, dict) or not isinstance(
+            asset.get("deployments"), list
+        ):
+            raise ValueError(f"Malformed Robinhood asset registry entry: {asset}")
+
+        for deployment in asset["deployments"]:
+            if not isinstance(deployment, dict):
+                raise ValueError(f"Malformed Robinhood asset registry entry: {asset}")
+            if deployment.get("chainId") != ROBINHOOD_CHAIN_ID:
+                continue
+
+            name = asset.get("tokenName")
+            symbol = asset.get("tokenSymbol")
+            raw_address = deployment.get("contractAddress")
+            if (
+                not isinstance(name, str)
+                or not name
+                or not isinstance(symbol, str)
+                or not symbol
+                or not isinstance(raw_address, str)
+            ):
+                raise ValueError(f"Malformed Robinhood asset registry entry: {asset}")
+            address = raw_address.lower()
+            if re.fullmatch(r"0x[0-9a-f]{40}", address) is None:
+                raise ValueError(
+                    f"Invalid Robinhood token address in registry entry: {asset}"
+                )
+
+            token = _build_token(
+                {
+                    "address": address,
+                    "decimals": ROBINHOOD_STOCK_TOKEN_DECIMALS,
+                    "name": name,
+                    "symbol": symbol,
+                },
+                ROBINHOOD_CHAIN_ID,
+                network["chain"],
+            )
+            if token is None:
+                raise ValueError(
+                    f"Invalid Robinhood token address in registry entry: {asset}"
+                )
+
+            previous = tokens_by_address.get(address)
+            if previous is not None and previous != token:
+                raise ValueError(
+                    f"Conflicting Robinhood registry entries for {address}: "
+                    f"{previous} != {token}"
+                )
+            tokens_by_address[address] = token
+
+    if not tokens_by_address:
+        raise ValueError(
+            "Robinhood asset registry returned no deployments for chain "
+            f"{ROBINHOOD_CHAIN_ID}"
+        )
+    return list(tokens_by_address.values())
+
+
+def _merge_erc20_token_sources(
+    *sources: list[ERC20Token],
+) -> list[ERC20Token]:
+    """Merge token sources from lowest to highest precedence."""
+    tokens_by_key: dict[tuple[int, str], ERC20Token] = {}
+    for source in sources:
+        for token in source:
+            tokens_by_key[(token["chain_id"], token["address"])] = token
+    return list(tokens_by_key.values())
 
 
 def _force_networks_fields_sizes_t1(networks: list[Network]) -> None:
@@ -688,6 +789,10 @@ def download(
     # get tokens
     cg_tokens = _load_erc20_tokens_from_coingecko(downloader, networks)
     repo_tokens = _load_erc20_tokens_from_repo(networks)
+    robinhood_tokens = _load_robinhood_tokens_from_registry(
+        downloader,
+        networks,
+    )
     solana_tokens = _load_solana_tokens_from_coingecko(downloader)
 
     # get ERC-7730 display formats from the registry submodule
@@ -702,11 +807,13 @@ def download(
     # save cache
     downloader.save_cache()
 
-    # merge tokens - CoinGecko have precedence, so starting with Ethereum repo first
-    token_deduplicator: dict[tuple[int, str], ERC20Token] = {}
-    for token in repo_tokens + cg_tokens:
-        token_deduplicator[(token["chain_id"], token["address"])] = token
-    erc20_tokens = list(token_deduplicator.values())
+    # Merge tokens. CoinGecko overrides ethereum-lists, and Robinhood's official
+    # registry overrides both for canonical Robinhood stock-token metadata.
+    erc20_tokens = _merge_erc20_token_sources(
+        repo_tokens,
+        cg_tokens,
+        robinhood_tokens,
+    )
 
     if trace_address:
         addr = trace_address.lower()
@@ -714,6 +821,9 @@ def download(
 
         repo_match = next((t for t in repo_tokens if t["address"] == addr), None)
         cg_match = next((t for t in cg_tokens if t["address"] == addr), None)
+        robinhood_match = next(
+            (t for t in robinhood_tokens if t["address"] == addr), None
+        )
 
         if repo_match:
             for network in networks:
@@ -730,17 +840,31 @@ def download(
         if cg_match:
             for network in networks:
                 if network["chain_id"] == cg_match["chain_id"]:
-                    cg_network_id = network.get("coingecko_network_id") or network.get("coingecko_id")
+                    cg_network_id = network.get(
+                        "coingecko_network_id"
+                    ) or network.get("coingecko_id")
                     print(f"  [COINGECKO] Network ID: {cg_network_id}")
-                    print(f"  [COINGECKO] API URL: https://tokens.coingecko.com/{cg_network_id}/all.json")
+                    print(
+                        "  [COINGECKO] API URL: "
+                        f"https://tokens.coingecko.com/{cg_network_id}/all.json"
+                    )
                     print(f"  [COINGECKO] Data: {cg_match}")
                     break
 
-        if not repo_match and not cg_match:
+        if robinhood_match:
+            print(f"  [ROBINHOOD] API URL: {ROBINHOOD_ASSETS_URL}")
+            print(f"  [ROBINHOOD] Data: {robinhood_match}")
+
+        if not repo_match and not cg_match and not robinhood_match:
             print("  NOT FOUND in any source.")
         else:
-            winner_source = "COINGECKO" if cg_match is not None else "REPO"
-            print(f"\n  >>> FINAL SOURCE: {winner_source} (CoinGecko overrides repo when both present)")
+            if robinhood_match is not None:
+                winner_source = "ROBINHOOD"
+            elif cg_match is not None:
+                winner_source = "COINGECKO"
+            else:
+                winner_source = "REPO"
+            print(f"\n  >>> FINAL SOURCE: {winner_source}")
 
         print("=== END TRACE ===\n")
         sys.exit(0)
