@@ -789,6 +789,9 @@ def download(
     # get tokens
     cg_tokens = _load_erc20_tokens_from_coingecko(downloader, networks)
     repo_tokens = _load_erc20_tokens_from_repo(networks)
+    # Robinhood payload validation can abort generation. Checkpoint successful
+    # downloads first without persisting a malformed registry response.
+    downloader.save_cache()
     robinhood_tokens = _load_robinhood_tokens_from_registry(
         downloader,
         networks,

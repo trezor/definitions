@@ -198,6 +198,43 @@ def test_load_robinhood_tokens_rejects_conflicting_address():
         )
 
 
+def test_download_checkpoints_cache_before_robinhood_failure(monkeypatch):
+    downloader = mock.Mock()
+    downloader.get_coingecko_asset_platforms.return_value = []
+    downloader.get_defillama_chains.return_value = []
+    events = []
+    downloader.save_cache.side_effect = lambda: events.append("save")
+
+    monkeypatch.setattr(dl, "Downloader", mock.Mock(return_value=downloader))
+    monkeypatch.setattr(dl, "_load_ethereum_networks_from_repo", lambda: [])
+    monkeypatch.setattr(dl, "_load_erc20_tokens_from_coingecko", lambda *_: [])
+    monkeypatch.setattr(dl, "_load_erc20_tokens_from_repo", lambda *_: [])
+
+    def fail_robinhood_load(*_):
+        events.append("robinhood")
+        raise ValueError("invalid Robinhood registry response")
+
+    monkeypatch.setattr(
+        dl, "_load_robinhood_tokens_from_registry", fail_robinhood_load
+    )
+
+    with pytest.raises(ValueError, match="invalid Robinhood registry response"):
+        dl.download.callback(
+            refresh=None,
+            interactive=False,
+            force_changes=False,
+            show_all=False,
+            show_added=False,
+            check_builtin=False,
+            verbose=False,
+            sleep_duration=0,
+            trace_address=None,
+            no_onchain_decimals=False,
+        )
+
+    assert events == ["save", "robinhood"]
+
+
 def test_merge_erc20_token_sources_uses_last_source_and_retains_other_tokens():
     address = "0x" + "55" * 20
     unrelated = {**erc20_tokens[0]}
