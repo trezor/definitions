@@ -12,7 +12,6 @@ from .erc7730 import (
     UnsupportedFeature,
     _resolve_ref,
     build_abi_value,
-    build_const_field,
     build_display_formats,
     path_to_dict,
 )
@@ -118,8 +117,10 @@ def test_path_to_dict_array_iteration_peels_to_element_kind():
     )
 
 
-def test_path_to_dict_array_iteration_on_non_array_is_none():
-    assert path_to_dict("x.[]", _inputs("f(uint256 x)")) is None
+def test_path_to_dict_array_iteration_on_non_array_raises():
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("x.[]", _inputs("f(uint256 x)"))
+    assert exc.value.feature == "iteration-over-non-array"
 
 
 def test_path_to_dict_array_iteration_leaving_nested_array_is_other():
@@ -130,15 +131,20 @@ def test_path_to_dict_array_iteration_leaving_nested_array_is_other():
     )
 
 
-def test_path_to_dict_double_array_iteration_is_none():
+def test_path_to_dict_double_array_iteration_raises():
     # Nothing may follow a `.[]` — including a second `.[]`.
-    assert path_to_dict("x.[].[]", _inputs("f(uint256[][] x)")) is None
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("x.[].[]", _inputs("f(uint256[][] x)"))
+    assert exc.value.feature == "per-element-field-path"
 
 
-def test_path_to_dict_non_trailing_array_iteration_is_none():
-    # A per-element field extraction can't be expressed as a flat index path.
+def test_path_to_dict_non_trailing_array_iteration_raises():
+    # A per-element field extraction (`[].fieldname`) can't be expressed as a
+    # flat index path — and gets its own drop reason in the log.
     inputs = _inputs("f((address t, bytes d)[] swaps)")
-    assert path_to_dict("swaps.[].t", inputs) is None
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("swaps.[].t", inputs)
+    assert exc.value.feature == "per-element-field-path"
 
 
 def test_path_to_dict_container_paths():
@@ -147,12 +153,17 @@ def test_path_to_dict_container_paths():
     assert path_to_dict("@.value", []) == ({"container_path": "VALUE"}, KIND_NUMERIC)
 
 
-def test_path_to_dict_unsupported_returns_none():
-    # Descriptor (constant) path, array slice, and unknown name are all
-    # skipped silently (the rest of the descriptor still builds).
-    assert path_to_dict("$.metadata.constants.x", []) is None
-    assert path_to_dict("data.[0:20]", _inputs("f(bytes data)")) is None
-    assert path_to_dict("nope", _inputs("f(uint256 amount)")) is None
+def test_path_to_dict_unsupported_paths_raise_distinct_features():
+    # Every drop reason is a distinct feature tag, so the log says exactly why.
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("$.metadata.constants.x", [])
+    assert exc.value.feature == "descriptor-path"
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("data.[0:20]", _inputs("f(bytes data)"))
+    assert exc.value.feature == "array-slice-path"
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("nope", _inputs("f(uint256 amount)"))
+    assert exc.value.feature == "unknown-path-segment"
 
 
 def test_path_to_dict_unsupported_container_raises():
@@ -312,16 +323,90 @@ def test_addressname_on_address_is_kept():
     assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
 
 
-def test_addressname_on_uint_skips_file():
+def test_addressname_on_uint_retypes_leaf_to_address():
+    # An address packed into a uint (1inch pools, maker order receivers): the
+    # field is kept, the ABI leaf is retyped so the firmware decodes an address,
+    # and the reinterpretation is logged as an adjustment.
     desc = _descriptor(
         formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": "addressName"}]}}
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
+    assert rec["parameter_definitions"] == [{"atomic": "ABI_ADDRESS"}]
+    assert [(kind) for _src, kind, _det in adjustments] == ["address-in-numeric"]
+
+
+def test_addressname_on_uint_in_tuple_retypes_only_that_leaf():
+    desc = _descriptor(
+        formats={
+            "f((uint256 receiver, uint256 amount) order)": {
+                "fields": [{"path": "order.receiver", "label": "To", "format": "addressName"}]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [param] = rec["parameter_definitions"]
+    assert param["tuple"]["fields"] == [
+        {"atomic": "ABI_ADDRESS"},
+        {"atomic": "ABI_UINT256"},
+    ]
+
+
+def test_addressname_over_uint_array_iteration_retypes_element():
+    # `xs.[]` over uint256[]: the shared element type is retyped, so every
+    # element decodes as an address.
+    desc = _descriptor(
+        formats={
+            "f(uint256[] xs)": {"fields": [{"path": "xs.[]", "label": "L", "format": "addressName"}]}
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["parameter_definitions"] == [{"array": {"atomic": "ABI_ADDRESS"}}]
+
+
+def test_two_addressname_fields_on_same_uint_leaf_both_kept():
+    # The second field finds the leaf already retyped — that's fine, not a skip.
+    desc = _descriptor(
+        formats={
+            "f(uint256[] pools)": {
+                "fields": [
+                    {"path": "pools.[0]", "label": "First pool", "format": "addressName"},
+                    {"path": "pools.[-1]", "label": "Last pool", "format": "addressName"},
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert len(rec["field_definitions"]) == 2
+    assert rec["parameter_definitions"] == [{"array": {"atomic": "ABI_ADDRESS"}}]
+
+
+def test_addressname_on_bytes_is_kept_without_retype():
+    # The firmware's AddressNameFormatter renders bytes values as hex directly;
+    # the declared ABI type stays (bytes32 is left-aligned, address isn't).
+    desc = _descriptor(
+        formats={"f(bytes32 h)": {"fields": [{"path": "h", "label": "L", "format": "addressName"}]}}
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert rec["parameter_definitions"] == [{"atomic": "ABI_BYTES32"}]
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_ADDRESS_NAME"
+    assert [kind for _src, kind, _det in adjustments] == ["addressname-on-bytes"]
+
+
+def test_addressname_on_tuple_still_skips_file():
+    # KIND_OTHER (a whole tuple/array) has no address reinterpretation.
+    desc = _descriptor(
+        formats={
+            "f(uint256[] xs)": {"fields": [{"path": "xs", "label": "L", "format": "addressName"}]}
+        }
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc, unsupported=unsupported)
-    assert [(feat, _det) for _src, feat, _det in unsupported] == [
-        ("formatter-type-mismatch", unsupported[0][2])
-    ]
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
 def test_tokenamount_no_token_skips_file():
@@ -366,10 +451,38 @@ def test_tokenpath_address_is_kept():
     assert field["token_path"] == {"path": [1]}
 
 
-def test_tokenpath_non_address_skips_file():
+def test_tokenpath_on_uint_retypes_leaf_to_address():
+    # A token address packed into a uint (1inch `order.takerAsset`): the leaf
+    # is retyped so the firmware's token_path walk yields address bytes.
     desc = _descriptor(
         formats={
-            "f(uint256 amount, uint256 notToken)": {
+            "f(uint256 amount, uint256 packedToken)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": {"tokenPath": "packedToken"},
+                    }
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field["token_path"] == {"path": [1]}
+    assert rec["parameter_definitions"] == [
+        {"atomic": "ABI_UINT256"},
+        {"atomic": "ABI_ADDRESS"},
+    ]
+    assert [kind for _src, kind, _det in adjustments] == ["token-address-in-numeric"]
+
+
+def test_tokenpath_on_bytes_skips_file():
+    desc = _descriptor(
+        formats={
+            "f(uint256 amount, bytes32 notToken)": {
                 "fields": [
                     {
                         "path": "amount",
@@ -506,6 +619,31 @@ def test_const_token_address_serializes_to_proto():
         }
     )
     assert info.const_token_address == bytes.fromhex("ab" * 20)
+
+
+def test_const_value_path_serializes_to_proto():
+    from .common import _build_erc7730_path
+
+    info = _build_erc7730_path({"const_value": "kmgcEURC"})
+    assert info.const_value == "kmgcEURC"
+    assert info.path == []
+    assert info.container_path is None
+
+
+def test_negative_index_path_serializes_to_proto():
+    # `pools.[-1]` style paths: the proto field is sint32, negatives round-trip.
+    import io
+
+    from trezorlib import protobuf
+
+    from .common import _build_erc7730_path
+
+    info = _build_erc7730_path({"path": [0, -1]})
+    buf = io.BytesIO()
+    protobuf.dump_message(buf, info)
+    buf.seek(0)
+    decoded = protobuf.load_message(buf, type(info))
+    assert list(decoded.path) == [0, -1]
 
 
 def _tokenamount_native_desc(native_addresses, constants=None):
@@ -852,40 +990,115 @@ def test_unindexed_array_without_iteration_skips_file():
 
 
 # =====================================================================
-#                  constant (non-path) value fields
+#       build_display_formats — file skip, collection, hidden fields
 # =====================================================================
 
 
-def test_build_const_field_literal():
-    assert build_const_field({"label": "Note", "format": "raw", "value": "Hello"}, {}) == {
-        "path": {"const_value": "Hello"},
-        "label": "Note",
+def test_unsupported_formatter_skips_file_and_is_collected():
+    desc = _descriptor(
+        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": _UNSUPPORTED_FORMAT}]}}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, source="prov/file.json", unsupported=unsupported)
+    assert unsupported[0][0] == "prov/file.json"
+    assert unsupported[0][1] == "unsupported-formatter"
+
+
+def test_raw_constant_field_emits_const_value():
+    # A displayed field bound to a literal constant (no calldata `path`) rides
+    # in the proto as a const_value path, rendered as-is by the raw formatter.
+    desc = _descriptor(
+        formats={"f(uint256 x)": {"fields": [{"label": "Summary", "format": "raw", "value": "hi"}]}}
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field == {
+        "path": {"const_value": "hi"},
+        "label": "Summary",
         "formatter": "FORMATTER_RAW",
+    }
+    assert [kind for _src, kind, _det in adjustments] == ["constant-value-field"]
+
+
+def test_constant_field_resolves_metadata_constant():
+    # The `value` may be a $.metadata.constants.* reference (kiln vault tickers).
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {
+                "fields": [
+                    {
+                        "label": "Share ticker",
+                        "format": "raw",
+                        "value": "$.metadata.constants.vaultTicker",
+                    }
+                ]
+            }
+        },
+        constants={"vaultTicker": "kmgcEURC"},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["path"] == {"const_value": "kmgcEURC"}
+
+
+def test_constant_field_with_unresolvable_constant_skips_file():
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {
+                "fields": [
+                    {"label": "L", "format": "raw", "value": "$.metadata.constants.missing"}
+                ]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"unresolvable-constant-value"}
+
+
+def test_constant_field_with_non_raw_formatter_skips_file():
+    # Only `raw` can render a pre-materialized constant string on-device.
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {
+                "fields": [{"label": "L", "format": "amount", "value": "5"}]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"constant-value-formatter"}
+
+
+def test_constant_field_stringifies_numbers_and_logs():
+    desc = _descriptor(
+        formats={"f(uint256 x)": {"fields": [{"label": "N", "format": "raw", "value": 42}]}}
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert rec["field_definitions"][0]["path"] == {"const_value": "42"}
+    assert {kind for _src, kind, _det in adjustments} == {
+        "constant-value-field",
+        "constant-value-stringified",
     }
 
 
-def test_build_const_field_constant_ref_is_resolved():
-    field = {"label": "Share ticker", "format": "raw", "value": "$.metadata.constants.vaultTicker"}
-    assert build_const_field(field, {"vaultTicker": "kmgcEURC"}) == {
-        "path": {"const_value": "kmgcEURC"},
-        "label": "Share ticker",
-        "formatter": "FORMATTER_RAW",
-    }
-
-
-def test_build_const_field_unresolvable_ref_is_none():
-    field = {"label": "X", "format": "raw", "value": "$.metadata.constants.missing"}
-    assert build_const_field(field, {}) is None
-
-
-def test_build_const_field_non_raw_format_is_none():
-    # Only `raw` constants are representable (rendered as a string on-device).
-    assert build_const_field({"label": "X", "format": "amount", "value": "5"}, {}) is None
-
-
-def test_build_const_field_missing_value_or_label_is_none():
-    assert build_const_field({"label": "X", "format": "raw"}, {}) is None
-    assert build_const_field({"format": "raw", "value": "hi"}, {}) is None
+def test_hidden_constant_field_is_skipped_silently():
+    desc = _descriptor(
+        formats={
+            "f(address to)": {
+                "fields": [
+                    {"path": "to", "label": "To", "format": "addressName"},
+                    {"label": "L", "format": "raw", "value": "x", "visible": "never"},
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert len(rec["field_definitions"]) == 1
 
 
 def test_const_field_end_to_end_keeps_display_format():
@@ -915,7 +1128,7 @@ def test_const_field_end_to_end_keeps_display_format():
     }
 
 
-def test_const_value_serializes_to_proto():
+def test_const_value_field_info_serializes_to_proto():
     from .common import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
@@ -928,11 +1141,27 @@ def test_const_value_serializes_to_proto():
     assert info.path.const_value == "kmgcEURC"
 
 
-def test_non_raw_non_path_field_still_drops_format():
-    # A displayed non-path field that isn't a resolvable `raw` constant remains
-    # unrepresentable and drops the display format.
+def test_constant_path_field_emits_const_value():
+    # A field whose `path` is a $.metadata.constants.* reference is a constant
+    # too, resolved at parse time.
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"label": "X", "format": "amount", "value": "5"}]}}
+        formats={
+            "f(uint256 x)": {
+                "fields": [
+                    {"path": "$.metadata.constants.note", "label": "Note", "format": "raw"}
+                ]
+            }
+        },
+        constants={"note": "hello"},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["path"] == {"const_value": "hello"}
+
+
+def test_non_path_non_value_displayed_field_skips_file():
+    # Displayed, but neither a calldata path nor a constant value — nothing to show.
+    desc = _descriptor(
+        formats={"f(uint256 x)": {"fields": [{"label": "L", "format": "raw"}]}}
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
@@ -941,34 +1170,63 @@ def test_non_raw_non_path_field_still_drops_format():
 
 
 # =====================================================================
-#       build_display_formats — file skip, collection, hidden fields
+#                       calldata formatter
 # =====================================================================
 
 
-def test_unsupported_formatter_skips_file_and_is_collected():
+def test_calldata_on_bytes_is_raw_and_logged():
+    # Embedded calldata is shown as raw hex bytes until a dedicated on-device
+    # formatter exists; params (calleePath etc.) are dropped, and it's logged.
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": _UNSUPPORTED_FORMAT}]}}
+        formats={
+            "f(bytes data, address callee)": {
+                "fields": [
+                    {
+                        "path": "data",
+                        "label": "Swap",
+                        "format": "calldata",
+                        "params": {"calleePath": "callee"},
+                    }
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_RAW"
+    assert [kind for _src, kind, _det in adjustments] == ["calldata-as-raw"]
+    assert "calleePath" in adjustments[0][2]
+
+
+def test_calldata_on_non_bytes_skips_file():
+    desc = _descriptor(
+        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": "calldata"}]}}
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc, source="prov/file.json", unsupported=unsupported)
-    assert unsupported[0][0] == "prov/file.json"
-    assert unsupported[0][1] == "unsupported-formatter"
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
-def test_raw_constant_field_is_emitted():
-    # A displayed `raw` field bound to a literal constant (no calldata `path`) is
-    # emitted as a const_value field rather than dropping the display format.
+def test_dropped_format_discards_its_adjustments():
+    # Adjustments belong to *emitted* display formats only: a format that is
+    # dropped later in the field loop must not leak its earlier adjustments.
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"label": "Summary", "format": "raw", "value": "hi"}]}}
+        formats={
+            "good(address x)": {"fields": [{"path": "x", "label": "A", "format": "addressName"}]},
+            "bad(uint256 y, bytes d)": {
+                "fields": [
+                    {"path": "y", "label": "Y", "format": "addressName"},  # adjustment
+                    {"path": "d", "label": "D", "format": _UNSUPPORTED_FORMAT},  # drop
+                ]
+            },
+        }
     )
-    [rec] = build_display_formats(desc)
-    [field] = rec["field_definitions"]
-    assert field == {
-        "path": {"const_value": "hi"},
-        "label": "Summary",
-        "formatter": "FORMATTER_RAW",
-    }
+    adjustments: list = []
+    recs = build_display_formats(desc, adjustments=adjustments)
+    assert len(recs) == 1
+    assert adjustments == []
 
 
 def test_nested_field_group_skips_file():

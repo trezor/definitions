@@ -14,8 +14,6 @@ fi
 
 # Update all submodules to their latest commit
 git submodule update --init --recursive --remote
-# Keep the pinned submodule at its fixed commit
-git submodule update -- "ethereum/clear-signing-erc7730-registry"
 
 SHOW_ADDED=""
 if [[ "$1" == "--show-added" ]]; then SHOW_ADDED="--show-added"; fi
