@@ -39,7 +39,8 @@ except ImportError as e:
     ) from None
 
 
-# A trezorlib that predates the ERC-7730 clear-signing proto additions
+# A trezorlib that predates the ERC-7730 clear-signing proto additions (the
+# FORMATTER_RAW / FORMATTER_DATE enum members and the const_token_address field)
 # imports fine but is missing them — which would otherwise surface only as a
 # cryptic KeyError deep inside serialization. Fail fast with the same guidance.
 _missing_proto = [
@@ -51,10 +52,6 @@ if not any(
     f.name == "const_token_address" for f in EthereumERC7730FieldInfo.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730FieldInfo.const_token_address")
-if not any(
-    f.name == "const_value" for f in EthereumERC7730Path.FIELDS.values()
-):
-    _missing_proto.append("EthereumERC7730Path.const_value")
 if _missing_proto:
     raise SystemExit(
         "Your trezorlib is outdated — missing " + ", ".join(_missing_proto) + ".\n"
@@ -196,11 +193,7 @@ class _DataPath(t.TypedDict):
     path: list[int]
 
 
-class _ConstValuePath(t.TypedDict):
-    const_value: str  # a literal constant value, not walked from calldata
-
-
-ERC7730Path = _ContainerPath | _DataPath | _ConstValuePath
+ERC7730Path = _ContainerPath | _DataPath
 
 
 class ERC7730Field(t.TypedDict):
@@ -341,7 +334,7 @@ def _serialize_solana_token(token: SolanaToken, timestamp: int) -> bytes:
 
 
 _ABI_VARIANT_KEYS = frozenset({"atomic", "dynamic", "tuple", "array"})
-_PATH_VARIANT_KEYS = frozenset({"container_path", "path", "const_value"})
+_PATH_VARIANT_KEYS = frozenset({"container_path", "path"})
 
 
 def _build_abi_value_info(d: ABIValue) -> EthereumABIValueInfo:
@@ -379,8 +372,6 @@ def _build_erc7730_path(d: ERC7730Path) -> EthereumERC7730Path:
         )
     if "path" in d:
         return EthereumERC7730Path(path=list(d["path"]))
-    if "const_value" in d:
-        return EthereumERC7730Path(const_value=d["const_value"])
     raise AssertionError("unreachable")
 
 
