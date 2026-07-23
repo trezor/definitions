@@ -49,19 +49,32 @@ NETWORKS_PATH = ETHEREUM_LISTS / "chains" / "_data" / "chains"
 TOKENS_PATH = ETHEREUM_LISTS / "tokens" / "tokens"
 DISPLAY_FORMATS_PATH = ERC7730_REGISTRY / "registry"
 
+# Registry providers (top-level directory names) whose descriptors we emit.
+# The whole registry is still scanned so the log inventories what the other
+# providers would cost us, but only these feed the emitted records.
 ENABLED_PROVIDERS = frozenset(
     {
-        "lifi",
-        "lido",
-        "morpho",
-        "kiln",
-        "poap",
-        "starkgate",
-        "walletconnect",
-        "yieldxyz",
+        "1inch",
+        "aave",
+        "consensus-specs",
         "corestake",
         "ethena",
-        "fellow-fund",
+        "igra",
+        "kiln",
+        "lido",
+        "lifi",
+        "lombard",
+        "morpho",
+        "opencover",
+        "p2p",
+        "poap",
+        "quickswap",
+        "sei",
+        "starkgate",
+        "tether",
+        "walletconnect",
+        "weth",
+        "yieldxyz",
     }
 )
 
@@ -413,14 +426,15 @@ def _load_display_formats_from_repo(
     calldata-specific). `common-*.json` files reach us via the `includes`
     merge; `eip712-*.json` files aren't representable in our schema.
 
-    Skips files under `tests/` subdirectories and records for chain_ids
-    we don't otherwise know about.
+    Skips files under `tests/` subdirectories and records for chain_ids we
+    don't otherwise know about.
 
-    A descriptor that uses any feature we can't faithfully represent is skipped
-    in full (we never emit a display format with a field missing). Every such
-    feature is collected and written to `definitions-latest.log`. The whole
-    registry is scanned for that inventory, but only enabled providers feed the
-    emitted records.
+    A display format that uses any feature we can't faithfully represent is
+    skipped whole (we never emit one with a field missing). Every such feature,
+    and every accepted-but-adjusted field, is collected and written to
+    `definitions-latest.log`. The whole registry is scanned for that inventory,
+    but only providers in `ENABLED_PROVIDERS` (noted in the log header) feed
+    the emitted records.
 
     Deduplicates on `(chain_id, address, func_sig)`;
     later files override earlier ones.
@@ -428,6 +442,7 @@ def _load_display_formats_from_repo(
 
     known_chain_ids = {n["chain_id"] for n in networks}
     unsupported: list[tuple[str, str, str]] = []
+    adjustments: list[tuple[str, str, str]] = []
     loaded: list[tuple[str, bool, list[ERC20DisplayFormat]]] = []
 
     for path in sorted(DISPLAY_FORMATS_PATH.glob("*/calldata-*.json")):
@@ -435,9 +450,11 @@ def _load_display_formats_from_repo(
             continue
 
         try:
-            # Scan every file so the unsupported-features log covers the whole
-            # registry, regardless of which providers are enabled below.
-            records = load_display_formats(path, unsupported=unsupported)
+            # Scan every file so the log covers the whole registry, regardless
+            # of which providers are enabled below.
+            records = load_display_formats(
+                path, unsupported=unsupported, adjustments=adjustments
+            )
         except UnsupportedFeature as e:
             # File skipped — its features were already collected into `unsupported`.
             logging.info(f"skipping {path.relative_to(ROOT_DIR)} — {e}")
@@ -458,7 +475,7 @@ def _load_display_formats_from_repo(
         )
 
     if loaded or unsupported:
-        _write_display_formats_log(unsupported, conflicts)
+        _write_display_formats_log(unsupported, conflicts, adjustments)
     else:
         # Nothing scanned at all — the registry submodule is most likely
         # uninitialized (e.g. a shallow checkout). Surface the probable cause
@@ -480,7 +497,7 @@ def _dedup_display_formats(
     `gated` records feed the emitted output (later files override earlier ones),
     but conflicts are detected registry-wide: whenever any two files define the
     same key with a *different* payload it's reported as an override conflict
-    `(key, overridden_source, kept_source)` — even for not-yet-enabled providers.
+    `(key, overridden_source, kept_source)` — even for not-enabled providers.
     Identical redefinitions are harmless duplicates and not reported.
     """
     dedup: dict[tuple[int, str, str], ERC20DisplayFormat] = {}
@@ -503,43 +520,70 @@ def _dedup_display_formats(
     return list(dedup.values()), conflicts
 
 
-def _write_display_formats_log(
-    unsupported: list[tuple[str, str, str]],
-    conflicts: list[tuple[str, str, str]],
-) -> None:
-    """Write the ERC-7730 processing log (`definitions-latest.log`).
-
-    Two independent sections: skipped descriptors grouped by unsupported feature,
-    and conflicting overrides (the same key redefined differently by multiple
-    files). Conflicts are *not* unsupported features — they get their own section.
-    """
-    by_feature_count: Counter[str] = Counter(feat for _, feat, _ in unsupported)
-    by_feature_files: dict[str, set[str]] = defaultdict(set)
+def _group_by_kind_and_file(
+    entries: list[tuple[str, str, str]],
+) -> tuple[Counter[str], dict[str, set[str]], dict[str, list[tuple[str, str]]]]:
+    """Group `(source, kind, detail)` entries for the two log views."""
+    by_kind_count: Counter[str] = Counter(kind for _, kind, _ in entries)
+    by_kind_files: dict[str, set[str]] = defaultdict(set)
     by_file: dict[str, list[tuple[str, str]]] = defaultdict(list)
-    for source, feat, detail in unsupported:
-        by_feature_files[feat].add(source)
-        by_file[source].append((feat, detail))
+    for source, kind, detail in entries:
+        by_kind_files[kind].add(source)
+        by_file[source].append((kind, detail))
+    return by_kind_count, by_kind_files, by_file
 
-    lines = [
-        "# ERC-7730 unsupported features",
-        f"# {len(by_file)} file(s) skipped, "
-        f"{len(unsupported)} feature occurrence(s)",
-        "",
-        "## By feature",
-    ]
-    if not unsupported:
+
+def _grouped_section_lines(
+    entries: list[tuple[str, str, str]], kind_header: str
+) -> list[str]:
+    by_kind_count, by_kind_files, by_file = _group_by_kind_and_file(entries)
+    lines = ["", kind_header]
+    if not entries:
         lines.append("(none)")
-    for feat in sorted(by_feature_count, key=lambda f: (-by_feature_count[f], f)):
+    for kind in sorted(by_kind_count, key=lambda k: (-by_kind_count[k], k)):
         lines.append(
-            f"{by_feature_count[feat]:5d}  "
-            f"{len(by_feature_files[feat]):4d} file(s)  {feat}"
+            f"{by_kind_count[kind]:5d}  {len(by_kind_files[kind]):4d} file(s)  {kind}"
         )
     lines += ["", "## By file"]
     for source in sorted(by_file):
         lines.append(source)
-        for feat, detail in sorted(by_file[source]):
-            lines.append(f"    {feat}: {detail}")
+        for kind, detail in sorted(by_file[source]):
+            lines.append(f"    {kind}: {detail}")
         lines.append("")
+    return lines
+
+
+def _write_display_formats_log(
+    unsupported: list[tuple[str, str, str]],
+    conflicts: list[tuple[str, str, str]],
+    adjustments: list[tuple[str, str, str]],
+) -> None:
+    """Write the ERC-7730 processing log (`definitions-latest.log`).
+
+    Headed by the provider allowlist, then three independent sections: dropped
+    display formats grouped by unsupported feature, accepted-but-adjusted
+    fields (formatter overrides, ABI retypes, materialized constants), and
+    conflicting overrides (the same key redefined differently by multiple
+    files). All three cover the whole registry, not just enabled providers.
+    """
+    enabled = ", ".join(sorted(ENABLED_PROVIDERS)) if ENABLED_PROVIDERS else "(none)"
+    affected_files = {src for src, _, _ in unsupported}
+    lines = [
+        f"# Providers enabled: {enabled}",
+        "",
+        "# ERC-7730 unsupported features (display format dropped)",
+        f"# {len(affected_files)} file(s) affected, "
+        f"{len(unsupported)} feature occurrence(s)",
+    ]
+    lines += _grouped_section_lines(unsupported, "## By feature")
+
+    adjusted_files = {src for src, _, _ in adjustments}
+    lines += [
+        "",
+        "# Adjustments (field accepted with modification)",
+        f"# {len(adjusted_files)} file(s), {len(adjustments)} adjustment(s)",
+    ]
+    lines += _grouped_section_lines(adjustments, "## By kind")
 
     lines += [
         "",
@@ -558,7 +602,8 @@ def _write_display_formats_log(
     DISPLAY_FORMATS_LOG_PATH.write_text("\n".join(lines).rstrip() + "\n")
     logging.info(
         f"wrote {DISPLAY_FORMATS_LOG_PATH.name} "
-        f"({len(by_file)} file(s) skipped, {len(conflicts)} conflict(s))"
+        f"({len(affected_files)} file(s) with drops, {len(adjustments)} adjustment(s), "
+        f"{len(conflicts)} conflict(s))"
     )
 
 
