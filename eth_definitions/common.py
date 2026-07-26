@@ -55,6 +55,10 @@ if not any(
     f.name == "const_value" for f in EthereumERC7730Path.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730Path.const_value")
+if not any(
+    f.name == "slice_start" for f in EthereumERC7730Path.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730Path.slice_start")
 if _missing_proto:
     raise SystemExit(
         "Your trezorlib is outdated — missing " + ", ".join(_missing_proto) + ".\n"
@@ -194,6 +198,9 @@ class _ContainerPath(t.TypedDict):
 
 class _DataPath(t.TypedDict):
     path: list[int]
+    # trailing byte slice of the walked value (e.g. `token.[-20:]`)
+    slice_start: t.NotRequired[int]
+    slice_end: t.NotRequired[int]
 
 
 class _ConstValuePath(t.TypedDict):
@@ -378,7 +385,11 @@ def _build_erc7730_path(d: ERC7730Path) -> EthereumERC7730Path:
             container_path=EthereumERC7730ContainerPath[d["container_path"]]
         )
     if "path" in d:
-        return EthereumERC7730Path(path=list(d["path"]))
+        return EthereumERC7730Path(
+            path=list(d["path"]),
+            slice_start=d.get("slice_start"),
+            slice_end=d.get("slice_end"),
+        )
     if "const_value" in d:
         return EthereumERC7730Path(const_value=d["const_value"])
     raise AssertionError("unreachable")
