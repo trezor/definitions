@@ -159,11 +159,65 @@ def test_path_to_dict_unsupported_paths_raise_distinct_features():
         path_to_dict("$.metadata.constants.x", [])
     assert exc.value.feature == "descriptor-path"
     with pytest.raises(UnsupportedFeature) as exc:
-        path_to_dict("data.[0:20]", _inputs("f(bytes data)"))
-    assert exc.value.feature == "array-slice-path"
-    with pytest.raises(UnsupportedFeature) as exc:
         path_to_dict("nope", _inputs("f(uint256 amount)"))
     assert exc.value.feature == "unknown-path-segment"
+
+
+# =====================================================================
+#                       path_to_dict — byte slices
+# =====================================================================
+
+
+def test_path_to_dict_20_byte_slice_is_address_kind():
+    # The packed-address pattern: a uint256 whose low 20 bytes are an address
+    # (1inch `Address` type). The slice rides in slice_start/slice_end.
+    assert path_to_dict("token.[-20:]", _inputs("f(uint256 token)")) == (
+        {"path": [0], "slice_start": -20},
+        KIND_ADDRESS,
+    )
+    assert path_to_dict("data.[0:20]", _inputs("f(bytes data)")) == (
+        {"path": [0], "slice_start": 0, "slice_end": 20},
+        KIND_ADDRESS,
+    )
+
+
+def test_path_to_dict_other_slices_are_bytes_kind():
+    assert path_to_dict("goodUntil.[-4:]", _inputs("f(uint256 goodUntil)")) == (
+        {"path": [0], "slice_start": -4},
+        KIND_BYTES,
+    )
+    assert path_to_dict("takerTraits.[:1]", _inputs("f(uint256 takerTraits)")) == (
+        {"path": [0], "slice_end": 1},
+        KIND_BYTES,
+    )
+
+
+def test_path_to_dict_slice_of_array_element_is_supported():
+    # Indexing peels the array dimension first; the element word then slices.
+    assert path_to_dict("pools.[-1].[-20:]", _inputs("f(uint256[] pools)")) == (
+        {"path": [0, -1], "slice_start": -20},
+        KIND_ADDRESS,
+    )
+
+
+def test_path_to_dict_slice_of_whole_array_raises():
+    # Slicing an array selects *elements*, not bytes — not representable.
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("xs.[1:3]", _inputs("f(uint256[] xs)"))
+    assert exc.value.feature == "array-slice-path"
+
+
+def test_path_to_dict_non_trailing_slice_raises():
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("x.[-20:].[0:1]", _inputs("f(uint256 x)"))
+    assert exc.value.feature == "non-trailing-slice"
+
+
+def test_path_to_dict_slice_after_iteration_raises():
+    # The firmware would slice the array itself, not each element.
+    with pytest.raises(UnsupportedFeature) as exc:
+        path_to_dict("xs.[].[-20:]", _inputs("f(uint256[] xs)"))
+    assert exc.value.feature == "per-element-field-path"
 
 
 def test_path_to_dict_unsupported_container_raises():
@@ -1234,6 +1288,129 @@ def test_non_path_non_value_displayed_field_skips_file():
 
 
 # =====================================================================
+#                sliced fields end-to-end (1inch patterns)
+# =====================================================================
+
+
+def test_addressname_on_20_byte_slice_no_retype_no_adjustment():
+    # `dex.[-20:]` + addressName: the slice makes the value address bytes on
+    # device, so the field is faithful — no ABI retype, no adjustment.
+    desc = _descriptor(
+        formats={
+            "unoswap(uint256 minReturn, uint256 dex)": {
+                "fields": [{"path": "dex.[-20:]", "label": "Last pool", "format": "addressName"}]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [1], "slice_start": -20}
+    assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
+    # The declared ABI type stays uint256 — the slice does the interpreting.
+    assert rec["parameter_definitions"] == [
+        {"atomic": "ABI_UINT256"},
+        {"atomic": "ABI_UINT256"},
+    ]
+    assert adjustments == []
+
+
+def test_date_on_sliced_word_is_kept():
+    # `goodUntil.[-4:]`: the firmware's DateFormatter converts the sliced
+    # big-endian bytes to the integer timestamp.
+    desc = _descriptor(
+        formats={
+            "f(uint256 goodUntil)": {
+                "fields": [{"path": "goodUntil.[-4:]", "label": "Expiration time", "format": "date"}]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0], "slice_start": -4}
+    assert field["formatter"] == "FORMATTER_DATE"
+
+
+def test_date_on_unsliced_bytes_still_skips_file():
+    # The bytes allowance is slice-only; date over plain bytes stays a drop.
+    desc = _descriptor(
+        formats={"f(bytes32 x)": {"fields": [{"path": "x", "label": "T", "format": "date"}]}}
+    )
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc)
+
+
+def test_tokenpath_with_20_byte_slice_is_kept():
+    # 1inch unoswap: the token address is the low 20 bytes of a uint256.
+    desc = _descriptor(
+        formats={
+            "unoswap(uint256 token, uint256 amount)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amount to Send",
+                        "format": "tokenAmount",
+                        "params": {"tokenPath": "token.[-20:]"},
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["token_path"] == {"path": [0], "slice_start": -20}
+    # No retype: the slice yields address bytes at runtime.
+    assert rec["parameter_definitions"][0] == {"atomic": "ABI_UINT256"}
+
+
+def test_raw_on_sliced_word_is_kept():
+    # `takerTraits.[:1]`: the first byte of a packed flags word, shown as hex.
+    desc = _descriptor(
+        formats={
+            "f(uint256 takerTraits)": {
+                "fields": [{"path": "takerTraits.[:1]", "label": "Additional action", "format": "raw"}]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0], "slice_end": 1}
+    assert field["formatter"] == "FORMATTER_RAW"
+
+
+def test_amount_on_sliced_word_skips_file():
+    # AmountFormatter needs an int; a sliced value is bytes on-device.
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {"fields": [{"path": "x.[-8:]", "label": "A", "format": "amount"}]}
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
+
+
+def test_sliced_path_serializes_to_proto():
+    import io
+
+    from trezorlib import protobuf
+
+    from .common import _build_erc7730_path
+
+    info = _build_erc7730_path({"path": [0, -1], "slice_start": -20})
+    assert info.slice_start == -20
+    assert info.slice_end is None
+    buf = io.BytesIO()
+    protobuf.dump_message(buf, info)
+    buf.seek(0)
+    decoded = protobuf.load_message(buf, type(info))
+    assert list(decoded.path) == [0, -1]
+    assert decoded.slice_start == -20
+    assert decoded.slice_end is None
+
+
+# =====================================================================
 #                       adjustment bookkeeping
 # =====================================================================
 
@@ -1464,6 +1641,49 @@ def test_build_abi_value_atomic_and_dynamic():
     assert build_abi_value(_component("f(uint256[] x)")) == {
         "array": {"atomic": "ABI_UINT256"}
     }
+
+
+def test_build_abi_value_bytes20_and_int160():
+    # Added by the bytesN-types firmware branch (ABI_BYTES20 / ABI_INT160).
+    assert build_abi_value(_component("f(bytes20 x)")) == {"atomic": "ABI_BYTES20"}
+    assert build_abi_value(_component("f(int160 x)")) == {"atomic": "ABI_INT160"}
+
+
+def test_bytes20_and_int160_kinds():
+    # bytes20 is a bytes-like scalar (raw/addressName render it); int160
+    # decodes to an int on-device, so it's numeric.
+    assert path_to_dict("x", _inputs("f(bytes20 x)"))[1] == KIND_BYTES
+    assert path_to_dict("x", _inputs("f(int160 x)"))[1] == KIND_NUMERIC
+
+
+def test_bytes20_tuple_field_end_to_end():
+    # tBTC-style: a bytes20 wallet key hash inside a reveal tuple, shown raw.
+    desc = _descriptor(
+        formats={
+            "requestRedemption(bytes20 walletPubKeyHash, uint64 amount)": {
+                "fields": [
+                    {"path": "walletPubKeyHash", "label": "Wallet", "format": "raw"},
+                    {"path": "amount", "label": "Amount", "format": "amount"},
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["parameter_definitions"] == [
+        {"atomic": "ABI_BYTES20"},
+        {"atomic": "ABI_UINT64"},
+    ]
+
+
+def test_addressname_on_int160_skips_file():
+    # int160 is numeric but signed — the uint->address retype does not apply.
+    desc = _descriptor(
+        formats={"f(int160 x)": {"fields": [{"path": "x", "label": "L", "format": "addressName"}]}}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
 def test_build_abi_value_top_level_tuple_carries_dynamism():

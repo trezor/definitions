@@ -92,13 +92,17 @@ class UnsupportedFeature(Exception):
 
 _ABI_TYPE_MAP: dict[str, tuple[bool, str]] = {
     # Solidity base type -> (is dynamically sized, EthereumABIType member)
+    # Mirrors exactly what the firmware's `_get_parser` accepts; a type
+    # missing here (e.g. other intN widths) is a firmware gap, not ours.
     "address": (False, "ABI_ADDRESS"),
     "bool": (False, "ABI_BOOL"),
     "bytes": (True, "ABI_BYTES"),
     "bytes4": (False, "ABI_BYTES4"),
     "bytes8": (False, "ABI_BYTES8"),
     "bytes16": (False, "ABI_BYTES16"),
+    "bytes20": (False, "ABI_BYTES20"),
     "bytes32": (False, "ABI_BYTES32"),
+    "int160": (False, "ABI_INT160"),
     "string": (True, "ABI_STRING"),
     "uint8": (False, "ABI_UINT8"),
     "uint16": (False, "ABI_UINT16"),
@@ -233,6 +237,13 @@ def build_abi_value(c: Component) -> ABIValue:
 # type tree of section 1 — the firmware walks the decoded values with the
 # same indices. Alongside the proto path we return the *kind* of leaf the
 # path lands on, so section 4 can check it against the field's formatter.
+#
+# A path may end in a byte slice (`token.[-20:]`, `goodUntil.[-4:]`): the
+# firmware views the sliced word as 32 big-endian bytes and takes the slice
+# (`_word_bytes` in clear_signing.py), carried in the proto as the optional
+# `slice_start` / `slice_end` fields next to the index list. Descriptors use
+# this to unpack values crammed into one word — e.g. 1inch's `Address` type,
+# a uint256 whose low 20 bytes are an address.
 # =====================================================================
 
 
@@ -244,7 +255,7 @@ _CONTAINER_MAP = {
 
 # Leaf-value kinds used for formatter <-> type compatibility checks.
 KIND_ADDRESS = "address"
-KIND_NUMERIC = "numeric"  # any uint*
+KIND_NUMERIC = "numeric"  # any uint* / int* — decodes to an int on-device
 KIND_BYTES = "bytes"  # bool / bytesN / bytes / string — only `raw` renders these
 KIND_OTHER = "other"  # un-indexed array, tuple, or unknown — not one field's value
 
@@ -257,7 +268,7 @@ def _classify_kind(base_type: str, array_depth: int) -> str:
         return KIND_OTHER
     if base_type == "address":
         return KIND_ADDRESS
-    if base_type.startswith("uint"):
+    if base_type.startswith("uint") or base_type.startswith("int"):
         return KIND_NUMERIC
     if base_type == "bool" or base_type == "string" or base_type.startswith("bytes"):
         # A scalar bool / bytesN / bytes / string leaf — the firmware's
@@ -268,6 +279,21 @@ def _classify_kind(base_type: str, array_depth: int) -> str:
     return KIND_OTHER
 
 
+def _nominal_slice_length(start: int | None, end: int | None) -> int | None:
+    """Byte length a `[start:end]` slice selects, when statically known.
+
+    `[-20:]` is 20 bytes, `[:1]`/`[0:1]` is 1, `[0:20]` is 20. Mixed-sign
+    bounds (`[-20:32]`) depend on the runtime value's length -> None.
+    """
+    if end is None:
+        return -start if (start is not None and start < 0) else None
+    s = start or 0
+    if (s >= 0) == (end >= 0):
+        n = end - s
+        return n if n > 0 else None
+    return None
+
+
 def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, str]:
     """Convert an ERC-7730 path string to `(proto path, leaf kind)`.
 
@@ -276,13 +302,22 @@ def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, s
     returned kind is the *element* kind (`amounts.[]` over `uint256[]` is
     numeric).
 
+    A trailing byte slice on a scalar leaf is supported (see the section
+    comment): the bounds ride in the proto's `slice_start` / `slice_end` and
+    the sliced value is bytes on-device. The returned kind is KIND_ADDRESS
+    when the slice statically selects 20 bytes (`token.[-20:]` — the packed
+    address pattern), else KIND_BYTES.
+
     Every unsupported path raises `UnsupportedFeature` with a distinct feature
     tag, so the drop reason is visible in the log:
       * `descriptor-path` — `$.…` paths (callers resolve constants *before*
         calling; one reaching this function is not a constants lookup we handle)
       * `per-element-field-path` — anything following a `.[]`
         (e.g. `swaps.[].amount`), which can't be expressed as a flat index path
-      * `array-slice-path` — `x.[a:b]` slices, not representable in the proto
+      * `array-slice-path` — a slice we can't represent: applied to an array
+        or tuple rather than a scalar word, or with out-of-range bounds
+      * `non-trailing-slice` — path elements after a slice (the proto carries
+        exactly one trailing slice)
       * `iteration-over-non-array` — a `.[]` applied to a non-array leaf
       * `unknown-path-segment` — a name not present in the ABI signature
       * `unparseable-path` — the path string didn't parse at all
@@ -326,11 +361,18 @@ def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, s
     leaf_base: str | None = None
     leaf_array_depth = 0
     saw_array_iter = False
+    slice_bounds: tuple[int | None, int | None] | None = None
     for element in parsed.elements:
+        if slice_bounds is not None:
+            # The proto carries exactly one slice, applied after all indices —
+            # so a slice must be the path's final element.
+            raise UnsupportedFeature("non-trailing-slice", path_str)
         if saw_array_iter:
             # `.[]` resolves the path to the whole array, formatted element by
             # element — nothing may follow it. A per-element field extraction
-            # (`swaps.[].amount`) has no flat-index representation.
+            # (`swaps.[].amount`) has no flat-index representation, and a
+            # per-element slice (`xs.[].[-20:]`) would be misapplied by the
+            # firmware to the array itself rather than to each element.
             raise UnsupportedFeature("per-element-field-path", path_str)
         if isinstance(element, PathField):
             name_to_idx = {p.name: i for i, p in enumerate(current) if p.name}
@@ -359,16 +401,51 @@ def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, s
             leaf_array_depth -= 1
             saw_array_iter = True
         elif isinstance(element, ArraySlice):
-            raise UnsupportedFeature("array-slice-path", path_str)
+            # A byte slice of a scalar word (`token.[-20:]`): the firmware
+            # views the value as big-endian bytes and slices those. Slicing an
+            # array or tuple would select *elements* instead — a different
+            # feature we don't emit.
+            leaf_kind = (
+                KIND_OTHER
+                if leaf_base is None
+                else _classify_kind(leaf_base, leaf_array_depth)
+            )
+            if leaf_kind == KIND_OTHER:
+                raise UnsupportedFeature(
+                    "array-slice-path", f"{path_str} (slice of a non-scalar value)"
+                )
+            start, end = element.start, element.end
+            if start is None and end is None:
+                raise UnsupportedFeature("unparseable-path", f"{path_str}: empty slice")
+            for bound in (start, end):
+                # The proto fields are sint32.
+                if bound is not None and not -(2**31) <= bound < 2**31:
+                    raise UnsupportedFeature(
+                        "array-slice-path",
+                        f"{path_str} (slice bound {bound} out of sint32 range)",
+                    )
+            slice_bounds = (start, end)
         else:
             raise UnsupportedFeature(
                 "unparseable-path", f"{path_str}: unhandled element {element!r}"
             )
 
-    kind = (
-        KIND_OTHER if leaf_base is None else _classify_kind(leaf_base, leaf_array_depth)
-    )
-    return {"path": indices}, kind
+    out: ERC7730Path = {"path": indices}
+    if slice_bounds is not None:
+        start, end = slice_bounds
+        if start is not None:
+            out["slice_start"] = start
+        if end is not None:
+            out["slice_end"] = end
+        # The sliced value is bytes on-device. A statically 20-byte slice is
+        # the packed-address pattern and renders/behaves as an address.
+        kind = (
+            KIND_ADDRESS if _nominal_slice_length(start, end) == 20 else KIND_BYTES
+        )
+        return out, kind
+
+    kind = KIND_OTHER if leaf_base is None else _classify_kind(leaf_base, leaf_array_depth)
+    return out, kind
 
 
 # =====================================================================
@@ -703,8 +780,15 @@ def _check_kind_or_reinterpret(
       * on a uint leaf, the ABI leaf is retyped to `address` in place;
       * on a bytes-like leaf, the field passes through unchanged — the
         firmware's AddressNameFormatter accepts bytes/str and renders hex.
+
+    One exact (non-adjustment) allowance: `date` over a byte slice
+    (`goodUntil.[-4:]`) — the firmware's DateFormatter converts the sliced
+    big-endian bytes to the integer timestamp.
     """
     if kind in _FORMATTER_VALUE_KIND[fmt]:
+        return
+
+    if fmt == "date" and kind == KIND_BYTES and ("slice_start" in path or "slice_end" in path):
         return
 
     if fmt == "addressName" and kind == KIND_NUMERIC and "path" in path:
