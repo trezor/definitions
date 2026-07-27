@@ -1315,6 +1315,25 @@ def _get_intent(display_format: dict[str, Any]) -> str:
     return intent or ""
 
 
+def _provider_name(descriptor: dict[str, Any], source: str) -> str | None:
+    """Provider name shown on-device alongside the call.
+
+    `metadata.owner` is authoritative. Ownerless descriptors (1inch, safe, …)
+    fall back to the registry subdirectory plus `metadata.contractName`
+    ("1inch: AggregationRouterV6"), or just the subdirectory. Returns None
+    when nothing is known (the proto field stays unset).
+    """
+    metadata = descriptor.get("metadata") or {}
+    owner = str(metadata.get("owner") or "").strip()
+    if owner:
+        return owner
+    subdir = source.split("/", 1)[0] if "/" in source else ""
+    contract = str(metadata.get("contractName") or "").strip()
+    if subdir and contract:
+        return f"{subdir}: {contract}"
+    return subdir or contract or None
+
+
 # One display format ready for deployment expansion:
 # (func_sig_hex, intent, parameter_definitions, field_definitions)
 _Candidate = tuple[str, str, list[ABIValue], list[ERC7730Field]]
@@ -1473,13 +1492,16 @@ def build_display_formats(
             f"{source}: {len(file_features)} unsupported feature(s)",
         )
 
-    return _expand_deployments(candidates, deployments, source)
+    return _expand_deployments(
+        candidates, deployments, source, _provider_name(descriptor, source)
+    )
 
 
 def _expand_deployments(
     candidates: list[_Candidate],
     deployments: list[dict[str, Any]],
     source: str,
+    provider_name: str | None = None,
 ) -> list[ERC20DisplayFormat]:
     """Cross the per-signature candidates with the contract's deployments.
 
@@ -1507,15 +1529,16 @@ def _expand_deployments(
             if len(address_hex) != 42 or not _is_hex(address_hex[2:]):
                 LOG.warning("%s: invalid address %r", source, address)
                 continue
-            results.append(
-                {
-                    "chain_id": chain_id_int,
-                    "address": address_hex,
-                    "func_sig": func_sig_hex,
-                    "intent": intent,
-                    "parameter_definitions": parameter_definitions,
-                    "field_definitions": field_defs,
-                }
-            )
+            record: ERC20DisplayFormat = {
+                "chain_id": chain_id_int,
+                "address": address_hex,
+                "func_sig": func_sig_hex,
+                "intent": intent,
+                "parameter_definitions": parameter_definitions,
+                "field_definitions": field_defs,
+            }
+            if provider_name is not None:
+                record["provider_name"] = provider_name
+            results.append(record)
 
     return results

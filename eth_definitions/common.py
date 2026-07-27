@@ -72,6 +72,10 @@ if not any(
     f.name == "enum_values" for f in EthereumERC7730FieldInfo.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730FieldInfo.enum_values")
+if not any(
+    f.name == "provider_name" for f in EthereumDisplayFormatInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumDisplayFormatInfo.provider_name")
 if _missing_proto:
     raise SystemExit(
         "Your trezorlib is outdated — missing " + ", ".join(_missing_proto) + ".\n"
@@ -258,6 +262,9 @@ class ERC20DisplayFormat(t.TypedDict):
     intent: str
     parameter_definitions: list[ABIValue]
     field_definitions: list[ERC7730Field]
+
+    # metadata.owner, or "<registry subdir>: <contractName>" / subdir fallback
+    provider_name: t.NotRequired[str]
 
     deleted: t.NotRequired[bool]
 
@@ -463,6 +470,7 @@ def _serialize_eth_display_format(
 ) -> bytes:
     info = EthereumDisplayFormatInfo(
         chain_id=display_format["chain_id"],
+        provider_name=display_format.get("provider_name"),
         address=bytes.fromhex(_strip_0x("address", display_format["address"])),
         func_sig=bytes.fromhex(_strip_0x("func_sig", display_format["func_sig"])),
         intent=display_format["intent"],

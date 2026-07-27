@@ -1623,6 +1623,48 @@ def test_enum_values_serialize_to_proto():
 
 
 # =====================================================================
+#                       provider names
+# =====================================================================
+
+
+def test_provider_name_from_owner():
+    desc = _descriptor(formats=_ADDR_FIELD)
+    desc["metadata"]["owner"] = "Kiln"
+    [rec] = build_display_formats(desc, source="kiln/calldata-Vault.json")
+    assert rec["provider_name"] == "Kiln"
+
+
+def test_provider_name_falls_back_to_subdir_and_contract_name():
+    # 1inch-style: no owner, but a contractName and the registry subdirectory.
+    desc = _descriptor(formats=_ADDR_FIELD)
+    desc["metadata"]["contractName"] = "AggregationRouterV6"
+    [rec] = build_display_formats(desc, source="1inch/calldata-AggregationRouterV6.json")
+    assert rec["provider_name"] == "1inch: AggregationRouterV6"
+
+
+def test_provider_name_falls_back_to_subdir_alone():
+    desc = _descriptor(formats=_ADDR_FIELD)
+    [rec] = build_display_formats(desc, source="safe/calldata-Safe.json")
+    assert rec["provider_name"] == "safe"
+
+
+def test_provider_name_absent_when_nothing_known():
+    # The default test source has no registry subdirectory.
+    desc = _descriptor(formats=_ADDR_FIELD)
+    [rec] = build_display_formats(desc)
+    assert "provider_name" not in rec
+
+
+def test_provider_name_serializes_to_proto():
+    from .common import _serialize_eth_display_format
+
+    desc = _descriptor(formats=_ADDR_FIELD)
+    desc["metadata"]["owner"] = "Kiln"
+    [rec] = build_display_formats(desc, source="kiln/f.json")
+    assert _serialize_eth_display_format(rec, 1234567890)
+
+
+# =====================================================================
 #                       adjustment bookkeeping
 # =====================================================================
 
