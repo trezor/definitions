@@ -60,6 +60,12 @@ if not any(
     f.name == "slice_start" for f in EthereumERC7730Path.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730Path.slice_start")
+if not hasattr(EthereumERC7730FieldFormatterType, "FORMATTER_CALLDATA"):
+    _missing_proto.append("EthereumERC7730FieldFormatterType.FORMATTER_CALLDATA")
+if not any(
+    f.name == "callee_path" for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.callee_path")
 if _missing_proto:
     raise SystemExit(
         "Your trezorlib is outdated — missing " + ", ".join(_missing_proto) + ".\n"
@@ -225,6 +231,10 @@ class ERC7730Field(t.TypedDict):
     decimals: t.NotRequired[int]
     base: t.NotRequired[str]
     prefix: t.NotRequired[bool]
+
+    # CalldataFormatter params
+    callee_path: t.NotRequired[ERC7730Path]
+    selector: t.NotRequired[str]  # hex (no 0x prefix), 4 bytes
 
 
 class ERC20DisplayFormat(t.TypedDict):
@@ -413,6 +423,10 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
             if "const_token_address" in d
             else None
         ),
+        callee_path=(
+            _build_erc7730_path(d["callee_path"]) if "callee_path" in d else None
+        ),
+        selector=bytes.fromhex(d["selector"]) if "selector" in d else None,
     )
 
 
