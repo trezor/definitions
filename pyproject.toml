@@ -21,11 +21,8 @@ dependencies = [
     "black>=24.2",
     "flake8>=7",
     "flake8-requirements>=2.1.0",
-]
-
-[project.optional-dependencies]
-dev = [
     "pytest>=7",
+    "pytest-random-order",
 ]
 
 [tool.isort]
