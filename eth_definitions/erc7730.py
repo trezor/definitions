@@ -1,19 +1,46 @@
 """ERC-7730 descriptor parser.
 
-Walks a raw ERC-7730 calldata descriptor (post-`includes` merge) and produces
-the JSON form used by `definitions-latest.json`. Function-signature parsing,
-canonicalization, selector computation, path parsing, and `includes` merging
-are delegated to the `erc7730` library.
+Reads calldata descriptors from the clear-signing registry and produces the
+`erc20_display_formats` records of `definitions-latest.json`, which later
+serialize into the firmware's `EthereumDisplayFormatInfo` protobuf.
 
-We don't use the library's strict Pydantic descriptor model
-(`InputERC7730Descriptor`) because the registry files in
-`ethereum/clear-signing-erc7730-registry` use an older / looser v2 schema
-that the library rejects (`legalName` missing, `visible` extra, `abi`
-missing, etc.). So we keep our own dict-level descriptor walking.
+Pipeline, one registry JSON file at a time::
+
+    load_display_formats(path)
+      load_descriptor()             resolve `includes` into one plain dict
+      build_display_formats()       for each function signature in the file:
+        _build_one_format()
+          parse_signature()           (erc7730 library)
+          build_abi_value()           Solidity type -> ABI type tree  [section 1]
+          _build_path_field() /       one proto field per displayed
+          _build_non_path_field()     descriptor field                [section 4]
+            path_to_dict()            ERC-7730 path -> proto path     [section 2]
+      then one output record per (signature x deployment)             [section 5]
+
+A descriptor field the firmware cannot faithfully render has one of two
+outcomes, and the distinction runs through the whole module:
+
+  * DROP -- `UnsupportedFeature(feature, detail)` is raised and the whole
+    display format (that one signature) is dropped: we never emit a format
+    with a field silently missing. Other signatures in the same file still go
+    through. Drops are collected into the caller's `unsupported` list, keyed
+    by a stable feature tag for the log.
+
+  * ADJUST -- the field is kept, but deliberately bent into something the
+    firmware can render: a formatter override, an ABI leaf retype, a constant
+    materialized as a literal string. Every bend is collected into the
+    caller's `adjustments` list so it is visible in `definitions-latest.log`;
+    nothing is changed silently.
+
+Everything here is dict-level walking. The registry still uses an older /
+looser v2 schema that the `erc7730` library's strict Pydantic model rejects
+(`legalName` missing, `visible` extra, `abi` missing, ...), so we only borrow
+the library's signature/path parsing, not its descriptor model.
 """
 
 from __future__ import annotations
 
+import dataclasses
 import logging
 from pathlib import Path
 from typing import Any
@@ -51,10 +78,9 @@ LOG = logging.getLogger(__name__)
 class UnsupportedFeature(Exception):
     """A *displayed* field uses a feature we can't faithfully represent.
 
-    Raised so the caller skips the entire descriptor file rather than emitting
-    a display format that silently omits a field. Carries a stable `feature`
-    tag (for aggregation in the unsupported-features log) and a human-readable
-    `detail`.
+    Raising this drops the display format being built (the DROP outcome in the
+    module docstring). `feature` is a stable tag the log aggregates on;
+    `detail` is the human-readable specifics.
     """
 
     def __init__(self, feature: str, detail: str):
@@ -64,12 +90,18 @@ class UnsupportedFeature(Exception):
 
 
 # =====================================================================
-#                       Solidity type → ABI proto enum
+# 1. Solidity types -> ABI type trees
+#
+# A function signature's parameter types become a list of ABIValue dicts
+# (`parameter_definitions`), the exact mirror of the firmware's
+# EthereumABIValueInfo proto: {"atomic": <enum>}, {"dynamic": <enum>},
+# {"tuple": {...}} or {"array": <ABIValue>} nested per array dimension.
+# The firmware walks this tree to decode raw calldata.
 # =====================================================================
 
 
 _ABI_TYPE_MAP: dict[str, tuple[bool, str]] = {
-    # (is_dynamic_when_unsized, EthereumABIType member name)
+    # Solidity base type -> (is dynamically sized, EthereumABIType member)
     "address": (False, "ABI_ADDRESS"),
     "bool": (False, "ABI_BOOL"),
     "bytes": (True, "ABI_BYTES"),
@@ -99,9 +131,8 @@ _ABI_TYPE_MAP: dict[str, tuple[bool, str]] = {
 def _split_array_suffix(type_str: str) -> tuple[str, int]:
     """Strip trailing `[]` pairs from a Solidity type. Returns (base, depth).
 
-    Fixed-size arrays (`[N]`) cannot be represented in our ABI value model (the
-    proto `ABIValue` carries no element count), so any fixed dimension raises
-    `UnsupportedFeature` and the whole descriptor is skipped.
+    Fixed-size arrays (`[N]`) cannot be represented in our ABI value model
+    (the proto carries no element count), so any fixed dimension raises.
     """
     original = type_str
     depth = 0
@@ -128,26 +159,27 @@ def _component_is_dynamic(c: Component) -> bool:
 
 
 def build_abi_value(c: Component) -> ABIValue:
-    """Turn a `Component` into the nested-dict mirror of EthereumABIValueInfo."""
+    """Turn one signature parameter into its ABIValue tree.
+
+    The shape restrictions below all mirror hard limits of the firmware's
+    decoder (`ABIValue.from_proto` / `_get_leaf_parser` in clear_signing.py);
+    emitting a shape the firmware would reject or, worse, mis-decode is a DROP.
+    """
     base_type, array_depth = _split_array_suffix(c.type)
 
     base: ABIValue
     if base_type == "tuple":
-        # The firmware's array decoder (`ABIValue.from_proto` in
-        # clear_signing.py) only models a tuple nested in a *single* array
-        # layer; `tuple[][]` (and deeper) raise `InvalidFormatDefinition`
-        # on-device, so refuse to emit them.
+        # The firmware models a tuple nested in at most ONE array layer;
+        # `tuple[][]` raises `InvalidFormatDefinition` on-device.
         if array_depth >= 2:
             raise UnsupportedFeature(
                 "tuple-in-nested-array",
                 f"{c.type} (a tuple may be nested in at most one array)",
             )
         sub_components = c.components or []
-        # The firmware decodes every tuple field as an atomic/dynamic *leaf*
-        # (`_get_leaf_parser` in clear_signing.py raises `InvalidFormatDefinition`
-        # for anything else), so a tuple field that is itself a tuple or an array
-        # (`uint256[]`, `tuple[]`, …) can't be represented. A leaf never starts
-        # with `tuple` nor ends with `]`.
+        # The firmware decodes every tuple field as an atomic/dynamic *leaf*,
+        # so a tuple field that is itself a tuple or an array can't be
+        # represented. A leaf never starts with `tuple` nor ends with `]`.
         non_leaf = next(
             (
                 sub.type
@@ -164,40 +196,35 @@ def build_abi_value(c: Component) -> ABIValue:
             )
         tuple_is_dynamic = any(_component_is_dynamic(sub) for sub in sub_components)
         if array_depth and not tuple_is_dynamic:
-            # The firmware decodes an array's tuple elements via an offset table
-            # (`Array._parse_body` in clear_signing.py), which is how *dynamic*
-            # tuples are ABI-encoded. A static tuple inside an array is encoded
-            # inline with a fixed stride and no offsets, so the firmware would
-            # misread it — refuse to emit rather than ship a wrong decode.
+            # The firmware decodes an array's tuple elements via an offset
+            # table, which is how *dynamic* tuples are ABI-encoded. A static
+            # tuple inside an array is encoded inline with a fixed stride and
+            # no offsets, so the firmware would misread it — refuse to emit
+            # rather than ship a wrong decode.
             raise UnsupportedFeature(
                 "static-tuple-in-array",
                 f"{c.type} (static tuples inside arrays are not supported)",
             )
-        # When the tuple sits inside an array, the array layer carries dynamism
-        # and the firmware always parses the in-array tuple as static; only a
-        # top-level tuple carries its own dynamism.
-        is_dynamic = tuple_is_dynamic and not array_depth
+        # In an array, the array layer carries the dynamism and the firmware
+        # always parses the in-array tuple as static; only a top-level tuple
+        # carries its own dynamism flag.
         tup: ABITuple = {
             "fields": [build_abi_value(sub) for sub in sub_components],
-            "is_dynamic": is_dynamic,
+            "is_dynamic": tuple_is_dynamic and not array_depth,
         }
         base = {"tuple": tup}
     else:
         if base_type not in _ABI_TYPE_MAP:
             raise ValueError(f"unknown ABI type: {c.type}")
-        # The firmware models an atomic/dynamic leaf nested in at most *two*
-        # array layers; `T[][][]` (and deeper) raise `InvalidFormatDefinition`
-        # on-device.
+        # The firmware models an atomic/dynamic leaf nested in at most TWO
+        # array layers; `T[][][]` raises `InvalidFormatDefinition` on-device.
         if array_depth >= 3:
             raise UnsupportedFeature(
                 "array-nesting-too-deep",
                 f"{c.type} (arrays may be nested at most two deep)",
             )
         is_dynamic, enum_name = _ABI_TYPE_MAP[base_type]
-        if is_dynamic:
-            base = {"dynamic": enum_name}
-        else:
-            base = {"atomic": enum_name}
+        base = {"dynamic": enum_name} if is_dynamic else {"atomic": enum_name}
 
     wrapped: ABIValue = base
     for _ in range(array_depth):
@@ -206,7 +233,16 @@ def build_abi_value(c: Component) -> ABIValue:
 
 
 # =====================================================================
-#                              Path resolution
+# 2. ERC-7730 paths -> proto paths
+#
+# A descriptor field points at the value it displays with a path string:
+#   "params.amountIn"  into calldata (relative to the signature's inputs),
+#   "@.value"          a transaction-container field,
+#   "$.metadata.…"     a descriptor-internal reference (handled in section 3).
+# We turn a calldata path into a flat list of integer indices into the ABI
+# type tree of section 1 — the firmware walks the decoded values with the
+# same indices. Alongside the proto path we return the *kind* of leaf the
+# path lands on, so section 4 can check it against the field's formatter.
 # =====================================================================
 
 
@@ -216,18 +252,18 @@ _CONTAINER_MAP = {
     ContainerField.TO: "TO",
 }
 
-# Leaf-value kinds used for formatter ↔ type compatibility checks.
+# Leaf-value kinds used for formatter <-> type compatibility checks.
 KIND_ADDRESS = "address"
 KIND_NUMERIC = "numeric"  # any uint*
-KIND_BYTES = "bytes"  # bool / bytesN / bytes / string — a scalar leaf only `raw` renders
-KIND_OTHER = "other"  # un-indexed array, tuple, or unknown — nothing renders it as one field
+KIND_BYTES = "bytes"  # bool / bytesN / bytes / string — only `raw` renders these
+KIND_OTHER = "other"  # un-indexed array, tuple, or unknown — not one field's value
 
 
 def _classify_kind(base_type: str, array_depth: int) -> str:
     """Classify a resolved leaf Solidity type into a formatter-compat kind."""
     if array_depth > 0:
-        # The leaf is still an array (e.g. an un-indexed `uint256[]`); no scalar
-        # formatter can render it (a `.[]` iteration peels the dimension first).
+        # Still an array (e.g. an un-indexed `uint256[]`): no scalar formatter
+        # renders it (a `.[]` iteration peels the dimension first).
         return KIND_OTHER
     if base_type == "address":
         return KIND_ADDRESS
@@ -235,38 +271,34 @@ def _classify_kind(base_type: str, array_depth: int) -> str:
         return KIND_NUMERIC
     if base_type == "bool" or base_type == "string" or base_type.startswith("bytes"):
         # A scalar bool / bytesN / bytes / string leaf — the firmware's
-        # RawFormatter renders these (bytes as hex, bool as text, string as-is),
-        # but no other formatter does.
+        # RawFormatter renders these (bytes as hex, bool as text, string
+        # as-is), but no other formatter does.
         return KIND_BYTES
     # tuple / unknown — not representable as a single rendered value.
     return KIND_OTHER
 
 
-def path_to_dict(
-    path_str: str, inputs: list[Component]
-) -> tuple[ERC7730Path, str] | None:
+def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, str]:
     """Convert an ERC-7730 path string to `(proto path, leaf kind)`.
 
-    The leaf kind is one of `KIND_ADDRESS` / `KIND_NUMERIC` / `KIND_OTHER`,
-    used by the caller to check the field's formatter against the type the
-    path actually points at.
+    A trailing `.[]` (whole-array iteration) is supported: the proto path
+    points at the array itself and the firmware formats each element, so the
+    returned kind is the *element* kind (`amounts.[]` over `uint256[]` is
+    numeric).
 
-    A trailing `.[]` (whole-array iteration) is supported: the path points at
-    the array itself and the firmware formats each element. The peeled element
-    kind is returned, so formatter compatibility is checked against the element
-    type (e.g. `amounts.[]` over `uint256[]` is numeric).
-
-    Returns None for unsupported paths (caller should skip the field):
-      * `$.metadata.constants.X` (descriptor paths)
-      * a non-trailing `.[]` (per-element field extraction) or array slices
-      * `.[]` over a non-array, or leaving a still-nested array
-      * unknown name segments
-
-    Raises UnsupportedFeature for an unsupported container path (anything under
-    `@.` other than `value` / `from` / `to`). These reference transaction-level,
-    security-relevant fields, so we fail loudly rather than silently drop them.
-    Also raises UnsupportedFeature (via `_split_array_suffix`) if a segment along
-    the path is a fixed-size array.
+    Every unsupported path raises `UnsupportedFeature` with a distinct feature
+    tag, so the drop reason is visible in the log:
+      * `descriptor-path` — `$.…` paths (callers resolve constants *before*
+        calling; one reaching this function is not a constants lookup we handle)
+      * `per-element-field-path` — anything following a `.[]`
+        (e.g. `swaps.[].amount`), which can't be expressed as a flat index path
+      * `array-slice-path` — `x.[a:b]` slices, not representable in the proto
+      * `iteration-over-non-array` — a `.[]` applied to a non-array leaf
+      * `unknown-path-segment` — a name not present in the ABI signature
+      * `unparseable-path` — the path string didn't parse at all
+      * `unsupported-container-path` — anything under `@.` other than
+        `value` / `from` / `to` (transaction-level, security-relevant fields)
+      * `fixed-size-array` (via `_split_array_suffix`)
     """
     try:
         parsed = to_path(path_str)
@@ -276,8 +308,7 @@ def path_to_dict(
                 "unsupported-container-path",
                 f"{path_str} (only @.value / @.from / @.to are supported)",
             ) from e
-        LOG.warning("path parse failed for %r: %s", path_str, e)
-        return None
+        raise UnsupportedFeature("unparseable-path", f"{path_str}: {e}") from e
 
     if isinstance(parsed, ContainerPath):
         mapped = _CONTAINER_MAP.get(parsed.field)
@@ -293,12 +324,13 @@ def path_to_dict(
         return {"container_path": mapped}, kind
 
     if isinstance(parsed, DescriptorPath):
-        # `$.metadata.constants.X` — constant lookup, not representable as a proto path.
-        return None
+        raise UnsupportedFeature("descriptor-path", path_str)
 
     if not isinstance(parsed, DataPath):
-        return None
+        raise UnsupportedFeature("unparseable-path", f"{path_str}: not a data path")
 
+    # Walk the signature's components along the path, translating each name to
+    # its positional index and tracking the Solidity type of the current leaf.
     indices: list[int] = []
     current = inputs
     leaf_base: str | None = None
@@ -306,15 +338,17 @@ def path_to_dict(
     saw_array_iter = False
     for element in parsed.elements:
         if saw_array_iter:
-            # A `.[]` resolves the path to the whole array, which the firmware
-            # formats element-by-element — so nothing may follow it. A per-element
-            # field extraction (`swaps.[].amount`) can't be expressed as a flat
-            # index path, so reject it.
-            return None
+            # `.[]` resolves the path to the whole array, formatted element by
+            # element — nothing may follow it. A per-element field extraction
+            # (`swaps.[].amount`) has no flat-index representation.
+            raise UnsupportedFeature("per-element-field-path", path_str)
         if isinstance(element, PathField):
             name_to_idx = {p.name: i for i, p in enumerate(current) if p.name}
             if element.identifier not in name_to_idx:
-                return None
+                raise UnsupportedFeature(
+                    "unknown-path-segment",
+                    f"{path_str} (segment {element.identifier!r})",
+                )
             i = name_to_idx[element.identifier]
             indices.append(i)
             sub_component = current[i]
@@ -326,55 +360,32 @@ def path_to_dict(
             if leaf_array_depth > 0:
                 leaf_array_depth -= 1  # indexing peels one array dimension
         elif isinstance(element, Array):
-            # `.[]` whole-array iteration. The proto path points at the array
-            # itself (no index appended); the firmware applies the field's
-            # formatter to each element and joins the results. Peel one array
-            # dimension so the leaf kind reflects the per-element type — a leaf
-            # that is still an array (e.g. `uint256[][]`) then classifies as
-            # KIND_OTHER, since only flat arrays of scalars can be iterated.
+            # Trailing `.[]`: point at the array itself (no index appended) and
+            # peel one dimension so the kind reflects the per-element type. A
+            # leaf that is *still* an array afterwards (`uint256[][]`)
+            # classifies as KIND_OTHER — only flat scalar arrays iterate.
             if leaf_array_depth <= 0:
-                return None  # `.[]` on a non-array leaf
+                raise UnsupportedFeature("iteration-over-non-array", path_str)
             leaf_array_depth -= 1
             saw_array_iter = True
         elif isinstance(element, ArraySlice):
-            return None
+            raise UnsupportedFeature("array-slice-path", path_str)
         else:
-            return None
+            raise UnsupportedFeature(
+                "unparseable-path", f"{path_str}: unhandled element {element!r}"
+            )
 
     kind = KIND_OTHER if leaf_base is None else _classify_kind(leaf_base, leaf_array_depth)
     return {"path": indices}, kind
 
 
 # =====================================================================
-#                              Field building
+# 3. Descriptor-internal references
+#
+# Two `$.` reference families appear in field definitions:
+#   $.metadata.constants.<key>   -> a literal value from metadata.constants
+#   $.display.definitions.<key>  -> a shared field definition to merge in
 # =====================================================================
-
-
-_FORMATTER_MAP = {
-    "addressName": "FORMATTER_ADDRESS_NAME",
-    "amount": "FORMATTER_AMOUNT",
-    "tokenAmount": "FORMATTER_TOKEN_AMOUNT",
-    "unit": "FORMATTER_UNIT",
-    # The firmware renders `raw` per Solidity type (int as decimal, address/bytes
-    # as hex, bool as text, string as-is) and `date` as a human-readable unix
-    # timestamp. A `date` with a `blockheight` encoding is overridden to RAW in
-    # build_field_dict, since it's a block number rather than a time.
-    "raw": "FORMATTER_RAW",
-    "date": "FORMATTER_DATE",
-}
-
-# The leaf-value kind(s) each formatter accepts. A field whose path resolves to a
-# kind outside this set is unrepresentable, so the descriptor is skipped.
-_FORMATTER_VALUE_KIND = {
-    "addressName": frozenset({KIND_ADDRESS}),
-    "amount": frozenset({KIND_NUMERIC}),
-    "tokenAmount": frozenset({KIND_NUMERIC}),
-    "unit": frozenset({KIND_NUMERIC}),
-    # `raw` renders any scalar leaf; only whole arrays / tuples are rejected.
-    "raw": frozenset({KIND_ADDRESS, KIND_NUMERIC, KIND_BYTES}),
-    # `date` paths point at a uint timestamp/blockheight.
-    "date": frozenset({KIND_NUMERIC}),
-}
 
 
 _HEX_DIGITS = frozenset("0123456789abcdef")
@@ -398,28 +409,17 @@ def _is_hex(s: str) -> bool:
     return True
 
 
-def _parse_descriptor_path_3(path_str: str) -> tuple[str, str, str] | None:
-    """Parse a `$.a.b.c` descriptor path and return `(a, b, c)`.
-
-    Returns None if the path can't be parsed or doesn't have exactly three
-    field-name elements.
-    """
+def _descriptor_path_parts(path_str: str) -> tuple[str, str, str] | None:
+    """Parse a `$.a.b.c` descriptor path into `(a, b, c)`, else None."""
     try:
         parsed = to_path(path_str)
     except Exception:
         return None
-    if not isinstance(parsed, DescriptorPath):
+    if not isinstance(parsed, DescriptorPath) or len(parsed.elements) != 3:
         return None
-    elements = parsed.elements
-    if len(elements) != 3:
+    if not all(isinstance(e, PathField) for e in parsed.elements):
         return None
-    e0, e1, e2 = elements
-    if not (
-        isinstance(e0, PathField)
-        and isinstance(e1, PathField)
-        and isinstance(e2, PathField)
-    ):
-        return None
+    e0, e1, e2 = parsed.elements
     return e0.identifier, e1.identifier, e2.identifier
 
 
@@ -429,7 +429,7 @@ def _resolve_constant(path_str: str, constants: dict[str, Any]) -> Any | None:
     Returns the constant value, or None if the path isn't a constants lookup
     or the key is missing.
     """
-    parts = _parse_descriptor_path_3(path_str)
+    parts = _descriptor_path_parts(path_str)
     if parts is None or parts[:2] != ("metadata", "constants"):
         return None
     return constants.get(parts[2])
@@ -438,7 +438,7 @@ def _resolve_constant(path_str: str, constants: dict[str, Any]) -> Any | None:
 def _resolve_address_ref(value: Any, constants: dict[str, Any]) -> str | None:
     """Resolve a token-address reference to normalized 20-byte hex (no `0x`).
 
-    ``value`` is a literal address string or a ``$.metadata.constants.*``
+    `value` is a literal address string or a `$.metadata.constants.*`
     reference. Returns None if it can't be resolved to a valid 20-byte address.
     """
     s = str(value)
@@ -458,10 +458,10 @@ def _native_currency_includes_zero(
 ) -> bool:
     """Whether `nativeCurrencyAddress` lists the zero address.
 
-    A `tokenAmount` with no `tokenPath`/`token` has a null (zero-address) token.
-    When the descriptor declares the zero address as a native-currency sentinel,
-    that null token *is* the chain's native currency, so the amount is native.
-    Entries may be literal addresses or `$.metadata.constants.*` references.
+    A `tokenAmount` with no `tokenPath`/`token` has a null (zero-address)
+    token. When the descriptor declares the zero address as a native-currency
+    sentinel, that null token *is* the chain's native currency, so the amount
+    is native. Entries may be literals or `$.metadata.constants.*` references.
     """
     raw = params.get("nativeCurrencyAddress")
     if raw is None:
@@ -487,20 +487,20 @@ def _resolve_ref(
 ) -> dict[str, Any] | None:
     """Merge a `$.display.definitions.*` reference into a field dict.
 
-    Field-level keys override the definition; ``params`` dicts are deep-merged
-    so the field can add keys (e.g. ``tokenPath``) without losing definition
-    keys (e.g. ``nativeCurrencyAddress``).
+    Field-level keys override the definition; `params` dicts are deep-merged
+    so the field can add keys (e.g. `tokenPath`) without losing definition
+    keys (e.g. `nativeCurrencyAddress`).
 
     Returns None for an unresolvable `$ref` (not a `$.display.definitions.*`
     path, or a missing definition). The field's display info would come from
     that definition, so leaving the ref unmerged risks silently dropping a
-    displayed field; the caller must skip instead.
+    displayed field; the caller must drop the display format instead.
     """
     ref = field_def.get("$ref")
     if ref is None:
         return field_def
 
-    parts = _parse_descriptor_path_3(str(ref))
+    parts = _descriptor_path_parts(str(ref))
     if parts is None or parts[:2] != ("display", "definitions"):
         LOG.warning("unsupported $ref path: %r", ref)
         return None
@@ -522,6 +522,63 @@ def _resolve_ref(
     return merged
 
 
+# =====================================================================
+# 4. Building one display field
+#
+# The entry points are `_build_path_field` (field bound to calldata) and
+# `_build_non_path_field` (field bound to a constant). Both take the shared
+# `_FormatContext` and either return a proto-field dict, return None (hidden
+# field), or raise `UnsupportedFeature` (DROP).
+# =====================================================================
+
+
+_FORMATTER_MAP = {
+    "addressName": "FORMATTER_ADDRESS_NAME",
+    "amount": "FORMATTER_AMOUNT",
+    "tokenAmount": "FORMATTER_TOKEN_AMOUNT",
+    "unit": "FORMATTER_UNIT",
+    # The firmware renders `raw` per Solidity type (int as decimal,
+    # address/bytes as hex, bool as text, string as-is) and `date` as a
+    # human-readable unix timestamp.
+    "raw": "FORMATTER_RAW",
+    "date": "FORMATTER_DATE",
+}
+
+# The leaf-value kind(s) each formatter accepts. `_check_kind_or_reinterpret`
+# enforces this; `addressName` gets reinterpretations instead of a hard drop.
+_FORMATTER_VALUE_KIND = {
+    "addressName": frozenset({KIND_ADDRESS}),
+    "amount": frozenset({KIND_NUMERIC}),
+    "tokenAmount": frozenset({KIND_NUMERIC}),
+    "unit": frozenset({KIND_NUMERIC}),
+    # `raw` renders any scalar leaf; only whole arrays / tuples are rejected.
+    "raw": frozenset({KIND_ADDRESS, KIND_NUMERIC, KIND_BYTES}),
+    # `date` paths point at a uint timestamp/blockheight.
+    "date": frozenset({KIND_NUMERIC}),
+}
+
+
+@dataclasses.dataclass
+class _FormatContext:
+    """State shared while building the fields of ONE display format.
+
+    `parameter_definitions` is the ABI type tree (section 1) that the fields'
+    paths index into; reinterpretations mutate it in place. `adjustments`
+    collects the (kind, detail) record of every accepted-but-bent field — the
+    caller throws it away if the display format ends up dropped, so only
+    adjustments of *emitted* formats are reported.
+    """
+
+    inputs: list[Component]
+    constants: dict[str, Any]
+    parameter_definitions: list[ABIValue]
+    adjustments: list[tuple[str, str]] = dataclasses.field(default_factory=list)
+
+    def adjust(self, kind: str, detail: str) -> None:
+        LOG.info("adjustment %s: %s", kind, detail)
+        self.adjustments.append((kind, detail))
+
+
 def _field_is_displayed(field_def: dict[str, Any]) -> bool:
     """Whether a field is meant to be shown to the user.
 
@@ -535,224 +592,437 @@ def _field_is_displayed(field_def: dict[str, Any]) -> bool:
     return field_def.get("visible") not in (False, "never")
 
 
-def build_const_field(
-    field_def: dict[str, Any],
-    constants: dict[str, Any],
+# ---------------------------------------------------------------------
+# 4a. Constant (non-path) fields
+# ---------------------------------------------------------------------
+
+
+def _build_non_path_field(
+    field_def: dict[str, Any], ctx: _FormatContext
 ) -> ERC7730Field | None:
-    """Build a field bound to a constant `value` (no calldata `path`).
+    """Build a displayed field that has no calldata `path`.
 
-    ERC-7730 `raw` fields may carry a literal `value` (or a
-    `$.metadata.constants.*` reference) instead of a `path` — a static label
-    such as a vault's share ticker. The device shows it via the RAW formatter
-    from a `const_value` path (nothing is walked from calldata), so resolve the
-    value to a string here.
-
-    Returns None if the field isn't a representable constant (not `raw`, no
-    label, missing `value`, or an unresolvable constant reference) — the caller
-    then treats it as an unsupported non-path field.
+    The only representable shape is a constant: `format: raw` with a `value`
+    (a literal or a `$.metadata.constants.*` reference), e.g. a vault's share
+    ticker. Hidden fields return None; anything else is a DROP.
     """
-    # Only `raw` constants are representable: the device renders `const_value`
-    # via the RAW formatter (a string as-is); other formatters need a typed
-    # calldata value.
-    if field_def.get("format") != "raw":
+    if not _field_is_displayed(field_def):
         return None
+    if "value" not in field_def:
+        raise UnsupportedFeature(
+            "non-path-field",
+            f"{field_def.get('format')} (label {field_def.get('label')!r})",
+        )
     label = field_def.get("label", "")
     if not label:
-        return None
-    value = field_def.get("value")
-    if value is None:
-        return None
-    s = str(value)
-    if s.startswith("$"):
-        resolved = _resolve_constant(s, constants)
+        raise UnsupportedFeature(
+            "missing-label", f"constant field {field_def.get('value')!r}"
+        )
+    return _const_value_field(label, field_def["format"], field_def["value"], ctx)
+
+
+def _const_value_field(
+    label: str,
+    fmt: str,
+    value: Any,
+    ctx: _FormatContext,
+    *,
+    already_resolved: bool = False,
+) -> ERC7730Field:
+    """Build a field bound to a constant value instead of a calldata path.
+
+    The value rides in the proto as a `const_value` path, which the firmware
+    renders as-is via the raw formatter — hence only `format: raw` is
+    representable (every other formatter needs a typed calldata value).
+    """
+    if not already_resolved and isinstance(value, str) and value.startswith("$"):
+        resolved = _resolve_constant(value, ctx.constants)
         if resolved is None:
-            return None
-        s = str(resolved)
+            raise UnsupportedFeature(
+                "unresolvable-constant-value", f"{value!r} (field {label!r})"
+            )
+        value = resolved
+
+    if fmt != "raw":
+        raise UnsupportedFeature(
+            "constant-value-formatter",
+            f"{fmt} with a constant value (field {label!r}); only raw is supported",
+        )
+
+    if isinstance(value, bool):
+        rendered = "true" if value else "false"
+    elif isinstance(value, (str, int, float)):
+        rendered = str(value)
+    else:
+        raise UnsupportedFeature(
+            "invalid-constant-value", f"{value!r} (field {label!r})"
+        )
+    if not isinstance(value, str):
+        ctx.adjust(
+            "constant-value-stringified",
+            f"{value!r} rendered as {rendered!r} (field {label!r})",
+        )
+    ctx.adjust(
+        "constant-value-field", f"field {label!r} bound to constant {rendered!r}"
+    )
     return {
-        "path": {"const_value": s},
+        "path": {"const_value": rendered},
         "label": label,
         "formatter": _FORMATTER_MAP["raw"],
     }
 
 
-def build_field_dict(
-    field_def: dict[str, Any],
-    inputs: list[Component],
-    constants: dict[str, Any] | None = None,
-    label_context: str = "",
-) -> ERC7730Field | None:
-    """Convert a single ERC-7730 field definition.
+# ---------------------------------------------------------------------
+# 4b. Formatter/type compatibility and reinterpretations
+#
+# Registry authors routinely declare a parameter as `uint256` when the value
+# is semantically an address: 1inch's `uniswapV3Swap(..., uint256[] pools)`
+# holds pool addresses in the words' low 160 bits, maker orders put the
+# receiver in a uint, packed token addresses appear in `tokenPath` targets.
+# The firmware's AddressNameFormatter renders `bytes` and raises on `int`, so
+# emitting FORMATTER_ADDRESS_NAME over a uint leaf as-is would fail on-device.
+#
+# The one lever we control is the declared ABI type in parameter_definitions.
+# `uintN` and `address` are encoded identically — one static 32-byte word —
+# so flipping the leaf's type changes nothing about WHERE anything decodes,
+# only how the firmware interprets and renders that word (`parse_address`
+# takes the low 20 bytes and requires the high 12 to be zero; a "dirty" value
+# raises on-device, which degrades safely to blind signing).
+# ---------------------------------------------------------------------
 
-    Returns None for a not-displayed (hidden) field — skipped without checks.
-    Raises `UnsupportedFeature` for a *displayed* field we cannot faithfully
-    represent, so the caller skips the whole descriptor file rather than emit a
-    display format with a missing field.
+
+def _check_kind_or_reinterpret(
+    fmt: str,
+    path: ERC7730Path,
+    kind: str,
+    path_str: str,
+    label: str,
+    ctx: _FormatContext,
+) -> None:
+    """Verify the formatter can render the leaf the path points at.
+
+    A mismatch is normally a DROP. `addressName` gets two reinterpretations
+    (see the section comment above), both logged as adjustments:
+
+      * on a uint leaf, the ABI leaf is retyped to `address` in place;
+      * on a bytes-like leaf, the field passes through unchanged — the
+        firmware's AddressNameFormatter accepts bytes/str and renders hex.
     """
-    label = field_def.get("label", "")
+    if kind in _FORMATTER_VALUE_KIND[fmt]:
+        return
 
-    # Hidden fields carry no display info — skip before any validation so an
-    # unrepresentable path/formatter on something we never show is a non-issue.
+    if fmt == "addressName" and kind == KIND_NUMERIC and "path" in path:
+        if _retype_uint_leaf_as_address(ctx.parameter_definitions, path["path"]):
+            ctx.adjust(
+                "address-in-numeric",
+                f"{path_str} is numeric but formatted as addressName — "
+                f"ABI leaf retyped to address (field {label!r})",
+            )
+            return
+    if fmt == "addressName" and kind == KIND_BYTES:
+        ctx.adjust(
+            "addressname-on-bytes",
+            f"{path_str} is {kind} but formatted as addressName — "
+            f"rendered as hex (field {label!r})",
+        )
+        return
+
+    raise UnsupportedFeature(
+        "formatter-type-mismatch",
+        f"{fmt} expects {'/'.join(sorted(_FORMATTER_VALUE_KIND[fmt]))} but "
+        f"{path_str!r} is {kind} (field {label!r})",
+    )
+
+
+def _abi_leaf_at(
+    parameter_definitions: list[ABIValue], indices: list[int]
+) -> ABIValue | None:
+    """Return the ABI tree node a proto data path points at, or None.
+
+    The walk mirrors how paths are built in section 2. Worked example for
+    `uniswapV3Swap(uint256 amount, uint256 minReturn, uint256[] pools)` with
+    path `pools.[-1]`, i.e. indices `[2, -1]`:
+
+        parameter_definitions[2]  == {"array": {"atomic": "ABI_UINT256"}}
+        index -1 steps INTO the array; all elements share the one element
+        type, so the node becomes   {"atomic": "ABI_UINT256"}   <- the leaf
+
+    A path may also point at a whole array (trailing `.[]` iteration, no
+    index appended): the firmware formats each element, so the element type
+    is still the leaf — the final unwrap loop handles that.
+    """
+    if not indices or not 0 <= indices[0] < len(parameter_definitions):
+        return None
+    node = parameter_definitions[indices[0]]
+    for idx in indices[1:]:
+        if "array" in node:
+            node = node["array"]  # element index: elements share one type
+        elif "tuple" in node:
+            fields = node["tuple"]["fields"]
+            if not 0 <= idx < len(fields):
+                return None
+            node = fields[idx]
+        else:
+            return None  # path walks past a scalar leaf — shouldn't happen
+    while "array" in node:
+        node = node["array"]  # trailing `.[]`: the element is what's formatted
+    return node
+
+
+def _retype_uint_leaf_as_address(
+    parameter_definitions: list[ABIValue], indices: list[int]
+) -> bool:
+    """Flip the uint ABI leaf at `indices` to ABI_ADDRESS, in place.
+
+    See the section 4b comment for why this is sound (identical one-word
+    encoding; dirty values degrade to blind signing on-device).
+
+    Deliberate side effect: an array has ONE shared element type, so retyping
+    `pools.[-1]` retypes every `pools` element — and any other field reading
+    the same leaf sees an address from then on. That matches the author's
+    intent (the whole array holds packed addresses) and is logged by the
+    caller as an adjustment.
+
+    Returns False if the walk fails or the leaf isn't a uint — the caller
+    then treats the field as a plain formatter/type mismatch (DROP).
+    """
+    node = _abi_leaf_at(parameter_definitions, indices)
+    if node is None:
+        return False
+    if node.get("atomic") == "ABI_ADDRESS":
+        return True  # another field already retyped this shared leaf
+    if str(node.get("atomic", "")).startswith("ABI_UINT"):
+        node["atomic"] = "ABI_ADDRESS"
+        return True
+    return False
+
+
+# ---------------------------------------------------------------------
+# 4c. Calldata-bound fields, one helper per formatter's params
+# ---------------------------------------------------------------------
+
+
+def _build_path_field(
+    field_def: dict[str, Any], ctx: _FormatContext
+) -> ERC7730Field | None:
+    """Build a displayed field bound to a calldata (or container) path."""
     if not _field_is_displayed(field_def):
         return None
 
-    fmt = field_def["format"]  # guaranteed present by _field_is_displayed
-
-    # A displayed field needs a label (proto requires it); an empty one renders
-    # blank on-device, so treat it as missing display info.
+    fmt = field_def["format"]  # present, else _field_is_displayed is False
+    label = field_def.get("label", "")
+    # A displayed field needs a label (the proto requires one); an empty label
+    # would render blank on-device, so treat it as missing display info.
     if not label:
         raise UnsupportedFeature(
             "missing-label", f"{fmt} field at {field_def.get('path')!r}"
         )
-
-    path_str = field_def.get("path")
+    path_str = str(field_def.get("path") or "")
     if not path_str:
-        raise UnsupportedFeature("missing-path", f"{label_context}: field {label!r}")
+        raise UnsupportedFeature("missing-path", f"field {label!r}")
 
-    # path_to_dict raises UnsupportedFeature for container paths; other
-    # unsupported paths come back as None and are escalated here.
-    resolved = path_to_dict(str(path_str), inputs)
-    if resolved is None:
-        raise UnsupportedFeature(
-            "unresolvable-path", f"{path_str} (field {label!r})"
-        )
-    path, value_kind = resolved
+    # A `$.metadata.constants.*` field path is a constant, not calldata.
+    if path_str.startswith("$"):
+        const = _resolve_constant(path_str, ctx.constants)
+        if const is None:
+            raise UnsupportedFeature("descriptor-path", f"{path_str} (field {label!r})")
+        return _const_value_field(label, fmt, const, ctx, already_resolved=True)
+
+    try:
+        path, kind = path_to_dict(path_str, ctx.inputs)
+    except UnsupportedFeature as e:
+        raise UnsupportedFeature(e.feature, f"{e.detail} (field {label!r})") from None
 
     if fmt not in _FORMATTER_MAP:
         raise UnsupportedFeature("unsupported-formatter", f"{fmt} (field {label!r})")
-
-    allowed_kinds = _FORMATTER_VALUE_KIND.get(fmt)
-    if allowed_kinds is not None and value_kind not in allowed_kinds:
-        raise UnsupportedFeature(
-            "formatter-type-mismatch",
-            f"{fmt} expects {'/'.join(sorted(allowed_kinds))} but {path_str!r} is "
-            f"{value_kind} (field {label!r})",
-        )
+    _check_kind_or_reinterpret(fmt, path, kind, path_str, label, ctx)
 
     out: ERC7730Field = {
         "path": path,
         "label": label,
         "formatter": _FORMATTER_MAP[fmt],
     }
-
-    constants = constants or {}
     params = field_def.get("params") or {}
     if fmt == "tokenAmount":
-        token_path_str = params.get("tokenPath")
-        if token_path_str:
-            tp = path_to_dict(str(token_path_str), inputs)
-            if tp is not None and tp[1] == KIND_ADDRESS:
-                out["token_path"] = tp[0]
-            else:
-                raise UnsupportedFeature(
-                    "unresolvable-token-path",
-                    f"{token_path_str} (field {label!r})",
-                )
-        elif params.get("token"):
-            # A hardcoded / constant token address isn't in calldata; the proto
-            # carries it directly as `const_token_address` (often a
-            # `$.metadata.constants.*` reference resolved here). The firmware uses
-            # it in place of a calldata-derived `token_path`.
-            const_addr = _resolve_address_ref(params["token"], constants)
-            if const_addr is None:
-                raise UnsupportedFeature(
-                    "invalid-const-token", f"{params['token']!r} (field {label!r})"
-                )
-            if int(const_addr, 16) == 0:
-                # The zero address is the null/native token, not a real ERC-20.
-                # Treat it like the no-token case: native if declared, else skip.
-                if _native_currency_includes_zero(params, constants):
-                    out["formatter"] = _FORMATTER_MAP["amount"]
-                else:
-                    raise UnsupportedFeature(
-                        "tokenamount-unknown-token",
-                        f"tokenAmount with null token (field {label!r})",
-                    )
-            else:
-                out["const_token_address"] = const_addr
-        elif _native_currency_includes_zero(params, constants):
-            # No `tokenPath`/`token`: the token defaults to the null address, and
-            # the descriptor lists the zero address in `nativeCurrencyAddress`,
-            # declaring this amount as native currency. `FORMATTER_TOKEN_AMOUNT`
-            # is meaningless (and unconstructable on-device) without a token, so
-            # emit the native `AMOUNT` formatter instead.
-            out["formatter"] = _FORMATTER_MAP["amount"]
-        else:
-            # No token and no native sentinel. Per the ERC-7730 spec this is an
-            # "unknown token" shown as a raw value with a warning — for which we
-            # have no faithful formatter — so skip rather than mislabel.
-            raise UnsupportedFeature(
-                "tokenamount-unknown-token",
-                f"tokenAmount with no token reference (field {label!r})",
-            )
-        # `threshold` applies only to a real token amount (calldata- or
-        # constant-addressed); the native `AMOUNT` fallback ignores it on-device.
-        if "token_path" in out or "const_token_address" in out:
-            threshold = params.get("threshold")
-            if isinstance(threshold, str) and threshold.startswith("$"):
-                resolved_const = _resolve_constant(threshold, constants)
-                if resolved_const is None:
-                    raise UnsupportedFeature(
-                        "unresolvable-threshold", f"{threshold} (field {label!r})"
-                    )
-                threshold = resolved_const
-            if isinstance(threshold, str):
-                normalized = _normalize_hex(threshold)
-                # `_normalize_hex` doesn't validate: a non-hex value would slip
-                # through and crash `bytes.fromhex` at serialization. Reject it
-                # here as an unrepresentable field instead.
-                # TODO: Revisit for a better validation logic. maybe do validate while normalizing.
-                if set(normalized) - _HEX_DIGITS:
-                    raise UnsupportedFeature(
-                        "invalid-threshold", f"{threshold!r} (field {label!r})"
-                    )
-                out["threshold"] = normalized
-            elif isinstance(threshold, int):
-                # A negative threshold has no valid byte encoding (`hex(-n)`
-                # yields a `-0x…` string that also breaks `bytes.fromhex`).
-                if threshold < 0:
-                    raise UnsupportedFeature(
-                        "invalid-threshold", f"{threshold} (field {label!r})"
-                    )
-                out["threshold"] = _normalize_hex(hex(threshold))
+        _apply_token_amount_params(out, params, path_str, label, ctx)
     elif fmt == "unit":
-        if params.get("decimals") is not None:
-            try:
-                decimals = int(params["decimals"])
-            except (TypeError, ValueError):
-                raise UnsupportedFeature(
-                    "invalid-decimals", f"{params['decimals']!r} (field {label!r})"
-                ) from None
-            # `decimals` is a proto uint32 — out-of-range values can't serialize.
-            if not 0 <= decimals <= 0xFFFFFFFF:
-                raise UnsupportedFeature(
-                    "invalid-decimals",
-                    f"{decimals} out of uint32 range (field {label!r})",
-                )
-            out["decimals"] = decimals
-        if params.get("base"):
-            out["base"] = str(params["base"])
-        if params.get("prefix") is not None:
-            out["prefix"] = bool(params["prefix"])
+        _apply_unit_params(out, params, label)
     elif fmt == "date":
-        # FORMATTER_DATE renders a unix timestamp (seconds) as a human-readable
-        # date on-device. The `blockheight` encoding is a plain block number, not
-        # a time — the date formatter would misrender it — so fall back to the
-        # raw integer for anything other than a timestamp.
-        if params.get("encoding", "timestamp") != "timestamp":
-            out["formatter"] = _FORMATTER_MAP["raw"]
-
+        _apply_date_params(out, params, path_str, label, ctx)
     return out
 
 
-def _get_intent(display_format: dict[str, Any]) -> str:
-    intent = display_format.get("intent", "")
-    if isinstance(intent, dict):
-        return intent.get("en") or next(iter(intent.values()), "")
-    return intent or ""
+def _apply_token_amount_params(
+    out: ERC7730Field,
+    params: dict[str, Any],
+    path_str: str,
+    label: str,
+    ctx: _FormatContext,
+) -> None:
+    """Fill in FORMATTER_TOKEN_AMOUNT's token reference and threshold.
+
+    A token amount must know WHICH token it denominates. A descriptor names
+    the token one of three ways, tried in order:
+
+      1. `tokenPath`  — the token's address is in calldata; emitted as a
+         proto `token_path` the firmware walks.
+      2. `token`      — a hardcoded address (or constants reference);
+         emitted as `const_token_address`.
+      3. neither      — the token is the null (zero) address. If the
+         descriptor declares the zero address a native-currency sentinel,
+         the value is a native amount: FORMATTER_TOKEN_AMOUNT is
+         unconstructable without a token, so emit plain AMOUNT instead
+         (adjustment). Otherwise it's an "unknown token" we can't render
+         faithfully: DROP.
+    """
+    if params.get("tokenPath"):
+        token_path_str = str(params["tokenPath"])
+        try:
+            tp_path, tp_kind = path_to_dict(token_path_str, ctx.inputs)
+        except UnsupportedFeature as e:
+            raise UnsupportedFeature(
+                "unresolvable-token-path",
+                f"{token_path_str}: [{e.feature}] {e.detail} (field {label!r})",
+            ) from None
+        if tp_kind == KIND_ADDRESS:
+            out["token_path"] = tp_path
+        elif (
+            tp_kind == KIND_NUMERIC
+            and "path" in tp_path
+            and _retype_uint_leaf_as_address(ctx.parameter_definitions, tp_path["path"])
+        ):
+            # Packed-address pattern (section 4b), e.g. 1inch `order.takerAsset`.
+            out["token_path"] = tp_path
+            ctx.adjust(
+                "token-address-in-numeric",
+                f"{token_path_str} is numeric but used as token address — "
+                f"ABI leaf retyped to address (field {label!r})",
+            )
+        else:
+            raise UnsupportedFeature(
+                "unresolvable-token-path",
+                f"{token_path_str} is {tp_kind}, not an address (field {label!r})",
+            )
+    elif params.get("token"):
+        const_addr = _resolve_address_ref(params["token"], ctx.constants)
+        if const_addr is None:
+            raise UnsupportedFeature(
+                "invalid-const-token", f"{params['token']!r} (field {label!r})"
+            )
+        if int(const_addr, 16) == 0:
+            # A literal zero address is the null/native token, not an ERC-20:
+            # same treatment as the no-token case below.
+            if not _native_currency_includes_zero(params, ctx.constants):
+                raise UnsupportedFeature(
+                    "tokenamount-unknown-token",
+                    f"tokenAmount with null token (field {label!r})",
+                )
+            out["formatter"] = _FORMATTER_MAP["amount"]
+            ctx.adjust(
+                "tokenamount-native-as-amount",
+                f"{path_str}: tokenAmount with zero-address token declared "
+                f"native — emitted as AMOUNT (field {label!r})",
+            )
+        else:
+            out["const_token_address"] = const_addr
+    elif _native_currency_includes_zero(params, ctx.constants):
+        out["formatter"] = _FORMATTER_MAP["amount"]
+        ctx.adjust(
+            "tokenamount-native-as-amount",
+            f"{path_str}: tokenAmount with no token and a zero-address native "
+            f"sentinel — emitted as AMOUNT (field {label!r})",
+        )
+    else:
+        raise UnsupportedFeature(
+            "tokenamount-unknown-token",
+            f"tokenAmount with no token reference (field {label!r})",
+        )
+
+    # `threshold` ("unlimited above this") applies only to a real token amount
+    # (calldata- or constant-addressed); the AMOUNT fallback ignores it.
+    if "token_path" in out or "const_token_address" in out:
+        _apply_threshold(out, params, label, ctx.constants)
+
+
+def _apply_threshold(
+    out: ERC7730Field, params: dict[str, Any], label: str, constants: dict[str, Any]
+) -> None:
+    """Normalize a `threshold` param to hex bytes; reject the unserializable."""
+    threshold = params.get("threshold")
+    if isinstance(threshold, str) and threshold.startswith("$"):
+        resolved = _resolve_constant(threshold, constants)
+        if resolved is None:
+            raise UnsupportedFeature(
+                "unresolvable-threshold", f"{threshold} (field {label!r})"
+            )
+        threshold = resolved
+    if isinstance(threshold, str):
+        normalized = _normalize_hex(threshold)
+        # `_normalize_hex` doesn't validate: a non-hex value would slip through
+        # and crash `bytes.fromhex` at serialization time. Reject it here.
+        if set(normalized) - _HEX_DIGITS:
+            raise UnsupportedFeature(
+                "invalid-threshold", f"{threshold!r} (field {label!r})"
+            )
+        out["threshold"] = normalized
+    elif isinstance(threshold, int):
+        # A negative threshold has no byte encoding (`hex(-n)` yields a
+        # `-0x…` string that also breaks `bytes.fromhex`).
+        if threshold < 0:
+            raise UnsupportedFeature(
+                "invalid-threshold", f"{threshold} (field {label!r})"
+            )
+        out["threshold"] = _normalize_hex(hex(threshold))
+
+
+def _apply_unit_params(
+    out: ERC7730Field, params: dict[str, Any], label: str
+) -> None:
+    """Copy FORMATTER_UNIT's decimals / base / prefix params."""
+    if params.get("decimals") is not None:
+        try:
+            decimals = int(params["decimals"])
+        except (TypeError, ValueError):
+            raise UnsupportedFeature(
+                "invalid-decimals", f"{params['decimals']!r} (field {label!r})"
+            ) from None
+        # `decimals` is a proto uint32 — out-of-range values can't serialize.
+        if not 0 <= decimals <= 0xFFFFFFFF:
+            raise UnsupportedFeature(
+                "invalid-decimals",
+                f"{decimals} out of uint32 range (field {label!r})",
+            )
+        out["decimals"] = decimals
+    if params.get("base"):
+        out["base"] = str(params["base"])
+    if params.get("prefix") is not None:
+        out["prefix"] = bool(params["prefix"])
+
+
+def _apply_date_params(
+    out: ERC7730Field,
+    params: dict[str, Any],
+    path_str: str,
+    label: str,
+    ctx: _FormatContext,
+) -> None:
+    """Downgrade non-timestamp `date` encodings to RAW.
+
+    FORMATTER_DATE renders a unix timestamp (seconds). The `blockheight`
+    encoding is a plain block number, not a time — the date formatter would
+    misrender it — so anything but `timestamp` falls back to the raw integer.
+    """
+    if params.get("encoding", "timestamp") != "timestamp":
+        out["formatter"] = _FORMATTER_MAP["raw"]
+        ctx.adjust(
+            "date-encoding-as-raw",
+            f"{path_str}: date with encoding {params.get('encoding')!r} — "
+            f"emitted as RAW integer (field {label!r})",
+        )
 
 
 # =====================================================================
-#                       Descriptor → display formats
+# 5. Descriptor -> display-format records
 # =====================================================================
 
 
@@ -768,32 +1038,130 @@ def load_descriptor(path: Path) -> dict[str, Any]:
 def load_display_formats(
     path: Path,
     unsupported: list[tuple[str, str, str]] | None = None,
+    adjustments: list[tuple[str, str, str]] | None = None,
 ) -> list[ERC20DisplayFormat]:
     """Convenience: `load_descriptor` + `build_display_formats`."""
     descriptor = load_descriptor(path)
     source = f"{path.parent.name}/{path.name}"
-    return build_display_formats(descriptor, source=source, unsupported=unsupported)
+    return build_display_formats(
+        descriptor, source=source, unsupported=unsupported, adjustments=adjustments
+    )
+
+
+def _get_intent(display_format: dict[str, Any]) -> str:
+    intent = display_format.get("intent", "")
+    if isinstance(intent, dict):
+        return intent.get("en") or next(iter(intent.values()), "")
+    return intent or ""
+
+
+# One display format ready for deployment expansion:
+# (func_sig_hex, intent, parameter_definitions, field_definitions)
+_Candidate = tuple[str, str, list[ABIValue], list[ERC7730Field]]
+
+
+def _build_one_format(
+    sig_key: str,
+    display_format: dict[str, Any],
+    definitions: dict[str, Any],
+    constants: dict[str, Any],
+    source: str,
+) -> tuple[_Candidate | None, list[tuple[str, str]], list[tuple[str, str]]]:
+    """Build ONE display format (one function signature).
+
+    Returns `(candidate, issues, adjustments)`:
+      * `candidate` — the buildable display format, or None;
+      * `issues` — every unsupported feature hit, as (feature, detail).
+        NON-EMPTY MEANS THE FORMAT IS DROPPED — but the field loop keeps
+        scanning after the first issue so the log shows everything wrong with
+        a signature at once, not just the first find.
+      * `adjustments` — (kind, detail) for fields accepted with modification;
+        only meaningful when `issues` is empty.
+    """
+    issues: list[tuple[str, str]] = []
+
+    if sig_key.startswith("0x"):
+        # Hex selector — we can't derive parameter types without an ABI.
+        issues.append(("selector-only-entry", sig_key))
+        return None, issues, []
+    try:
+        parsed: Function = parse_signature(sig_key)
+    except Exception as e:
+        issues.append(("unparseable-signature", f"{sig_key}: {e}"))
+        return None, issues, []
+
+    func_sig_hex = signature_to_selector(compute_signature(parsed))
+    # The selector is our own 4-byte computation; guard the invariant.
+    if len(func_sig_hex) != 10 or not _is_hex(func_sig_hex[2:]):
+        LOG.warning("%s: skipping %s — bad selector %r", source, sig_key, func_sig_hex)
+        return None, issues, []
+    inputs = list(parsed.inputs or [])
+
+    try:
+        parameter_definitions = [build_abi_value(p) for p in inputs]
+    except UnsupportedFeature as e:
+        issues.append((e.feature, f"{sig_key}: {e.detail}"))
+        return None, issues, []
+    except ValueError as e:
+        issues.append(("unrepresentable-params", f"{sig_key}: {e}"))
+        return None, issues, []
+
+    ctx = _FormatContext(inputs, constants, parameter_definitions)
+    field_defs: list[ERC7730Field] = []
+    for f in display_format.get("fields", []):
+        if not isinstance(f, dict):
+            issues.append(("malformed-field-entry", f"{sig_key}: {f!r}"))
+            continue
+        resolved = _resolve_ref(f, definitions)
+        if resolved is None:
+            issues.append(("unresolvable-ref", f"{sig_key}: {f.get('$ref')!r}"))
+            continue
+        f = resolved
+        if isinstance(f.get("fields"), list):
+            # A nested field group (a `path` scoping sub-`fields`, e.g.
+            # `#.marketParams` in Morpho Blue). The group itself has no
+            # `format`, so it would otherwise be skipped as hidden — but its
+            # sub-fields ARE displayed and we can't express their relative
+            # paths, so this drops the display format instead.
+            issues.append(("nested-fields", f"{sig_key}: path {f.get('path')!r}"))
+            continue
+        try:
+            built = (
+                _build_path_field(f, ctx)
+                if "path" in f
+                else _build_non_path_field(f, ctx)
+            )
+        except UnsupportedFeature as e:
+            issues.append((e.feature, f"{sig_key}: {e.detail}"))
+            continue
+        if built is not None:
+            field_defs.append(built)
+
+    if issues:
+        return None, issues, []
+    intent = _get_intent(display_format)
+    return (func_sig_hex, intent, parameter_definitions, field_defs), [], ctx.adjustments
 
 
 def build_display_formats(
     descriptor: dict[str, Any],
     source: str = "<descriptor>",
     unsupported: list[tuple[str, str, str]] | None = None,
+    adjustments: list[tuple[str, str, str]] | None = None,
 ) -> list[ERC20DisplayFormat]:
     """Turn a single (post-includes) ERC-7730 descriptor into a list of records.
 
     Yields one record per (deployment x signature) pair.
 
-    Skipping is per *display format* (signature): a display format with any
-    unsupported feature (a displayed field we can't represent, an unparseable
-    signature, a selector-only entry, …) is dropped whole — we never emit a
-    display format with a field silently missing — but the other clean display
-    formats in the same file are still emitted. Every distinct feature found is
-    appended to `unsupported` (if given) as `(source, feature, detail)` for
-    later logging.
+    Dropping is per display format (signature): a format with any unsupported
+    feature is dropped whole — we never emit one with a field silently
+    missing — while the other, clean formats in the same file are still
+    emitted. Every distinct feature found is appended to `unsupported` as
+    `(source, feature, detail)`; every accepted-but-modified field of an
+    *emitted* format is appended to `adjustments` as `(source, kind, detail)`.
 
-    If *no* display format survives (every one was skipped), `UnsupportedFeature`
-    is raised so the caller can treat the whole file as skipped.
+    If NO display format survives, `UnsupportedFeature` is raised so the
+    caller can treat the whole file as skipped.
     """
     context = descriptor.get("context") or {}
     contract = context.get("contract") or {}
@@ -806,130 +1174,58 @@ def build_display_formats(
         LOG.info("%s: no deployments, skipping", source)
         return []
 
-    # Distinct unsupported features found in THIS file, for logging. Tracked at
-    # file level (deduped), but skipping is decided per display format below.
+    # Distinct (feature, detail) pairs found in THIS file, deduped for the
+    # log. The drop decision is per format (issues from _build_one_format),
+    # NOT this dedup — a feature repeated across two signatures must drop both.
     file_features: list[tuple[str, str]] = []
     seen_features: set[tuple[str, str]] = set()
-    # Whether the display format currently being processed hit any unsupported
-    # feature. Reset per signature below and flipped by note() on *every* call —
-    # even one whose (feature, detail) was already seen in an earlier signature
-    # and thus deduped out of file_features. The drop decision must not depend on
-    # file_features growing, or a repeated feature would emit a broken format.
-    had_issue = False
 
-    def note(feature: str, detail: str) -> None:
-        nonlocal had_issue
-        had_issue = True
-        key = (feature, detail)
-        if key not in seen_features:
-            seen_features.add(key)
-            file_features.append(key)
-
-    # Candidates from clean display formats; expanded into records below.
-    pending: list[tuple[str, str, list[ABIValue], list[ERC7730Field]]] = []
-
+    candidates: list[_Candidate] = []
     for sig_key, display_format in formats.items():
-        # A display format is dropped whole if it hits any unsupported feature;
-        # note() flips this flag (even for a feature already seen in an earlier
-        # signature, which file_features would dedupe away).
-        had_issue = False
-
-        if sig_key.startswith("0x"):
-            # Hex selector — we can't derive parameter types without an ABI.
-            note("selector-only-entry", sig_key)
+        candidate, issues, format_adjustments = _build_one_format(
+            sig_key, display_format, definitions, constants, source
+        )
+        for feature, detail in issues:
+            LOG.info("%s: unsupported %s: %s", source, feature, detail)
+            if (feature, detail) not in seen_features:
+                seen_features.add((feature, detail))
+                file_features.append((feature, detail))
+        if candidate is None:
             continue
-        try:
-            parsed: Function = parse_signature(sig_key)
-        except Exception as e:
-            note("unparseable-signature", f"{sig_key}: {e}")
-            continue
+        if adjustments is not None:
+            adjustments.extend(
+                (source, kind, f"{sig_key}: {detail}")
+                for kind, detail in format_adjustments
+            )
+        candidates.append(candidate)
 
-        canonical = compute_signature(parsed)
-        func_sig_hex = signature_to_selector(canonical)
-        # Selector is our own 4-byte computation; guard the invariant.
-        if len(func_sig_hex) != 10 or not _is_hex(func_sig_hex[2:]):
-            LOG.warning("%s: skipping %s — bad selector %r", source, sig_key, func_sig_hex)
-            continue
-        inputs = list(parsed.inputs or [])
-
-        try:
-            parameter_definitions = [build_abi_value(p) for p in inputs]
-        except UnsupportedFeature as e:
-            note(e.feature, e.detail)
-            continue
-        except ValueError as e:
-            note("unrepresentable-params", f"{sig_key}: {e}")
-            continue
-
-        field_defs: list[ERC7730Field] = []
-        for f in display_format.get("fields", []):
-            if not isinstance(f, dict):
-                note("malformed-field-entry", f"{sig_key}: {f!r}")
-                continue
-            resolved = _resolve_ref(f, definitions)
-            if resolved is None:
-                # Unresolvable `$ref` — the field's display info is unavailable,
-                # so skip the file rather than silently drop a displayed field.
-                note("unresolvable-ref", f"{sig_key}: {f.get('$ref')!r}")
-                continue
-            f = resolved
-            if isinstance(f.get("fields"), list):
-                # A nested field group (a `path` scoping sub-`fields`, e.g.
-                # `#.marketParams` in Morpho Blue). The group itself has no
-                # `format`, so it would otherwise be skipped as hidden — but its
-                # sub-fields ARE displayed and we can't express their relative
-                # paths, so drop the whole display format instead.
-                note("nested-fields", f"{sig_key}: path {f.get('path')!r}")
-                continue
-            if "path" not in f:
-                # A displayed field not bound to a calldata parameter. A `raw`
-                # constant (`value` literal or `$.metadata.constants.*` ref) is
-                # emitted as a const_value field; anything else is unrepresentable
-                # and drops this display format.
-                if _field_is_displayed(f):
-                    const_field = build_const_field(f, constants)
-                    if const_field is not None:
-                        field_defs.append(const_field)
-                    else:
-                        note(
-                            "non-path-field",
-                            f"{sig_key}: {f.get('format')} (label {f.get('label')!r})",
-                        )
-                continue
-            try:
-                built = build_field_dict(
-                    f,
-                    inputs,
-                    constants=constants,
-                    label_context=f"{source}:{sig_key}",
-                )
-            except UnsupportedFeature as e:
-                note(e.feature, e.detail)
-                continue
-            if built is not None:
-                field_defs.append(built)
-
-        # Drop this display format whole if any field/param was unsupported —
-        # never emit one with a field silently missing. Other formats survive.
-        if had_issue:
-            continue
-
-        intent = _get_intent(display_format)
-        pending.append((func_sig_hex, intent, parameter_definitions, field_defs))
-
-    # Log every feature found, even when some display formats were still emitted.
+    # Report every feature found, even when other formats were still emitted.
     if unsupported is not None:
         unsupported.extend((source, feat, detail) for feat, detail in file_features)
 
     # Nothing representable in the whole file — let the caller skip it.
-    if not pending and file_features:
+    if not candidates and file_features:
         raise UnsupportedFeature(
             "descriptor-skipped",
             f"{source}: {len(file_features)} unsupported feature(s)",
         )
 
+    return _expand_deployments(candidates, deployments, source)
+
+
+def _expand_deployments(
+    candidates: list[_Candidate],
+    deployments: list[dict[str, Any]],
+    source: str,
+) -> list[ERC20DisplayFormat]:
+    """Cross the per-signature candidates with the contract's deployments.
+
+    Deployment sanity problems (bad address, bad chain id) skip just that
+    deployment with a warning — they are registry data errors on the record
+    key, not unsupported display features.
+    """
     results: list[ERC20DisplayFormat] = []
-    for func_sig_hex, intent, parameter_definitions, field_defs in pending:
+    for func_sig_hex, intent, parameter_definitions, field_defs in candidates:
         for deployment in deployments:
             chain_id = deployment.get("chainId")
             address = deployment.get("address")
