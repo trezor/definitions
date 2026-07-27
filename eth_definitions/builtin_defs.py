@@ -7,8 +7,8 @@ import click
 
 from .common import (
     DEFINITIONS_PATH,
-    Network,
     ERC20Token,
+    Network,
     hash_dict_on_keys,
     load_json_file,
 )

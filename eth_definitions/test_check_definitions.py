@@ -7,7 +7,7 @@ import pytest
 
 from .check_definitions import check_definitions_list
 from .common import ChangeResolutionStrategy
-from .test_data import networks, erc20_tokens
+from .test_data import erc20_tokens, networks
 
 if TYPE_CHECKING:
     from common import DEFINITION_TYPE

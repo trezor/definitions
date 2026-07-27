@@ -222,9 +222,7 @@ def test_unresolvable_ref_field_skips_file():
     desc = _descriptor(
         formats={
             "f(uint256 amount)": {
-                "fields": [
-                    {"$ref": "$.display.definitions.missing", "path": "amount"}
-                ]
+                "fields": [{"$ref": "$.display.definitions.missing", "path": "amount"}]
             }
         }
     )
@@ -239,7 +237,9 @@ def test_unresolvable_ref_field_skips_file():
 # =====================================================================
 
 
-_ADDR_FIELD = {"f(address x)": {"fields": [{"path": "x", "label": "L", "format": "addressName"}]}}
+_ADDR_FIELD = {
+    "f(address x)": {"fields": [{"path": "x", "label": "L", "format": "addressName"}]}
+}
 
 # A bespoke `format` value that is deliberately not a real ERC-7730 formatter, so
 # tests that just need "some unsupported formatter" don't silently go stale if we
@@ -305,7 +305,11 @@ def test_deployment_with_non_integer_chain_id_is_skipped():
 
 def test_addressname_on_address_is_kept():
     desc = _descriptor(
-        formats={"f(address x)": {"fields": [{"path": "x", "label": "L", "format": "addressName"}]}}
+        formats={
+            "f(address x)": {
+                "fields": [{"path": "x", "label": "L", "format": "addressName"}]
+            }
+        }
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
@@ -314,7 +318,11 @@ def test_addressname_on_address_is_kept():
 
 def test_addressname_on_uint_skips_file():
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": "addressName"}]}}
+        formats={
+            "f(uint256 x)": {
+                "fields": [{"path": "x", "label": "L", "format": "addressName"}]
+            }
+        }
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
@@ -328,7 +336,11 @@ def test_tokenamount_no_token_skips_file():
     # tokenAmount on a numeric value with no token reference at all: the token is
     # unknown and FORMATTER_TOKEN_AMOUNT is unconstructable on-device, so skip.
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": "tokenAmount"}]}}
+        formats={
+            "f(uint256 x)": {
+                "fields": [{"path": "x", "label": "L", "format": "tokenAmount"}]
+            }
+        }
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
@@ -338,7 +350,11 @@ def test_tokenamount_no_token_skips_file():
 
 def test_tokenamount_on_bytes_skips_file():
     desc = _descriptor(
-        formats={"f(bytes x)": {"fields": [{"path": "x", "label": "L", "format": "tokenAmount"}]}}
+        formats={
+            "f(bytes x)": {
+                "fields": [{"path": "x", "label": "L", "format": "tokenAmount"}]
+            }
+        }
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
@@ -426,7 +442,9 @@ def test_tokenamount_constant_ref_token_is_resolved():
 def test_tokenamount_invalid_const_token_skips_file():
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
-        build_display_formats(_const_token_desc("not-an-address"), unsupported=unsupported)
+        build_display_formats(
+            _const_token_desc("not-an-address"), unsupported=unsupported
+        )
     assert {feat for _src, feat, _det in unsupported} == {"invalid-const-token"}
 
 
@@ -468,7 +486,9 @@ def test_tokenamount_literal_zero_token_with_native_is_amount():
 def test_tokenamount_literal_zero_token_without_native_skips_file():
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
-        build_display_formats(_const_token_desc("0x" + "00" * 20), unsupported=unsupported)
+        build_display_formats(
+            _const_token_desc("0x" + "00" * 20), unsupported=unsupported
+        )
     assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
 
 
@@ -583,7 +603,11 @@ def test_container_value_token_amount_native_is_amount():
 
 def test_container_value_rejects_address_name():
     desc = _descriptor(
-        formats={"f()": {"fields": [{"path": "@.value", "label": "X", "format": "addressName"}]}}
+        formats={
+            "f()": {
+                "fields": [{"path": "@.value", "label": "X", "format": "addressName"}]
+            }
+        }
     )
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc)
@@ -594,7 +618,11 @@ def test_container_value_rejects_address_name():
 
 def test_empty_label_on_displayed_field_skips_file():
     desc = _descriptor(
-        formats={"f(address x)": {"fields": [{"path": "x", "label": "", "format": "addressName"}]}}
+        formats={
+            "f(address x)": {
+                "fields": [{"path": "x", "label": "", "format": "addressName"}]
+            }
+        }
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
@@ -671,7 +699,14 @@ def test_unit_valid_decimals_is_kept():
     desc = _descriptor(
         formats={
             "f(uint256 x)": {
-                "fields": [{"path": "x", "label": "Gas", "format": "unit", "params": {"decimals": 9}}]
+                "fields": [
+                    {
+                        "path": "x",
+                        "label": "Gas",
+                        "format": "unit",
+                        "params": {"decimals": 9},
+                    }
+                ]
             }
         }
     )
@@ -683,7 +718,14 @@ def test_unit_negative_decimals_skips_file():
     desc = _descriptor(
         formats={
             "f(uint256 x)": {
-                "fields": [{"path": "x", "label": "Gas", "format": "unit", "params": {"decimals": -1}}]
+                "fields": [
+                    {
+                        "path": "x",
+                        "label": "Gas",
+                        "format": "unit",
+                        "params": {"decimals": -1},
+                    }
+                ]
             }
         }
     )
@@ -697,7 +739,14 @@ def test_unit_non_numeric_decimals_skips_file():
     desc = _descriptor(
         formats={
             "f(uint256 x)": {
-                "fields": [{"path": "x", "label": "Gas", "format": "unit", "params": {"decimals": "nine"}}]
+                "fields": [
+                    {
+                        "path": "x",
+                        "label": "Gas",
+                        "format": "unit",
+                        "params": {"decimals": "nine"},
+                    }
+                ]
             }
         }
     )
@@ -754,7 +803,12 @@ def test_date_default_encoding_is_date_formatter():
 def test_date_timestamp_encoding_is_date_formatter():
     desc = _single_field_desc(
         "f(uint256 t)",
-        {"path": "t", "label": "Deadline", "format": "date", "params": {"encoding": "timestamp"}},
+        {
+            "path": "t",
+            "label": "Deadline",
+            "format": "date",
+            "params": {"encoding": "timestamp"},
+        },
     )
     [rec] = build_display_formats(desc)
     assert rec["field_definitions"][0]["formatter"] == "FORMATTER_DATE"
@@ -764,7 +818,12 @@ def test_date_blockheight_encoding_falls_back_to_raw():
     # A block number is not a time — render it as a plain integer, not a date.
     desc = _single_field_desc(
         "f(uint256 b)",
-        {"path": "b", "label": "Block", "format": "date", "params": {"encoding": "blockheight"}},
+        {
+            "path": "b",
+            "label": "Block",
+            "format": "date",
+            "params": {"encoding": "blockheight"},
+        },
     )
     [rec] = build_display_formats(desc)
     assert rec["field_definitions"][0]["formatter"] == "FORMATTER_RAW"
@@ -790,7 +849,12 @@ def test_amount_over_array_is_kept():
     # the emitted path points at the array itself.
     desc = _single_field_desc(
         "f(uint256[] amounts)",
-        {"path": "amounts.[]", "label": "Amounts", "format": "unit", "params": {"decimals": 9}},
+        {
+            "path": "amounts.[]",
+            "label": "Amounts",
+            "format": "unit",
+            "params": {"decimals": 9},
+        },
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
@@ -947,7 +1011,11 @@ def test_non_raw_non_path_field_still_drops_format():
 
 def test_unsupported_formatter_skips_file_and_is_collected():
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": _UNSUPPORTED_FORMAT}]}}
+        formats={
+            "f(uint256 x)": {
+                "fields": [{"path": "x", "label": "L", "format": _UNSUPPORTED_FORMAT}]
+            }
+        }
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
@@ -960,7 +1028,11 @@ def test_raw_constant_field_is_emitted():
     # A displayed `raw` field bound to a literal constant (no calldata `path`) is
     # emitted as a const_value field rather than dropping the display format.
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"label": "Summary", "format": "raw", "value": "hi"}]}}
+        formats={
+            "f(uint256 x)": {
+                "fields": [{"label": "Summary", "format": "raw", "value": "hi"}]
+            }
+        }
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
@@ -982,7 +1054,11 @@ def test_nested_field_group_skips_file():
                     {
                         "path": "#.marketParams",
                         "fields": [
-                            {"path": "loanToken", "label": "Loan Token", "format": "addressName"},
+                            {
+                                "path": "loanToken",
+                                "label": "Loan Token",
+                                "format": "addressName",
+                            },
                         ],
                     }
                 ]
@@ -1001,8 +1077,12 @@ def test_bad_format_is_skipped_clean_formats_kept():
     # bad one's feature is recorded.
     desc = _descriptor(
         formats={
-            "good(address x)": {"fields": [{"path": "x", "label": "Addr", "format": "addressName"}]},
-            "bad(uint256 y)": {"fields": [{"path": "y", "label": "Y", "format": _UNSUPPORTED_FORMAT}]},
+            "good(address x)": {
+                "fields": [{"path": "x", "label": "Addr", "format": "addressName"}]
+            },
+            "bad(uint256 y)": {
+                "fields": [{"path": "y", "label": "Y", "format": _UNSUPPORTED_FORMAT}]
+            },
         }
     )
     unsupported: list = []
@@ -1023,9 +1103,15 @@ def test_duplicate_unsupported_feature_across_formats_skips_each():
     # Each broken format must be skipped on its own; only the clean one survives.
     desc = _descriptor(
         formats={
-            "good(address x)": {"fields": [{"path": "x", "label": "Addr", "format": "addressName"}]},
-            "bad1(uint256 y)": {"fields": [{"path": "y", "label": "Amt", "format": _UNSUPPORTED_FORMAT}]},
-            "bad2(uint256 z)": {"fields": [{"path": "z", "label": "Amt", "format": _UNSUPPORTED_FORMAT}]},
+            "good(address x)": {
+                "fields": [{"path": "x", "label": "Addr", "format": "addressName"}]
+            },
+            "bad1(uint256 y)": {
+                "fields": [{"path": "y", "label": "Amt", "format": _UNSUPPORTED_FORMAT}]
+            },
+            "bad2(uint256 z)": {
+                "fields": [{"path": "z", "label": "Amt", "format": _UNSUPPORTED_FORMAT}]
+            },
         }
     )
     recs = build_display_formats(desc)
@@ -1037,8 +1123,12 @@ def test_all_formats_bad_skips_whole_file():
     # When no display format survives, the whole file is skipped (raises).
     desc = _descriptor(
         formats={
-            "bad1(uint256 y)": {"fields": [{"path": "y", "label": "Y", "format": _UNSUPPORTED_FORMAT}]},
-            "bad2(uint256 z)": {"fields": [{"path": "z", "label": "Z", "format": _UNSUPPORTED_FORMAT}]},
+            "bad1(uint256 y)": {
+                "fields": [{"path": "y", "label": "Y", "format": _UNSUPPORTED_FORMAT}]
+            },
+            "bad2(uint256 z)": {
+                "fields": [{"path": "z", "label": "Z", "format": _UNSUPPORTED_FORMAT}]
+            },
         }
     )
     unsupported: list = []
@@ -1100,7 +1190,12 @@ def test_hidden_field_with_format_but_visible_never_is_skipped():
             "f(address to, bytes raw)": {
                 "fields": [
                     {"path": "to", "label": "To", "format": "addressName"},
-                    {"path": "raw", "label": "R", "format": _UNSUPPORTED_FORMAT, "visible": "never"},
+                    {
+                        "path": "raw",
+                        "label": "R",
+                        "format": _UNSUPPORTED_FORMAT,
+                        "visible": "never",
+                    },
                 ]
             }
         }

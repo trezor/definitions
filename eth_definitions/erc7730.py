@@ -18,11 +18,7 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from erc7730.common.abi import (
-    compute_signature,
-    parse_signature,
-    signature_to_selector,
-)
+from erc7730.common.abi import compute_signature, parse_signature, signature_to_selector
 from erc7730.common.json import read_json_with_includes
 from erc7730.model.abi import Component, Function
 from erc7730.model.paths import (
@@ -33,17 +29,11 @@ from erc7730.model.paths import (
     ContainerPath,
     DataPath,
     DescriptorPath,
-    Field as PathField,
 )
+from erc7730.model.paths import Field as PathField
 from erc7730.model.paths.path_parser import to_path
 
-from .common import (
-    ABITuple,
-    ABIValue,
-    ERC20DisplayFormat,
-    ERC7730Field,
-    ERC7730Path,
-)
+from .common import ABITuple, ABIValue, ERC20DisplayFormat, ERC7730Field, ERC7730Path
 
 LOG = logging.getLogger(__name__)
 
@@ -219,8 +209,12 @@ _CONTAINER_MAP = {
 # Leaf-value kinds used for formatter ↔ type compatibility checks.
 KIND_ADDRESS = "address"
 KIND_NUMERIC = "numeric"  # any uint*
-KIND_BYTES = "bytes"  # bool / bytesN / bytes / string — a scalar leaf only `raw` renders
-KIND_OTHER = "other"  # un-indexed array, tuple, or unknown — nothing renders it as one field
+KIND_BYTES = (
+    "bytes"  # bool / bytesN / bytes / string — a scalar leaf only `raw` renders
+)
+KIND_OTHER = (
+    "other"  # un-indexed array, tuple, or unknown — nothing renders it as one field
+)
 
 
 def _classify_kind(base_type: str, array_depth: int) -> str:
@@ -341,7 +335,9 @@ def path_to_dict(
         else:
             return None
 
-    kind = KIND_OTHER if leaf_base is None else _classify_kind(leaf_base, leaf_array_depth)
+    kind = (
+        KIND_OTHER if leaf_base is None else _classify_kind(leaf_base, leaf_array_depth)
+    )
     return {"path": indices}, kind
 
 
@@ -514,7 +510,11 @@ def _resolve_ref(
     for key, value in field_def.items():
         if key == "$ref":
             continue
-        if key == "params" and isinstance(value, dict) and isinstance(merged.get("params"), dict):
+        if (
+            key == "params"
+            and isinstance(value, dict)
+            and isinstance(merged.get("params"), dict)
+        ):
             merged["params"] = {**merged["params"], **value}
         else:
             merged[key] = value
@@ -612,9 +612,7 @@ def build_field_dict(
     # unsupported paths come back as None and are escalated here.
     resolved = path_to_dict(str(path_str), inputs)
     if resolved is None:
-        raise UnsupportedFeature(
-            "unresolvable-path", f"{path_str} (field {label!r})"
-        )
+        raise UnsupportedFeature("unresolvable-path", f"{path_str} (field {label!r})")
     path, value_kind = resolved
 
     if fmt not in _FORMATTER_MAP:
@@ -848,7 +846,9 @@ def build_display_formats(
         func_sig_hex = signature_to_selector(canonical)
         # Selector is our own 4-byte computation; guard the invariant.
         if len(func_sig_hex) != 10 or not _is_hex(func_sig_hex[2:]):
-            LOG.warning("%s: skipping %s — bad selector %r", source, sig_key, func_sig_hex)
+            LOG.warning(
+                "%s: skipping %s — bad selector %r", source, sig_key, func_sig_hex
+            )
             continue
         inputs = list(parsed.inputs or [])
 

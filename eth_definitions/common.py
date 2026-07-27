@@ -16,6 +16,7 @@ from pathlib import Path
 import click
 from trezorlib import definitions, protobuf, tools
 from trezorlib.merkle_tree import MerkleTree
+
 try:
     from trezorlib.messages import (
         DefinitionType,
@@ -464,10 +465,12 @@ def serialize_definitions(
 
 
 def _encode_payload(
-    info: EthereumNetworkInfo
-    | EthereumTokenInfo
-    | SolanaTokenInfo
-    | EthereumDisplayFormatInfo,
+    info: (
+        EthereumNetworkInfo
+        | EthereumTokenInfo
+        | SolanaTokenInfo
+        | EthereumDisplayFormatInfo
+    ),
     data_type_num: DefinitionType,
     timestamp: int,
 ) -> bytes:
