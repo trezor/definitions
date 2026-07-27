@@ -1,19 +1,20 @@
 from __future__ import annotations
 
 import logging
-from copy import deepcopy
 import typing as t
+from copy import deepcopy
 
-from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
-from rich.live import Live
 import readchar
+from rich.console import Console
+from rich.live import Live
+from rich.panel import Panel
+from rich.table import Table
 
 from .common import ChangeResolutionStrategy, hash_dict_on_keys
 
 if t.TYPE_CHECKING:
     from .common import DEFINITION_TYPE
+
 
 def check_definitions_list(
     old_defs: list[DEFINITION_TYPE],
@@ -157,7 +158,8 @@ def check_definitions_list(
             # Drop the definition for real — it will no longer be signed or
             # published. Report it so the removal is visible in the update log.
             _print_definition_change(
-                def_type=def_type or ("TOKEN" if "address" in definition else "NETWORK"),
+                def_type=def_type
+                or ("TOKEN" if "address" in definition else "NETWORK"),
                 old=definition,
                 new={},
                 prompt=False,

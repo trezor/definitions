@@ -4,9 +4,9 @@ from __future__ import annotations
 import io
 import logging
 import shutil
-import typing as t
 import tarfile
 import tempfile
+import typing as t
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -14,18 +14,18 @@ import click
 from cryptography.exceptions import InvalidSignature
 from trezorlib.merkle_tree import MerkleTree
 
+from . import crypto
 from .common import (
     GENERATED_DEFINITIONS_DIR,
-    Network,
+    DefinitionsData,
     ERC20DisplayFormat,
     ERC20Token,
+    Network,
     SolanaToken,
-    DefinitionsData,
     load_definitions_data,
     serialize_definitions,
     setup_logging,
 )
-from . import crypto
 
 LOG = logging.getLogger(__name__)
 

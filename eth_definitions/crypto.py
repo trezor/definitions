@@ -1,8 +1,10 @@
 from pathlib import Path
 from typing import Sequence
 
-from trezorlib import cosi, definitions, _ed25519 as ed25519
+from trezorlib import _ed25519 as ed25519
+from trezorlib import cosi, definitions
 from trezorlib.merkle_tree import MerkleTree
+
 HERE = Path(__file__).parent
 
 PRIVATE_KEYS_DEV = [byte * 32 for byte in (b"\xdd", b"\xde", b"\xdf")]

@@ -7,7 +7,7 @@ from .download import (
     _force_tokens_fields_sizes_t1,
     _write_display_formats_log,
 )
-from .test_data import networks, erc20_tokens
+from .test_data import erc20_tokens, networks
 
 
 def _rec(chain_id=1, address="0x" + "11" * 20, func_sig="0xdeadbeef", intent="Swap"):
@@ -67,7 +67,9 @@ def test_write_display_formats_log_has_both_sections(tmp_path, monkeypatch):
     monkeypatch.setattr(dl, "DISPLAY_FORMATS_LOG_PATH", tmp_path / "out.log")
     _write_display_formats_log(
         unsupported=[("provA/f.json", "unsupported-formatter", "enum (field 'X')")],
-        conflicts=[("chain=1 address=0xabc selector=0xdead", "provA/f.json", "provB/g.json")],
+        conflicts=[
+            ("chain=1 address=0xabc selector=0xdead", "provA/f.json", "provB/g.json")
+        ],
     )
     text = (tmp_path / "out.log").read_text()
     assert "unsupported features" in text

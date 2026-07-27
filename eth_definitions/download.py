@@ -19,7 +19,6 @@ from urllib3.util.retry import Retry
 
 from .builtin_defs import check_builtin_defs
 from .check_definitions import check_definitions_list
-from .onchain import OnchainDecimalsResolver
 from .common import (
     DEFINITIONS_PATH,
     DISPLAY_FORMATS_LOG_PATH,
@@ -35,6 +34,7 @@ from .common import (
     store_definitions_data,
 )
 from .erc7730 import UnsupportedFeature, load_display_formats
+from .onchain import OnchainDecimalsResolver
 
 HERE = Path(__file__).parent
 ROOT_DIR = HERE.parent
@@ -730,9 +730,13 @@ def download(
         if cg_match:
             for network in networks:
                 if network["chain_id"] == cg_match["chain_id"]:
-                    cg_network_id = network.get("coingecko_network_id") or network.get("coingecko_id")
+                    cg_network_id = network.get("coingecko_network_id") or network.get(
+                        "coingecko_id"
+                    )
                     print(f"  [COINGECKO] Network ID: {cg_network_id}")
-                    print(f"  [COINGECKO] API URL: https://tokens.coingecko.com/{cg_network_id}/all.json")
+                    print(
+                        f"  [COINGECKO] API URL: https://tokens.coingecko.com/{cg_network_id}/all.json"
+                    )
                     print(f"  [COINGECKO] Data: {cg_match}")
                     break
 
@@ -740,7 +744,9 @@ def download(
             print("  NOT FOUND in any source.")
         else:
             winner_source = "COINGECKO" if cg_match is not None else "REPO"
-            print(f"\n  >>> FINAL SOURCE: {winner_source} (CoinGecko overrides repo when both present)")
+            print(
+                f"\n  >>> FINAL SOURCE: {winner_source} (CoinGecko overrides repo when both present)"
+            )
 
         print("=== END TRACE ===\n")
         sys.exit(0)
@@ -837,9 +843,7 @@ def download(
     networks.sort(key=lambda x: x["chain_id"])
     erc20_tokens.sort(key=lambda x: (x["chain_id"], x["address"]))
     solana_tokens.sort(key=lambda x: x["mint"])
-    display_formats.sort(
-        key=lambda x: (x["chain_id"], x["address"], x["func_sig"])
-    )
+    display_formats.sort(key=lambda x: (x["chain_id"], x["address"], x["func_sig"]))
 
     # create definitions data
     definitions_data = DefinitionsData(

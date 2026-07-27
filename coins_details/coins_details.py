@@ -15,7 +15,7 @@ import trezor_common.tools.coin_info as coin_info
 from trezor_common.tools.coin_info import Coin
 
 if t.TYPE_CHECKING:
-    from ..eth_definitions.common import Network, ERC20Token, SolanaToken
+    from ..eth_definitions.common import ERC20Token, Network, SolanaToken
 
 
 class WalletInfo(t.TypedDict):
@@ -115,7 +115,9 @@ class CoinDetail:
             if wallet not in self.wallets:
                 self.wallets.append(wallet)
 
-        self.wallets.sort(key=lambda w: w in WALLETS_ETH_3RDPARTY) # 3rd party wallets as last
+        self.wallets.sort(
+            key=lambda w: w in WALLETS_ETH_3RDPARTY
+        )  # 3rd party wallets as last
 
         self.networks.update(other.networks)
 
@@ -139,7 +141,9 @@ DEFINITIONS_LATEST = coin_info.load_json(ROOT / "definitions-latest.json")
 DEFINITIONS_BLACKLIST = coin_info.load_json(HERE / "definitions-blacklist.json")
 
 DEFINITIONS_LATEST["networks"] = [
-    chain for chain in DEFINITIONS_LATEST["networks"] if chain.get("chain") not in DEFINITIONS_BLACKLIST["networks"]
+    chain
+    for chain in DEFINITIONS_LATEST["networks"]
+    if chain.get("chain") not in DEFINITIONS_BLACKLIST["networks"]
 ]
 
 # automatic wallet entries
@@ -276,7 +280,7 @@ def main(verbose: int):
         network = chain_id_to_network.get(token["chain_id"])
 
         if network is None:
-            continue 
+            continue
 
         cdet = CoinDetail.from_eth_token(token, network)
         cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)

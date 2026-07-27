@@ -13,8 +13,9 @@ from .common import (
     setup_logging,
     store_definitions_data,
 )
-from .generate import serialize_with_progress
 from .crypto import verify_signature
+from .generate import serialize_with_progress
+
 LOG = logging.getLogger(__name__)
 
 
