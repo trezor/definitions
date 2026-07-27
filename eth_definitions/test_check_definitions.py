@@ -306,13 +306,12 @@ def test_check_definitions_list_modified_name(
     new = deepcopy(new)
 
     old_name = "DIFFERENT NAME"
-    new_name = new[-1]["name"]
     old[-1]["name"] = old_name
 
     old_defs = deepcopy(old)
     new_defs = deepcopy(new)
 
-    with mock.patch("sys.stdout", new=StringIO()) as mock_stdout:
+    with mock.patch("sys.stdout", new=StringIO()):
         check_definitions_list(
             old_defs=old_defs,
             new_defs=new_defs,
@@ -343,13 +342,12 @@ def test_check_definitions_list_modified_shortcut_no_force(
     new = deepcopy(new)
 
     old_shortcut = "ABC"
-    new_shortcut = new[-1]["shortcut"]
     old[-1]["shortcut"] = old_shortcut
 
     old_defs = deepcopy(old)
     new_defs = deepcopy(new)
 
-    with mock.patch("sys.stdout", new=StringIO()) as mock_stdout:
+    with mock.patch("sys.stdout", new=StringIO()):
         check_definitions_list(
             old_defs=old_defs,
             new_defs=new_defs,
@@ -384,13 +382,12 @@ def test_check_definitions_list_modified_shortcut_force(
     new = deepcopy(new)
 
     old_shortcut = "ABC"
-    new_shortcut = new[-1]["shortcut"]
     old[-1]["shortcut"] = old_shortcut
 
     old_defs = deepcopy(old)
     new_defs = deepcopy(new)
 
-    with mock.patch("sys.stdout", new=StringIO()) as mock_stdout:
+    with mock.patch("sys.stdout", new=StringIO()):
         check_definitions_list(
             old_defs=old_defs,
             new_defs=new_defs,
@@ -429,7 +426,7 @@ def test_check_definitions_list_modified_shortcut_interact_accept(
     old_defs = deepcopy(old)
     new_defs = deepcopy(new)
 
-    with mock.patch("sys.stdout", new=StringIO()) as mock_stdout:
+    with mock.patch("sys.stdout", new=StringIO()):
         check_definitions_list(
             old_defs=old_defs,
             new_defs=new_defs,
@@ -466,13 +463,12 @@ def test_check_definitions_list_modified_shortcut_interact_decline(
     new = deepcopy(new)
 
     old_shortcut = "ABC"
-    new_shortcut = new[-1]["shortcut"]
     old[-1]["shortcut"] = old_shortcut
 
     old_defs = deepcopy(old)
     new_defs = deepcopy(new)
 
-    with mock.patch("sys.stdout", new=StringIO()) as mock_stdout:
+    with mock.patch("sys.stdout", new=StringIO()):
         check_definitions_list(
             old_defs=old_defs,
             new_defs=new_defs,
