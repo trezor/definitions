@@ -621,6 +621,11 @@ _FORMATTER_MAP = {
     # human-readable unix timestamp.
     "raw": "FORMATTER_RAW",
     "date": "FORMATTER_DATE",
+    # `calldata` is the embedded calldata of a nested contract call. The
+    # firmware resolves the callee address from `callee_path`, fetches that
+    # contract's display format, and renders the nested call as extra rows
+    # (CalldataFormatter in clear_signing.py).
+    "calldata": "FORMATTER_CALLDATA",
 }
 
 # The leaf-value kind(s) each formatter accepts. `_check_kind_or_reinterpret`
@@ -634,6 +639,8 @@ _FORMATTER_VALUE_KIND = {
     "raw": frozenset({KIND_ADDRESS, KIND_NUMERIC, KIND_BYTES}),
     # `date` paths point at a uint timestamp/blockheight.
     "date": frozenset({KIND_NUMERIC}),
+    # embedded calldata is a dynamic `bytes` value.
+    "calldata": frozenset({KIND_BYTES}),
 }
 
 
@@ -935,6 +942,8 @@ def _build_path_field(
         _apply_unit_params(out, params, label)
     elif fmt == "date":
         _apply_date_params(out, params, path_str, label, ctx)
+    elif fmt == "calldata":
+        _apply_calldata_params(out, params, path_str, label, ctx)
     return out
 
 
@@ -1104,6 +1113,75 @@ def _apply_date_params(
             "date-encoding-as-raw",
             f"{path_str}: date with encoding {params.get('encoding')!r} — "
             f"emitted as RAW integer (field {label!r})",
+        )
+
+
+def _apply_calldata_params(
+    out: ERC7730Field,
+    params: dict[str, Any],
+    path_str: str,
+    label: str,
+    ctx: _FormatContext,
+) -> None:
+    """Fill in FORMATTER_CALLDATA's callee path and selector.
+
+    The embedded calldata is rendered with the *called contract's* display
+    format, so the firmware must know the callee address: `calleePath` is
+    required (the firmware raises without it). When the embedded blob is
+    args-only, `selector` names the nested function's 4-byte selector.
+
+    Params beyond those two (`amountPath`, `spenderPath`, …) have no proto
+    representation; the nested call still renders in full via the callee's
+    display format, so they are dropped and logged as an adjustment rather
+    than dropping the field.
+    """
+    callee_str = params.get("calleePath")
+    if not callee_str:
+        raise UnsupportedFeature(
+            "calldata-missing-callee", f"{path_str} (field {label!r})"
+        )
+    try:
+        cp_path, cp_kind = path_to_dict(str(callee_str), ctx.inputs)
+    except UnsupportedFeature as e:
+        raise UnsupportedFeature(
+            "unresolvable-callee-path",
+            f"{callee_str}: [{e.feature}] {e.detail} (field {label!r})",
+        ) from None
+    if cp_kind == KIND_ADDRESS:
+        out["callee_path"] = cp_path
+    elif (
+        cp_kind == KIND_NUMERIC
+        and "path" in cp_path
+        and _retype_uint_leaf_as_address(ctx.parameter_definitions, cp_path["path"])
+    ):
+        # Packed-address pattern (section 4b), same as tokenPath.
+        out["callee_path"] = cp_path
+        ctx.adjust(
+            "callee-address-in-numeric",
+            f"{callee_str} is numeric but used as callee address — "
+            f"ABI leaf retyped to address (field {label!r})",
+        )
+    else:
+        raise UnsupportedFeature(
+            "unresolvable-callee-path",
+            f"{callee_str} is {cp_kind}, not an address (field {label!r})",
+        )
+
+    selector = params.get("selector")
+    if selector is not None:
+        normalized = _normalize_hex(str(selector))
+        if len(normalized) != 8 or not _is_hex(normalized):
+            raise UnsupportedFeature(
+                "invalid-calldata-selector", f"{selector!r} (field {label!r})"
+            )
+        out["selector"] = normalized
+
+    ignored = sorted(set(params) - {"calleePath", "selector"})
+    if ignored:
+        ctx.adjust(
+            "calldata-params-ignored",
+            f"{path_str}: {', '.join(ignored)} have no proto representation "
+            f"(field {label!r})",
         )
 
 

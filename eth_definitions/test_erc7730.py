@@ -1347,6 +1347,169 @@ def test_sliced_path_serializes_to_proto():
 
 
 # =====================================================================
+#                       calldata formatter
+# =====================================================================
+
+
+def test_calldata_with_callee_path_is_kept():
+    desc = _descriptor(
+        formats={
+            "execute(address target, bytes data)": {
+                "fields": [
+                    {
+                        "path": "data",
+                        "label": "Call",
+                        "format": "calldata",
+                        "params": {"calleePath": "target"},
+                    }
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_CALLDATA"
+    assert field["callee_path"] == {"path": [0]}
+    assert "selector" not in field
+    assert adjustments == []
+
+
+def test_calldata_selector_is_normalized():
+    # `selector` marks args-only embedded calldata; 4 bytes, hex-normalized.
+    desc = _descriptor(
+        formats={
+            "execute(address target, bytes data)": {
+                "fields": [
+                    {
+                        "path": "data",
+                        "label": "Call",
+                        "format": "calldata",
+                        "params": {"calleePath": "target", "selector": "0x12345678"},
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["selector"] == "12345678"
+
+
+def test_calldata_bad_selector_skips_file():
+    desc = _descriptor(
+        formats={
+            "execute(address target, bytes data)": {
+                "fields": [
+                    {
+                        "path": "data",
+                        "label": "Call",
+                        "format": "calldata",
+                        "params": {"calleePath": "target", "selector": "0x1234"},
+                    }
+                ]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"invalid-calldata-selector"}
+
+
+def test_calldata_without_callee_skips_file():
+    # The firmware requires callee_path to resolve the nested display format.
+    desc = _descriptor(
+        formats={
+            "f(bytes data)": {
+                "fields": [{"path": "data", "label": "Call", "format": "calldata"}]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"calldata-missing-callee"}
+
+
+def test_calldata_extra_params_ignored_and_logged():
+    # amountPath/spenderPath have no proto representation; the nested call
+    # still renders fully via the callee's display format.
+    desc = _descriptor(
+        formats={
+            "execute(address target, bytes data, uint256 amount)": {
+                "fields": [
+                    {
+                        "path": "data",
+                        "label": "Call",
+                        "format": "calldata",
+                        "params": {"calleePath": "target", "amountPath": "amount"},
+                    }
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert [kind for _src, kind, _det in adjustments] == ["calldata-params-ignored"]
+    assert "amountPath" in adjustments[0][2]
+
+
+def test_calldata_callee_in_packed_uint_is_retyped():
+    desc = _descriptor(
+        formats={
+            "execute(uint256 target, bytes data)": {
+                "fields": [
+                    {
+                        "path": "data",
+                        "label": "Call",
+                        "format": "calldata",
+                        "params": {"calleePath": "target"},
+                    }
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert rec["field_definitions"][0]["callee_path"] == {"path": [0]}
+    assert rec["parameter_definitions"][0] == {"atomic": "ABI_ADDRESS"}
+    assert [kind for _src, kind, _det in adjustments] == ["callee-address-in-numeric"]
+
+
+def test_calldata_on_non_bytes_skips_file():
+    desc = _descriptor(
+        formats={
+            "f(uint256 x, address t)": {
+                "fields": [
+                    {"path": "x", "label": "L", "format": "calldata",
+                     "params": {"calleePath": "t"}}
+                ]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
+
+
+def test_calldata_serializes_to_proto():
+    from .common import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [1]},
+            "label": "Call",
+            "formatter": "FORMATTER_CALLDATA",
+            "callee_path": {"path": [0]},
+            "selector": "12345678",
+        }
+    )
+    assert list(info.callee_path.path) == [0]
+    assert info.selector == bytes.fromhex("12345678")
+
+
+# =====================================================================
 #                       adjustment bookkeeping
 # =====================================================================
 
