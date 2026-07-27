@@ -1850,6 +1850,63 @@ def test_hidden_field_with_bad_path_does_not_skip_file():
     assert field["label"] == "To"
 
 
+def test_optional_visibility_hides_field_and_logs():
+    # `visible: optional` = "wallets MAY display this field" (ERC-7730):
+    # hiding is spec-compliant — the field is skipped, the format survives,
+    # and the choice is visible in the log.
+    desc = _descriptor(
+        formats={
+            "f(address to, uint256 fee)": {
+                "fields": [
+                    {"path": "to", "label": "To", "format": "addressName"},
+                    {"path": "fee", "label": "Fee", "format": "amount", "visible": "optional"},
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert [f["label"] for f in rec["field_definitions"]] == ["To"]
+    assert [kind for _src, kind, _det in adjustments] == ["optional-field-hidden"]
+
+
+def test_optional_visibility_with_bad_path_does_not_skip_file():
+    # Like other hidden fields, an optional field is skipped before any
+    # path/formatter validation.
+    desc = _descriptor(
+        formats={
+            "f(address to)": {
+                "fields": [
+                    {"path": "to", "label": "To", "format": "addressName"},
+                    {"path": "nope.[0:2].x", "label": "X", "format": "amount", "visible": "optional"},
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert len(rec["field_definitions"]) == 1
+
+
+def test_visibility_rule_object_skips_file():
+    # ifNotIn / mustMatch rule objects are true conditionals (mustMatch even
+    # implies a validation duty) — the firmware cannot honor them either way.
+    desc = _descriptor(
+        formats={
+            "f(address to, uint256 fee)": {
+                "fields": [
+                    {"path": "to", "label": "To", "format": "addressName"},
+                    {"path": "fee", "label": "Fee", "format": "amount",
+                     "visible": {"mustMatch": [0]}},
+                ]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"conditional-visibility"}
+
+
 def test_hidden_field_with_format_but_visible_never_is_skipped():
     # A field can carry a `format` yet be hidden via visible:never — still not
     # displayed, so an unsupported formatter on it must not skip the file.
