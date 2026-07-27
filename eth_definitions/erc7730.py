@@ -674,17 +674,41 @@ class _FormatContext:
         self.adjustments.append((kind, detail))
 
 
-def _field_is_displayed(field_def: dict[str, Any]) -> bool:
+def _field_is_displayed(
+    field_def: dict[str, Any], ctx: _FormatContext | None = None
+) -> bool:
     """Whether a field is meant to be shown to the user.
 
     Not-displayed fields carry no display information, so we skip them without
     validating their path/formatter/type — they are never "missing fields".
-    A field is hidden when it has no `format`, or `visible` is explicitly
-    `never` / `false`.
+    A field is hidden when it has no `format`, or `visible` is `never`/`false`.
+
+    `visible: optional` means "wallets MAY display this field if possible or
+    sensible" (ERC-7730) — hiding it is spec-compliant, so it is skipped like
+    `never`, logged as an adjustment.
+
+    The *rule objects* (`ifNotIn`, `mustMatch`) are true conditionals the
+    firmware cannot honor either way — `mustMatch` even carries a validation
+    duty — so any such value raises and drops the display format.
     """
     if field_def.get("format") is None:
         return False
-    return field_def.get("visible") not in (False, "never")
+    visible = field_def.get("visible")
+    if visible in (False, "never"):
+        return False
+    if visible in (None, True, "always"):
+        return True
+    if visible == "optional":
+        if ctx is not None:
+            ctx.adjust(
+                "optional-field-hidden",
+                f"visible=optional — hidden (label {field_def.get('label')!r})",
+            )
+        return False
+    raise UnsupportedFeature(
+        "conditional-visibility",
+        f"visible={visible!r} (label {field_def.get('label')!r})",
+    )
 
 
 # ---------------------------------------------------------------------
@@ -701,7 +725,7 @@ def _build_non_path_field(
     (a literal or a `$.metadata.constants.*` reference), e.g. a vault's share
     ticker. Hidden fields return None; anything else is a DROP.
     """
-    if not _field_is_displayed(field_def):
+    if not _field_is_displayed(field_def, ctx):
         return None
     if "value" not in field_def:
         raise UnsupportedFeature(
@@ -908,7 +932,7 @@ def _build_path_field(
     field_def: dict[str, Any], ctx: _FormatContext
 ) -> ERC7730Field | None:
     """Build a displayed field bound to a calldata (or container) path."""
-    if not _field_is_displayed(field_def):
+    if not _field_is_displayed(field_def, ctx):
         return None
 
     fmt = field_def["format"]  # present, else _field_is_displayed is False
