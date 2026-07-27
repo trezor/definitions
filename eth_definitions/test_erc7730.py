@@ -32,6 +32,7 @@ def _descriptor(
     definitions: dict[str, Any] | None = None,
     constants: dict[str, Any] | None = None,
     deployments: list[dict[str, Any]] | None = None,
+    enums: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build a minimal (post-includes) ERC-7730 descriptor with one deployment."""
     display: dict[str, Any] = {"formats": formats}
@@ -42,7 +43,7 @@ def _descriptor(
     return {
         "context": {"contract": {"deployments": deployments}},
         "display": display,
-        "metadata": {"constants": constants or {}},
+        "metadata": {"constants": constants or {}, "enums": enums or {}},
     }
 
 
@@ -1507,6 +1508,118 @@ def test_calldata_serializes_to_proto():
     )
     assert list(info.callee_path.path) == [0]
     assert info.selector == bytes.fromhex("12345678")
+
+
+# =====================================================================
+#                       enum formatter
+# =====================================================================
+
+
+def _enum_desc(params, enums=None, sig="f(uint8 mode)", path="mode"):
+    return _descriptor(
+        formats={sig: {"fields": [{"path": path, "label": "Mode", "format": "enum", "params": params}]}},
+        enums=enums,
+    )
+
+
+def test_enum_field_emits_enum_values():
+    # aave-style interest rate mode.
+    desc = _enum_desc(
+        {"$ref": "$.metadata.enums.interestRateMode"},
+        enums={"interestRateMode": {"1": "Stable", "2": "Variable"}},
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_ENUM"
+    assert field["enum_values"] == [
+        {"key": 1, "value": "Stable"},
+        {"key": 2, "value": "Variable"},
+    ]
+    # every accepted enum field is visible in the log
+    assert [kind for _src, kind, _det in adjustments] == ["enum-field"]
+
+
+def test_enum_bool_keys_map_to_1_0():
+    # flyingtulip-style: True/False keys over a bool calldata value. On-device
+    # the decoded bool compares equal to 1/0.
+    desc = _enum_desc(
+        {"$ref": "$.metadata.enums.rights"},
+        enums={"rights": {"True": "Grant all", "False": "Deny all"}},
+        sig="f(bool allow)",
+        path="allow",
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert rec["field_definitions"][0]["enum_values"] == [
+        {"key": 1, "value": "Grant all"},
+        {"key": 0, "value": "Deny all"},
+    ]
+    assert {kind for _src, kind, _det in adjustments} == {"enum-bool-keys", "enum-field"}
+
+
+def test_enum_missing_ref_skips_file():
+    desc = _enum_desc({}, enums={"x": {"0": "A"}})
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"enum-missing-ref"}
+
+
+def test_enum_unresolvable_ref_skips_file():
+    desc = _enum_desc({"$ref": "$.metadata.enums.missing"}, enums={"other": {"0": "A"}})
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"unresolvable-enum-ref"}
+
+
+def test_enum_non_numeric_key_skips_file():
+    desc = _enum_desc(
+        {"$ref": "$.metadata.enums.bad"}, enums={"bad": {"stable": "Stable"}}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"invalid-enum-entry"}
+
+
+def test_enum_key_out_of_uint32_range_skips_file():
+    desc = _enum_desc(
+        {"$ref": "$.metadata.enums.bad"}, enums={"bad": {"4294967296": "X"}}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"invalid-enum-entry"}
+
+
+def test_enum_on_address_skips_file():
+    desc = _enum_desc(
+        {"$ref": "$.metadata.enums.x"},
+        enums={"x": {"0": "A"}},
+        sig="f(address a)",
+        path="a",
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
+
+
+def test_enum_values_serialize_to_proto():
+    from .common import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "Mode",
+            "formatter": "FORMATTER_ENUM",
+            "enum_values": [{"key": 1, "value": "Stable"}],
+        }
+    )
+    [entry] = info.enum_values
+    assert (entry.key, entry.value) == (1, "Stable")
 
 
 # =====================================================================

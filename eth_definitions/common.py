@@ -19,6 +19,7 @@ from trezorlib.merkle_tree import MerkleTree
 try:
     from trezorlib.messages import (
         DefinitionType,
+        EthereumERC7730EnumEntry,
         EthereumABITupleInfo,
         EthereumABIType,
         EthereumABIValueInfo,
@@ -65,6 +66,12 @@ if not any(
     f.name == "callee_path" for f in EthereumERC7730FieldInfo.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730FieldInfo.callee_path")
+if not hasattr(EthereumERC7730FieldFormatterType, "FORMATTER_ENUM"):
+    _missing_proto.append("EthereumERC7730FieldFormatterType.FORMATTER_ENUM")
+if not any(
+    f.name == "enum_values" for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.enum_values")
 if _missing_proto:
     raise SystemExit(
         "Your trezorlib is outdated — missing " + ", ".join(_missing_proto) + ".\n"
@@ -216,6 +223,11 @@ class _ConstValuePath(t.TypedDict):
 ERC7730Path = _ContainerPath | _DataPath | _ConstValuePath
 
 
+class ERC7730EnumValue(t.TypedDict):
+    key: int  # the decoded calldata value (uint32)
+    value: str  # what the user sees for it
+
+
 class ERC7730Field(t.TypedDict):
     path: ERC7730Path
     label: str
@@ -234,6 +246,9 @@ class ERC7730Field(t.TypedDict):
     # CalldataFormatter params
     callee_path: t.NotRequired[ERC7730Path]
     selector: t.NotRequired[str]  # hex (no 0x prefix), 4 bytes
+
+    # enum fields: key->display mapping looked up on-device
+    enum_values: t.NotRequired[list[ERC7730EnumValue]]
 
 
 class ERC20DisplayFormat(t.TypedDict):
@@ -426,6 +441,14 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
             _build_erc7730_path(d["callee_path"]) if "callee_path" in d else None
         ),
         selector=bytes.fromhex(d["selector"]) if "selector" in d else None,
+        enum_values=(
+            [
+                EthereumERC7730EnumEntry(key=e["key"], value=e["value"])
+                for e in d["enum_values"]
+            ]
+            if "enum_values" in d
+            else None
+        ),
     )
 
 

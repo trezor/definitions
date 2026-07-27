@@ -626,6 +626,11 @@ _FORMATTER_MAP = {
     # contract's display format, and renders the nested call as extra rows
     # (CalldataFormatter in clear_signing.py).
     "calldata": "FORMATTER_CALLDATA",
+    # `enum` looks the decoded calldata value up in the descriptor-supplied
+    # `enum_values` mapping and shows the mapped string; a key missing from
+    # the mapping fails clear signing on-device (blind-signing fallback)
+    # rather than risk showing a wrong value.
+    "enum": "FORMATTER_ENUM",
 }
 
 # The leaf-value kind(s) each formatter accepts. `_check_kind_or_reinterpret`
@@ -641,6 +646,9 @@ _FORMATTER_VALUE_KIND = {
     "date": frozenset({KIND_NUMERIC}),
     # embedded calldata is a dynamic `bytes` value.
     "calldata": frozenset({KIND_BYTES}),
+    # enum keys are small uints; KIND_BYTES admits the bool case
+    # (True/False keys over a bool value, mapped to 1/0).
+    "enum": frozenset({KIND_NUMERIC, KIND_BYTES}),
 }
 
 
@@ -658,6 +666,7 @@ class _FormatContext:
     inputs: list[Component]
     constants: dict[str, Any]
     parameter_definitions: list[ABIValue]
+    enums: dict[str, Any] = dataclasses.field(default_factory=dict)
     adjustments: list[tuple[str, str]] = dataclasses.field(default_factory=list)
 
     def adjust(self, kind: str, detail: str) -> None:
@@ -944,6 +953,8 @@ def _build_path_field(
         _apply_date_params(out, params, path_str, label, ctx)
     elif fmt == "calldata":
         _apply_calldata_params(out, params, path_str, label, ctx)
+    elif fmt == "enum":
+        _apply_enum_params(out, params, path_str, label, ctx)
     return out
 
 
@@ -1185,6 +1196,67 @@ def _apply_calldata_params(
         )
 
 
+def _apply_enum_params(
+    out: ERC7730Field,
+    params: dict[str, Any],
+    path_str: str,
+    label: str,
+    ctx: _FormatContext,
+) -> None:
+    """Resolve an enum field's `$.metadata.enums.*` reference into enum_values.
+
+    The descriptor maps calldata keys to display strings, e.g.
+    `{"0": "Stable", "1": "Variable"}`. Keys must fit uint32; the JSON-boolean
+    variant (`True`/`False` keys over a bool calldata value) maps to 1/0 and
+    is logged as an adjustment. Every accepted enum field is logged too, so
+    the feature's use is visible while firmware support is fresh.
+    """
+    ref = params.get("$ref")
+    if not ref:
+        raise UnsupportedFeature("enum-missing-ref", f"{path_str} (field {label!r})")
+    parts = _descriptor_path_parts(str(ref))
+    entries = None
+    if parts is not None and parts[:2] == ("metadata", "enums"):
+        entries = ctx.enums.get(parts[2])
+    if not isinstance(entries, dict) or not entries:
+        raise UnsupportedFeature(
+            "unresolvable-enum-ref", f"{ref!r} (field {label!r})"
+        )
+
+    values: list[dict[str, Any]] = []
+    bool_keys = False
+    for k, v in entries.items():
+        ks = str(k)
+        if ks in ("True", "true", "False", "false"):
+            key = 1 if ks.lower() == "true" else 0
+            bool_keys = True
+        else:
+            try:
+                key = int(ks, 0)
+            except ValueError:
+                raise UnsupportedFeature(
+                    "invalid-enum-entry", f"key {k!r} in {ref!r} (field {label!r})"
+                ) from None
+        # keys ride in a proto uint32
+        if not 0 <= key <= 0xFFFFFFFF:
+            raise UnsupportedFeature(
+                "invalid-enum-entry",
+                f"key {k!r} out of uint32 range in {ref!r} (field {label!r})",
+            )
+        values.append({"key": key, "value": str(v)})
+
+    if bool_keys:
+        ctx.adjust(
+            "enum-bool-keys",
+            f"{ref!r}: True/False keys mapped to 1/0 (field {label!r})",
+        )
+    ctx.adjust(
+        "enum-field",
+        f"{path_str}: {len(values)} value(s) from {ref!r} (field {label!r})",
+    )
+    out["enum_values"] = values
+
+
 # =====================================================================
 # 5. Descriptor -> display-format records
 # =====================================================================
@@ -1229,6 +1301,7 @@ def _build_one_format(
     display_format: dict[str, Any],
     definitions: dict[str, Any],
     constants: dict[str, Any],
+    enums: dict[str, Any],
     source: str,
 ) -> tuple[_Candidate | None, list[tuple[str, str]], list[tuple[str, str]]]:
     """Build ONE display format (one function signature).
@@ -1270,7 +1343,7 @@ def _build_one_format(
         issues.append(("unrepresentable-params", f"{sig_key}: {e}"))
         return None, issues, []
 
-    ctx = _FormatContext(inputs, constants, parameter_definitions)
+    ctx = _FormatContext(inputs, constants, parameter_definitions, enums=enums)
     field_defs: list[ERC7730Field] = []
     for f in display_format.get("fields", []):
         if not isinstance(f, dict):
@@ -1333,7 +1406,9 @@ def build_display_formats(
     display = descriptor.get("display") or {}
     formats = display.get("formats") or {}
     definitions = display.get("definitions") or {}
-    constants = (descriptor.get("metadata") or {}).get("constants") or {}
+    metadata = descriptor.get("metadata") or {}
+    constants = metadata.get("constants") or {}
+    enums = metadata.get("enums") or {}
     if not deployments:
         LOG.info("%s: no deployments, skipping", source)
         return []
@@ -1347,7 +1422,7 @@ def build_display_formats(
     candidates: list[_Candidate] = []
     for sig_key, display_format in formats.items():
         candidate, issues, format_adjustments = _build_one_format(
-            sig_key, display_format, definitions, constants, source
+            sig_key, display_format, definitions, constants, enums, source
         )
         for feature, detail in issues:
             LOG.info("%s: unsupported %s: %s", source, feature, detail)
