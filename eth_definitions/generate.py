@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import io
 import logging
 import shutil
 import tarfile

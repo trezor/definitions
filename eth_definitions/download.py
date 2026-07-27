@@ -189,7 +189,7 @@ class Downloader:
         try:
             data = self._download_json(url)
             return data.get("tokens", [])
-        except CacheableError as err:
+        except CacheableError:
             # "Forbidden" is raised by Coingecko if no tokens are available under specified id
             pass
         except requests.exceptions.HTTPError as err:
