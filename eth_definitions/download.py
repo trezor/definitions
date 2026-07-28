@@ -618,6 +618,56 @@ def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaTok
     return tokens
 
 
+def _update_display_formats_only(
+    networks: list[Network],
+    change_strategy: ChangeResolutionStrategy,
+    show_all: bool,
+    show_added: bool,
+) -> None:
+    """Refresh only the ERC-7730 display formats, leaving the networks, ERC-20 and
+    Solana token definitions untouched. No CoinGecko/DeFiLlama calls are made;
+    `networks` (loaded from the repo) only supplies the set of known chain ids.
+    """
+    if not DEFINITIONS_PATH.exists():
+        raise click.ClickException(
+            f"{DEFINITIONS_PATH} not found — run a full download first."
+        )
+
+    display_formats = _load_display_formats_from_repo(networks)
+
+    old_defs = load_json_file(DEFINITIONS_PATH)
+
+    def callback():
+        DEFINITIONS_PATH.write_text(json.dumps(old_defs, indent=2) + "\n")
+
+    check_definitions_list(
+        old_defs=old_defs.get("erc20_display_formats", []),
+        new_defs=display_formats,
+        change_strategy=change_strategy,
+        show_all=show_all,
+        show_added=show_added,
+        update_callback=callback,
+        main_keys=("chain_id", "address", "func_sig"),
+        def_type="DISPLAY_FORMAT",
+        # A wrong display format is worse than a missing one: no tombstones —
+        # formats the parser stops emitting are removed and stop being signed.
+        only_mark_as_deleted=False,
+    )
+
+    display_formats.sort(key=lambda x: (x["chain_id"], x["address"], x["func_sig"]))
+
+    # Reuse the existing networks/tokens/Solana definitions verbatim.
+    definitions_data = DefinitionsData(
+        networks=old_defs["networks"],
+        erc20_tokens=old_defs["erc20_tokens"],
+        solana_tokens=old_defs["solana_tokens"],
+        erc20_display_formats=display_formats,
+    )
+
+    metadata = make_metadata(definitions_data)
+    store_definitions_data(metadata, definitions_data)
+
+
 @click.command()
 @click.option(
     "-r/-R",
@@ -672,6 +722,13 @@ def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaTok
     is_flag=True,
     help="Disable verifying conflicting token decimals against the contract on-chain.",
 )
+@click.option(
+    "--erc7730-only",
+    is_flag=True,
+    help="Refresh only the ERC-7730 display formats from the registry submodule, "
+    "reusing the existing networks/tokens/Solana definitions. Skips all CoinGecko "
+    "and DeFiLlama downloads.",
+)
 def download(
     refresh: bool | None,
     interactive: bool,
@@ -683,6 +740,7 @@ def download(
     sleep_duration: float,
     trace_address: str | None,
     no_onchain_decimals: bool,
+    erc7730_only: bool,
 ) -> None:
     """Download and prepare token definitions."""
     setup_logging(verbose)
@@ -693,10 +751,16 @@ def download(
         force_accept=force_changes,
     )
 
+    networks = _load_ethereum_networks_from_repo()
+
+    if erc7730_only:
+        _update_display_formats_only(
+            networks, change_strategy, show_all, show_added
+        )
+        return
+
     # init Ethereum definitions downloader
     downloader = Downloader(refresh, sleep_duration)
-
-    networks = _load_ethereum_networks_from_repo()
 
     # coingecko API
     cg_platforms_json = downloader.get_coingecko_asset_platforms()

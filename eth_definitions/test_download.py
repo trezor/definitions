@@ -1,4 +1,8 @@
+import json
 from copy import deepcopy
+
+import click
+import pytest
 
 from . import download as dl
 from .download import (
@@ -169,3 +173,58 @@ def test_force_networks_fields_sizes_t1_shortcut_over_limit():
     assert all_networks[0]["shortcut"] == "b" * 256
     assert len(all_networks) == len(networks)
     assert all_networks[1:] == networks[1:]
+
+
+# ====== erc7730-only refresh ======
+
+
+def test_update_display_formats_only_preserves_other_sections(tmp_path, monkeypatch):
+    old = {
+        "networks": [{"chain_id": 1, "name": "keep-me"}],
+        "erc20_tokens": [{"chain_id": 1, "address": "0xabc"}],
+        "solana_tokens": [{"mint": "keep-mint"}],
+        "erc20_display_formats": [_rec(intent="OLD")],
+    }
+    defs_path = tmp_path / "definitions-latest.json"
+    defs_path.write_text(json.dumps(old))
+    monkeypatch.setattr(dl, "DEFINITIONS_PATH", defs_path)
+
+    new_formats = [_rec(intent="NEW")]
+    monkeypatch.setattr(
+        dl, "_load_display_formats_from_repo", lambda networks: list(new_formats)
+    )
+    # The diff/apply step is exercised elsewhere; here we assert the section swap.
+    monkeypatch.setattr(dl, "check_definitions_list", lambda **kwargs: None)
+    monkeypatch.setattr(dl, "make_metadata", lambda data: {"meta": "x"})
+
+    captured = {}
+    monkeypatch.setattr(
+        dl,
+        "store_definitions_data",
+        lambda metadata, definitions_data, **kw: captured.update(
+            data=definitions_data
+        ),
+    )
+
+    dl._update_display_formats_only(
+        networks=[{"chain_id": 1}],
+        change_strategy=None,
+        show_all=False,
+        show_added=False,
+    )
+
+    data = captured["data"]
+    # networks / tokens / Solana are reused verbatim from the existing file
+    assert data.networks == old["networks"]
+    assert data.erc20_tokens == old["erc20_tokens"]
+    assert data.solana_tokens == old["solana_tokens"]
+    # only the display formats are refreshed
+    assert data.erc20_display_formats == new_formats
+
+
+def test_update_display_formats_only_requires_existing_file(tmp_path, monkeypatch):
+    monkeypatch.setattr(dl, "DEFINITIONS_PATH", tmp_path / "missing.json")
+    with pytest.raises(click.ClickException):
+        dl._update_display_formats_only(
+            networks=[], change_strategy=None, show_all=False, show_added=False
+        )
