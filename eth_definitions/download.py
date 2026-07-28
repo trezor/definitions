@@ -222,6 +222,23 @@ def _get_testnet_status(*strings: str) -> bool:
     return False
 
 
+# Overrides for networks whose ethereum-lists definition we do not want to
+# use. Keyed by chain_id.
+NETWORK_OVERRIDES: dict[int, Network] = {
+    # Chain id 999 is "Wanchain Testnet" in ethereum-lists, but HyperEVM
+    # (Hyperliquid) uses the same chain id and has far more usage, so we
+    # define it instead. HyperEVM is not present in ethereum-lists at all.
+    999: Network(
+        chain="hype",
+        chain_id=999,
+        is_testnet=False,
+        name="HyperEVM",
+        shortcut="HYPE",
+        slip44=1,
+    ),
+}
+
+
 def _load_ethereum_networks_from_repo() -> list[Network]:
     """Load ethereum networks from submodule."""
     networks: list[Network] = []
@@ -246,7 +263,7 @@ def _load_ethereum_networks_from_repo() -> list[Network]:
         if "mainnet" in name.lower():
             name = re.sub(r" mainnet.*$", "", name, flags=re.IGNORECASE)
 
-        coin = Network(
+        coin = NETWORK_OVERRIDES.get(chain_data["chainId"]) or Network(
             chain=chain_data["shortName"],
             chain_id=chain_data["chainId"],
             is_testnet=is_testnet,
