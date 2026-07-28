@@ -1411,6 +1411,88 @@ def test_sliced_path_serializes_to_proto():
     assert decoded.slice_end is None
 
 
+def test_tokenpath_32_byte_word_slice_is_narrowed():
+    # paraswap Balancer: `tokenPath: #.data.[292:324]` slices the whole
+    # ABI-encoded word out of a bytes blob; the token address is the word's
+    # low 20 bytes, so the slice narrows to [304:324].
+    desc = _descriptor(
+        formats={
+            "f(uint256 amount, bytes data)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": {"tokenPath": "data.[292:324]"},
+                    }
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field["token_path"] == {"path": [1], "slice_start": 304, "slice_end": 324}
+    assert [k for _s, k, _d in adjustments] == ["address-in-word-slice"]
+
+
+def test_addressname_on_32_byte_word_slice_is_narrowed():
+    desc = _descriptor(
+        formats={
+            "f(uint256 w)": {
+                "fields": [{"path": "w.[-32:]", "label": "To", "format": "addressName"}]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0], "slice_start": -20}
+    assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
+    assert [k for _s, k, _d in adjustments] == ["address-in-word-slice"]
+
+
+def test_calldata_callee_in_word_slice_is_narrowed():
+    desc = _descriptor(
+        formats={
+            "f(bytes data)": {
+                "fields": [
+                    {"path": "data", "label": "Call", "format": "calldata",
+                     "params": {"calleePath": "data.[0:32]"}}
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert rec["field_definitions"][0]["callee_path"] == {
+        "path": [0], "slice_start": 12, "slice_end": 32,
+    }
+    assert [k for _s, k, _d in adjustments] == ["address-in-word-slice"]
+
+
+def test_tokenpath_odd_slice_length_still_drops():
+    # Only exact 32-byte word slices narrow; anything else stays unresolvable.
+    desc = _descriptor(
+        formats={
+            "f(uint256 amount, bytes data)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": {"tokenPath": "data.[0:16]"},
+                    }
+                ]
+            }
+        }
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"unresolvable-token-path"}
+
+
 # =====================================================================
 #                       calldata formatter
 # =====================================================================
@@ -1753,23 +1835,67 @@ def test_dropped_format_discards_its_adjustments():
     assert adjustments == []
 
 
-def test_nested_field_group_skips_file():
-    # A nested field group (`path` scoping sub-`fields`, as in Morpho Blue's
-    # `#.marketParams`) has no `format` of its own, but its sub-fields are
-    # displayed — it must drop the display format, not be skipped as hidden.
+def test_nested_field_group_is_flattened():
+    # A nested field group (Morpho Blue's `#.marketParams`) is flattened by
+    # joining the sub-fields' relative paths onto the group's, and logged.
     desc = _descriptor(
         formats={
-            "f((address loanToken, uint256 lltv) marketParams)": {
+            "f((address loanToken, uint256 lltv) marketParams, uint256 assets)": {
                 "fields": [
                     {
                         "path": "#.marketParams",
                         "fields": [
-                            {
-                                "path": "loanToken",
-                                "label": "Loan Token",
-                                "format": "addressName",
-                            },
+                            {"path": "loanToken", "label": "Loan Token", "format": "addressName"},
+                            {"path": "lltv", "label": "LLTV", "format": "raw"},
                         ],
+                    },
+                    {"path": "assets", "label": "Assets", "format": "amount"},
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    fields = rec["field_definitions"]
+    # display order preserved: group members first, then the sibling field
+    assert [f["label"] for f in fields] == ["Loan Token", "LLTV", "Assets"]
+    assert fields[0]["path"] == {"path": [0, 0]}
+    assert fields[1]["path"] == {"path": [0, 1]}
+    assert [k for _s, k, _d in adjustments] == ["nested-fields-flattened"]
+
+
+def test_nested_group_within_group_is_flattened():
+    desc = _descriptor(
+        formats={
+            "f((address a, uint256 b) outer)": {
+                "fields": [
+                    {
+                        "path": "#.outer",
+                        "fields": [
+                            {"path": "", "fields": [{"path": "a", "label": "A", "format": "addressName"}]}
+                        ],
+                    }
+                ]
+            }
+        }
+    )
+    # inner group has empty base -> outer prefix already applied to it? No:
+    # the inner group's own (empty) path passes members through with the
+    # already-joined outer prefix intact.
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["path"] == {"path": [0, 0]}
+
+
+def test_group_over_array_still_drops_per_element():
+    # Flattening a group whose path crosses an array needs per-element field
+    # extraction — still unrepresentable, with the precise reason.
+    desc = _descriptor(
+        formats={
+            "f((address t, bytes d)[] swaps)": {
+                "fields": [
+                    {
+                        "path": "#.swaps.[]",
+                        "fields": [{"path": "t", "label": "T", "format": "addressName"}],
                     }
                 ]
             }
@@ -1778,7 +1904,84 @@ def test_nested_field_group_skips_file():
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"nested-fields"}
+    assert {feat for _src, feat, _det in unsupported} == {"per-element-field-path"}
+
+
+def test_hidden_group_is_skipped():
+    desc = _descriptor(
+        formats={
+            "f((address a, uint256 b) t, address to)": {
+                "fields": [
+                    {"path": "#.t", "visible": "never",
+                     "fields": [{"path": "a", "label": "A", "format": "addressName"}]},
+                    {"path": "to", "label": "To", "format": "addressName"},
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert [f["label"] for f in rec["field_definitions"]] == ["To"]
+
+
+def test_optional_group_is_hidden_and_logged():
+    desc = _descriptor(
+        formats={
+            "f((address a, uint256 b) t, address to)": {
+                "fields": [
+                    {"path": "#.t", "visible": "optional",
+                     "fields": [{"path": "a", "label": "A", "format": "addressName"}]},
+                    {"path": "to", "label": "To", "format": "addressName"},
+                ]
+            }
+        }
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert [f["label"] for f in rec["field_definitions"]] == ["To"]
+    assert [k for _s, k, _d in adjustments] == ["optional-field-hidden"]
+
+
+def test_group_member_path_params_are_joined_too():
+    # paraswap `#.swapData`: sub-fields reference sibling members via
+    # relative path params (`tokenPath: srcToken`) — joined like `path`.
+    desc = _descriptor(
+        formats={
+            "f((address srcToken, uint256 fromAmount) swapData)": {
+                "fields": [
+                    {
+                        "path": "#.swapData",
+                        "fields": [
+                            {
+                                "path": "fromAmount",
+                                "label": "Amount to Send",
+                                "format": "tokenAmount",
+                                "params": {"tokenPath": "srcToken"},
+                            }
+                        ],
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0, 1]}
+    assert field["token_path"] == {"path": [0, 0]}
+
+
+def test_group_member_with_absolute_path_is_not_joined():
+    desc = _descriptor(
+        formats={
+            "f((uint256 x) t, address to)": {
+                "fields": [
+                    {"path": "#.t",
+                     "fields": [{"path": "#.to", "label": "To", "format": "addressName"}]},
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["path"] == {"path": [1]}
 
 
 def test_bad_format_is_skipped_clean_formats_kept():
