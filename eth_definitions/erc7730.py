@@ -705,6 +705,72 @@ def _field_is_displayed(
     )
 
 
+def _flatten_field_group(
+    group: dict[str, Any], ctx: _FormatContext
+) -> list[dict[str, Any]]:
+    """Flatten a nested field group into standalone field definitions.
+
+    A group scopes sub-`fields` under a common `path` prefix (Morpho Blue's
+    `#.marketParams`, paraswap's `#.swapData`) and itself has no `format`.
+    Each sub-field's relative path is joined onto the group's — `loanToken`
+    under `#.marketParams` becomes `#.marketParams.loanToken` — after which
+    the sub-fields build exactly like top-level ones. Nothing new needs to be
+    representable: a group whose members would require per-element extraction
+    (a group path over an array) still drops via per-element-field-path.
+
+    Path-valued params are relative to the group as well (paraswap's
+    `#.swapData` members use `tokenPath: srcToken`), so any `*Path` param
+    joins the same way. Sub-paths that are already absolute (`#.`/`@.`/`$.`)
+    and constant sub-fields (no path) pass through unchanged. Returned entries may
+    themselves be groups; the caller re-queues them. Respects group-level
+    visibility (`never` hides the whole group, `optional` hides and logs,
+    rule objects drop). Every flattened group is logged as an adjustment.
+    """
+    visible = group.get("visible")
+    if visible in (False, "never"):
+        return []
+    if visible == "optional":
+        ctx.adjust(
+            "optional-field-hidden",
+            f"visible=optional — group {group.get('path')!r} hidden",
+        )
+        return []
+    if visible not in (None, True, "always"):
+        raise UnsupportedFeature(
+            "conditional-visibility",
+            f"visible={visible!r} (group {group.get('path')!r})",
+        )
+
+    base = str(group.get("path") or "").rstrip(".")
+    flattened: list[dict[str, Any]] = []
+    for sub in group["fields"]:
+        if not isinstance(sub, dict):
+            raise UnsupportedFeature(
+                "malformed-field-entry", f"{sub!r} (in group {base!r})"
+            )
+        if base:
+            def _join(p: Any) -> Any:
+                if isinstance(p, str) and not p.startswith(("#", "@", "$")):
+                    return f"{base}.{p}"
+                return p
+
+            sub = dict(sub)
+            if "path" in sub:
+                sub["path"] = _join(sub["path"])
+            params = sub.get("params")
+            if isinstance(params, dict):
+                sub["params"] = {
+                    k: (_join(v) if k.endswith("Path") else v)
+                    for k, v in params.items()
+                }
+        flattened.append(sub)
+    ctx.adjust(
+        "nested-fields-flattened",
+        f"group {base!r}: {len(flattened)} sub-field(s) hoisted",
+    )
+    return flattened
+
+
 # ---------------------------------------------------------------------
 # 4a. Constant (non-path) fields
 # ---------------------------------------------------------------------
@@ -840,6 +906,14 @@ def _check_kind_or_reinterpret(
             )
             return
     if fmt == "addressName" and kind == KIND_BYTES:
+        if _narrow_word_slice_to_address(path):
+            # A 32-byte word slice: the address is the word's low 20 bytes.
+            ctx.adjust(
+                "address-in-word-slice",
+                f"{path_str} slices a 32-byte word — narrowed to its low "
+                f"20 bytes (field {label!r})",
+            )
+            return
         ctx.adjust(
             "addressname-on-bytes",
             f"{path_str} is {kind} but formatted as addressName — "
@@ -887,6 +961,31 @@ def _abi_leaf_at(
     while "array" in node:
         node = node["array"]  # trailing `.[]`: the element is what's formatted
     return node
+
+
+def _narrow_word_slice_to_address(path: ERC7730Path) -> bool:
+    """Narrow a statically 32-byte slice to the word's low 20 bytes, in place.
+
+    Descriptors sometimes point an address consumer at a whole ABI-encoded
+    *word* rather than the address inside it — paraswap's Balancer payload
+    uses `tokenPath: #.data.[292:324]`, a 32-byte slice of a `bytes` blob
+    whose word at 292 is a left-zero-padded address. Advancing the start by
+    12 (`[292:324]` -> `[304:324]`, `[-32:]` -> `[-20:]`) selects exactly the
+    address bytes, mirroring what the firmware's `parse_address` does to a
+    static word. The 20-byte result then behaves as a plain address
+    everywhere. Callers log the adjustment.
+
+    Returns False (leave the path untouched) unless the path is a data path
+    whose trailing slice statically selects 32 bytes.
+    """
+    if "path" not in path:
+        return False
+    start = path.get("slice_start")
+    end = path.get("slice_end")
+    if _nominal_slice_length(start, end) != 32:
+        return False
+    path["slice_start"] = (start or 0) + 12
+    return True
 
 
 def _retype_uint_leaf_as_address(
@@ -1021,6 +1120,15 @@ def _apply_token_amount_params(
                 "token-address-in-numeric",
                 f"{token_path_str} is numeric but used as token address — "
                 f"ABI leaf retyped to address (field {label!r})",
+            )
+        elif tp_kind == KIND_BYTES and _narrow_word_slice_to_address(tp_path):
+            # A 32-byte word slice (paraswap `#.data.[292:324]`): the token
+            # address is the word's low 20 bytes.
+            out["token_path"] = tp_path
+            ctx.adjust(
+                "address-in-word-slice",
+                f"{token_path_str} slices a 32-byte word — narrowed to its "
+                f"low 20 bytes (field {label!r})",
             )
         else:
             raise UnsupportedFeature(
@@ -1189,6 +1297,13 @@ def _apply_calldata_params(
             "callee-address-in-numeric",
             f"{callee_str} is numeric but used as callee address — "
             f"ABI leaf retyped to address (field {label!r})",
+        )
+    elif cp_kind == KIND_BYTES and _narrow_word_slice_to_address(cp_path):
+        out["callee_path"] = cp_path
+        ctx.adjust(
+            "address-in-word-slice",
+            f"{callee_str} slices a 32-byte word — narrowed to its low "
+            f"20 bytes (field {label!r})",
         )
     else:
         raise UnsupportedFeature(
@@ -1382,7 +1497,11 @@ def _build_one_format(
 
     ctx = _FormatContext(inputs, constants, parameter_definitions, enums=enums)
     field_defs: list[ERC7730Field] = []
-    for f in display_format.get("fields", []):
+    # A queue rather than a plain loop: a nested field group flattens into its
+    # sub-fields, which are pushed back to the FRONT so display order holds.
+    queue: list[Any] = list(display_format.get("fields", []))
+    while queue:
+        f = queue.pop(0)
         if not isinstance(f, dict):
             issues.append(("malformed-field-entry", f"{sig_key}: {f!r}"))
             continue
@@ -1393,11 +1512,13 @@ def _build_one_format(
         f = resolved
         if isinstance(f.get("fields"), list):
             # A nested field group (a `path` scoping sub-`fields`, e.g.
-            # `#.marketParams` in Morpho Blue). The group itself has no
-            # `format`, so it would otherwise be skipped as hidden — but its
-            # sub-fields ARE displayed and we can't express their relative
-            # paths, so this drops the display format instead.
-            issues.append(("nested-fields", f"{sig_key}: path {f.get('path')!r}"))
+            # `#.marketParams` in Morpho Blue, `#.swapData` in paraswap):
+            # flatten it by joining each sub-field's relative path onto the
+            # group's, then build the sub-fields like top-level ones.
+            try:
+                queue[0:0] = _flatten_field_group(f, ctx)
+            except UnsupportedFeature as e:
+                issues.append((e.feature, f"{sig_key}: {e.detail}"))
             continue
         try:
             built = (
