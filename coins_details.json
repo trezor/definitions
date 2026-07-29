@@ -154193,7 +154193,7 @@
   },
   "evil-larry": {
    "coingecko_id": "evil-larry",
-   "id": "erc20:sty:0x693c7acf65e52c71bafe555bc22d69cb7f8a78a2",
+   "id": "erc20:data:0x693c7acf65e52c71bafe555bc22d69cb7f8a78a2",
    "name": "Evil Larry",
    "networks": [
     "story"
@@ -215084,7 +215084,7 @@
   },
   "ippy": {
    "coingecko_id": "ippy",
-   "id": "erc20:sty:0x543374350269cce6651358769512875faa4cccff",
+   "id": "erc20:data:0x543374350269cce6651358769512875faa4cccff",
    "name": "IPPY",
    "networks": [
     "story"
@@ -253462,7 +253462,7 @@
   },
   "lyra-3": {
    "coingecko_id": "lyra-3",
-   "id": "erc20:sty:0xa4f5c615f72ddeb2220471694fff1c0c3de051e1",
+   "id": "erc20:data:0xa4f5c615f72ddeb2220471694fff1c0c3de051e1",
    "name": "LYRA",
    "networks": [
     "base",
@@ -296928,6 +296928,36 @@
     "solana"
    ],
    "shortcut": "HORSE",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "nong-wan": {
+   "coingecko_id": "nong-wan",
+   "id": "solana:Dh5GKcPQFBJXw74yP4u7BCHYQzHoG6JX8dXQaNwvpump",
+   "name": "\u0e19\u0e49\u0e2d\u0e07\u0e27\u0e31\u0e19 (Nong Wan)",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "WAN",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -452445,6 +452475,32 @@
     }
    ]
   },
+  "vladhood-2": {
+   "coingecko_id": "vladhood-2",
+   "id": "erc20:robinhoodchain:0x601fda468bdd8096067dfc1c86654ce2d8d7ab03",
+   "name": "Vladhood",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "VHOOD",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "vlaunch-2": {
    "coingecko_id": "vlaunch-2",
    "id": "erc20:bnb:0xf574ba6bde97cc09784e616ebaed432b4e896b49",
@@ -470250,7 +470306,7 @@
   },
   "wrapped-ip": {
    "coingecko_id": "wrapped-ip",
-   "id": "erc20:sty:0x1514000000000000000000000000000000000000",
+   "id": "erc20:data:0x1514000000000000000000000000000000000000",
    "name": "Wrapped IP",
    "networks": [
     "story"
@@ -489801,13 +489857,13 @@
  },
  "info": {
   "support_counter": {
-   "T1B1": 11063,
-   "T2B1": 16029,
-   "T2T1": 16036,
-   "T3T1": 16029,
-   "T3W1": 16029
+   "T1B1": 11064,
+   "T2B1": 16031,
+   "T2T1": 16038,
+   "T3T1": 16031,
+   "T3W1": 16031
   },
-  "updated_at": 1785324456,
-  "updated_at_readable": "Wed Jul 29 13:27:36 2026"
+  "updated_at": 1785339982,
+  "updated_at_readable": "Wed Jul 29 17:46:22 2026"
  }
 }
