@@ -49026,7 +49026,7 @@
    "coingecko_id": "dinari-vxx",
    "decimals": 18,
    "name": "Dinari VXX",
-   "shortcut": "VXXD"
+   "shortcut": "VXX.D"
   },
   {
    "address": "0x012e0e6342308b247f36ee500ecb14dc77a7a8c1",
@@ -49850,8 +49850,8 @@
    "chain_id": 1,
    "coingecko_id": "pepe-2-0",
    "decimals": 18,
-   "name": "Pepe 2 0",
-   "shortcut": "PEPE20"
+   "name": "Pepe 2.0",
+   "shortcut": "PEPE2.0"
   },
   {
    "address": "0x030b69280892c888670edcdcd8b69fd8026a0bf3",
@@ -51277,7 +51277,7 @@
    "coingecko_id": "dinari-ko",
    "decimals": 18,
    "name": "Dinari KO",
-   "shortcut": "KOD"
+   "shortcut": "KO.D"
   },
   {
    "address": "0x06012c8cf97bead5deae237070f9587f8e7a266d",
@@ -52405,7 +52405,7 @@
    "coingecko_id": "dinari-boxx",
    "decimals": 18,
    "name": "Dinari BOXX",
-   "shortcut": "BOXXD"
+   "shortcut": "BOXX.D"
   },
   {
    "address": "0x0888fd2960ddf57cfb561b59d73dd2b9524f6a26",
@@ -52695,7 +52695,7 @@
    "coingecko_id": "usual-star",
    "decimals": 18,
    "name": "USUAL Star",
-   "shortcut": "USUAL"
+   "shortcut": "USUAL*"
   },
   {
    "address": "0x0954906da0bf32d5479e25f46056d22f08464cab",
@@ -52898,7 +52898,7 @@
    "coingecko_id": "dinari-ccl",
    "decimals": 18,
    "name": "Dinari CCL",
-   "shortcut": "CCLD"
+   "shortcut": "CCL.D"
   },
   {
    "address": "0x09f098b155d561fc9f7bccc97038b7e3d20baf74",
@@ -52969,10 +52969,10 @@
    "address": "0x0a1a1a107e45b7ced86833863f482bc5f4ed82ef",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "susdai",
+   "coingecko_id": "usdai",
    "decimals": 18,
-   "name": "Staked USDai",
-   "shortcut": "SUSDAI"
+   "name": "USDai",
+   "shortcut": "USDAI"
   },
   {
    "address": "0x0a1d2ff7156a48131553cf381f220bbedb4efa37",
@@ -53018,7 +53018,7 @@
    "coingecko_id": "dinari-csco",
    "decimals": 18,
    "name": "Dinari CSCO",
-   "shortcut": "CSCOD"
+   "shortcut": "CSCO.D"
   },
   {
    "address": "0x0a2a015a15a8e019abc386fee88b8a6d7a0d90df",
@@ -53498,7 +53498,7 @@
    "coingecko_id": "dinari-yum",
    "decimals": 18,
    "name": "Dinari YUM",
-   "shortcut": "YUMD"
+   "shortcut": "YUM.D"
   },
   {
    "address": "0x0aff507ac29b8cea2fb10d2ad14408c2d79a35ad",
@@ -53577,10 +53577,10 @@
    "address": "0x0b2b2b2076d95dda7817e785989fe353fe955ef9",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "usdai",
+   "coingecko_id": "susdai",
    "decimals": 18,
-   "name": "USDai",
-   "shortcut": "USDAI"
+   "name": "Staked USDai",
+   "shortcut": "SUSDAI"
   },
   {
    "address": "0x0b2fa18342d38909e3e44d7103cf3f37b0a0403a",
@@ -54170,7 +54170,7 @@
    "coingecko_id": "dinari-btco",
    "decimals": 18,
    "name": "Dinari BTCO",
-   "shortcut": "BTCOD"
+   "shortcut": "BTCO.D"
   },
   {
    "address": "0x0c7ecdb459111cd806e54adc9da1f4a03b43b64a",
@@ -54752,7 +54752,7 @@
    "coingecko_id": "whispers-of-decay",
    "decimals": 9,
    "name": "Whispers Of Decay",
-   "shortcut": "DCAY"
+   "shortcut": "$DCAY"
   },
   {
    "address": "0x0db8d8b76bc361bacbb72e2c491e06085a97ab31",
@@ -55258,7 +55258,7 @@
    "coingecko_id": "dinari-slx",
    "decimals": 18,
    "name": "Dinari SLX",
-   "shortcut": "SLXD"
+   "shortcut": "SLX.D"
   },
   {
    "address": "0x0ecdd783dc7bf820614044b51862ed29714d2ba5",
@@ -56035,7 +56035,7 @@
    "coingecko_id": "dinari-azn",
    "decimals": 18,
    "name": "Dinari AZN",
-   "shortcut": "AZND"
+   "shortcut": "AZN.D"
   },
   {
    "address": "0x1045f5ccb01daea4f8eab055f5fcbb7c0e7c89f0",
@@ -56402,7 +56402,7 @@
    "coingecko_id": "wrapped-kaspa",
    "decimals": 8,
    "name": "Wrapped Kaspa",
-   "shortcut": "KAS"
+   "shortcut": "WKAS"
   },
   {
    "address": "0x1131d427ecd794714ed00733ac0f851e904c8398",
@@ -56525,7 +56525,7 @@
    "coingecko_id": "dinari-ufo",
    "decimals": 18,
    "name": "Dinari UFO",
-   "shortcut": "UFOD"
+   "shortcut": "UFO.D"
   },
   {
    "address": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
@@ -56742,10 +56742,9 @@
    "address": "0x1234567461d3f8db7496581774bd869c83d51c93",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "bitclave",
    "decimals": 18,
    "name": "BitClave",
-   "shortcut": "CAT"
+   "shortcut": "CAT (BitClave)"
   },
   {
    "address": "0x1236ea13c7339287cd00ab196aaa8217006b04dc",
@@ -56873,7 +56872,7 @@
    "coingecko_id": "mev-capital-elixir-usdc",
    "decimals": 18,
    "name": "MEV Capital Elixir USDC",
-   "shortcut": "MCEUSDC"
+   "shortcut": "MC.EUSDC"
   },
   {
    "address": "0x126c121f99e1e211df2e5f8de2d96fa36647c855",
@@ -56946,7 +56945,7 @@
    "coingecko_id": "berkshire-hathaway-xstock",
    "decimals": 18,
    "name": "Berkshire Hathaway xStock",
-   "shortcut": "BRKBX"
+   "shortcut": "BRK.BX"
   },
   {
    "address": "0x12996c7b23c4012149bf9f5663ff9aa08a9cf2e4",
@@ -58513,7 +58512,7 @@
    "coingecko_id": "dmarketplace",
    "decimals": 9,
    "name": "Dmarketplace",
-   "shortcut": "DMP"
+   "shortcut": "$DMP"
   },
   {
    "address": "0x1650978997e5898db8eeffdb7c530bb223b71c79",
@@ -59673,7 +59672,7 @@
    "coingecko_id": "dinari-btcw",
    "decimals": 18,
    "name": "Dinari BTCW",
-   "shortcut": "BTCWD"
+   "shortcut": "BTCW.D"
   },
   {
    "address": "0x18cc2ba8995c6307e355726244adb023cf00522f",
@@ -60699,7 +60698,7 @@
    "coingecko_id": "mememe",
    "decimals": 18,
    "name": "MEMEME",
-   "shortcut": "MEMEME"
+   "shortcut": "$MEMEME"
   },
   {
    "address": "0x1aa51bc7eb181ce48ce626bf62f8956fa9555136",
@@ -60863,10 +60862,10 @@
    "address": "0x1b0f6590d21dc02b92ad3a7d00f8884dc4f1aed9",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "somnia",
+   "coingecko_id": "wrapped-somi",
    "decimals": 18,
-   "name": "Somnia",
-   "shortcut": "SOMI"
+   "name": "Wrapped SOMI",
+   "shortcut": "WSOMI"
   },
   {
    "address": "0x1b141e732a33d793d788ae65e1378013d49e0160",
@@ -63309,7 +63308,7 @@
    "coingecko_id": "bored",
    "decimals": 9,
    "name": "Bored Token",
-   "shortcut": "BORED"
+   "shortcut": "$BORED"
   },
   {
    "address": "0x2048e0d048224381cac3ea06012ced4a6f122d32",
@@ -63660,7 +63659,7 @@
    "coingecko_id": "dev-smashed-his-keyboard",
    "decimals": 18,
    "name": "DEV SMASHED HIS KEYBOARD",
-   "shortcut": "HIXOKDKEKJCJDKSICND"
+   "shortcut": "HIXOKDKEKJCJDKSICNDN"
   },
   {
    "address": "0x2108e62d335bbdc89ec3e9d8582f18dcfb0cdff4",
@@ -64351,8 +64350,8 @@
    "chain_id": 1,
    "coingecko_id": "spx6900-2-0",
    "decimals": 18,
-   "name": "SPX6900 2 0",
-   "shortcut": "SPX20"
+   "name": "SPX6900 2.0",
+   "shortcut": "SPX2.0"
   },
   {
    "address": "0x230f1e241c621d5af670dad83ebcdd18971e2995",
@@ -65397,7 +65396,7 @@
    "coingecko_id": "dinari-pho",
    "decimals": 18,
    "name": "Dinari PHO",
-   "shortcut": "PHOD"
+   "shortcut": "PHO.D"
   },
   {
    "address": "0x2516e7b3f76294e03c42aa4c5b5b4dce9c436fb8",
@@ -65956,8 +65955,8 @@
    "chain_id": 1,
    "coingecko_id": "fame-rumble-kong-league",
    "decimals": 18,
-   "name": "FAME  Rumble Kong League",
-   "shortcut": "FAME"
+   "name": "FAME- Rumble Kong League",
+   "shortcut": "$FAME"
   },
   {
    "address": "0x26869045311fc5e5353eadcfa654cd47ddc20356",
@@ -66247,7 +66246,7 @@
    "coingecko_id": "dinari-spte",
    "decimals": 18,
    "name": "Dinari SPTE",
-   "shortcut": "SPTED"
+   "shortcut": "SPTE.D"
   },
   {
    "address": "0x271c616157e69a43b4977412a64183cf110edf16",
@@ -68636,7 +68635,7 @@
    "coingecko_id": "dinari-nly",
    "decimals": 18,
    "name": "Dinari NLY",
-   "shortcut": "NLYD"
+   "shortcut": "NLY.D"
   },
   {
    "address": "0x2cb101d7da0ebaa57d3f2fef46d7ffb7bb64592b",
@@ -69923,7 +69922,7 @@
    "coingecko_id": "strategic-eth-reserve",
    "decimals": 18,
    "name": "Strategic ETH Reserve",
-   "shortcut": "SR"
+   "shortcut": "SΞR"
   },
   {
    "address": "0x2fd61567c29e7adb4ca17e60e1f4a3fcfe68acb8",
@@ -70441,8 +70440,8 @@
    "chain_id": 1,
    "coingecko_id": "alkimi",
    "decimals": 18,
-   "name": "Alkimi  OLD ",
-   "shortcut": "ADS"
+   "name": "Alkimi [OLD]",
+   "shortcut": "$ADS"
   },
   {
    "address": "0x310718274509a38cc5559a1ff48c5edbe75a382b",
@@ -70866,10 +70865,9 @@
    "address": "0x3212b29e33587a00fb1c83346f5dbfa69a458923",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "the-tokenized-bitcoin",
    "decimals": 8,
    "name": "The Tokenized Bitcoin",
-   "shortcut": "IMBTC"
+   "shortcut": "imBTC"
   },
   {
    "address": "0x321c2fe4446c7c963dc41dd58879af648838f98d",
@@ -71054,7 +71052,7 @@
    "coingecko_id": "dinari-pall",
    "decimals": 18,
    "name": "Dinari PALL",
-   "shortcut": "PALLD"
+   "shortcut": "PALL.D"
   },
   {
    "address": "0x328c4c80bc7aca0834db37e6600a6c49e12da4de",
@@ -71284,7 +71282,7 @@
    "coingecko_id": "boo-2",
    "decimals": 18,
    "name": "BOO",
-   "shortcut": "BOO"
+   "shortcut": "$BOO"
   },
   {
    "address": "0x32ea3dc70e2962334864a9665254d2433e4ddbfd",
@@ -71870,7 +71868,7 @@
    "coingecko_id": "dinari-fbtc",
    "decimals": 18,
    "name": "Dinari FBTC",
-   "shortcut": "FBTCD"
+   "shortcut": "FBTC.D"
   },
   {
    "address": "0x33e80a92a9ea73dd02f6e732d1702d58c68388ca",
@@ -72036,8 +72034,8 @@
    "chain_id": 1,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0x343324f53cbeee3ee6d171f2a20f005964c98047",
@@ -72227,7 +72225,7 @@
    "coingecko_id": "dinari-snow",
    "decimals": 18,
    "name": "Dinari SNOW",
-   "shortcut": "SNOWD"
+   "shortcut": "SNOW.D"
   },
   {
    "address": "0x3486b751a36f731a1bebff779374bad635864919",
@@ -72662,8 +72660,8 @@
    "chain_id": 1,
    "coingecko_id": "eva-ai",
    "decimals": 9,
-   "name": "eVa ai",
-   "shortcut": "EVA"
+   "name": "eVa-ai",
+   "shortcut": "$EVA"
   },
   {
    "address": "0x3567aa22cd3ab9aef23d7e18ee0d7cf16974d7e6",
@@ -72885,8 +72883,8 @@
    "chain_id": 1,
    "coingecko_id": "usd0-liquid-bond",
    "decimals": 18,
-   "name": "Staked USD0",
-   "shortcut": "USD0++"
+   "name": "Bond USD0",
+   "shortcut": "BUSD0"
   },
   {
    "address": "0x35e445da0c9f6ecea6d95726df6f325bfa902456",
@@ -73319,7 +73317,7 @@
    "coingecko_id": "swag",
    "decimals": 9,
    "name": "Swag",
-   "shortcut": "SWAG"
+   "shortcut": "$SWAG"
   },
   {
    "address": "0x36c79f0b8a2e8a3c0230c254c452973e7a3ba155",
@@ -73446,7 +73444,7 @@
    "coingecko_id": "toad-killer",
    "decimals": 18,
    "name": "Toad Killer",
-   "shortcut": "TOAD"
+   "shortcut": "$TOAD"
   },
   {
    "address": "0x370adc71f67f581158dc56f539df5f399128ddf9",
@@ -76059,7 +76057,7 @@
    "coingecko_id": "dinari-ibit",
    "decimals": 18,
    "name": "Dinari IBIT",
-   "shortcut": "IBITD"
+   "shortcut": "IBIT.D"
   },
   {
    "address": "0x3c41c80b966b92d345dc8fc91e5508bc7248da6e",
@@ -76958,7 +76956,7 @@
    "coingecko_id": "frogs",
    "decimals": 18,
    "name": "Frogs",
-   "shortcut": "FROGS"
+   "shortcut": "$FROGS"
   },
   {
    "address": "0x3ea4055ab599f5cbb580d2c5e56d2fcff7db98cb",
@@ -77522,8 +77520,8 @@
    "chain_id": 1,
    "coingecko_id": "bitcoin-2-0",
    "decimals": 8,
-   "name": "Bitcoin 2 0",
-   "shortcut": "BTC20"
+   "name": "Bitcoin 2.0",
+   "shortcut": "BTC2.0"
   },
   {
    "address": "0x3ff9cebbeaa7bcc48a952a011a02a22a1fdd1c62",
@@ -77589,7 +77587,7 @@
    "coingecko_id": "dinari-jpm",
    "decimals": 18,
    "name": "Dinari JPM",
-   "shortcut": "JPMD"
+   "shortcut": "JPM.D"
   },
   {
    "address": "0x40284109c3309a7c3439111bfd93bf5e0fbb706c",
@@ -78683,7 +78681,7 @@
    "coingecko_id": "big-bud",
    "decimals": 9,
    "name": "Big Bud",
-   "shortcut": "BUD"
+   "shortcut": "$BUD"
   },
   {
    "address": "0x420ccfeada1f4b1508bd8781ceca5238d0e4b510",
@@ -79607,7 +79605,7 @@
    "coingecko_id": "dinari-gld",
    "decimals": 18,
    "name": "Dinari GLD",
-   "shortcut": "GLDD"
+   "shortcut": "GLD.D"
   },
   {
    "address": "0x43d4a3cd90ddd2f8f4f693170c9c8098163502ad",
@@ -79707,7 +79705,7 @@
    "coingecko_id": "graphite-network",
    "decimals": 18,
    "name": "Graphite Network",
-   "shortcut": "G"
+   "shortcut": "@G"
   },
   {
    "address": "0x440238cc07186adea6653a2e8cb9a24737615609",
@@ -80696,7 +80694,7 @@
    "coingecko_id": "dinari-rblx",
    "decimals": 18,
    "name": "Dinari RBLX",
-   "shortcut": "RBLXD"
+   "shortcut": "RBLX.D"
   },
   {
    "address": "0x461b71cff4d4334bba09489ace4b5dc1a1813445",
@@ -80780,7 +80778,7 @@
    "coingecko_id": "ito",
    "decimals": 9,
    "name": "ITO",
-   "shortcut": "ITO"
+   "shortcut": "$ITO"
   },
   {
    "address": "0x465e07d6028830124be2e4aa551fbe12805db0f5",
@@ -81150,7 +81148,7 @@
    "coingecko_id": "department-of-government-efficiency-3",
    "decimals": 18,
    "name": "Department Of Government Efficiency",
-   "shortcut": "DOGE"
+   "shortcut": "D.O.G.E"
   },
   {
    "address": "0x47000a7b27a75d44ffadfe9d0b97fa04d569b323",
@@ -81508,7 +81506,7 @@
    "coingecko_id": "dinari-hut",
    "decimals": 18,
    "name": "Dinari HUT",
-   "shortcut": "HUTD"
+   "shortcut": "HUT.D"
   },
   {
    "address": "0x47dd62d4d075dead71d0e00299fc56a2d747bebb",
@@ -83053,7 +83051,7 @@
    "coingecko_id": "dinari-iau",
    "decimals": 18,
    "name": "Dinari IAU",
-   "shortcut": "IAUD"
+   "shortcut": "IAU.D"
   },
   {
    "address": "0x4c05f1e65069a8c0694470720be77e50d2b212d6",
@@ -83568,7 +83566,7 @@
    "coingecko_id": "dinari-cat",
    "decimals": 18,
    "name": "Dinari CAT",
-   "shortcut": "CATD"
+   "shortcut": "CAT.D"
   },
   {
    "address": "0x4cff203005b24aa1083b35063d684a76b1080f22",
@@ -84183,7 +84181,7 @@
    "coingecko_id": "dinari-ethe",
    "decimals": 18,
    "name": "Dinari ETHE",
-   "shortcut": "ETHED"
+   "shortcut": "ETHE.D"
   },
   {
    "address": "0x4e432a62733a7ee38ad2e16b3cc0731457ea5b55",
@@ -86152,7 +86150,7 @@
    "coingecko_id": "dinari-xom",
    "decimals": 18,
    "name": "Dinari XOM",
-   "shortcut": "XOMD"
+   "shortcut": "XOM.D"
   },
   {
    "address": "0x52928c95c4c7e934e0efcfab08853a0e4558861d",
@@ -86218,7 +86216,7 @@
    "coingecko_id": "dinari-meli",
    "decimals": 18,
    "name": "Dinari MELI",
-   "shortcut": "MELID"
+   "shortcut": "MELI.D"
   },
   {
    "address": "0x52c7aa73dc430dab948eee73ea253383fd223420",
@@ -86609,7 +86607,7 @@
    "coingecko_id": "dinari-avgo",
    "decimals": 18,
    "name": "Dinari AVGO",
-   "shortcut": "AVGOD"
+   "shortcut": "AVGO.D"
   },
   {
    "address": "0x53b38ebd32bde4293423234939f6555cb7975f1e",
@@ -88239,10 +88237,9 @@
    "address": "0x57ab1ec28d129707052df4df418d58a2d46d5f51",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "nusd",
    "decimals": 18,
-   "name": "Synthetix sUSD",
-   "shortcut": "SUSD"
+   "name": "Synth sUSD",
+   "shortcut": "sUSD"
   },
   {
    "address": "0x57ad67acf9bf015e4820fbd66ea1a21bed8852ec",
@@ -88474,10 +88471,10 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "the-open-network",
-   "coingecko_rank": 24,
+   "coingecko_rank": 25,
    "decimals": 9,
-   "name": "Toncoin",
-   "shortcut": "TON"
+   "name": "Gram (prev. Toncoin)",
+   "shortcut": "GRAM"
   },
   {
    "address": "0x582dd5e7c8af79d45a96de4af5d1152a061abb50",
@@ -90816,7 +90813,7 @@
    "coingecko_id": "dinari-adbe",
    "decimals": 18,
    "name": "Dinari ADBE",
-   "shortcut": "ADBED"
+   "shortcut": "ADBE.D"
   },
   {
    "address": "0x5d843fa9495d23de997c394296ac7b4d721e841c",
@@ -91330,7 +91327,7 @@
    "coingecko_id": "dinari-walrf",
    "decimals": 18,
    "name": "Dinari WALRF",
-   "shortcut": "WALRFD"
+   "shortcut": "WALRF.D"
   },
   {
    "address": "0x5e7f20e72c21f6d0bf0a2814fd4164176401cf8e",
@@ -91348,8 +91345,8 @@
    "chain_id": 1,
    "coingecko_id": "tapify",
    "decimals": 18,
-   "name": "Tapify",
-   "shortcut": "TAPBITCOIN"
+   "name": "Tap Protocol",
+   "shortcut": "TAP"
   },
   {
    "address": "0x5e817f2abccb9095585d26c2a3ce234a440574fc",
@@ -92688,10 +92685,10 @@
    "address": "0x615987d46003cc37387dbe544ff4f16fa1200077",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "nasdaq420",
+   "coingecko_id": "nsdq420",
    "decimals": 9,
-   "name": "Nasdaq420",
-   "shortcut": "NASDAQ420"
+   "name": "NSDQ420",
+   "shortcut": "NSDQ"
   },
   {
    "address": "0x616254b3c79639f89e756495ac687735b27b5e17",
@@ -93617,7 +93614,7 @@
    "coingecko_id": "well3",
    "decimals": 18,
    "name": "WELL3",
-   "shortcut": "WELL"
+   "shortcut": "$WELL"
   },
   {
    "address": "0x6369c3dadfc00054a42ba8b2c09c48131dd4aa38",
@@ -94376,7 +94373,7 @@
    "coingecko_id": "cramer-coin",
    "decimals": 18,
    "name": "Cramer Coin",
-   "shortcut": "CRAMER"
+   "shortcut": "$CRAMER"
   },
   {
    "address": "0x64e8cc11ddccea70cc800231a62f0d9ea46c94ac",
@@ -94524,7 +94521,7 @@
    "coingecko_id": "playdoge",
    "decimals": 18,
    "name": "Playdoge",
-   "shortcut": "PLAY"
+   "shortcut": "$PLAY"
   },
   {
    "address": "0x6553565eac5daa9bfc5e2892b36291634c9b2ad6",
@@ -95303,8 +95300,8 @@
    "chain_id": 1,
    "coingecko_id": "brett0x66",
    "decimals": 9,
-   "name": "BRETT0X66",
-   "shortcut": "BRETT"
+   "name": "Brett",
+   "shortcut": "$BRETT"
   },
   {
    "address": "0x66e7ce35578a37209d01f99f3d2ff271f981f581",
@@ -95623,7 +95620,7 @@
    "coingecko_id": "dinari-ba",
    "decimals": 18,
    "name": "Dinari BA",
-   "shortcut": "BAD"
+   "shortcut": "BA.D"
   },
   {
    "address": "0x6765fdd028be3d7874bc2bb3d7d5ca01c1bf14b2",
@@ -95819,7 +95816,7 @@
    "coingecko_id": "gooddollar",
    "decimals": 2,
    "name": "GoodDollar",
-   "shortcut": "G"
+   "shortcut": "$G"
   },
   {
    "address": "0x67c5902f5210f62f37157cd9c735c693164c1378",
@@ -98437,7 +98434,7 @@
    "coingecko_id": "dinari-bac",
    "decimals": 18,
    "name": "Dinari BAC",
-   "shortcut": "BACD"
+   "shortcut": "BAC.D"
   },
   {
    "address": "0x6c22910c6f75f828b305e57c6a54855d8adeabf8",
@@ -99733,8 +99730,8 @@
    "chain_id": 1,
    "coingecko_id": "instadapp",
    "decimals": 18,
-   "name": "Instadapp",
-   "shortcut": "INST"
+   "name": "Fluid",
+   "shortcut": "FLUID"
   },
   {
    "address": "0x6f49ee65d1f7953b8724c0c15e22ad189fecd579",
@@ -105264,7 +105261,7 @@
    "coingecko_id": "marutaro-2",
    "decimals": 9,
    "name": "Marutaro",
-   "shortcut": "MARU"
+   "shortcut": "$MARU"
   },
   {
    "address": "0x7afebbb46fdb47ed17b22ed075cde2447694fb9e",
@@ -106414,7 +106411,7 @@
    "coingecko_id": "zkitty-bot",
    "decimals": 18,
    "name": "ZKitty Bot",
-   "shortcut": "ZKITTY"
+   "shortcut": "$ZKITTY"
   },
   {
    "address": "0x7df4122d3eae29fc8fb6be58d9177e8e560be4fb",
@@ -106652,10 +106649,9 @@
    "address": "0x7e9e431a0b8c4d532c745b1043c7fa29a48d4fba",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "eosdac",
    "decimals": 18,
    "name": "eosDAC",
-   "shortcut": "EOSDAC"
+   "shortcut": "eosDAC"
   },
   {
    "address": "0x7ea7ea50ed58bc4d0a9194bcd328e21f7be80c2b",
@@ -106977,7 +106973,7 @@
    "coingecko_id": "dinari-gme",
    "decimals": 18,
    "name": "Dinari GME",
-   "shortcut": "GMED"
+   "shortcut": "GME.D"
   },
   {
    "address": "0x7fbec0bb6a7152e77c30d005b5d49cbc08a602c3",
@@ -107142,7 +107138,7 @@
    "coingecko_id": "dinari-amc",
    "decimals": 18,
    "name": "Dinari AMC",
-   "shortcut": "AMCD"
+   "shortcut": "AMC.D"
   },
   {
    "address": "0x80122c6a83c8202ea365233363d3f4837d13e888",
@@ -107871,7 +107867,7 @@
    "coingecko_id": "dinari-defi",
    "decimals": 18,
    "name": "Dinari DEFI",
-   "shortcut": "DEFID"
+   "shortcut": "DEFI.D"
   },
   {
    "address": "0x81b4d08645da11374a03749ab170836e4e539767",
@@ -108888,7 +108884,7 @@
    "coingecko_id": "dinari-v",
    "decimals": 18,
    "name": "Dinari V",
-   "shortcut": "VD"
+   "shortcut": "V.D"
   },
   {
    "address": "0x8423b76be8ef6ca7400a6b4c334d29c1d5d4572c",
@@ -109380,7 +109376,7 @@
    "coingecko_id": "gram-ecosystem",
    "decimals": 18,
    "name": "GRAM Ecosystem",
-   "shortcut": "GRAM"
+   "shortcut": "GRAMPUS"
   },
   {
    "address": "0x85705ec9f2e11b8a70607d93ffaf9d73ec84cc34",
@@ -109849,7 +109845,7 @@
    "coingecko_id": "dinari-sbux",
    "decimals": 18,
    "name": "Dinari SBUX",
-   "shortcut": "SBUXD"
+   "shortcut": "SBUX.D"
   },
   {
    "address": "0x86d1d12523b65203851c571fcc029bf90903fb6d",
@@ -110353,8 +110349,8 @@
    "chain_id": 1,
    "coingecko_id": "grok2-0",
    "decimals": 18,
-   "name": "Grok2 0",
-   "shortcut": "GROK20"
+   "name": "Grok2.0",
+   "shortcut": "GROK2.0"
   },
   {
    "address": "0x87da7bbd398d6610ded42617e34069d0083ff8ab",
@@ -110951,7 +110947,7 @@
    "coingecko_id": "dinari-hymb",
    "decimals": 18,
    "name": "Dinari HYMB",
-   "shortcut": "HYMBD"
+   "shortcut": "HYMB.D"
   },
   {
    "address": "0x88d50b466be55222019d71f9e8fae17f5f45fca1",
@@ -111871,7 +111867,7 @@
    "coingecko_id": "akropolis",
    "decimals": 18,
    "name": "Kaon",
-   "shortcut": "AKRO"
+   "shortcut": "KAON"
   },
   {
    "address": "0x8ab98330473101309db94b625f9997366a518223",
@@ -112019,9 +112015,8 @@
    "chain_id": 1,
    "coingecko_id": "reach",
    "decimals": 18,
-   "deleted": true,
    "name": "Reach",
-   "shortcut": "REACH"
+   "shortcut": "$REACH"
   },
   {
    "address": "0x8b1484d57abbe239bb280661377363b03c89caea",
@@ -112676,7 +112671,7 @@
    "coingecko_id": "the-balkan-dwarf",
    "decimals": 18,
    "name": "The Balkan Dwarf",
-   "shortcut": "KEKEC"
+   "shortcut": "$KEKEC"
   },
   {
    "address": "0x8c81121b15197fa0eeaee1dc75533419dcfd3151",
@@ -112866,7 +112861,7 @@
    "coingecko_id": "micro-gpt",
    "decimals": 18,
    "name": "Micro GPT",
-   "shortcut": "MICRO"
+   "shortcut": "$MICRO"
   },
   {
    "address": "0x8cefd49b703de9c0486d9bf6cb559f0895268ee8",
@@ -114005,8 +114000,8 @@
    "chain_id": 1,
    "coingecko_id": "lrt-squared",
    "decimals": 18,
-   "name": "LRT Squared",
-   "shortcut": "LRT2"
+   "name": "King Protocol",
+   "shortcut": "KING"
   },
   {
    "address": "0x8f0921f30555624143d427b340b1156914882c10",
@@ -114731,7 +114726,7 @@
    "coingecko_id": "dinari-tjx",
    "decimals": 18,
    "name": "Dinari TJX",
-   "shortcut": "TJXD"
+   "shortcut": "TJX.D"
   },
   {
    "address": "0x910524678c0b1b23ffb9285a81f99c29c11cbaed",
@@ -117725,7 +117720,7 @@
    "coingecko_id": "dinari-jnj",
    "decimals": 18,
    "name": "Dinari JNJ",
-   "shortcut": "JNJD"
+   "shortcut": "JNJ.D"
   },
   {
    "address": "0x97e6e31afb2d93d437301e006d9da714616766a5",
@@ -118219,7 +118214,7 @@
    "coingecko_id": "dinari-ita",
    "decimals": 18,
    "name": "Dinari ITA",
-   "shortcut": "ITAD"
+   "shortcut": "ITA.D"
   },
   {
    "address": "0x99420584706e47b1c5198cd80fef64d09f94adf1",
@@ -118953,7 +118948,7 @@
    "coingecko_id": "qstar",
    "decimals": 9,
    "name": "QSTAR",
-   "shortcut": "Q"
+   "shortcut": "Q*"
   },
   {
    "address": "0x9abfcacee1fe43f6fd8f5a8351b1c66950cfc9fe",
@@ -119212,7 +119207,7 @@
    "coingecko_id": "cinogames",
    "decimals": 18,
    "name": "Cinogames",
-   "shortcut": "CINO"
+   "shortcut": "$CINO"
   },
   {
    "address": "0x9b0e1c344141fb361b842d397df07174e1cdb988",
@@ -119638,7 +119633,7 @@
    "coingecko_id": "dinari-f",
    "decimals": 18,
    "name": "Dinari F",
-   "shortcut": "FD"
+   "shortcut": "F.D"
   },
   {
    "address": "0x9ba4cbcbb920f67f54a8f8f0001d721e0b8944b9",
@@ -119724,7 +119719,7 @@
    "coingecko_id": "bull-market",
    "decimals": 18,
    "name": "Bull Market",
-   "shortcut": "BULL"
+   "shortcut": "$BULL"
   },
   {
    "address": "0x9be89d2a4cd102d8fecc6bf9da793be995c22541",
@@ -120009,7 +120004,7 @@
    "coingecko_id": "dinari-spsk",
    "decimals": 18,
    "name": "Dinari SPSK",
-   "shortcut": "SPSKD"
+   "shortcut": "SPSK.D"
   },
   {
    "address": "0x9c9fe3bd60b22a9735908b9589011e78f2025c11",
@@ -120911,7 +120906,7 @@
    "coingecko_id": "dinari-sq",
    "decimals": 18,
    "name": "Dinari SQ",
-   "shortcut": "SQD"
+   "shortcut": "SQ.D"
   },
   {
    "address": "0x9e72a0e219cff0011069ae7b0da73fa26280f41b",
@@ -121562,7 +121557,7 @@
    "coingecko_id": "dinari-vwo",
    "decimals": 18,
    "name": "Dinari VWO",
-   "shortcut": "VWOD"
+   "shortcut": "VWO.D"
   },
   {
    "address": "0x9fa69536d1cda4a04cfb50688294de75b505a9ae",
@@ -121923,7 +121918,7 @@
    "coingecko_id": "three",
    "decimals": 9,
    "name": "THREE",
-   "shortcut": "THREE"
+   "shortcut": "$THREE"
   },
   {
    "address": "0xa067237f8016d5e3770cf08b20e343ab9ee813d5",
@@ -123811,10 +123806,9 @@
    "address": "0xa44e5137293e855b1b7bc7e2c6f8cd796ffcb037",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "sentinel-group",
    "decimals": 8,
-   "name": "Sentinel  OLD ",
-   "shortcut": "DVPN"
+   "name": "SENTinel",
+   "shortcut": "SENT"
   },
   {
    "address": "0xa456b515303b2ce344e9d2601f91270f8c2fea5e",
@@ -124032,10 +124026,9 @@
    "address": "0xa4e8c3ec456107ea67d3075bf9e3df3a75823db0",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "loom-network",
    "decimals": 18,
-   "name": "Loom Network (OLD)",
-   "shortcut": "LOOMOLD"
+   "name": "LOOM",
+   "shortcut": "LOOM"
   },
   {
    "address": "0xa4e9584daa093cb1205e17ba737c3fd015748087",
@@ -124613,7 +124606,7 @@
    "coingecko_id": "dinari-arkb",
    "decimals": 18,
    "name": "Dinari ARKB",
-   "shortcut": "ARKBD"
+   "shortcut": "ARKB.D"
   },
   {
    "address": "0xa64d5d1eb67748226d84812b45711453f1118c32",
@@ -126436,7 +126429,7 @@
    "coingecko_id": "dinari-pg",
    "decimals": 18,
    "name": "Dinari PG",
-   "shortcut": "PGD"
+   "shortcut": "PG.D"
   },
   {
    "address": "0xaa8da83b0b8fca779c36f3e39fa93df2a3906617",
@@ -127100,7 +127093,7 @@
    "coingecko_id": "dinari-rddt",
    "decimals": 18,
    "name": "Dinari RDDT",
-   "shortcut": "RDDTD"
+   "shortcut": "RDDT.D"
   },
   {
    "address": "0xac28c9178acc8ba4a11a29e013a3a2627086e422",
@@ -128331,7 +128324,7 @@
    "coingecko_id": "dinari-hodl",
    "decimals": 18,
    "name": "Dinari HODL",
-   "shortcut": "HODLD"
+   "shortcut": "HODL.D"
   },
   {
    "address": "0xaedf386b755465871ff874e3e37af5976e247064",
@@ -128593,7 +128586,7 @@
    "coingecko_id": "dinari-weat",
    "decimals": 18,
    "name": "Dinari WEAT",
-   "shortcut": "WEATD"
+   "shortcut": "WEAT.D"
   },
   {
    "address": "0xaf691508ba57d416f895e32a1616da1024e882d2",
@@ -129790,7 +129783,7 @@
    "coingecko_id": "gap-tooth-lizard",
    "decimals": 18,
    "name": "Gap Tooth Lizard",
-   "shortcut": "GAPPY"
+   "shortcut": "$GAPPY"
   },
   {
    "address": "0xb25ea095997f5bbaa6cea962c4fbf3bfc3c09776",
@@ -130274,7 +130267,7 @@
    "coingecko_id": "skol",
    "decimals": 18,
    "name": "Skol",
-   "shortcut": "SKOL"
+   "shortcut": "$SKOL"
   },
   {
    "address": "0xb36cf340a35f9860d0bb59afb0355580f0000dad",
@@ -130613,8 +130606,8 @@
    "chain_id": 1,
    "coingecko_id": "switcheo",
    "decimals": 8,
-   "name": "Carbon Protocol",
-   "shortcut": "SWTH"
+   "name": "Demex",
+   "shortcut": "DMX"
   },
   {
    "address": "0xb439b8731ee047799019ef0b745a51d256b116af",
@@ -130730,10 +130723,10 @@
    "address": "0xb45ffb51984d626ee758b336c61cf20990c6bf13",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "redbelly-network-token",
+   "coingecko_id": "wrapped-rbnt",
    "decimals": 18,
-   "name": "Redbelly Network",
-   "shortcut": "RBNT"
+   "name": "Wrapped RBNT",
+   "shortcut": "WRBNT"
   },
   {
    "address": "0xb4615aad766f6de3c55330099e907ff7f13f1582",
@@ -130906,7 +130899,7 @@
    "coingecko_id": "dinari-sony",
    "decimals": 18,
    "name": "Dinari SONY",
-   "shortcut": "SONYD"
+   "shortcut": "SONY.D"
   },
   {
    "address": "0xb49fa25978abf9a248b8212ab4b87277682301c0",
@@ -132706,7 +132699,7 @@
    "coingecko_id": "drip",
    "decimals": 9,
    "name": "DRIP",
-   "shortcut": "DRIP"
+   "shortcut": "$DRIP"
   },
   {
    "address": "0xb8b295df2cd735b15be5eb419517aa626fc43cd5",
@@ -134383,7 +134376,7 @@
    "coingecko_id": "unit",
    "decimals": 18,
    "name": "UNIT",
-   "shortcut": "UNIT"
+   "shortcut": "$UNIT"
   },
   {
    "address": "0xbc526a4ae9632d42291ad9d5ef29d36dd4d0ce26",
@@ -135371,7 +135364,7 @@
    "coingecko_id": "bush-ripper",
    "decimals": 9,
    "name": "Bush Ripper",
-   "shortcut": "RIPPER"
+   "shortcut": "$RIPPER"
   },
   {
    "address": "0xbe4d9c8c638b5f0864017d7f6a04b66c42953847",
@@ -136337,8 +136330,8 @@
    "chain_id": 1,
    "coingecko_id": "krwt",
    "decimals": 18,
-   "name": "KRWT",
-   "shortcut": "KRWT"
+   "name": "KRWQ",
+   "shortcut": "KRWQ"
   },
   {
    "address": "0xc00e94cb662c3520282e6f5717214004a7f26888",
@@ -136636,7 +136629,7 @@
    "coingecko_id": "mev-capital-usd0-morpho-vault",
    "decimals": 18,
    "name": "MEV Capital USD0 Morpho Vault",
-   "shortcut": "MCUSD0"
+   "shortcut": "MC.USD0"
   },
   {
    "address": "0xc0a22849fa6122594e605aec943413734137daab",
@@ -136730,8 +136723,8 @@
    "chain_id": 1,
    "coingecko_id": "bitcoin-2015-wrapper-meme",
    "decimals": 8,
-   "name": "bitcoin  2015 Wrapper   Meme ",
-   "shortcut": "BTC"
+   "name": "bitcoin (2015 Wrapper) (Meme)",
+   "shortcut": "BTCE"
   },
   {
    "address": "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
@@ -137816,7 +137809,7 @@
    "coingecko_id": "dinari-rklb",
    "decimals": 18,
    "name": "Dinari RKLB",
-   "shortcut": "RKLBD"
+   "shortcut": "RKLB.D"
   },
   {
    "address": "0xc328a59e7321747aebbc49fd28d1b32c1af8d3b2",
@@ -138261,7 +138254,7 @@
    "coingecko_id": "hokkaido-inu",
    "decimals": 9,
    "name": "Hokkaidu Inu",
-   "shortcut": "HOKK"
+   "shortcut": "$HOKK"
   },
   {
    "address": "0xc40f23a3e9613e012944f7957edce97899fa920d",
@@ -138468,7 +138461,7 @@
    "coingecko_id": "dinari-cvx",
    "decimals": 18,
    "name": "Dinari CVX",
-   "shortcut": "CVXD"
+   "shortcut": "CVX.D"
   },
   {
    "address": "0xc4a1c45d5546029fd57128483ae65b56124bfa6a",
@@ -138485,7 +138478,7 @@
    "coingecko_id": "dinari-bitb",
    "decimals": 18,
    "name": "Dinari BITB",
-   "shortcut": "BITBD"
+   "shortcut": "BITB.D"
   },
   {
    "address": "0xc4a86561cb0b7ea1214904f26e6d50fd357c7986",
@@ -138571,7 +138564,7 @@
    "coingecko_id": "dinari-ezbc",
    "decimals": 18,
    "name": "Dinari EZBC",
-   "shortcut": "EZBCD"
+   "shortcut": "EZBC.D"
   },
   {
    "address": "0xc4c75f2a0cb1a9acc33929512dc9733ea1fd6fde",
@@ -138975,7 +138968,7 @@
    "coingecko_id": "dinari-soxl",
    "decimals": 18,
    "name": "Dinari SOXL",
-   "shortcut": "SOXLD"
+   "shortcut": "SOXL.D"
   },
   {
    "address": "0xc581b735a1688071a1746c968e0798d642ede491",
@@ -140480,7 +140473,7 @@
    "coingecko_id": "haram",
    "decimals": 9,
    "name": "Haram",
-   "shortcut": "HARAM"
+   "shortcut": "$HARAM"
   },
   {
    "address": "0xc96de26018a54d51c097160568752c4e3bd6c364",
@@ -141750,7 +141743,7 @@
    "coingecko_id": "dinari-hood",
    "decimals": 18,
    "name": "Dinari HOOD",
-   "shortcut": "HOODD"
+   "shortcut": "HOOD.D"
   },
   {
    "address": "0xcc1f757e3fa67b70e761c71f4b75b1e9f72263af",
@@ -142363,7 +142356,7 @@
    "coingecko_id": "dinari-riot",
    "decimals": 18,
    "name": "Dinari RIOT",
-   "shortcut": "RIOTD"
+   "shortcut": "RIOT.D"
   },
   {
    "address": "0xcd8c163cc0ec3a53ce6bec89e665fb97cce51c42",
@@ -143029,8 +143022,8 @@
    "chain_id": 1,
    "coingecko_id": "bepro-network",
    "decimals": 18,
-   "name": "Bepro",
-   "shortcut": "BEPRO"
+   "name": "LayerX",
+   "shortcut": "LX"
   },
   {
    "address": "0xcf4c68db4c2fa0bf58df07b14f45ce7709a716ac",
@@ -143070,7 +143063,7 @@
    "coingecko_id": "dinari-ero",
    "decimals": 18,
    "name": "Dinari ERO",
-   "shortcut": "EROD"
+   "shortcut": "ERO.D"
   },
   {
    "address": "0xcf60870dcedcad18d987af20687ca4717cae0533",
@@ -143363,7 +143356,7 @@
    "coingecko_id": "freetrump",
    "decimals": 18,
    "name": "FreeTrump",
-   "shortcut": "TRUMP"
+   "shortcut": "$TRUMP"
   },
   {
    "address": "0xd0194f0f077968da8ca59811e9407f54ae6c9432",
@@ -143889,7 +143882,7 @@
    "coingecko_id": "dinari-gbtc",
    "decimals": 18,
    "name": "Dinari GBTC",
-   "shortcut": "GBTCD"
+   "shortcut": "GBTC.D"
   },
   {
    "address": "0xd101dcc414f310268c37eeb4cd376ccfa507f571",
@@ -144107,7 +144100,7 @@
    "coingecko_id": "dinari-ushy",
    "decimals": 18,
    "name": "Dinari USHY",
-   "shortcut": "USHYD"
+   "shortcut": "USHY.D"
   },
   {
    "address": "0xd16fd95d949f996e3808eeea0e3881c59e76ef1e",
@@ -144670,7 +144663,7 @@
    "coingecko_id": "dinari-wood",
    "decimals": 18,
    "name": "Dinari WOOD",
-   "shortcut": "WOODD"
+   "shortcut": "WOOD.D"
   },
   {
    "address": "0xd2aa35f6d376a9f1cc391db157e3eeb08819479c",
@@ -144921,8 +144914,8 @@
    "chain_id": 1,
    "coingecko_id": "sol-wormhole",
    "decimals": 9,
-   "name": "Wormhole Bridged SOL",
-   "shortcut": "SOL"
+   "name": "Wormhole Bridged WSOL",
+   "shortcut": "WSOL"
   },
   {
    "address": "0xd31e53966bf212e860d48a3a8651a23d09a7fdc3",
@@ -146625,7 +146618,7 @@
    "coingecko_id": "dinari-coin",
    "decimals": 18,
    "name": "Dinari COIN",
-   "shortcut": "COIND"
+   "shortcut": "COIN.D"
   },
   {
    "address": "0xd71ecff9342a5ced620049e616c5035f1db98620",
@@ -147408,8 +147401,8 @@
    "chain_id": 1,
    "coingecko_id": "swing-xyz",
    "decimals": 18,
-   "name": "Swing xyz",
-   "shortcut": "SWING"
+   "name": "Swing.xyz",
+   "shortcut": "$SWING"
   },
   {
    "address": "0xd8e154ede9401dabb860fe84fecd2761b895bc50",
@@ -147833,10 +147826,9 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0xd9dcd611bed2be9a4700c725a3810870b9bff094",
@@ -147986,7 +147978,7 @@
    "coingecko_id": "bitstable-finance",
    "decimals": 18,
    "name": "BitStable Finance",
-   "shortcut": "BSSB"
+   "shortcut": "$BSSB"
   },
   {
    "address": "0xda396b2ea32996f471e4434f2d7b8c3abc352c62",
@@ -148348,7 +148340,7 @@
    "coingecko_id": "truth",
    "decimals": 10,
    "name": "Truth",
-   "shortcut": "TRU"
+   "shortcut": "TRUU"
   },
   {
    "address": "0xdae1baf249964bc4b6ac98c3122f0e3e785fd279",
@@ -148629,11 +148621,10 @@
    "address": "0xdb85f6685950e285b1e611037bebe5b34e2b7d78",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "zano",
+   "coingecko_id": "wrapped-zano",
    "decimals": 18,
-   "deleted": true,
-   "name": "Zano",
-   "shortcut": "ZANO"
+   "name": "Wrapped Zano",
+   "shortcut": "WZANO"
   },
   {
    "address": "0xdb8646f5b487b5dd979fac618350e85018f557d4",
@@ -149859,7 +149850,7 @@
    "coingecko_id": "juice",
    "decimals": 18,
    "name": "Juice",
-   "shortcut": "JUICE"
+   "shortcut": "$JUICE"
   },
   {
    "address": "0xde5ea375ffbdc8b25a80fe13d631e8ba0ab4bb02",
@@ -150395,7 +150386,7 @@
    "coingecko_id": "dinari-spus",
    "decimals": 18,
    "name": "Dinari SPUS",
-   "shortcut": "SPUSD"
+   "shortcut": "SPUS.D"
   },
   {
    "address": "0xdfa208bb0b811cfbb5fa3ea98ec37aa86180e668",
@@ -150404,7 +150395,7 @@
    "coingecko_id": "unicorn-meat",
    "decimals": 3,
    "name": "Unicorn Meat",
-   "shortcut": "W"
+   "shortcut": "W🍖"
   },
   {
    "address": "0xdfb03da57a3c56124c72a47729a1d0ed54d38ff5",
@@ -152115,7 +152106,7 @@
    "coingecko_id": "dinari-sivr",
    "decimals": 18,
    "name": "Dinari SIVR",
-   "shortcut": "SIVRD"
+   "shortcut": "SIVR.D"
   },
   {
    "address": "0xe38149abc673a117abeb8af7d1ff3d0d1aa5af15",
@@ -153021,7 +153012,7 @@
    "coingecko_id": "dinari-cost",
    "decimals": 18,
    "name": "Dinari COST",
-   "shortcut": "COSTD"
+   "shortcut": "COST.D"
   },
   {
    "address": "0xe5aee163513119f4f750376c718766b40fa37a5f",
@@ -155236,8 +155227,8 @@
    "chain_id": 1,
    "coingecko_id": "plebbit",
    "decimals": 18,
-   "name": "Plebbit",
-   "shortcut": "PLEB"
+   "name": "Bitsocial [OLD]",
+   "shortcut": "BSO"
   },
   {
    "address": "0xea87148a703adc0de89db2ac2b6b381093ae8ee0",
@@ -155640,7 +155631,7 @@
    "coingecko_id": "rainicorn",
    "decimals": 18,
    "name": "Raini",
-   "shortcut": "RAINI"
+   "shortcut": "$RAINI"
   },
   {
    "address": "0xeb964a1a6fab73b8c72a0d15c7337fa4804f484d",
@@ -155894,10 +155885,9 @@
    "address": "0xec12e2d7acd850fe3953d1dbf860f523914654a7",
    "chain": "eth",
    "chain_id": 1,
-   "coingecko_id": "mirada-ai",
    "decimals": 18,
-   "name": "Mirada AI",
-   "shortcut": "MIRX"
+   "name": "Mirada AI ($MIRX)",
+   "shortcut": "$MIRX"
   },
   {
    "address": "0xec169f9ac2161723a2d4febd9748bb529d6c12b5",
@@ -156041,7 +156031,7 @@
    "coingecko_id": "dinari-mcd",
    "decimals": 18,
    "name": "Dinari MCD",
-   "shortcut": "MCDD"
+   "shortcut": "MCD.D"
   },
   {
    "address": "0xec463d00aa4da76fb112cd2e4ac1c6bef02da6ea",
@@ -158079,7 +158069,7 @@
    "coingecko_id": "dinari-arkx",
    "decimals": 18,
    "name": "Dinari ARKX",
-   "shortcut": "ARKXD"
+   "shortcut": "ARKX.D"
   },
   {
    "address": "0xf0da1186a4977226b9135d0613ee72e229ec3f4d",
@@ -158134,7 +158124,7 @@
    "coingecko_id": "dinari-eem",
    "decimals": 18,
    "name": "Dinari EEM",
-   "shortcut": "EEMD"
+   "shortcut": "EEM.D"
   },
   {
    "address": "0xf0edac27aa3e85e2d176f689b0025f90c154393a",
@@ -158263,7 +158253,7 @@
    "coingecko_id": "dinari-brrr",
    "decimals": 18,
    "name": "Dinari BRRR",
-   "shortcut": "BRRRD"
+   "shortcut": "BRRR.D"
   },
   {
    "address": "0xf12ccd17759367cf139776710b47b00c43d1ac2b",
@@ -159024,8 +159014,8 @@
    "chain_id": 1,
    "coingecko_id": "doge-2-0",
    "decimals": 9,
-   "name": "Doge 2 0",
-   "shortcut": "DOGE20"
+   "name": "Doge 2.0",
+   "shortcut": "DOGE2.0"
   },
   {
    "address": "0xf2f9a7e93f845b3ce154efbeb64fb9346fcce509",
@@ -159251,7 +159241,7 @@
    "coingecko_id": "dinari-dal",
    "decimals": 18,
    "name": "Dinari DAL",
-   "shortcut": "DALD"
+   "shortcut": "DAL.D"
   },
   {
    "address": "0xf3768d6e78e65fc64b8f12ffc824452130bd5394",
@@ -161069,7 +161059,7 @@
    "coingecko_id": "dinari-tqqq",
    "decimals": 18,
    "name": "Dinari TQQQ",
-   "shortcut": "TQQQD"
+   "shortcut": "TQQQ.D"
   },
   {
    "address": "0xf725f73caee250ae384ec38bb2c77c38ef2cccea",
@@ -162892,7 +162882,7 @@
    "coingecko_id": "dinari-spwo",
    "decimals": 18,
    "name": "Dinari SPWO",
-   "shortcut": "SPWOD"
+   "shortcut": "SPWO.D"
   },
   {
    "address": "0xfaf0cee6b20e2aaa4b80748a6af4cd89609a3d78",
@@ -163286,8 +163276,8 @@
    "chain_id": 1,
    "coingecko_id": "mev-capital-m-0-morpho-vault",
    "decimals": 18,
-   "name": "MEV Capital M 0 Morpho Vault",
-   "shortcut": "MCWM"
+   "name": "MEV Capital M^0 Morpho Vault",
+   "shortcut": "MC.WM"
   },
   {
    "address": "0xfbe44cae91d7df8382208fcdc1fe80e40fbc7e9a",
@@ -164842,7 +164832,7 @@
    "coingecko_id": "nodelyai",
    "decimals": 9,
    "name": "NodelyAI",
-   "shortcut": "NODE"
+   "shortcut": "$NODE"
   },
   {
    "address": "0xff2b3353c3015e9f1fbf95b9bda23f58aa7ce007",
@@ -165783,7 +165773,7 @@
    "coingecko_id": "boo-2",
    "decimals": 18,
    "name": "BOO",
-   "shortcut": "BOO"
+   "shortcut": "$BOO"
   },
   {
    "address": "0x139052115f8b1773cf7dcba6a553f922a2e54f69",
@@ -166496,8 +166486,8 @@
    "chain_id": 10,
    "coingecko_id": "mummy-finance",
    "decimals": 18,
-   "name": "Mummy Finance",
-   "shortcut": "MMY"
+   "name": "Navigator Exchange",
+   "shortcut": "NAVI"
   },
   {
    "address": "0x476ef9ac6d8673e220d0e8bc0a810c2dc6a2aa84",
@@ -166719,10 +166709,10 @@
    "address": "0x58b9cb810a68a7f3e1e4f8cb45d1b9b3c79705e8",
    "chain": "oeth",
    "chain_id": 10,
-   "coingecko_id": "connext",
+   "coingecko_id": "everclear",
    "decimals": 18,
    "name": "Everclear",
-   "shortcut": "NEXT"
+   "shortcut": "CLEAR"
   },
   {
    "address": "0x59d9356e565ab3a36dd77763fc0d87feaf85508c",
@@ -167095,7 +167085,7 @@
    "coingecko_id": "fbomb",
    "decimals": 18,
    "name": "Fantom Bomb",
-   "shortcut": "BOMB"
+   "shortcut": "FBOMB"
   },
   {
    "address": "0x74d5b4a317fffd3cbf8ed94327ff07e2884e84bc",
@@ -167208,8 +167198,8 @@
    "chain_id": 10,
    "coingecko_id": "bridged-usd-coin-optimism",
    "decimals": 6,
-   "name": "Standard Bridged USDC e  Optimism ",
-   "shortcut": "USDCE"
+   "name": "Standard Bridged USDC.e (Optimism)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x7fb688ccf682d58f86d7e38e03f9d22e7705448b",
@@ -167263,8 +167253,8 @@
    "chain_id": 10,
    "coingecko_id": "exactly-usdc",
    "decimals": 6,
-   "name": "Exactly USD e Coin",
-   "shortcut": "EXAUSDCE"
+   "name": "Exactly USD.e Coin",
+   "shortcut": "EXAUSDC.E"
   },
   {
    "address": "0x820802fa8a99901f52e39acd21177b0be6ee2974",
@@ -167843,8 +167833,8 @@
    "chain_id": 10,
    "coingecko_id": "beethoven-x",
    "decimals": 18,
-   "name": "Beethoven X",
-   "shortcut": "BEETS"
+   "name": "Beethoven X (Legacy)",
+   "shortcut": "BEETS-LEGACY"
   },
   {
    "address": "0xb5090d514bcaca7dafb7e52763658844121f346d",
@@ -168502,7 +168492,7 @@
    "coingecko_id": "pooltogether-prize-usdc",
    "decimals": 6,
    "name": "PoolTogether Prize USD Coin",
-   "shortcut": "PUSDCE"
+   "shortcut": "PUSDC.E"
   },
   {
    "address": "0xe3c332a5dce0e1d9bc2cc72a68437790570c28a4",
@@ -169500,8 +169490,8 @@
    "chain_id": 25,
    "coingecko_id": "president-platy",
    "decimals": 18,
-   "name": "President PLATY",
-   "shortcut": "PLATY"
+   "name": "EXCELLENCE",
+   "shortcut": "EOP"
   },
   {
    "address": "0x14fb0e7640e7fb7765cfa87cec973ff5465d1c66",
@@ -170721,7 +170711,7 @@
    "coingecko_id": "h2",
    "decimals": 18,
    "name": "H2 Finance",
-   "shortcut": "H2"
+   "shortcut": "$H2"
   },
   {
    "address": "0xd37015dbe943fc81053232de3f757154cbaa9e7c",
@@ -170879,7 +170869,7 @@
    "coingecko_id": "xitcoin",
    "decimals": 18,
    "name": "Xitcoin",
-   "shortcut": "XTC"
+   "shortcut": "$XTC"
   },
   {
    "address": "0xe57425f1598f9b0d6219706b77f4b3da573a3695",
@@ -171021,7 +171011,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xfa202a63234a7089eddbfeee83c378ba248f0e9a",
@@ -171058,7 +171048,7 @@
    "coingecko_id": "babelfish-2",
    "decimals": 18,
    "name": "Babelfish",
-   "shortcut": "FISH"
+   "shortcut": "$FISH"
   },
   {
    "address": "0x0f6895fa2679453d2c32c5f6e2f00e4621c57ca2",
@@ -171149,8 +171139,8 @@
    "chain_id": 30,
    "coingecko_id": "bitpro",
    "decimals": 18,
-   "name": "BitPro",
-   "shortcut": "BITP"
+   "name": "BitPRO",
+   "shortcut": "BPRO"
   },
   {
    "address": "0x4991516df6053121121274397a8c1dad608bc95b",
@@ -171225,18 +171215,17 @@
    "chain_id": 30,
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
-   "name": "Bridged USDC (Stargate)",
-   "shortcut": "USDC.e"
+   "name": "Stargate Bridged USDC",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x779ded0c9e1022225f8e0630b35a9b54be713736",
    "chain": "rsk",
    "chain_id": 30,
    "coingecko_id": "usdt0",
-   "coingecko_rank": 36,
    "decimals": 6,
-   "name": "USD₮0",
-   "shortcut": "USD₮0"
+   "name": "USDT0",
+   "shortcut": "USDT0"
   },
   {
    "address": "0x7c459c5b11e2815db085dda9ec314a9cde00a082",
@@ -171490,8 +171479,8 @@
    "chain_id": 30,
    "coingecko_id": "rootstock-bridged-usdt-rootstock",
    "decimals": 18,
-   "name": "Tether USD on RSK",
-   "shortcut": "rUSDT"
+   "name": "Rootstock Bridged USDT (Rootstock)",
+   "shortcut": "RUSDT"
   },
   {
    "address": "0xefc78fc7d48b64958315949279ba181c2114abbd",
@@ -171745,7 +171734,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xf390830df829cf22c53c8840554b98eafc5dcbc2",
@@ -172087,7 +172076,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xcda5b77e2e2268d9e09c874c1b9a4c3f07b37555",
@@ -173616,7 +173605,7 @@
    "coingecko_id": "piratecoin",
    "decimals": 9,
    "name": "PirateCoin",
-   "shortcut": "PIRATECOIN"
+   "shortcut": "PIRATECOIN☠"
   },
   {
    "address": "0x041e714aa0dce7d4189441896486d361e98bad5f",
@@ -174381,7 +174370,7 @@
    "coingecko_id": "5th-scape",
    "decimals": 6,
    "name": "5th Scape",
-   "shortcut": "5SCAPE"
+   "shortcut": "$5SCAPE"
   },
   {
    "address": "0x069b5b0a1ea30a08f47ff9efd23abd0cb56f5689",
@@ -178238,7 +178227,7 @@
    "coingecko_id": "berkshire-hathaway-xstock",
    "decimals": 18,
    "name": "Berkshire Hathaway xStock",
-   "shortcut": "BRKBX"
+   "shortcut": "BRK.BX"
   },
   {
    "address": "0x12996c7b23c4012149bf9f5663ff9aa08a9cf2e4",
@@ -178435,10 +178424,9 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0x134b372f5543c5cca30be6a796da032c8274bddf",
@@ -188181,7 +188169,7 @@
    "coingecko_id": "shibakeanu",
    "decimals": 18,
    "name": "ShibaKeanu",
-   "shortcut": "SHIBK"
+   "shortcut": "$SHIBK"
   },
   {
    "address": "0x315be92aba5c3aaaf82b0c0c613838342c1416e7",
@@ -189034,7 +189022,7 @@
    "coingecko_id": "air-coin",
    "decimals": 18,
    "name": "air coin",
-   "shortcut": "/"
+   "shortcut": "空气币/"
   },
   {
    "address": "0x3394a562a38cebd02afc56380a108bb98c5ac3b7",
@@ -190486,7 +190474,7 @@
    "coingecko_id": "solv-protocol-solvbtc-jupiter",
    "decimals": 18,
    "name": "Solv Protocol SolvBTC Jupiter",
-   "shortcut": "SOLVBTCJUP"
+   "shortcut": "SOLVBTC.JUP"
   },
   {
    "address": "0x38a5cbe2fb53d1d407dd5a22c4362daf48eb8526",
@@ -191989,7 +191977,7 @@
    "coingecko_id": "banana-for-scale-2",
    "decimals": 18,
    "name": "Banana For Scale",
-   "shortcut": "BANANA"
+   "shortcut": "BANANAS31"
   },
   {
    "address": "0x3d6c437a6cb176bf608186ad570b3256d7096c31",
@@ -193002,8 +192990,8 @@
    "chain_id": 56,
    "coingecko_id": "usd-coin-bridged-zed20",
    "decimals": 18,
-   "name": "Zedxion Bridged USDC  Zedxion ",
-   "shortcut": "USDCZ"
+   "name": "ZEDX Bridged USDC (Zedxion)",
+   "shortcut": "USDC.Z"
   },
   {
    "address": "0x40f906e19b14100d5247686e08053c4873c66192",
@@ -193970,7 +193958,7 @@
    "coingecko_id": "graphite-network",
    "decimals": 18,
    "name": "Graphite Network",
-   "shortcut": "G"
+   "shortcut": "@G"
   },
   {
    "address": "0x44055f43a0dc22e77c53b16eab04e253158d6b06",
@@ -198664,7 +198652,7 @@
    "coingecko_id": "wrapped-kaspa",
    "decimals": 8,
    "name": "Wrapped Kaspa",
-   "shortcut": "KAS"
+   "shortcut": "WKAS"
   },
   {
    "address": "0x51e7b598c9155b9dccb04eb42519f6eec9c841e9",
@@ -198786,8 +198774,8 @@
    "chain_id": 56,
    "coingecko_id": "tether-usd-wormhole-from-ethereum",
    "decimals": 6,
-   "name": "Bridged Tether  Wormhole Ethereum ",
-   "shortcut": "USDTET"
+   "name": "Wormhole Bridged USDT",
+   "shortcut": "USDT"
   },
   {
    "address": "0x524d524b4c9366be706d3a90dcf70076ca037ae3",
@@ -200974,10 +200962,10 @@
    "address": "0x58b9cb810a68a7f3e1e4f8cb45d1b9b3c79705e8",
    "chain": "bnb",
    "chain_id": 56,
-   "coingecko_id": "connext",
+   "coingecko_id": "everclear",
    "decimals": 18,
    "name": "Everclear",
-   "shortcut": "NEXT"
+   "shortcut": "CLEAR"
   },
   {
    "address": "0x58c2cc04b2859916c5e5683545b349df3d7530b8",
@@ -205522,7 +205510,7 @@
    "coingecko_id": "gigachadgpt",
    "decimals": 8,
    "name": "GigaChadGPT",
-   "shortcut": "GIGA"
+   "shortcut": "$GIGA"
   },
   {
    "address": "0x68355e342ff81633ccd0395cc77c83e266ca548e",
@@ -205653,8 +205641,8 @@
    "chain_id": 56,
    "coingecko_id": "allbridge",
    "decimals": 18,
-   "name": "Allbridge",
-   "shortcut": "ABR"
+   "name": "Allbridge Zero",
+   "shortcut": "ABR0"
   },
   {
    "address": "0x688a09c98b3469eaab48a2bee1c48b9d133e6567",
@@ -209909,7 +209897,7 @@
    "coingecko_id": "fbomb",
    "decimals": 18,
    "name": "Fantom Bomb",
-   "shortcut": "BOMB"
+   "shortcut": "FBOMB"
   },
   {
    "address": "0x74d00122a5d038914eae062af8174c888f3166dc",
@@ -210475,10 +210463,10 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "the-open-network",
-   "coingecko_rank": 24,
+   "coingecko_rank": 25,
    "decimals": 9,
-   "name": "Toncoin",
-   "shortcut": "TON"
+   "name": "Gram (prev. Toncoin)",
+   "shortcut": "GRAM"
   },
   {
    "address": "0x76aecb353abf596bd61ee6bdb07d70787dec4fd6",
@@ -217058,10 +217046,10 @@
    "address": "0x8b9ee39195ea99d6ddd68030f44131116bc218f6",
    "chain": "bnb",
    "chain_id": 56,
-   "coingecko_id": "peaq-2",
+   "coingecko_id": "wrapped-peaq",
    "decimals": 18,
-   "name": "peaq",
-   "shortcut": "PEAQ"
+   "name": "Wrapped Peaq",
+   "shortcut": "WPEAQ"
   },
   {
    "address": "0x8ba9da757d1d66c58b1ae7e2ed6c04087348a82d",
@@ -224802,7 +224790,7 @@
    "coingecko_id": "bitcoin-bridged-zed20",
    "decimals": 18,
    "name": "Bitcoin Bridged ZED20",
-   "shortcut": "BTCZ"
+   "shortcut": "BTC.Z"
   },
   {
    "address": "0xa41f142b6eb2b164f8164cae0716892ce02f311f",
@@ -226420,10 +226408,10 @@
    "address": "0xa9616e5e23ec1582c2828b025becf3ef610e266f",
    "chain": "bnb",
    "chain_id": 56,
-   "coingecko_id": "somnia",
+   "coingecko_id": "wrapped-somi",
    "decimals": 18,
-   "name": "Somnia",
-   "shortcut": "SOMI"
+   "name": "Wrapped SOMI",
+   "shortcut": "WSOMI"
   },
   {
    "address": "0xa975be9202ce26dde8bce29034be42bcd4861e36",
@@ -226979,7 +226967,7 @@
    "coingecko_id": "scapesmania",
    "decimals": 18,
    "name": "ScapesMania",
-   "shortcut": "MANIA"
+   "shortcut": "$MANIA"
   },
   {
    "address": "0xab5a0f7799d057f49f1eeb8143b0182222e274aa",
@@ -227008,7 +226996,7 @@
    "coingecko_id": "inery",
    "decimals": 18,
    "name": "Inery",
-   "shortcut": "INR"
+   "shortcut": "$INR"
   },
   {
    "address": "0xab785054251db0fc44538f5deebe7507b748b692",
@@ -227328,9 +227316,8 @@
    "chain_id": 56,
    "coingecko_id": "bnbtiger",
    "decimals": 9,
-   "deleted": true,
-   "name": "BNB Tiger Inu",
-   "shortcut": "BNBTIGER"
+   "name": "BNB Tiger OG",
+   "shortcut": "BNBTIGEROG"
   },
   {
    "address": "0xac6ec101ddcb953774d103ba4a82fa257138459f",
@@ -229195,7 +229182,7 @@
    "coingecko_id": "bullishmarketcap",
    "decimals": 18,
    "name": "BullishMarketCap",
-   "shortcut": "BMC"
+   "shortcut": "$BMC"
   },
   {
    "address": "0xb18dcc867c70938c70f791eb109e1e4da86d1688",
@@ -229732,7 +229719,7 @@
    "coingecko_id": "fight-2",
    "decimals": 18,
    "name": "FIGHT",
-   "shortcut": "$FIGHT"
+   "shortcut": "FIGHT"
   },
   {
    "address": "0xb2e841894b1c3d638948517f6234c6e06d3b8e1c",
@@ -230732,7 +230719,7 @@
    "coingecko_id": "playdoge",
    "decimals": 18,
    "name": "Playdoge",
-   "shortcut": "PLAY"
+   "shortcut": "$PLAY"
   },
   {
    "address": "0xb695806cc5a3cd8623b92bbd221e3bec6e8e3bed",
@@ -233542,7 +233529,7 @@
    "coingecko_id": "ozone-metaverse",
    "decimals": 18,
    "name": "Ozone Metaverse",
-   "shortcut": "OZONE"
+   "shortcut": "$OZONE"
   },
   {
    "address": "0xbfa362937bfd11ec22a023abf83b6df4e5e303d4",
@@ -234591,8 +234578,8 @@
    "chain_id": 56,
    "coingecko_id": "klipx-x-tips",
    "decimals": 18,
-   "name": "KlipX  X Tips",
-   "shortcut": "KLIPX"
+   "name": "ClipX",
+   "shortcut": "CLIPX"
   },
   {
    "address": "0xc27a719105a987b4c34116223cae8bd8f4b5def4",
@@ -234673,8 +234660,8 @@
    "chain_id": 56,
    "coingecko_id": "manga-token",
    "decimals": 18,
-   "name": "Manga",
-   "shortcut": "MANGA"
+   "name": "Manga [OLD]",
+   "shortcut": "$MANGA"
   },
   {
    "address": "0xc2d09cf86b9ff43cb29ef8ddca57a4eb4410d5f3",
@@ -241394,7 +241381,7 @@
    "coingecko_id": "bitstable-finance",
    "decimals": 18,
    "name": "BitStable Finance",
-   "shortcut": "BSSB"
+   "shortcut": "$BSSB"
   },
   {
    "address": "0xda38d8facd3875daad437839308f1885646dfbb6",
@@ -244308,7 +244295,7 @@
    "coingecko_id": "skol",
    "decimals": 18,
    "name": "Skol",
-   "shortcut": "SKOL"
+   "shortcut": "$SKOL"
   },
   {
    "address": "0xe41de737f691847bc5ea486f2adc443936e5010c",
@@ -244375,8 +244362,8 @@
    "chain_id": 56,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0xe4a1a0f812eb343e68e5e0ef1883a8196e6ec342",
@@ -246723,7 +246710,7 @@
    "coingecko_id": "rainicorn",
    "decimals": 18,
    "name": "Raini",
-   "shortcut": "RAINI"
+   "shortcut": "$RAINI"
   },
   {
    "address": "0xeb986da994e4a118d5956b02d8b7c3c7ce373674",
@@ -247122,7 +247109,7 @@
    "coingecko_id": "babylong",
    "decimals": 18,
    "name": "BABYLONG",
-   "shortcut": "BABYLONG"
+   "shortcut": "$BABYLONG"
   },
   {
    "address": "0xeceb87cf00dcbf2d4e2880223743ff087a995ad9",
@@ -251412,7 +251399,7 @@
    "coingecko_id": "cardence",
    "decimals": 18,
    "name": "Cardence",
-   "shortcut": "CRDN"
+   "shortcut": "$CRDN"
   },
   {
    "address": "0xfa1ba18067ac6884fb26e329e60273488a247fc3",
@@ -251555,8 +251542,8 @@
    "chain_id": 56,
    "coingecko_id": "sol-wormhole",
    "decimals": 9,
-   "name": "Wormhole Bridged SOL",
-   "shortcut": "SOL"
+   "name": "Wormhole Bridged WSOL",
+   "shortcut": "WSOL"
   },
   {
    "address": "0xfa704148d516b209d52c2d75f239274c8f8eaf1a",
@@ -252066,7 +252053,7 @@
    "coingecko_id": "pom",
    "decimals": 18,
    "name": "POM",
-   "shortcut": "POM"
+   "shortcut": "$POM"
   },
   {
    "address": "0xfbf2398df672cee4afcc2a4a733222331c742a6a",
@@ -254085,8 +254072,8 @@
    "chain_id": 82,
    "coingecko_id": "meter-passport-bridged-usdc-meter",
    "decimals": 6,
-   "name": "Meter Passport Bridged USDC  Meter ",
-   "shortcut": "USDC"
+   "name": "Meter Passport Bridged USDC (Meter)",
+   "shortcut": "USDC.ETH"
   },
   {
    "address": "0xe2de616fbd8cb9180b26fcfb1b761a232fe56717",
@@ -254765,8 +254752,8 @@
    "chain_id": 100,
    "coingecko_id": "bridged-usdc-gnosis",
    "decimals": 6,
-   "name": "Gnosis xDAI Bridged USDC  Gnosis ",
-   "shortcut": "USDCE"
+   "name": "Gnosis xDAI Bridged USDC (Gnosis)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x2bf2ba13735160624a0feae98f6ac8f70885ea61",
@@ -255053,9 +255040,8 @@
    "chain_id": 100,
    "coingecko_id": "gnosis-xdai-bridged-eurc-gnosis",
    "decimals": 6,
-   "deleted": true,
-   "name": "Gnosis Bridged EURC  Gnosis ",
-   "shortcut": "EURC"
+   "name": "Omnibridge Bridged EURC (Gnosis)",
+   "shortcut": "EURC.E"
   },
   {
    "address": "0x57f664882f762fa37903fc864e2b633d384b411a",
@@ -255070,10 +255056,10 @@
    "address": "0x58b9cb810a68a7f3e1e4f8cb45d1b9b3c79705e8",
    "chain": "gno",
    "chain_id": 100,
-   "coingecko_id": "connext",
+   "coingecko_id": "everclear",
    "decimals": 18,
    "name": "Everclear",
-   "shortcut": "NEXT"
+   "shortcut": "CLEAR"
   },
   {
    "address": "0x5cb9073902f2035222b9749f8fb0c9bfe5527108",
@@ -256125,10 +256111,10 @@
    "address": "0x8ef1a1e0671aa44852f4d87105ef482470bb3e69",
    "chain": "TT",
    "chain_id": 108,
-   "coingecko_id": "wbnb",
+   "coingecko_id": "thundercore-bridged-tt-wbnb-thundercore",
    "decimals": 18,
-   "name": "Wrapped BNB",
-   "shortcut": "WBNB"
+   "name": "ThunderCore Bridged TT WBNB  ThunderCor",
+   "shortcut": "TT-WBNB"
   },
   {
    "address": "0xbeb0131d95ac3f03fd15894d0ade5dbf7451d171",
@@ -256268,7 +256254,7 @@
    "coingecko_id": "gooddollar",
    "decimals": 2,
    "name": "GoodDollar",
-   "shortcut": "G"
+   "shortcut": "$G"
   },
   {
    "address": "0x5622f6dc93e08a8b717b149677930c38d5d50682",
@@ -256429,7 +256415,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xcc9d144a8a8a1e71d5ec66a13f301b9e0137e71c",
@@ -256639,8 +256625,8 @@
    "chain_id": 128,
    "coingecko_id": "allbridge",
    "decimals": 18,
-   "name": "Allbridge",
-   "shortcut": "ABR"
+   "name": "Allbridge Zero",
+   "shortcut": "ABR0"
   },
   {
    "address": "0x3befb2308bce92da97264077faf37dcd6c8a75e6",
@@ -257359,10 +257345,10 @@
    "address": "0x139451953ef1865c096f89c5e522c081dc3b5f11",
    "chain": "unichain",
    "chain_id": 130,
-   "coingecko_id": "plasma",
+   "coingecko_id": "wrapped-xpl",
    "decimals": 18,
-   "name": "Plasma",
-   "shortcut": "XPL"
+   "name": "Wrapped XPL",
+   "shortcut": "WXPL"
   },
   {
    "address": "0x15d0e0c55a3e7ee67152ad7e89acf164253ff68d",
@@ -258056,8 +258042,8 @@
    "chain_id": 137,
    "coingecko_id": "allbridge",
    "decimals": 18,
-   "name": "Allbridge",
-   "shortcut": "ABR"
+   "name": "Allbridge Zero",
+   "shortcut": "ABR0"
   },
   {
    "address": "0x04565fe9aa3ae571ada8e1bebf8282c4e5247b2a",
@@ -259455,8 +259441,8 @@
    "chain_id": 137,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0x1a3c7d6cb66299f769040e6d4cf0c1945f6a2f32",
@@ -259959,7 +259945,7 @@
    "coingecko_id": "greengold",
    "decimals": 6,
    "name": "GREENGOLD",
-   "shortcut": "GREENGOLD"
+   "shortcut": "$GREENGOLD"
   },
   {
    "address": "0x21a77520d0a25eede18a34ad4bc7a769d785c6ff",
@@ -260430,8 +260416,8 @@
    "chain_id": 137,
    "coingecko_id": "bridged-usdc-polygon-pos-bridge",
    "decimals": 6,
-   "name": "Bridged USDC  Polygon PoS Bridge ",
-   "shortcut": "USDCE"
+   "name": "Polygon Bridged USDC (Polygon PoS)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x27ab6e82f3458edbc0703db2756391b899ce6324",
@@ -261091,8 +261077,8 @@
    "chain_id": 137,
    "coingecko_id": "neopin",
    "decimals": 18,
-   "name": "Neopin",
-   "shortcut": "NPT"
+   "name": "Mayflower",
+   "shortcut": "MAY"
   },
   {
    "address": "0x306fd3e7b169aa4ee19412323e1a5995b8c1a1f4",
@@ -261350,7 +261336,7 @@
    "coingecko_id": "wrapped-kaspa",
    "decimals": 8,
    "name": "Wrapped Kaspa",
-   "shortcut": "KAS"
+   "shortcut": "WKAS"
   },
   {
    "address": "0x35b2ece5b1ed6a7a99b83508f8ceeab8661e0632",
@@ -262329,7 +262315,7 @@
    "coingecko_id": "graphite-network",
    "decimals": 18,
    "name": "Graphite Network",
-   "shortcut": "G"
+   "shortcut": "@G"
   },
   {
    "address": "0x4409a35082ccefb6559d59855e7699f299b7beba",
@@ -262406,7 +262392,7 @@
    "coingecko_id": "kitsumon",
    "decimals": 18,
    "name": "Kitsumon",
-   "shortcut": "KMC"
+   "shortcut": "$KMC"
   },
   {
    "address": "0x44e3ae622c1570dc6e492adb8de92d01ca923d26",
@@ -263627,10 +263613,10 @@
    "address": "0x58b9cb810a68a7f3e1e4f8cb45d1b9b3c79705e8",
    "chain": "pol",
    "chain_id": 137,
-   "coingecko_id": "connext",
+   "coingecko_id": "everclear",
    "decimals": 18,
    "name": "Everclear",
-   "shortcut": "NEXT"
+   "shortcut": "CLEAR"
   },
   {
    "address": "0x58c7b2828e7f2b2caa0cc7feef242fa3196d03df",
@@ -267361,8 +267347,8 @@
    "chain_id": 137,
    "coingecko_id": "tether-usd-wormhole-from-ethereum",
    "decimals": 6,
-   "name": "Bridged Tether  Wormhole Ethereum ",
-   "shortcut": "USDTET"
+   "name": "Wormhole Bridged USDT",
+   "shortcut": "USDT"
   },
   {
    "address": "0x94195b2b2b5e772aec57d98c55a57dbbfe05b0fc",
@@ -270261,11 +270247,10 @@
    "address": "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
    "chain": "pol",
    "chain_id": 137,
-   "coingecko_id": "polygon-bridged-usdt-polygon",
-   "coingecko_rank": 91,
+   "coingecko_id": "usdt0",
    "decimals": 6,
-   "name": "Polygon Bridged USDT  Polygon ",
-   "shortcut": "USDT"
+   "name": "USDT0",
+   "shortcut": "USDT0"
   },
   {
    "address": "0xc250e9987a032acac293d838726c511e6e1c029d",
@@ -271828,8 +271813,8 @@
    "chain_id": 137,
    "coingecko_id": "sol-wormhole",
    "decimals": 9,
-   "name": "Wormhole Bridged SOL",
-   "shortcut": "SOL"
+   "name": "Wormhole Bridged WSOL",
+   "shortcut": "WSOL"
   },
   {
    "address": "0xd94a8f9caed25e63ecc90edfefaf3635ea1e182a",
@@ -272076,7 +272061,7 @@
    "coingecko_id": "artmeta",
    "decimals": 18,
    "name": "ArtMeta",
-   "shortcut": "MART"
+   "shortcut": "$MART"
   },
   {
    "address": "0xdcffa515620def25d18f8d2c8aeca67f9ad31f58",
@@ -272352,7 +272337,7 @@
    "coingecko_id": "defactor",
    "decimals": 18,
    "name": "Defactor",
-   "shortcut": "FACTR"
+   "shortcut": "REAL"
   },
   {
    "address": "0xe0ce60af0850bf54072635e66e79df17082a1109",
@@ -273851,8 +273836,8 @@
    "chain_id": 137,
    "coingecko_id": "instadapp",
    "decimals": 18,
-   "name": "Instadapp",
-   "shortcut": "INST"
+   "name": "Fluid",
+   "shortcut": "FLUID"
   },
   {
    "address": "0xf521d590fb1e0b432fd0e020cdbd6c6397d652c2",
@@ -275631,11 +275616,11 @@
    "address": "0x29219dd400f2bf60e5a23d13be72b486d4038894",
    "chain": "sonic",
    "chain_id": 146,
-   "coingecko_id": "sonic-bridged-usdc-e-sonic",
-   "coingecko_rank": 7,
+   "coingecko_id": "usd-coin",
+   "coingecko_rank": 5,
    "decimals": 6,
-   "name": "Sonic Bridged USDC e  Sonic ",
-   "shortcut": "USDCE"
+   "name": "USDC",
+   "shortcut": "USDC"
   },
   {
    "address": "0x2d0e0814e62d80056181f5cd932274405966e4f0",
@@ -276234,10 +276219,9 @@
    "address": "0x9f0df7799f6fdad409300080cff680f5a23df4b1",
    "chain": "sonic",
    "chain_id": 146,
-   "coingecko_id": "wrapped-sonic-origin",
    "decimals": 18,
-   "name": "Wrapped Origin Sonic",
-   "shortcut": "WOS"
+   "name": "Wrapped OS",
+   "shortcut": "wOS"
   },
   {
    "address": "0x9fb76f7ce5fceaa2c42887ff441d46095e494206",
@@ -276450,10 +276434,9 @@
    "chain": "sonic",
    "chain_id": 146,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0xcc17dbc9eb1c29f90388fa197b983714fdaada46",
@@ -276871,8 +276854,8 @@
    "chain_id": 151,
    "coingecko_id": "redbelly-bridged-usdc-redbelly",
    "decimals": 6,
-   "name": "Redbelly Bridged USDC  Redbelly ",
-   "shortcut": "USDCE"
+   "name": "Lucid Bridged USDC (Redbelly)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x8c4acd74ff4385f3b7911432fa6787aa14406f8b",
@@ -277702,10 +277685,10 @@
    "address": "0x80eede496655fb9047dd39d9f418d5483ed600df",
    "chain": "okb",
    "chain_id": 196,
-   "coingecko_id": "bridged-frax",
+   "coingecko_id": "frax-usd",
    "decimals": 18,
-   "name": "Bridged FRAX",
-   "shortcut": "FRAX"
+   "name": "Frax USD",
+   "shortcut": "FRXUSD"
   },
   {
    "address": "0x843d794ed4335b27d02184ca86787c14e6247074",
@@ -278008,8 +277991,8 @@
    "chain_id": 199,
    "coingecko_id": "bridged-kyber-network-crystal-bsc",
    "decimals": 18,
-   "name": "Bridged Kyber Network Crystal  BSC ",
-   "shortcut": "KNCB"
+   "name": "Bridged Kyber Network Crystal (BSC)",
+   "shortcut": "KNC_B"
   },
   {
    "address": "0x195ca22a177e6ed905c469f4f64cf67e819f49c2",
@@ -278093,8 +278076,8 @@
    "chain_id": 199,
    "coingecko_id": "multichain-bridged-usdt-bittorrent",
    "decimals": 6,
-   "name": "Multichain Bridged USDT  BitTorrent ",
-   "shortcut": "USDTT"
+   "name": "Multichain Bridged USDT (BitTorrent)",
+   "shortcut": "USDT_T"
   },
   {
    "address": "0xe467f79e9869757dd818dfb8535068120f6bcb97",
@@ -278102,8 +278085,8 @@
    "chain_id": 199,
    "coingecko_id": "bridged-kyber-network-crystal-ethereum",
    "decimals": 18,
-   "name": "Bridged Kyber Network Crystal  Ethereum",
-   "shortcut": "KNCE"
+   "name": "Bridged Kyber Network Crystal (Ethereum)",
+   "shortcut": "KNC_E"
   },
   {
    "address": "0xedf53026aea60f8f75fca25f8830b7e2d6200662",
@@ -278591,8 +278574,8 @@
    "chain_id": 248,
    "coingecko_id": "oasys-bridged-usdc-oasys",
    "decimals": 6,
-   "name": "Celer Bridged USDC  Oasys ",
-   "shortcut": "USDCE"
+   "name": "Celer Bridged USDC (Oasys)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x50c5725949a6f0c72e6c4a641f24049a917db0cb",
@@ -279190,9 +279173,8 @@
    "chain_id": 250,
    "coingecko_id": "mimo-parallel-governance-token",
    "decimals": 18,
-   "deleted": true,
-   "name": "Mimo Governance",
-   "shortcut": "MIMO"
+   "name": "Parallel Governance",
+   "shortcut": "PRL"
   },
   {
    "address": "0x1d43697d67cb5d0436cc38d583ca473a1bfebc7a",
@@ -280022,8 +280004,8 @@
    "chain_id": 250,
    "coingecko_id": "allbridge",
    "decimals": 18,
-   "name": "Allbridge",
-   "shortcut": "ABR"
+   "name": "Allbridge Zero",
+   "shortcut": "ABR0"
   },
   {
    "address": "0x551c61db482289994e7d426fc4db6493918bb81d",
@@ -280597,7 +280579,7 @@
    "coingecko_id": "fbomb",
    "decimals": 18,
    "name": "Fantom Bomb",
-   "shortcut": "BOMB"
+   "shortcut": "FBOMB"
   },
   {
    "address": "0x74d1d2a851e339b8cb953716445be7e8abdf92f4",
@@ -280721,8 +280703,8 @@
    "chain_id": 250,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0x7ec94c4327dc757601b4273cd67014d7760be97e",
@@ -282166,7 +282148,7 @@
    "coingecko_id": "rainicorn",
    "decimals": 18,
    "name": "Raini",
-   "shortcut": "RAINI"
+   "shortcut": "$RAINI"
   },
   {
    "address": "0xe992beab6659bff447893641a378fbbf031c5bd6",
@@ -282302,8 +282284,8 @@
    "chain_id": 250,
    "coingecko_id": "beethoven-x",
    "decimals": 18,
-   "name": "Beethoven X",
-   "shortcut": "BEETS"
+   "name": "Beethoven X (Legacy)",
+   "shortcut": "BEETS-LEGACY"
   },
   {
    "address": "0xf24be6c063bee7c7844dd90a21fdf7d783d41a94",
@@ -282718,21 +282700,21 @@
   },
   {
    "address": "0xfc00000000000000000000000000000000000001",
-   "chain": "fraxtal",
+   "chain": "frax",
    "chain_id": 252,
-   "coingecko_id": "frax",
+   "coingecko_id": "frax-usd",
    "decimals": 18,
-   "name": "Frax",
-   "shortcut": "FRAX"
+   "name": "Frax USD",
+   "shortcut": "FRXUSD"
   },
   {
    "address": "0xfc00000000000000000000000000000000000002",
-   "chain": "fraxtal",
+   "chain": "frax",
    "chain_id": 252,
-   "coingecko_id": "frax-share",
+   "coingecko_id": "wrapped-frax",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Wrapped FRAX",
+   "shortcut": "WFRAX"
   },
   {
    "address": "0xfc00000000000000000000000000000000000003",
@@ -282772,12 +282754,12 @@
   },
   {
    "address": "0xfc00000000000000000000000000000000000008",
-   "chain": "fraxtal",
+   "chain": "frax",
    "chain_id": 252,
-   "coingecko_id": "staked-frax",
+   "coingecko_id": "staked-frax-usd",
    "decimals": 18,
-   "name": "Staked FRAX",
-   "shortcut": "SFRAX"
+   "name": "Frax Staked frxUSD",
+   "shortcut": "SFRXUSD"
   },
   {
    "address": "0x0257e4d92c00c9efcca1d641b224d7d09cfa4522",
@@ -283043,8 +283025,8 @@
    "chain_id": 295,
    "coingecko_id": "heliswap-bridged-usdc-hts",
    "decimals": 6,
-   "name": "Bridged USDC  Hashport ",
-   "shortcut": "USDCHTS"
+   "name": "Hashport Bridged USDC (Hedera)",
+   "shortcut": "USDC[HTS]"
   },
   {
    "address": "0x0000000000000000000000000000000000101af0",
@@ -283052,16 +283034,16 @@
    "chain_id": 295,
    "coingecko_id": "bridged-tether-hashport",
    "decimals": 8,
-   "name": "Bridged Tether  Hashport ",
-   "shortcut": "USDTHTS"
+   "name": "Hashport Bridged USDT (Hedera)",
+   "shortcut": "USDT[HTS]"
   },
   {
    "address": "0x0000000000000000000000000000000000101af5",
    "chain": "hedera-mainnet",
    "chain_id": 295,
    "decimals": 8,
-   "name": "Bridged Dai Stablecoin  Hashport ",
-   "shortcut": "DAIHTS"
+   "name": "Bridged Dai Stablecoin (Hashport)",
+   "shortcut": "DAI[HTS]"
   },
   {
    "address": "0x0000000000000000000000000000000000101afb",
@@ -283069,8 +283051,8 @@
    "chain_id": 295,
    "coingecko_id": "bridged-wrapped-bitcoin-hashport",
    "decimals": 8,
-   "name": "Bridged Wrapped Bitcoin  Hashport ",
-   "shortcut": "WBTCHTS"
+   "name": "Bridged Wrapped Bitcoin (Hashport)",
+   "shortcut": "WBTC[HTS]"
   },
   {
    "address": "0x000000000000000000000000000000000011a79c",
@@ -283079,7 +283061,7 @@
    "coingecko_id": "hashport-bridged-wavax",
    "decimals": 8,
    "name": "Hashport Bridged wAVAX",
-   "shortcut": "WAVAXHTS"
+   "shortcut": "WAVAX[HTS]"
   },
   {
    "address": "0x000000000000000000000000000000000011afa2",
@@ -283105,7 +283087,7 @@
    "coingecko_id": "hashport-bridged-qnt",
    "decimals": 8,
    "name": "Hashport Bridged QNT",
-   "shortcut": "QNTHTS"
+   "shortcut": "QNT[HTS]"
   },
   {
    "address": "0x0000000000000000000000000000000000163b5a",
@@ -285191,10 +285173,10 @@
    "address": "0x360aac543a23dbcefa8049d4c4d8b18da1cca360",
    "chain": "shape",
    "chain_id": 360,
-   "coingecko_id": "wrapped-shape",
+   "coingecko_id": "shape",
    "decimals": 18,
-   "name": "Wrapped SHAPE",
-   "shortcut": "WSHAPE"
+   "name": "Shape",
+   "shortcut": "SHAPE"
   },
   {
    "address": "0x4200000000000000000000000000000000000006",
@@ -285911,7 +285893,7 @@
    "coingecko_id": "skol",
    "decimals": 18,
    "name": "Skol",
-   "shortcut": "SKOL"
+   "shortcut": "$SKOL"
   },
   {
    "address": "0x79bb3a0ee435f957ce4f54ee8c3cfadc7278da0c",
@@ -286651,7 +286633,7 @@
    "coingecko_id": "zerotrust",
    "decimals": 18,
    "name": "ZeroTrust",
-   "shortcut": "ZER"
+   "shortcut": "ZERØ"
   },
   {
    "address": "0xf8ab3393b1f5cd6184fb6800a1fc802043c4063e",
@@ -286834,7 +286816,7 @@
    "coingecko_id": "h2",
    "decimals": 18,
    "name": "H2 Finance",
-   "shortcut": "H2"
+   "shortcut": "$H2"
   },
   {
    "address": "0xd65e5dba71231d35a5802ba83dc6cb6746c9758d",
@@ -287136,11 +287118,11 @@
    "address": "0x79a02482a880bce3f13e09da970dc34db4cd24d1",
    "chain": "wc",
    "chain_id": 480,
-   "coingecko_id": "bridged-usdc-world-chain",
-   "coingecko_rank": 7,
+   "coingecko_id": "usd-coin",
+   "coingecko_rank": 5,
    "decimals": 6,
-   "name": "World Chain Bridged USDC  World Chain ",
-   "shortcut": "USDCE"
+   "name": "USDC",
+   "shortcut": "USDC"
   },
   {
    "address": "0x8a1d45e102e886510e891d2ec656a708991e2d76",
@@ -287598,10 +287580,10 @@
    "address": "0x2f6f07cdcf3588944bf4c42ac74ff24bf56e7590",
    "chain": "flow-mainnet",
    "chain_id": 747,
-   "coingecko_id": "stargate-bridged-weth-flow",
+   "coingecko_id": "stargate-bridged-weth",
    "decimals": 18,
-   "name": "Stargate Bridged WETH  Flow ",
-   "shortcut": "STGWETH"
+   "name": "Stargate Bridged WETH",
+   "shortcut": "WETH"
   },
   {
    "address": "0x6a64e027e3f6a94acbdcf39cf0cbb4bead5f5ecb",
@@ -287718,10 +287700,10 @@
    "address": "0xf1815bd50389c46847f0bda824ec8da914045d14",
    "chain": "flow-mainnet",
    "chain_id": 747,
-   "coingecko_id": "stargate-bridged-usdc-flow",
+   "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
-   "name": "Stargate Bridged USDC  Flow ",
-   "shortcut": "STGUSDC"
+   "name": "Stargate Bridged USDC",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xf45cbe30bd953590c9917799142edb05be3f293f",
@@ -289205,12 +289187,12 @@
   },
   {
    "address": "0xab11329560fa9c9c860bb21a9342215a1265bbb0",
-   "chain": "twan",
+   "chain": "hype",
    "chain_id": 999,
-   "coingecko_id": "wrapped-apecoin",
+   "coingecko_id": "apecoin",
    "decimals": 18,
-   "name": "Wrapped ApeCoin",
-   "shortcut": "WAPE"
+   "name": "ApeCoin",
+   "shortcut": "APE"
   },
   {
    "address": "0xac962fa04bf91b7fd0dc0c5c32414e0ce3c51e03",
@@ -289635,12 +289617,12 @@
   },
   {
    "address": "0xf2e6a23b1aa09565fdb3a77af7772709de3f4f95",
-   "chain": "twan",
+   "chain": "hype",
    "chain_id": 999,
    "coingecko_id": "lilly",
    "decimals": 6,
    "name": "LILLY",
-   "shortcut": "LILLY"
+   "shortcut": "$LILLY"
   },
   {
    "address": "0xf3d8e8c2fc0531f3bf72f7d72ea158ae2b000000",
@@ -290425,10 +290407,10 @@
    "address": "0xea32a96608495e54156ae48931a7c20f0dcc1a21",
    "chain": "metis-andromeda",
    "chain_id": 1088,
-   "coingecko_id": "bridged-usdc",
+   "coingecko_id": "metis-bridged-usdc-metis",
    "decimals": 6,
-   "name": "Bridged USDC",
-   "shortcut": "USDC"
+   "name": "Metis Bridged USDC (Metis Andromeda)",
+   "shortcut": "M.USDC"
   },
   {
    "address": "0xf4085d70f4a72ee2433eb8963be59d3c0a503ed8",
@@ -290645,8 +290627,8 @@
    "chain_id": 1101,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0x7320b543a4ce46a691a2cf317f1157a0b5059d43",
@@ -290929,7 +290911,7 @@
    "coingecko_id": "wemix-dollar",
    "decimals": 18,
    "name": "WEMIX Dollar",
-   "shortcut": "WEMIX"
+   "shortcut": "WEMIX$"
   },
   {
    "address": "0x99618512fce498bebe0447c5f8bb8ea7ad32de76",
@@ -291125,8 +291107,8 @@
    "chain_id": 1116,
    "coingecko_id": "free-bridged-solvbtcb-core",
    "decimals": 18,
-   "name": "Free Bridged SolvBTC b  Core ",
-   "shortcut": "SOLVBTCB"
+   "name": "Free Bridged SolvBTC.b (Core)",
+   "shortcut": "SOLVBTC.B"
   },
   {
    "address": "0x5c44d3d2312aba4d5f2406a98bf374bc76455092",
@@ -292008,7 +291990,7 @@
    "coingecko_id": "xcdot",
    "decimals": 10,
    "name": "xcDOT",
-   "shortcut": "XCDOT"
+   "shortcut": "DOT"
   },
   {
    "address": "0xffffffff43b4560bc0c451a3386e082bff50ac90",
@@ -292264,8 +292246,8 @@
    "chain_id": 1285,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0x7c733acdc87874c9b0d02e46f54cd89173b4a460",
@@ -292580,7 +292562,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x049eaa1b2c9934aaacc12a141484eefd62867653",
@@ -292664,8 +292646,8 @@
    "chain_id": 1329,
    "coingecko_id": "ibc-bridged-usdc",
    "decimals": 6,
-   "name": "IBC Bridged USDC",
-   "shortcut": "USDC"
+   "name": "Noble USDC",
+   "shortcut": "USDC.N"
   },
   {
    "address": "0x3a0a7a3ca25c17d15e8d51332fb25bfea274d107",
@@ -292886,10 +292868,10 @@
    "address": "0x80eede496655fb9047dd39d9f418d5483ed600df",
    "chain": "sei",
    "chain_id": 1329,
-   "coingecko_id": "frax",
+   "coingecko_id": "frax-usd",
    "decimals": 18,
-   "name": "Frax",
-   "shortcut": "FRAX"
+   "name": "Frax USD",
+   "shortcut": "FRXUSD"
   },
   {
    "address": "0x81d3a238b02827f62b9f390f947d36d4a5bf89d2",
@@ -293009,8 +292991,8 @@
    "chain_id": 1329,
    "coingecko_id": "ibc-bridged-usdt",
    "decimals": 6,
-   "name": "IBC Bridged USDT",
-   "shortcut": "USDT"
+   "name": "IBC Bridged USDT (Sei)",
+   "shortcut": "KAVAUSDT"
   },
   {
    "address": "0xbb5850008495b4d7e4c242e30ffc5b6a0f7e916e",
@@ -293073,10 +293055,9 @@
    "chain": "sei",
    "chain_id": 1329,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0xcc1b8207853662c5cfabfb028806ec06ea1f6ac6",
@@ -293330,7 +293311,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xfe82012ecce57a188e5f9f3fc1cb2d335c58f1f5",
@@ -293402,7 +293383,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xa00c59ff5a080d2b954d0c75e46e22a0c371235a",
@@ -293465,8 +293446,8 @@
    "chain_id": 1868,
    "coingecko_id": "soneium-bridged-astar-soneium",
    "decimals": 18,
-   "name": "Soneium Bridged Astar  Soneium ",
-   "shortcut": "ASTAR"
+   "name": "Soneium Bridged ASTR (Soneium)",
+   "shortcut": "ASTR"
   },
   {
    "address": "0x32d8f819c8080ae44375f8d383ffd39fc642f3ec",
@@ -293633,7 +293614,7 @@
    "coingecko_id": "solv-protocol-solvbtc-jupiter",
    "decimals": 18,
    "name": "Solv Protocol SolvBTC Jupiter",
-   "shortcut": "SOLVBTCJUP"
+   "shortcut": "SOLVBTC.JUP"
   },
   {
    "address": "0xb1b385542b6e80f77b94393ba8342c3af699f15c",
@@ -293650,8 +293631,8 @@
    "chain_id": 1868,
    "coingecko_id": "soneium-bridged-usdc-soneium",
    "decimals": 6,
-   "name": "Soneium Bridged USDC  Soneium ",
-   "shortcut": "USDCE"
+   "name": "Soneium Bridged USDC (Soneium)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xc67476893c166c537afd9bc6bc87b3f228b44337",
@@ -293667,10 +293648,9 @@
    "chain": "soneium",
    "chain_id": 1868,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0xd8bf9997f46dcda1be57018ec8e7728e8f7c139a",
@@ -295052,7 +295032,7 @@
    "coingecko_id": "kanstar",
    "decimals": 18,
    "name": "KANSTAR",
-   "shortcut": "KANSTAR"
+   "shortcut": "$KANSTAR"
   },
   {
    "address": "0x03affae7e23fd11c85d0c90cc40510994d49e175",
@@ -295173,7 +295153,7 @@
    "coingecko_id": "koku-the-shikoku",
    "decimals": 18,
    "name": "Koku The Shikoku",
-   "shortcut": "KOKU"
+   "shortcut": "$KOKU"
   },
   {
    "address": "0x3902228d6a3d2dc44731fd9d45fee6a61c722d0b",
@@ -295429,10 +295409,10 @@
    "address": "0xe514d9deb7966c8be0ca922de8a064264ea6bcd4",
    "chain": "ron",
    "chain_id": 2020,
-   "coingecko_id": "ronin",
+   "coingecko_id": "wrapped-ronin",
    "decimals": 18,
-   "name": "Ronin",
-   "shortcut": "RON"
+   "name": "Wrapped Ronin",
+   "shortcut": "WRON"
   },
   {
    "address": "0xf299c912186195d02111d22c3ab863650256e05f",
@@ -295900,7 +295880,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x3a1293bdb83bbbdd5ebf4fac96605ad2021bbc0f",
@@ -296086,7 +296066,7 @@
    "coingecko_id": "chester",
    "decimals": 18,
    "name": "Chester",
-   "shortcut": "CHESTER"
+   "shortcut": "$CHESTER"
   },
   {
    "address": "0x2c46ad181b8ed22c5bf53e21de2af87b11888ecb",
@@ -296218,7 +296198,7 @@
    "coingecko_id": "pico-2",
    "decimals": 18,
    "name": "Pico",
-   "shortcut": "PICO"
+   "shortcut": "$PICO"
   },
   {
    "address": "0x70ee29c76b984c26e6f5f10ab6ec8f8a1b156600",
@@ -296282,7 +296262,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x853d7133c2674fc924511dd913c5a0a291822515",
@@ -296447,7 +296427,7 @@
    "coingecko_id": "grow-2",
    "decimals": 18,
    "name": "Grow",
-   "shortcut": "GROW"
+   "shortcut": "$GROW"
   },
   {
    "address": "0xc25714e79b694eee7e8e8d21dae332a797d28ac0",
@@ -296988,7 +296968,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x30e85a5c9525ad9a7a0fa5c74df4baf0b01ad241",
@@ -297269,10 +297249,9 @@
    "chain": "Merlin-Mainnet",
    "chain_id": 4200,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0x32a4b8b10222f85301874837f27f4c416117b811",
@@ -297280,8 +297259,8 @@
    "chain_id": 4200,
    "coingecko_id": "bridged-dog-go-to-the-moon",
    "decimals": 5,
-   "name": "Bridged DOG GO TO THE MOON  Merlin Chai",
-   "shortcut": "DOGGOTOTHEMOON"
+   "name": "Bridged DOG•GO•TO•THE•MOON (Merlin Chain)",
+   "shortcut": "DOG•GO•TO•THE•MOON"
   },
   {
    "address": "0x41d9036454be47d3745a823c4aacd0e29cfb0f71",
@@ -301348,10 +301327,9 @@
    "chain": "mantle",
    "chain_id": 5000,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0x201eba5cc46d216ce6dc03f6a759e8e766e956ae",
@@ -301699,7 +301677,7 @@
    "coingecko_id": "fbomb",
    "decimals": 18,
    "name": "Fantom Bomb",
-   "shortcut": "BOMB"
+   "shortcut": "FBOMB"
   },
   {
    "address": "0x766b0cd6ed6d90b5d49d2c36a3761e9728501ba9",
@@ -302498,13 +302476,12 @@
   },
   {
    "address": "0xe3047710ef6cb36bcf1e58145529778ea7cb5598",
-   "chain": "mantrachain",
+   "chain": "mantra",
    "chain_id": 5888,
-   "coingecko_id": "wrapped-om",
+   "coingecko_id": "wrapped-mantra",
    "decimals": 18,
-   "deleted": true,
-   "name": "Wrapped OM",
-   "shortcut": "WOM"
+   "name": "Wrapped MANTRA",
+   "shortcut": "WMANTRA"
   },
   {
    "address": "0x0829f361a05d993d5ceb035ca6df3446b060970b",
@@ -302513,7 +302490,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x0cacf669f8446beca826913a3c6b96acd4b02a97",
@@ -302844,7 +302821,7 @@
    "coingecko_id": "fbomb",
    "decimals": 18,
    "name": "Fantom Bomb",
-   "shortcut": "BOMB"
+   "shortcut": "FBOMB"
   },
   {
    "address": "0x80a16016cc4a2e6a2caca8a4a498b1699ff0f844",
@@ -303182,7 +303159,7 @@
    "coingecko_id": "security-token-offering",
    "decimals": 18,
    "name": "STO Operating System Token",
-   "shortcut": "STO"
+   "shortcut": "STOOS"
   },
   {
    "address": "0x15fb4a7408f63defc599ac364d824a5044ff2ecd",
@@ -303785,7 +303762,7 @@
    "coingecko_id": "gram-ecosystem",
    "decimals": 18,
    "name": "GRAM Ecosystem",
-   "shortcut": "GRAM"
+   "shortcut": "GRAMPUS"
   },
   {
    "address": "0x8755d2e532b1559454689bf0e8964bd78b187ff6",
@@ -304243,7 +304220,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xe2a10a2e55ece8a0fdf29dd8359d694f37b8ce17",
@@ -304511,7 +304488,7 @@
    "coingecko_id": "dinari-ko",
    "decimals": 18,
    "name": "Dinari KO",
-   "shortcut": "KOD"
+   "shortcut": "KO.D"
   },
   {
    "address": "0x00096697dc24bd10423690126d91546a20ccb3f0",
@@ -304696,7 +304673,7 @@
    "coingecko_id": "dinari-mcd",
    "decimals": 18,
    "name": "Dinari MCD",
-   "shortcut": "MCDD"
+   "shortcut": "MCD.D"
   },
   {
    "address": "0x015e03a6ccef48a18ddb6cfdc3066d9443875672",
@@ -305047,7 +305024,7 @@
    "coingecko_id": "byte-2",
    "decimals": 18,
    "name": "BYTE",
-   "shortcut": "BYTE"
+   "shortcut": "$BYTE"
   },
   {
    "address": "0x03daca2c2e55b03ff1d0d81f099c8900ed7f1dab",
@@ -305083,7 +305060,7 @@
    "coingecko_id": "dinari-hut",
    "decimals": 18,
    "name": "Dinari HUT",
-   "shortcut": "HUTD"
+   "shortcut": "HUT.D"
   },
   {
    "address": "0x04055057677807d2a53d2b25a80ff3b4d932ae1a",
@@ -305153,11 +305130,10 @@
    "address": "0x04c0599ae5a44757c0af6f9ec3b93da8976c150a",
    "chain": "base",
    "chain_id": 8453,
-   "coingecko_id": "ether-fi-bridged-weeth-base",
-   "coingecko_rank": 23,
+   "coingecko_id": "wrapped-eeth",
    "decimals": 18,
-   "name": "ether fi Bridged weETH  Base ",
-   "shortcut": "WEETHBASE"
+   "name": "Wrapped eETH",
+   "shortcut": "WEETH"
   },
   {
    "address": "0x04cafd53ecfa6f6a9168de3d6d2b837d04a51b07",
@@ -305239,8 +305215,8 @@
    "chain_id": 8453,
    "coingecko_id": "laika-4",
    "decimals": 18,
-   "name": "La ka",
-   "shortcut": "LAKA"
+   "name": "Laïka",
+   "shortcut": "LAÏKA"
   },
   {
    "address": "0x05af98aebec91aef2bd893614a2c333c58855012",
@@ -305435,7 +305411,7 @@
    "coingecko_id": "dinari-eem",
    "decimals": 18,
    "name": "Dinari EEM",
-   "shortcut": "EEMD"
+   "shortcut": "EEM.D"
   },
   {
    "address": "0x0711ed8b4d1eb1a935cdcc376a205c7dca584457",
@@ -306202,7 +306178,7 @@
    "coingecko_id": "dinari-hood",
    "decimals": 18,
    "name": "Dinari HOOD",
-   "shortcut": "HOODD"
+   "shortcut": "HOOD.D"
   },
   {
    "address": "0x0ceac003b0d2479bebec9f4b2ebad0a803759bbf",
@@ -306279,7 +306255,7 @@
    "coingecko_id": "dinari-slx",
    "decimals": 18,
    "name": "Dinari SLX",
-   "shortcut": "SLXD"
+   "shortcut": "SLX.D"
   },
   {
    "address": "0x0d91ebb16291873a0c67158f578ec249f4321b49",
@@ -306315,7 +306291,7 @@
    "coingecko_id": "dinari-vxx",
    "decimals": 18,
    "name": "Dinari VXX",
-   "shortcut": "VXXD"
+   "shortcut": "VXX.D"
   },
   {
    "address": "0x0dc28efba8c6e0c14fa7391636b8bec86c4c83d6",
@@ -306371,7 +306347,7 @@
    "coingecko_id": "primoai",
    "decimals": 18,
    "name": "PrimoAI",
-   "shortcut": "PRIMO"
+   "shortcut": "$PRIMO"
   },
   {
    "address": "0x0e6214f42992683a9177ce65d022f163d7bbd1d2",
@@ -306462,7 +306438,7 @@
    "coingecko_id": "dinari-avgo",
    "decimals": 18,
    "name": "Dinari AVGO",
-   "shortcut": "AVGOD"
+   "shortcut": "AVGO.D"
   },
   {
    "address": "0x0f76d32cdccdcbd602a55af23eaf58fd1ee17245",
@@ -306729,7 +306705,7 @@
    "coingecko_id": "dinari-ita",
    "decimals": 18,
    "name": "Dinari ITA",
-   "shortcut": "ITAD"
+   "shortcut": "ITA.D"
   },
   {
    "address": "0x1185cb5122edad199bdbc0cbd7a0457e448f23c7",
@@ -307085,7 +307061,7 @@
    "coingecko_id": "cool-mustache",
    "decimals": 18,
    "name": "Cool Mustache",
-   "shortcut": "MUST"
+   "shortcut": "$MUST"
   },
   {
    "address": "0x14e18043a68530acb5306f603109f7dc91b09b07",
@@ -307260,8 +307236,8 @@
    "chain_id": 8453,
    "coingecko_id": "defi-ssi",
    "decimals": 8,
-   "name": "DEFI ssi",
-   "shortcut": "DEFISSI"
+   "name": "DEFI.ssi",
+   "shortcut": "DEFI.SSI"
   },
   {
    "address": "0x168fc40dba90a07e821abbdbbc1c6d2303e51eda",
@@ -307474,7 +307450,7 @@
    "coingecko_id": "a-l-p-h-a",
    "decimals": 18,
    "name": "A L P H A",
-   "shortcut": "ALPHA"
+   "shortcut": "$ALPHA"
   },
   {
    "address": "0x18a8bd1fe17a1bb9ffb39ecd83e9489cfd17a022",
@@ -307740,7 +307716,7 @@
    "coingecko_id": "purp",
    "decimals": 18,
    "name": "Purp",
-   "shortcut": "PURP"
+   "shortcut": "$PURP"
   },
   {
    "address": "0x1b2c141479757b8643a519be4692904088d860b2",
@@ -307860,7 +307836,7 @@
    "coingecko_id": "dinari-spwo",
    "decimals": 18,
    "name": "Dinari SPWO",
-   "shortcut": "SPWOD"
+   "shortcut": "SPWO.D"
   },
   {
    "address": "0x1bcb7eadea5ac43733bd8fa1f65798333cc51313",
@@ -308565,7 +308541,7 @@
    "coingecko_id": "blckmrkt",
    "decimals": 18,
    "name": "BLCKMRKT",
-   "shortcut": "MRKT"
+   "shortcut": "$MRKT"
   },
   {
    "address": "0x214419f6fdd2b23bf6a32f33cf95186d188b784b",
@@ -309009,7 +308985,7 @@
    "coingecko_id": "dinari-ibit",
    "decimals": 18,
    "name": "Dinari IBIT",
-   "shortcut": "IBITD"
+   "shortcut": "IBIT.D"
   },
   {
    "address": "0x252d223d0550bc6c137b003d90bc74f5341a2818",
@@ -309075,7 +309051,7 @@
    "coingecko_id": "dinari-cvx",
    "decimals": 18,
    "name": "Dinari CVX",
-   "shortcut": "CVXD"
+   "shortcut": "CVX.D"
   },
   {
    "address": "0x25e0a7767d03461eaf88b47cd9853722fe05dfd3",
@@ -309712,7 +309688,7 @@
    "coingecko_id": "dinari-sivr",
    "decimals": 18,
    "name": "Dinari SIVR",
-   "shortcut": "SIVRD"
+   "shortcut": "SIVR.D"
   },
   {
    "address": "0x2bb9282552228734cca01a1671605122258e276a",
@@ -309721,7 +309697,7 @@
    "coingecko_id": "dinari-gme",
    "decimals": 18,
    "name": "Dinari GME",
-   "shortcut": "GMED"
+   "shortcut": "GME.D"
   },
   {
    "address": "0x2bd8880e7424dfb94597429de7253de73694de01",
@@ -309980,7 +309956,7 @@
    "coingecko_id": "productclank",
    "decimals": 18,
    "name": "ProductClank",
-   "shortcut": "PRO"
+   "shortcut": "$PRO"
   },
   {
    "address": "0x2e8f83541ab39c8451b3e557a19be531a59ddecc",
@@ -310305,7 +310281,7 @@
    "coingecko_id": "dinari-pall",
    "decimals": 18,
    "name": "Dinari PALL",
-   "shortcut": "PALLD"
+   "shortcut": "PALL.D"
   },
   {
    "address": "0x314d7f9e2f55b430ef656fbb98a7635d43a2261e",
@@ -310453,7 +310429,7 @@
    "coingecko_id": "dinari-arkx",
    "decimals": 18,
    "name": "Dinari ARKX",
-   "shortcut": "ARKXD"
+   "shortcut": "ARKX.D"
   },
   {
    "address": "0x322cb1e4ba5e5ca4b08e01652264397421aa7d5a",
@@ -310703,7 +310679,7 @@
    "coingecko_id": "dinari-csco",
    "decimals": 18,
    "name": "Dinari CSCO",
-   "shortcut": "CSCOD"
+   "shortcut": "CSCO.D"
   },
   {
    "address": "0x3421cc14f0e3822cf3b73c3a4bec2a1023b8d9cf",
@@ -310814,7 +310790,7 @@
    "coingecko_id": "ghffb47yii2rteeyy10op",
    "decimals": 18,
    "name": "ghffb47yii2rteeyy10op",
-   "shortcut": "GHFFB47YII2RTEEYY10"
+   "shortcut": "GHFFB47YII2RTEEYY10O"
   },
   {
    "address": "0x356177b452dbae18b5a4b43b7b5324bfbae235be",
@@ -310896,7 +310872,7 @@
    "coingecko_id": "weede",
    "decimals": 18,
    "name": "WeeDE",
-   "shortcut": "WEEDE"
+   "shortcut": "$WEEDE"
   },
   {
    "address": "0x35e5db674d8e93a03d814fa0ada70731efe8a4b9",
@@ -310932,7 +310908,7 @@
    "coingecko_id": "rocky-on-base",
    "decimals": 18,
    "name": "ROCKY",
-   "shortcut": "ROCKY"
+   "shortcut": "$ROCKY"
   },
   {
    "address": "0x3639e6f4c224ebd1bf6373c3d97917d33e0492bb",
@@ -311022,8 +310998,8 @@
    "chain_id": 8453,
    "coingecko_id": "krwt",
    "decimals": 18,
-   "name": "KRWT",
-   "shortcut": "KRWT"
+   "name": "KRWQ",
+   "shortcut": "KRWQ"
   },
   {
    "address": "0x3722264ab15a1dfce5a5af89e6547f7949a8aba3",
@@ -311188,7 +311164,7 @@
    "coingecko_id": "pill",
    "decimals": 18,
    "name": "Pill",
-   "shortcut": "PILL"
+   "shortcut": "$PILL"
   },
   {
    "address": "0x3898257dd2cd6d2a3b6e3435f73568a725262b9b",
@@ -311465,7 +311441,7 @@
    "coingecko_id": "blue-apu",
    "decimals": 18,
    "name": "Blue Apu",
-   "shortcut": "BAPU"
+   "shortcut": "$BAPU"
   },
   {
    "address": "0x3abd07d37610f9414d88aea9fa94adcacadf4082",
@@ -311483,7 +311459,7 @@
    "coingecko_id": "dinari-ufo",
    "decimals": 18,
    "name": "Dinari UFO",
-   "shortcut": "UFOD"
+   "shortcut": "UFO.D"
   },
   {
    "address": "0x3ad8539cf0e010c77d276fb197061ac613511cae",
@@ -311805,7 +311781,7 @@
    "coingecko_id": "turbousd-unstablecoin",
    "decimals": 18,
    "name": "TurboUSD Unstablecoin",
-   "shortcut": "USD"
+   "shortcut": "₸USD"
   },
   {
    "address": "0x3d63825b0d8669307366e6c8202f656b9e91d368",
@@ -312146,7 +312122,7 @@
    "coingecko_id": "dinari-bac",
    "decimals": 18,
    "name": "Dinari BAC",
-   "shortcut": "BACD"
+   "shortcut": "BAC.D"
   },
   {
    "address": "0x409e79c96389c00fb5a46586ace2615c6d09c76e",
@@ -312496,7 +312472,7 @@
    "coingecko_id": "dinari-pg",
    "decimals": 18,
    "name": "Dinari PG",
-   "shortcut": "PGD"
+   "shortcut": "PG.D"
   },
   {
    "address": "0x4381bc7d5640bf514a508e2732ec522c650c414c",
@@ -312738,7 +312714,7 @@
    "coingecko_id": "dinari-blk",
    "decimals": 18,
    "name": "Dinari BLK",
-   "shortcut": "BLKD"
+   "shortcut": "BLK.D"
   },
   {
    "address": "0x45b9a03a05f86088cd1a00874a05dda2c6915ba3",
@@ -313068,7 +313044,7 @@
    "coingecko_id": "dinari-yum",
    "decimals": 18,
    "name": "Dinari YUM",
-   "shortcut": "YUMD"
+   "shortcut": "YUM.D"
   },
   {
    "address": "0x48acdfacc520cd50da3a5824e794daac5677363e",
@@ -313461,7 +313437,7 @@
    "coingecko_id": "dinari-arkb",
    "decimals": 18,
    "name": "Dinari ARKB",
-   "shortcut": "ARKBD"
+   "shortcut": "ARKB.D"
   },
   {
    "address": "0x4bf3ccf7da80751c0db8272ed54e2932900563a2",
@@ -313582,7 +313558,7 @@
    "coingecko_id": "boysclubbase",
    "decimals": 9,
    "name": "Boysclubbase",
-   "shortcut": "BOYS"
+   "shortcut": "$BOYS"
   },
   {
    "address": "0x4d5cb527bd9d87c727b6dbe01114adc086e646a2",
@@ -313931,7 +313907,7 @@
    "coingecko_id": "sympson-ai",
    "decimals": 18,
    "name": "Sympson by Virtuals",
-   "shortcut": "SYMP"
+   "shortcut": "$SYMP"
   },
   {
    "address": "0x505ac2eb354c8b7ae1a96c27be1df4395a6dcc19",
@@ -314161,7 +314137,7 @@
    "coingecko_id": "dinari-vwo",
    "decimals": 18,
    "name": "Dinari VWO",
-   "shortcut": "VWOD"
+   "shortcut": "VWO.D"
   },
   {
    "address": "0x519d3443cacc61bd844546edaea48e5502021802",
@@ -314189,7 +314165,7 @@
    "coingecko_id": "iagent-protocol",
    "decimals": 18,
    "name": "iAgent Protocol",
-   "shortcut": "AGNT"
+   "shortcut": "$AGNT"
   },
   {
    "address": "0x524d524b4c9366be706d3a90dcf70076ca037ae3",
@@ -314207,7 +314183,7 @@
    "coingecko_id": "dinari-tqqq",
    "decimals": 18,
    "name": "Dinari TQQQ",
-   "shortcut": "TQQQD"
+   "shortcut": "TQQQ.D"
   },
   {
    "address": "0x526728dbc96689597f85ae4cd716d4f7fccbae9d",
@@ -315031,7 +315007,7 @@
    "coingecko_id": "department-of-government-efficiency-5",
    "decimals": 18,
    "name": "Department Of Government Efficiency",
-   "shortcut": "DOGE"
+   "shortcut": "D.O.G.E"
   },
   {
    "address": "0x59a32d4b86ffcce0a7f388d6d858c6a0371915ab",
@@ -315114,7 +315090,7 @@
    "coingecko_id": "sharbi",
    "decimals": 18,
    "name": "Sharbi",
-   "shortcut": "SHARBI"
+   "shortcut": "$SHARBI"
   },
   {
    "address": "0x5a76a56ad937335168b30df3aa1327277421c6ae",
@@ -315142,7 +315118,7 @@
    "coingecko_id": "dinari-ethe",
    "decimals": 18,
    "name": "Dinari ETHE",
-   "shortcut": "ETHED"
+   "shortcut": "ETHE.D"
   },
   {
    "address": "0x5ab3d4c385b400f3abb49e80de2faf6a88a7b691",
@@ -315235,8 +315211,8 @@
    "chain_id": 8453,
    "coingecko_id": "jumpbox-eth",
    "decimals": 18,
-   "name": "JUMPBOX ETH",
-   "shortcut": "JUMPBOXETH"
+   "name": "JUMPBOX.ETH",
+   "shortcut": "JUMPBOX.ETH"
   },
   {
    "address": "0x5ba8d32579a4497c12d327289a103c3ad5b64eb1",
@@ -315506,7 +315482,7 @@
    "coingecko_id": "dinari-bitb",
    "decimals": 18,
    "name": "Dinari BITB",
-   "shortcut": "BITBD"
+   "shortcut": "BITB.D"
   },
   {
    "address": "0x5eb7edfcad75415abb54c345a4ea6ec390f77207",
@@ -316085,7 +316061,7 @@
    "coingecko_id": "dinari-sony",
    "decimals": 18,
    "name": "Dinari SONY",
-   "shortcut": "SONYD"
+   "shortcut": "SONY.D"
   },
   {
    "address": "0x62f40e8c13f6c0201c789060191c72f7281a93de",
@@ -316124,7 +316100,7 @@
    "coingecko_id": "dinari-arkk",
    "decimals": 18,
    "name": "Dinari ARKK",
-   "shortcut": "ARKKD"
+   "shortcut": "ARKK.D"
   },
   {
    "address": "0x63228048121877a9e0f52020834a135074e8207c",
@@ -316591,7 +316567,7 @@
    "coingecko_id": "dinari-v",
    "decimals": 18,
    "name": "Dinari V",
-   "shortcut": "VD"
+   "shortcut": "V.D"
   },
   {
    "address": "0x67446a5746b5f1ce62d78f40f8c83dba03ae3e15",
@@ -316747,7 +316723,7 @@
    "coingecko_id": "dinari-jpm",
    "decimals": 18,
    "name": "Dinari JPM",
-   "shortcut": "JPMD"
+   "shortcut": "JPM.D"
   },
   {
    "address": "0x6888c2409d48222e2cb738eb5a805a522a96ce80",
@@ -316892,7 +316868,7 @@
    "coingecko_id": "dinari-btco",
    "decimals": 18,
    "name": "Dinari BTCO",
-   "shortcut": "BTCOD"
+   "shortcut": "BTCO.D"
   },
   {
    "address": "0x69da011296a3a68d33bcfbca078e0be3b7d77b07",
@@ -316919,7 +316895,7 @@
    "coingecko_id": "dinari-spus",
    "decimals": 18,
    "name": "Dinari SPUS",
-   "shortcut": "SPUSD"
+   "shortcut": "SPUS.D"
   },
   {
    "address": "0x6a27cd26a373530835b9fe7ac472b3e080070f64",
@@ -317418,7 +317394,7 @@
    "coingecko_id": "esab",
    "decimals": 18,
    "name": "ESAB",
-   "shortcut": "ESAB"
+   "shortcut": "$ESAB"
   },
   {
    "address": "0x6ffa94c13a938d39159cf8847ba0e2ff5071a25c",
@@ -317527,7 +317503,7 @@
    "coingecko_id": "dinari-cost",
    "decimals": 18,
    "name": "Dinari COST",
-   "shortcut": "COSTD"
+   "shortcut": "COST.D"
   },
   {
    "address": "0x710eec215b3bb653d42fc6e70e0531ea13f51a7a",
@@ -317935,7 +317911,7 @@
    "coingecko_id": "fbomb",
    "decimals": 18,
    "name": "Fantom Bomb",
-   "shortcut": "BOMB"
+   "shortcut": "FBOMB"
   },
   {
    "address": "0x74ff3cbf86f95fea386f79633d7bc4460d415f34",
@@ -318408,7 +318384,7 @@
    "coingecko_id": "dinari-xom",
    "decimals": 18,
    "name": "Dinari XOM",
-   "shortcut": "XOMD"
+   "shortcut": "XOM.D"
   },
   {
    "address": "0x78c31580c97101694c70022c83d570150c11e935",
@@ -318696,7 +318672,7 @@
    "coingecko_id": "cosmic-on-base",
    "decimals": 18,
    "name": "COSMIC on Base",
-   "shortcut": "COSMIC"
+   "shortcut": "$COSMIC"
   },
   {
    "address": "0x7c3af051bfa356b8eaee35c273a21ad9223ee994",
@@ -318826,7 +318802,7 @@
    "coingecko_id": "dinari-hymb",
    "decimals": 18,
    "name": "Dinari HYMB",
-   "shortcut": "HYMBD"
+   "shortcut": "HYMB.D"
   },
   {
    "address": "0x7d49a065d17d6d4a55dc13649901fdbb98b2afba",
@@ -318853,7 +318829,7 @@
    "coingecko_id": "solace-2",
    "decimals": 18,
    "name": "Solace",
-   "shortcut": "SOLACE"
+   "shortcut": "$SOLACE"
   },
   {
    "address": "0x7d89e05c0b93b24b5cb23a073e60d008fed1acf9",
@@ -319674,8 +319650,8 @@
    "chain_id": 8453,
    "coingecko_id": "glue",
    "decimals": 18,
-   "name": "Base Bridged GLUE  Base ",
-   "shortcut": "GLUE"
+   "name": "Wrapped Glue",
+   "shortcut": "WGLUE"
   },
   {
    "address": "0x842d4a6d10e41eaae03b4df87e575be53b296fc6",
@@ -319684,7 +319660,7 @@
    "coingecko_id": "dinari-hodl",
    "decimals": 18,
    "name": "Dinari HODL",
-   "shortcut": "HODLD"
+   "shortcut": "HODL.D"
   },
   {
    "address": "0x844c03892863b0e3e00e805e41b34527044d5c72",
@@ -319693,7 +319669,7 @@
    "coingecko_id": "panana",
    "decimals": 18,
    "name": "Panana",
-   "shortcut": "PANANA"
+   "shortcut": "$PANANA"
   },
   {
    "address": "0x845f4fbf04d03958be38ff91e43dfb5d40dd8241",
@@ -319804,7 +319780,7 @@
    "coingecko_id": "gram-ecosystem",
    "decimals": 18,
    "name": "GRAM Ecosystem",
-   "shortcut": "GRAM"
+   "shortcut": "GRAMPUS"
   },
   {
    "address": "0x858c50c3af1913b0e849afdb74617388a1a5340d",
@@ -319960,8 +319936,8 @@
    "chain_id": 8453,
    "coingecko_id": "brett-2-0",
    "decimals": 18,
-   "name": "Brett 2 0",
-   "shortcut": "BRETT20"
+   "name": "Brett 2.0",
+   "shortcut": "BRETT2.0"
   },
   {
    "address": "0x8853f0c059c27527d33d02378e5e4f6d5afb574a",
@@ -320035,7 +320011,7 @@
    "coingecko_id": "froggi",
    "decimals": 9,
    "name": "Froggi",
-   "shortcut": "FROGGI"
+   "shortcut": "$FROGGI"
   },
   {
    "address": "0x88a7fb82815348b40694c7dc1041cc95868b8314",
@@ -320279,7 +320255,7 @@
    "coingecko_id": "dinari-ba",
    "decimals": 18,
    "name": "Dinari BA",
-   "shortcut": "BAD"
+   "shortcut": "BA.D"
   },
   {
    "address": "0x8a45376fd791c29b9c5a49bc01c2f5d865a98b07",
@@ -320297,7 +320273,7 @@
    "coingecko_id": "baby-tiger",
    "decimals": 5,
    "name": "Baby Tiger",
-   "shortcut": "BBT"
+   "shortcut": "$BBT"
   },
   {
    "address": "0x8a910ea80fc09d5b5a2120521a39b67980df0bc4",
@@ -320806,7 +320782,7 @@
    "coingecko_id": "dinari-cat",
    "decimals": 18,
    "name": "Dinari CAT",
-   "shortcut": "CATD"
+   "shortcut": "CAT.D"
   },
   {
    "address": "0x90685e300a4c4532efcefe91202dfe1dfd572f47",
@@ -320871,7 +320847,7 @@
    "coingecko_id": "monky",
    "decimals": 18,
    "name": "Monky",
-   "shortcut": "MONKY"
+   "shortcut": "$MONKY"
   },
   {
    "address": "0x9126236476efba9ad8ab77855c60eb5bf37586eb",
@@ -321099,7 +321075,7 @@
    "coingecko_id": "agent-zero",
    "decimals": 18,
    "name": "Agent Zero",
-   "shortcut": "WSB"
+   "shortcut": "$WSB"
   },
   {
    "address": "0x92f344ee566459b5ba471b5a6003224c8a2d0415",
@@ -321922,7 +321898,7 @@
    "coingecko_id": "dinari-sbux",
    "decimals": 18,
    "name": "Dinari SBUX",
-   "shortcut": "SBUXD"
+   "shortcut": "SBUX.D"
   },
   {
    "address": "0x9b5037b68c6ed686a1f433e5eef9513bb1801b07",
@@ -322253,8 +322229,8 @@
    "chain_id": 8453,
    "coingecko_id": "mag7-ssi",
    "decimals": 8,
-   "name": "MAG7 ssi",
-   "shortcut": "MAG7SSI"
+   "name": "MAG7.ssi",
+   "shortcut": "MAG7.SSI"
   },
   {
    "address": "0x9e81f6495ba29a6b4d48bddd042c0598fa8abc9f",
@@ -322366,7 +322342,7 @@
    "coingecko_id": "goodle",
    "decimals": 18,
    "name": "Goodle",
-   "shortcut": "GOODLE"
+   "shortcut": "$GOODLE"
   },
   {
    "address": "0x9f3bb51d5c14aaf53794fe5780c085967dacaf2d",
@@ -322430,7 +322406,7 @@
    "coingecko_id": "dinari-spsk",
    "decimals": 18,
    "name": "Dinari SPSK",
-   "shortcut": "SPSKD"
+   "shortcut": "SPSK.D"
   },
   {
    "address": "0x9ffc9aa493e1ae0faadb13a7734038bfc390143d",
@@ -322560,7 +322536,7 @@
    "coingecko_id": "unicorn-meat",
    "decimals": 3,
    "name": "Unicorn Meat",
-   "shortcut": "W"
+   "shortcut": "W🍖"
   },
   {
    "address": "0xa100000000000d6e18bc155f425685e4badfe11c",
@@ -322633,7 +322609,7 @@
    "coingecko_id": "dinari-rddt",
    "decimals": 18,
    "name": "Dinari RDDT",
-   "shortcut": "RDDTD"
+   "shortcut": "RDDT.D"
   },
   {
    "address": "0xa1832f7f4e534ae557f9b5ab76de54b1873e498b",
@@ -322745,7 +322721,7 @@
    "coingecko_id": "dinari-rklb",
    "decimals": 18,
    "name": "Dinari RKLB",
-   "shortcut": "RKLBD"
+   "shortcut": "RKLB.D"
   },
   {
    "address": "0xa26a4611b8313bbb25ccb1a9e227ecc536a2f8f7",
@@ -322941,7 +322917,7 @@
    "coingecko_id": "dinari-mara",
    "decimals": 18,
    "name": "Dinari MARA",
-   "shortcut": "MARAD"
+   "shortcut": "MARA.D"
   },
   {
    "address": "0xa4a2e2ca3fbfe21aed83471d28b6f65a233c6e00",
@@ -323161,7 +323137,7 @@
    "coingecko_id": "dinari-boxx",
    "decimals": 18,
    "name": "Dinari BOXX",
-   "shortcut": "BOXXD"
+   "shortcut": "BOXX.D"
   },
   {
    "address": "0xa7152fa3b1fa9ec858e959164758a66f1ecf33f7",
@@ -323439,7 +323415,7 @@
    "coingecko_id": "dinari-azn",
    "decimals": 18,
    "name": "Dinari AZN",
-   "shortcut": "AZND"
+   "shortcut": "AZN.D"
   },
   {
    "address": "0xa9e23871156718c1d55e90dad1c4ea8a33480dfd",
@@ -323541,7 +323517,7 @@
    "coingecko_id": "legend-3",
    "decimals": 18,
    "name": "Legend",
-   "shortcut": "LEGEND"
+   "shortcut": "$LEGEND"
   },
   {
    "address": "0xaac78d1219c08aecc8e37e03858fe885f5ef1799",
@@ -323650,7 +323626,7 @@
    "coingecko_id": "dinari-jnj",
    "decimals": 18,
    "name": "Dinari JNJ",
-   "shortcut": "JNJD"
+   "shortcut": "JNJ.D"
   },
   {
    "address": "0xab964f7b7b6391bd6c4e8512ef00d01f255d9c0d",
@@ -323741,7 +323717,7 @@
    "coingecko_id": "dinari-defi",
    "decimals": 18,
    "name": "Dinari DEFI",
-   "shortcut": "DEFID"
+   "shortcut": "DEFI.D"
   },
   {
    "address": "0xac27fa800955849d6d17cc8952ba9dd6eaa66187",
@@ -323860,7 +323836,7 @@
    "coingecko_id": "dinari-walrf",
    "decimals": 18,
    "name": "Dinari WALRF",
-   "shortcut": "WALRFD"
+   "shortcut": "WALRF.D"
   },
   {
    "address": "0xacb31d2ee40e81720c6374097d2e1a9a8e3b7806",
@@ -324233,7 +324209,7 @@
    "coingecko_id": "dinari-spte",
    "decimals": 18,
    "name": "Dinari SPTE",
-   "shortcut": "SPTED"
+   "shortcut": "SPTE.D"
   },
   {
    "address": "0xb01cf1be9568f09449382a47cd5bf58e2a9d5922",
@@ -324288,7 +324264,7 @@
    "coingecko_id": "dinari-snow",
    "decimals": 18,
    "name": "Dinari SNOW",
-   "shortcut": "SNOWD"
+   "shortcut": "SNOW.D"
   },
   {
    "address": "0xb0e87796380172f911214208df966a84cceaaf82",
@@ -324535,7 +324511,7 @@
    "coingecko_id": "dinari-nly",
    "decimals": 18,
    "name": "Dinari NLY",
-   "shortcut": "NLYD"
+   "shortcut": "NLY.D"
   },
   {
    "address": "0xb33acd55ec34c22dc3c0f75be36e483d9a420314",
@@ -324800,7 +324776,7 @@
    "coingecko_id": "dinari-rblx",
    "decimals": 18,
    "name": "Dinari RBLX",
-   "shortcut": "RBLXD"
+   "shortcut": "RBLX.D"
   },
   {
    "address": "0xb55fcd62ed44253c45735bde6703c44100935747",
@@ -325184,7 +325160,7 @@
    "coingecko_id": "dinari-wood",
    "decimals": 18,
    "name": "Dinari WOOD",
-   "shortcut": "WOODD"
+   "shortcut": "WOOD.D"
   },
   {
    "address": "0xb933d4ff5a0e7bfe6ab7da72b5dce2259030252f",
@@ -325276,7 +325252,7 @@
    "coingecko_id": "dinari-soxl",
    "decimals": 18,
    "name": "Dinari SOXL",
-   "shortcut": "SOXLD"
+   "shortcut": "SOXL.D"
   },
   {
    "address": "0xb9c229a7aac1c67c7468baf37ef056a91d7df118",
@@ -325285,7 +325261,7 @@
    "coingecko_id": "dinari-f",
    "decimals": 18,
    "name": "Dinari F",
-   "shortcut": "FD"
+   "shortcut": "F.D"
   },
   {
    "address": "0xb9caa63e09c646c1ec79acb2158d173e64a5fed3",
@@ -325452,7 +325428,7 @@
    "coingecko_id": "dinari-ero",
    "decimals": 18,
    "name": "Dinari ERO",
-   "shortcut": "EROD"
+   "shortcut": "ERO.D"
   },
   {
    "address": "0xba9d1ac7c99d95b794e3df3e54fc58c2cfffbb07",
@@ -325770,7 +325746,7 @@
    "coingecko_id": "dinari-riot",
    "decimals": 18,
    "name": "Dinari RIOT",
-   "shortcut": "RIOTD"
+   "shortcut": "RIOT.D"
   },
   {
    "address": "0xbd072aba9cad9d573a5b3498f79b117dbefdc7f4",
@@ -325973,7 +325949,7 @@
    "coingecko_id": "universal-operating-system-2",
    "decimals": 18,
    "name": "Universal Operating System",
-   "shortcut": "UOS"
+   "shortcut": "$UOS"
   },
   {
    "address": "0xbe8dfc6661fafaa4445eb952586c0d347eacf048",
@@ -326535,10 +326511,9 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0xc2704323a9f6b41b81a735cddd2ccb6273da1197",
@@ -326683,7 +326658,7 @@
    "coingecko_id": "dinari-brrr",
    "decimals": 18,
    "name": "Dinari BRRR",
-   "shortcut": "BRRRD"
+   "shortcut": "BRRR.D"
   },
   {
    "address": "0xc3ce78b037dda1b966d31ec7979d3f3a38571a8e",
@@ -327013,7 +326988,7 @@
    "coingecko_id": "dinari-weat",
    "decimals": 18,
    "name": "Dinari WEAT",
-   "shortcut": "WEATD"
+   "shortcut": "WEAT.D"
   },
   {
    "address": "0xc702b80a1bebac118cab22ce6f2978ef59563b3f",
@@ -327323,7 +327298,7 @@
    "coingecko_id": "dinari-fbtc",
    "decimals": 18,
    "name": "Dinari FBTC",
-   "shortcut": "FBTCD"
+   "shortcut": "FBTC.D"
   },
   {
    "address": "0xca416d6d3c2b3a8a2c48419b53dd611420ffa776",
@@ -327635,7 +327610,7 @@
    "coingecko_id": "dinari-pho",
    "decimals": 18,
    "name": "Dinari PHO",
-   "shortcut": "PHOD"
+   "shortcut": "PHO.D"
   },
   {
    "address": "0xcc6ce98579ba909344bb765f0c4f45964d5ce1d2",
@@ -327707,7 +327682,7 @@
    "coingecko_id": "basehoundbot-by-virtuals",
    "decimals": 18,
    "name": "BaseHoundBot by Virtuals",
-   "shortcut": "HOUND"
+   "shortcut": "$HOUND"
   },
   {
    "address": "0xccf66470a962464cff146b34a7cc8c235b068b07",
@@ -327930,7 +327905,7 @@
    "coingecko_id": "billy-bets-by-virtuals-2",
    "decimals": 18,
    "name": "Billy Bets by Virtuals",
-   "shortcut": "BILLY"
+   "shortcut": "$BILLY"
   },
   {
    "address": "0xcff4429d8a323dd6b64b79a4460bec6d531fcfa8",
@@ -327948,7 +327923,7 @@
    "coingecko_id": "dinari-meli",
    "decimals": 18,
    "name": "Dinari MELI",
-   "shortcut": "MELID"
+   "shortcut": "MELI.D"
   },
   {
    "address": "0xd007c4c900d1df6caea2a4122f3d551d7dfe08b0",
@@ -327977,7 +327952,7 @@
    "coingecko_id": "dinari-dal",
    "decimals": 18,
    "name": "Dinari DAL",
-   "shortcut": "DALD"
+   "shortcut": "DAL.D"
   },
   {
    "address": "0xd022723a5005f53c95b51d1822f42b1a3366ee4d",
@@ -328070,7 +328045,7 @@
    "coingecko_id": "dinari-gbtc",
    "decimals": 18,
    "name": "Dinari GBTC",
-   "shortcut": "GBTCD"
+   "shortcut": "GBTC.D"
   },
   {
    "address": "0xd11a584de5fa50a4ee560c48ab44dbb31823d9bc",
@@ -328126,7 +328101,7 @@
    "coingecko_id": "dinari-ushy",
    "decimals": 18,
    "name": "Dinari USHY",
-   "shortcut": "USHYD"
+   "shortcut": "USHY.D"
   },
   {
    "address": "0xd1a7387d3ded8cb611a202fc1a9c9c74c23f2ba3",
@@ -328462,7 +328437,7 @@
    "coingecko_id": "dinari-ezbc",
    "decimals": 18,
    "name": "Dinari EZBC",
-   "shortcut": "EZBCD"
+   "shortcut": "EZBC.D"
   },
   {
    "address": "0xd461a534af11ef58e9f9add73129a1f45485a8dc",
@@ -328646,7 +328621,7 @@
    "coingecko_id": "dinari-ccl",
    "decimals": 18,
    "name": "Dinari CCL",
-   "shortcut": "CCLD"
+   "shortcut": "CCL.D"
   },
   {
    "address": "0xd5eab2d9e01442bfca720f6f15451555dd003f40",
@@ -328655,7 +328630,7 @@
    "coingecko_id": "dinari-sq",
    "decimals": 18,
    "name": "Dinari SQ",
-   "shortcut": "SQD"
+   "shortcut": "SQ.D"
   },
   {
    "address": "0xd600e748c17ca237fcb5967fa13d688aff17be78",
@@ -328810,8 +328785,8 @@
    "chain_id": 8453,
    "coingecko_id": "solidus-aitech",
    "decimals": 18,
-   "name": "Solidus Ai Tech",
-   "shortcut": "AITECH"
+   "name": "AITECH Cloud Network",
+   "shortcut": "ACN"
   },
   {
    "address": "0xd722e55c1d9d9fa0021a5215cbb904b92b3dc5d4",
@@ -328948,7 +328923,7 @@
    "coingecko_id": "hokkaido-inu",
    "decimals": 9,
    "name": "Hokkaidu Inu",
-   "shortcut": "HOKK"
+   "shortcut": "$HOKK"
   },
   {
    "address": "0xd85c31854c2b0fb40aaa9e2fc4da23c21f829d46",
@@ -329464,8 +329439,8 @@
    "chain_id": 8453,
    "coingecko_id": "meme-ssi",
    "decimals": 8,
-   "name": "MEME ssi",
-   "shortcut": "MEMESSI"
+   "name": "MEME.ssi",
+   "shortcut": "MEME.SSI"
   },
   {
    "address": "0xdd468a1ddc392dcdbef6db6e34e89aa338f9f186",
@@ -329880,7 +329855,7 @@
    "coingecko_id": "dinari-btcw",
    "decimals": 18,
    "name": "Dinari BTCW",
-   "shortcut": "BTCWD"
+   "shortcut": "BTCW.D"
   },
   {
    "address": "0xe13e40e8fdb815fbc4a1e2133ab5588c33bac45d",
@@ -330393,7 +330368,7 @@
    "coingecko_id": "dinari-iau",
    "decimals": 18,
    "name": "Dinari IAU",
-   "shortcut": "IAUD"
+   "shortcut": "IAU.D"
   },
   {
    "address": "0xe6f47303032a09c8c0f8ebb713c00e6ed345e8c3",
@@ -330614,7 +330589,7 @@
    "coingecko_id": "01111010011110000110001001110100-token",
    "decimals": 18,
    "name": "01111010011110000110001001110100",
-   "shortcut": "0111101001111000011"
+   "shortcut": "01111010011110000110"
   },
   {
    "address": "0xe9d139df6212fde346ec650e83039f322018f60d",
@@ -330762,7 +330737,7 @@
    "coingecko_id": "project-nostradamus",
    "decimals": 18,
    "name": "Project Nostradamus",
-   "shortcut": "AMEN"
+   "shortcut": "$AMEN"
   },
   {
    "address": "0xeb560289067c375e4897552dcda7e3d203bffbe2",
@@ -330862,7 +330837,7 @@
    "coingecko_id": "boo-2",
    "decimals": 18,
    "name": "BOO",
-   "shortcut": "BOO"
+   "shortcut": "$BOO"
   },
   {
    "address": "0xec313c9d476c6cca6839ad60266302eac6e2e9fa",
@@ -331498,7 +331473,7 @@
    "coingecko_id": "dinari-adbe",
    "decimals": 18,
    "name": "Dinari ADBE",
-   "shortcut": "ADBED"
+   "shortcut": "ADBE.D"
   },
   {
    "address": "0xf2393eeadd67bf68a60f39992113775966f34e1e",
@@ -331778,7 +331753,7 @@
    "coingecko_id": "dinari-gld",
    "decimals": 18,
    "name": "Dinari GLD",
-   "shortcut": "GLDD"
+   "shortcut": "GLD.D"
   },
   {
    "address": "0xf404bc113f4fc7c2447cb2556dcf5a56e29fa2dd",
@@ -332101,7 +332076,7 @@
    "coingecko_id": "dinari-tjx",
    "decimals": 18,
    "name": "Dinari TJX",
-   "shortcut": "TJXD"
+   "shortcut": "TJX.D"
   },
   {
    "address": "0xf64c15e068ade90794d8e0a8c614cafd7c9718d7",
@@ -332794,7 +332769,7 @@
    "coingecko_id": "gap-tooth-lizard",
    "decimals": 18,
    "name": "Gap Tooth Lizard",
-   "shortcut": "GAPPY"
+   "shortcut": "$GAPPY"
   },
   {
    "address": "0xfcb49c1545d1d13272467f0d94e57a9aca39725c",
@@ -332867,7 +332842,7 @@
    "coingecko_id": "blue-on-base",
    "decimals": 18,
    "name": "blue on base",
-   "shortcut": "BLUE"
+   "shortcut": "$BLUE"
   },
   {
    "address": "0xfda75f77a22b4f4b783bbbb21915ef64d149bba3",
@@ -332885,7 +332860,7 @@
    "coingecko_id": "dinari-amc",
    "decimals": 18,
    "name": "Dinari AMC",
-   "shortcut": "AMCD"
+   "shortcut": "AMC.D"
   },
   {
    "address": "0xfdc933ff4e2980d18becf48e4e030d8463a2bb07",
@@ -333379,7 +333354,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x0ce35b0d42608ca54eb7bcc8044f7087c18e7717",
@@ -333620,8 +333595,8 @@
    "chain_id": 9001,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0xe03494d0033687543a80c9b1ca7d6237f2ea8bd8",
@@ -335119,7 +335094,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xf4d9235269a96aadafc9adae454a0618ebe37949",
@@ -335255,12 +335230,10 @@
    "address": "0x211cc4dd073734da055fbf44a2b4667d5e5fe5d2",
    "chain": "mode",
    "chain_id": 34443,
-   "coingecko_id": "ethena-staked-usde-mode",
-   "coingecko_rank": 35,
+   "coingecko_id": "ethena-staked-usde",
    "decimals": 18,
-   "deleted": true,
-   "name": "Ethena Staked USDe  Mode ",
-   "shortcut": "USDE"
+   "name": "Ethena Staked USDe",
+   "shortcut": "SUSDE"
   },
   {
    "address": "0x2416092f143378750bb29b79ed961ab195cceea5",
@@ -335434,10 +335407,10 @@
    "address": "0x80eede496655fb9047dd39d9f418d5483ed600df",
    "chain": "mode",
    "chain_id": 34443,
-   "coingecko_id": "bridged-frax",
+   "coingecko_id": "frax-usd",
    "decimals": 18,
-   "name": "Bridged FRAX",
-   "shortcut": "FRAX"
+   "name": "Frax USD",
+   "shortcut": "FRXUSD"
   },
   {
    "address": "0x819d1daa794c1c46b841981b61cc978d95a17b8e",
@@ -336196,7 +336169,7 @@
    "coingecko_id": "akropolis",
    "decimals": 18,
    "name": "Kaon",
-   "shortcut": "AKRO"
+   "shortcut": "KAON"
   },
   {
    "address": "0x73a4ac88c12d66ad08c1cfc891bf47883919ba74",
@@ -336896,7 +336869,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x526e8a66e357ffeaeeec6d7be1e5ea44a788dd1d",
@@ -337125,7 +337098,7 @@
    "coingecko_id": "dinari-fbtc",
    "decimals": 18,
    "name": "Dinari FBTC",
-   "shortcut": "FBTCD"
+   "shortcut": "FBTC.D"
   },
   {
    "address": "0x0290a3256c939f3acb6ca5465154d94133dc5e02",
@@ -337263,8 +337236,8 @@
    "chain_id": 42161,
    "coingecko_id": "dlc-link-dlcbtc",
    "decimals": 8,
-   "name": "dlcBTC",
-   "shortcut": "DLCBTC"
+   "name": "iBTC Network",
+   "shortcut": "IBTC"
   },
   {
    "address": "0x0534d7272a8e4f24d269b56605f2bf6cf3271891",
@@ -337368,7 +337341,7 @@
    "coingecko_id": "dinari-ero",
    "decimals": 18,
    "name": "Dinari ERO",
-   "shortcut": "EROD"
+   "shortcut": "ERO.D"
   },
   {
    "address": "0x0721b3c9f19cfef1d622c918dcd431960f35e060",
@@ -337387,7 +337360,7 @@
    "coingecko_id": "dinari-hood",
    "decimals": 18,
    "name": "Dinari HOOD",
-   "shortcut": "HOODD"
+   "shortcut": "HOOD.D"
   },
   {
    "address": "0x077574441c4f8763a37a2cfee2ecb444aa60a15e",
@@ -337582,7 +337555,7 @@
    "coingecko_id": "dinari-slx",
    "decimals": 18,
    "name": "Dinari SLX",
-   "shortcut": "SLXD"
+   "shortcut": "SLX.D"
   },
   {
    "address": "0x0a3bb08b3a15a19b4de82f8acfc862606fb69a2d",
@@ -337665,7 +337638,7 @@
    "coingecko_id": "dinari-riot",
    "decimals": 18,
    "name": "Dinari RIOT",
-   "shortcut": "RIOTD"
+   "shortcut": "RIOT.D"
   },
   {
    "address": "0x0b5c6ac0e1082f2d81e829b8c2957886e6bb3994",
@@ -337720,7 +337693,7 @@
    "coingecko_id": "dinari-mcd",
    "decimals": 18,
    "name": "Dinari MCD",
-   "shortcut": "MCDD"
+   "shortcut": "MCD.D"
   },
   {
    "address": "0x0c3ff025aacfa2670420f1d4cb593dd2a0a0383e",
@@ -337738,7 +337711,7 @@
    "coingecko_id": "dinari-hodl",
    "decimals": 18,
    "name": "Dinari HODL",
-   "shortcut": "HODLD"
+   "shortcut": "HODL.D"
   },
   {
    "address": "0x0c5fa0e07949f941a6c2c29a008252db1527d6ee",
@@ -337879,7 +337852,7 @@
    "coingecko_id": "dinari-cvx",
    "decimals": 18,
    "name": "Dinari CVX",
-   "shortcut": "CVXD"
+   "shortcut": "CVX.D"
   },
   {
    "address": "0x0f13fc8a93ab8edc9fde0a1e19aac693161599a5",
@@ -337973,7 +337946,7 @@
    "coingecko_id": "dinari-arkx",
    "decimals": 18,
    "name": "Dinari ARKX",
-   "shortcut": "ARKXD"
+   "shortcut": "ARKX.D"
   },
   {
    "address": "0x10ea9e5303670331bdddfa66a4cea47dae4fcf3b",
@@ -338018,10 +337991,10 @@
    "address": "0x116998824ff90532906bab91becea4a8e4ce06db",
    "chain": "arb1",
    "chain_id": 42161,
-   "coingecko_id": "exod-b",
+   "coingecko_id": "exod",
    "decimals": 8,
-   "name": "$EXOD-B",
-   "shortcut": "EXOD-B"
+   "name": "EXOD",
+   "shortcut": "EXOD"
   },
   {
    "address": "0x118346c2bb9d24412ed58c53bf9bb6f61a20d7ec",
@@ -338030,7 +338003,7 @@
    "coingecko_id": "dinari-pld",
    "decimals": 18,
    "name": "Dinari PLD",
-   "shortcut": "PLDD"
+   "shortcut": "PLD.D"
   },
   {
    "address": "0x11920f139a3121c2836e01551d43f95b3c31159c",
@@ -338114,7 +338087,7 @@
    "coingecko_id": "berkshire-hathaway-xstock",
    "decimals": 18,
    "name": "Berkshire Hathaway xStock",
-   "shortcut": "BRKBX"
+   "shortcut": "BRK.BX"
   },
   {
    "address": "0x12f7cf4f2e3f87678ec5207fc920c815e31524df",
@@ -338237,7 +338210,7 @@
    "coingecko_id": "dinari-wood",
    "decimals": 18,
    "name": "Dinari WOOD",
-   "shortcut": "WOODD"
+   "shortcut": "WOOD.D"
   },
   {
    "address": "0x1412632f2b89e87bfa20c1318a43ced25f1d7b76",
@@ -338265,7 +338238,7 @@
    "coingecko_id": "dinari-nly",
    "decimals": 18,
    "name": "Dinari NLY",
-   "shortcut": "NLYD"
+   "shortcut": "NLY.D"
   },
   {
    "address": "0x1459e51b1ada43aaabb7c22c262bdffd122e1296",
@@ -338520,7 +338493,7 @@
    "coingecko_id": "dinari-spte",
    "decimals": 18,
    "name": "Dinari SPTE",
-   "shortcut": "SPTED"
+   "shortcut": "SPTE.D"
   },
   {
    "address": "0x17a8541b82bf67e10b0874284b4ae66858cb1fd5",
@@ -338689,7 +338662,7 @@
    "coingecko_id": "dinari-arkk",
    "decimals": 18,
    "name": "Dinari ARKK",
-   "shortcut": "ARKKD"
+   "shortcut": "ARKK.D"
   },
   {
    "address": "0x1a5b0aaf478bf1fda7b934c76e7692d722982a6d",
@@ -338737,7 +338710,7 @@
    "coingecko_id": "dinari-sivr",
    "decimals": 18,
    "name": "Dinari SIVR",
-   "shortcut": "SIVRD"
+   "shortcut": "SIVR.D"
   },
   {
    "address": "0x1ae31840d492993a58baf558180b5ee83ce2f8ce",
@@ -338746,7 +338719,7 @@
    "coingecko_id": "dinari-snow",
    "decimals": 18,
    "name": "Dinari SNOW",
-   "shortcut": "SNOWD"
+   "shortcut": "SNOW.D"
   },
   {
    "address": "0x1b01514a2b3cdef16fd3c680a818a0ab97da8a09",
@@ -338841,7 +338814,7 @@
    "coingecko_id": "dinari-vwo",
    "decimals": 18,
    "name": "Dinari VWO",
-   "shortcut": "VWOD"
+   "shortcut": "VWO.D"
   },
   {
    "address": "0x1c22531aa9747d76fff8f0a43b37954ca67d28e0",
@@ -339133,8 +339106,8 @@
    "chain_id": 42161,
    "coingecko_id": "avalanche-bridged-btc-arbitrum-one",
    "decimals": 8,
-   "name": "Avalanche Bridged BTC  Arbitrum One ",
-   "shortcut": "BTCB"
+   "name": "Avalanche Bridged BTC (Arbitrum One)",
+   "shortcut": "BTC.B"
   },
   {
    "address": "0x229917ac2842eaab42060a1a9213ca78e01b572a",
@@ -339208,7 +339181,7 @@
    "coingecko_id": "dinari-bac",
    "decimals": 18,
    "name": "Dinari BAC",
-   "shortcut": "BACD"
+   "shortcut": "BAC.D"
   },
   {
    "address": "0x2404572eaa937c5a64c84ee597faae4c13823782",
@@ -339313,7 +339286,7 @@
    "coingecko_id": "dinari-spus",
    "decimals": 18,
    "name": "Dinari SPUS",
-   "shortcut": "SPUSD"
+   "shortcut": "SPUS.D"
   },
   {
    "address": "0x2598c30330d5771ae9f983979209486ae26de875",
@@ -339443,7 +339416,7 @@
    "coingecko_id": "dinari-btco",
    "decimals": 18,
    "name": "Dinari BTCO",
-   "shortcut": "BTCOD"
+   "shortcut": "BTCO.D"
   },
   {
    "address": "0x283f35b6406a0e19a786ed119869ef2c0fe157ee",
@@ -339471,7 +339444,7 @@
    "coingecko_id": "boo-2",
    "decimals": 18,
    "name": "BOO",
-   "shortcut": "BOO"
+   "shortcut": "$BOO"
   },
   {
    "address": "0x2888c0ac959484e53bbc6cdabf2b8b39486225c6",
@@ -339490,7 +339463,7 @@
    "coingecko_id": "dinari-adbe",
    "decimals": 18,
    "name": "Dinari ADBE",
-   "shortcut": "ADBED"
+   "shortcut": "ADBE.D"
   },
   {
    "address": "0x289ba1701c2f088cf0faf8b3705246331cb8a839",
@@ -339508,7 +339481,7 @@
    "coingecko_id": "dinari-amc",
    "decimals": 18,
    "name": "Dinari AMC",
-   "shortcut": "AMCD"
+   "shortcut": "AMC.D"
   },
   {
    "address": "0x28c7747d7ea25ed3ddcd075c6ccc3634313a0f59",
@@ -339658,8 +339631,8 @@
    "chain_id": 42161,
    "coingecko_id": "usd0-liquid-bond",
    "decimals": 18,
-   "name": "Staked USD0",
-   "shortcut": "USD0++"
+   "name": "Bond USD0",
+   "shortcut": "BUSD0"
   },
   {
    "address": "0x2b7c643b42409f352b936bf07e0538ba20979bff",
@@ -339668,7 +339641,7 @@
    "coingecko_id": "dinari-brrr",
    "decimals": 18,
    "name": "Dinari BRRR",
-   "shortcut": "BRRRD"
+   "shortcut": "BRRR.D"
   },
   {
    "address": "0x2bcc6d6cdbbdc0a4071e48bb3b969b06b3330c07",
@@ -339989,7 +339962,7 @@
    "coingecko_id": "dinari-xom",
    "decimals": 18,
    "name": "Dinari XOM",
-   "shortcut": "XOMD"
+   "shortcut": "XOM.D"
   },
   {
    "address": "0x316ffea434348c2cb72024e62ae845770315351e",
@@ -340141,7 +340114,7 @@
    "coingecko_id": "dinari-csco",
    "decimals": 18,
    "name": "Dinari CSCO",
-   "shortcut": "CSCOD"
+   "shortcut": "CSCO.D"
   },
   {
    "address": "0x33c88d4cac6ac34f77020915a2a88cd0417dc069",
@@ -340204,10 +340177,9 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0x346e74dc9935a9b02eb34fb84658a66010fa056d",
@@ -340340,7 +340312,7 @@
    "coingecko_id": "dinari-arkb",
    "decimals": 18,
    "name": "Dinari ARKB",
-   "shortcut": "ARKBD"
+   "shortcut": "ARKB.D"
   },
   {
    "address": "0x36295e7de7024362ad95bb8be93d6d6d21d7f6c1",
@@ -340405,7 +340377,7 @@
    "coingecko_id": "dinari-tsla-dshares",
    "decimals": 18,
    "name": "Dinari TSLA",
-   "shortcut": "TSLAD"
+   "shortcut": "TSLA.D"
   },
   {
    "address": "0x370f01c998b583e7cc9a7ee79be8ed0bb27345e7",
@@ -340471,7 +340443,7 @@
    "coingecko_id": "dinari-pplt",
    "decimals": 18,
    "name": "Dinari PPLT",
-   "shortcut": "PPLTD"
+   "shortcut": "PPLT.D"
   },
   {
    "address": "0x377c6e37633e390aef9afb4f5e0b16689351eed4",
@@ -340566,7 +340538,7 @@
    "coingecko_id": "dinari-iau",
    "decimals": 18,
    "name": "Dinari IAU",
-   "shortcut": "IAUD"
+   "shortcut": "IAU.D"
   },
   {
    "address": "0x3a0a3f724094407ac332f98ddb405a11afe609d2",
@@ -340642,7 +340614,7 @@
    "coingecko_id": "dinari-nflx-dshares",
    "decimals": 18,
    "name": "Dinari NFLX",
-   "shortcut": "NFLXD"
+   "shortcut": "NFLX.D"
   },
   {
    "address": "0x3b475f6f2f41853706afc9fa6a6b8c5df1a2724c",
@@ -340706,7 +340678,7 @@
    "coingecko_id": "dinari-dis-dshares",
    "decimals": 18,
    "name": "Dinari DIS",
-   "shortcut": "DISD"
+   "shortcut": "DIS.D"
   },
   {
    "address": "0x3d15fd46ce9e551498328b1c83071d9509e2c3a0",
@@ -340808,7 +340780,7 @@
    "coingecko_id": "dinari-ufo",
    "decimals": 18,
    "name": "Dinari UFO",
-   "shortcut": "UFOD"
+   "shortcut": "UFO.D"
   },
   {
    "address": "0x3f56e0c36d275367b8c502090edf38289b3dea0d",
@@ -340865,7 +340837,7 @@
    "coingecko_id": "dinari-vxx",
    "decimals": 18,
    "name": "Dinari VXX",
-   "shortcut": "VXXD"
+   "shortcut": "VXX.D"
   },
   {
    "address": "0x40bd670a58238e6e230c430bbb5ce6ec0d40df48",
@@ -340912,7 +340884,7 @@
    "coingecko_id": "dinari-meli",
    "decimals": 18,
    "name": "Dinari MELI",
-   "shortcut": "MELID"
+   "shortcut": "MELI.D"
   },
   {
    "address": "0x41ca7586cc1311807b4605fbb748a3b8862b42b5",
@@ -340978,7 +340950,7 @@
    "coingecko_id": "dinari-ko",
    "decimals": 18,
    "name": "Dinari KO",
-   "shortcut": "KOD"
+   "shortcut": "KO.D"
   },
   {
    "address": "0x4305c4bc521b052f17d389c2fe9d37cabeb70d54",
@@ -341092,7 +341064,7 @@
    "coingecko_id": "graphite-network",
    "decimals": 18,
    "name": "Graphite Network",
-   "shortcut": "G"
+   "shortcut": "@G"
   },
   {
    "address": "0x4406509b532b111bd39b5b579561001cbf0d7acf",
@@ -341138,7 +341110,7 @@
    "coingecko_id": "dinari-azn",
    "decimals": 18,
    "name": "Dinari AZN",
-   "shortcut": "AZND"
+   "shortcut": "AZN.D"
   },
   {
    "address": "0x44f49ff0da2498bcb1d3dc7c0f999578f67fd8c6",
@@ -341280,7 +341252,7 @@
    "coingecko_id": "dinari-coin",
    "decimals": 18,
    "name": "Dinari COIN",
-   "shortcut": "COIND"
+   "shortcut": "COIN.D"
   },
   {
    "address": "0x46ca8ed5465cb859bb3c3364078912c25f4d74de",
@@ -341535,7 +341507,7 @@
    "coingecko_id": "dinari-sbux",
    "decimals": 18,
    "name": "Dinari SBUX",
-   "shortcut": "SBUXD"
+   "shortcut": "SBUX.D"
   },
   {
    "address": "0x4c4b907bd5c38d14a084aac4f511a9b46f7ec429",
@@ -341563,7 +341535,7 @@
    "coingecko_id": "dinari-ethe",
    "decimals": 18,
    "name": "Dinari ETHE",
-   "shortcut": "ETHED"
+   "shortcut": "ETHE.D"
   },
   {
    "address": "0x4cb9a7ae498cedcbb5eae9f25736ae7d428c9d66",
@@ -341657,7 +341629,7 @@
    "coingecko_id": "dinari-nvda-dshares",
    "decimals": 18,
    "name": "Dinari NVDA",
-   "shortcut": "NVDAD"
+   "shortcut": "NVDA.D"
   },
   {
    "address": "0x4dd40ec670722067241b4396dbd253c38dd820b5",
@@ -341877,7 +341849,7 @@
    "coingecko_id": "dinari-jnj",
    "decimals": 18,
    "name": "Dinari JNJ",
-   "shortcut": "JNJD"
+   "shortcut": "JNJ.D"
   },
   {
    "address": "0x50e401255275dc405a99d3281f396cca681eea9d",
@@ -341896,7 +341868,7 @@
    "coingecko_id": "dinari-tjx",
    "decimals": 18,
    "name": "Dinari TJX",
-   "shortcut": "TJXD"
+   "shortcut": "TJX.D"
   },
   {
    "address": "0x5117f4ad0bc70dbb3b05bf39a1ec1ee40dd67654",
@@ -341942,7 +341914,7 @@
    "coingecko_id": "dinari-meta-dshare",
    "decimals": 18,
    "name": "Dinari META",
-   "shortcut": "METAD"
+   "shortcut": "META.D"
   },
   {
    "address": "0x5190f06eacefa2c552dc6bd5e763b81c73293293",
@@ -342231,7 +342203,7 @@
    "coingecko_id": "dinari-sony",
    "decimals": 18,
    "name": "Dinari SONY",
-   "shortcut": "SONYD"
+   "shortcut": "SONY.D"
   },
   {
    "address": "0x565f12c7f08d906ea9f32c0826412ec13d4f8030",
@@ -342370,10 +342342,10 @@
    "address": "0x58b9cb810a68a7f3e1e4f8cb45d1b9b3c79705e8",
    "chain": "arb1",
    "chain_id": 42161,
-   "coingecko_id": "connext",
+   "coingecko_id": "everclear",
    "decimals": 18,
    "name": "Everclear",
-   "shortcut": "NEXT"
+   "shortcut": "CLEAR"
   },
   {
    "address": "0x58cb98a966f62aa6f2190eb3aa03132a0c3de3d5",
@@ -342496,7 +342468,7 @@
    "coingecko_id": "dinari-eem",
    "decimals": 18,
    "name": "Dinari EEM",
-   "shortcut": "EEMD"
+   "shortcut": "EEM.D"
   },
   {
    "address": "0x5b32624f352d2fc6cc70889967a143ba1814f82b",
@@ -342514,7 +342486,7 @@
    "coingecko_id": "dinari-pypl-dshares",
    "decimals": 18,
    "name": "Dinari PYPL",
-   "shortcut": "PYPLD"
+   "shortcut": "PYPL.D"
   },
   {
    "address": "0x5bff88ca1442c2496f7e475e9e7786383bc070c0",
@@ -342719,8 +342691,8 @@
    "chain_id": 42161,
    "coingecko_id": "aave-v3-usdc-e",
    "decimals": 6,
-   "name": "Aave v3 USDC e",
-   "shortcut": "AUSDCE"
+   "name": "Aave v3 USDC.e",
+   "shortcut": "AUSDC.E"
   },
   {
    "address": "0x62a48560861b0b451654bfffdb5be6e47aa8ff1b",
@@ -342766,7 +342738,7 @@
    "coingecko_id": "dinari-tqqq",
    "decimals": 18,
    "name": "Dinari TQQQ",
-   "shortcut": "TQQQD"
+   "shortcut": "TQQQ.D"
   },
   {
    "address": "0x63db244bc895b3accec6698ce11b0dbd1d3e1c44",
@@ -342833,7 +342805,7 @@
    "coingecko_id": "dinari-rblx",
    "decimals": 18,
    "name": "Dinari RBLX",
-   "shortcut": "RBLXD"
+   "shortcut": "RBLX.D"
   },
   {
    "address": "0x6491c05a82219b8d1479057361ff1654749b876b",
@@ -342949,7 +342921,7 @@
    "coingecko_id": "dorado-finance",
    "decimals": 18,
    "name": "Dorado Finance",
-   "shortcut": "DORAB"
+   "shortcut": "$DORAB"
   },
   {
    "address": "0x666966ef3925b1c92fa355fda9722899f3e73451",
@@ -343013,7 +342985,7 @@
    "coingecko_id": "dinari-arm",
    "decimals": 18,
    "name": "Dinari ARM",
-   "shortcut": "ARMD"
+   "shortcut": "ARM.D"
   },
   {
    "address": "0x67c31056358b8977ea95a3a899dd380d4bced706",
@@ -343219,7 +343191,7 @@
    "coingecko_id": "dinari-ba",
    "decimals": 18,
    "name": "Dinari BA",
-   "shortcut": "BAD"
+   "shortcut": "BA.D"
   },
   {
    "address": "0x6ba19ee69d5dde3ab70185c801fa404f66fedb58",
@@ -343685,7 +343657,7 @@
    "coingecko_id": "fbomb",
    "decimals": 18,
    "name": "Fantom Bomb",
-   "shortcut": "BOMB"
+   "shortcut": "FBOMB"
   },
   {
    "address": "0x74db7a52773a52699dbc0c01b1254e5301e3e119",
@@ -343788,7 +343760,7 @@
    "coingecko_id": "dinari-bitb",
    "decimals": 18,
    "name": "Dinari BITB",
-   "shortcut": "BITBD"
+   "shortcut": "BITB.D"
   },
   {
    "address": "0x76b44e0cf9bd024dbed09e1785df295d59770138",
@@ -343864,7 +343836,7 @@
    "coingecko_id": "dinari-msft-dshares",
    "decimals": 18,
    "name": "Dinari MSFT",
-   "shortcut": "MSFTD"
+   "shortcut": "MSFT.D"
   },
   {
    "address": "0x774b9dd3977a7556bf16cc22b74b2991e4511e13",
@@ -343968,7 +343940,7 @@
    "coingecko_id": "dinari-pall",
    "decimals": 18,
    "name": "Dinari PALL",
-   "shortcut": "PALLD"
+   "shortcut": "PALL.D"
   },
   {
    "address": "0x7a2c1b8e26c48a5b73816b7ec826fd4053f5f34b",
@@ -344026,7 +343998,7 @@
    "coingecko_id": "dinari-f",
    "decimals": 18,
    "name": "Dinari F",
-   "shortcut": "FD"
+   "shortcut": "F.D"
   },
   {
    "address": "0x7b5eb3940021ec0e8e463d5dbb4b7b09a89ddf96",
@@ -344080,7 +344052,7 @@
    "coingecko_id": "dinari-avgo",
    "decimals": 18,
    "name": "Dinari AVGO",
-   "shortcut": "AVGOD"
+   "shortcut": "AVGO.D"
   },
   {
    "address": "0x7c8a1a80fdd00c9cccd6ebd573e9ecb49bfa2a59",
@@ -344372,7 +344344,7 @@
    "coingecko_id": "dinari-hut",
    "decimals": 18,
    "name": "Dinari HUT",
-   "shortcut": "HUTD"
+   "shortcut": "HUT.D"
   },
   {
    "address": "0x8096ad3107715747361acefe685943bfb427c722",
@@ -344468,7 +344440,7 @@
    "coingecko_id": "dinari-amzn-dshares",
    "decimals": 18,
    "name": "Dinari AMZN",
-   "shortcut": "AMZND"
+   "shortcut": "AMZN.D"
   },
   {
    "address": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
@@ -344858,7 +344830,7 @@
    "coingecko_id": "dinari-lmt",
    "decimals": 18,
    "name": "Dinari LMT",
-   "shortcut": "LMTD"
+   "shortcut": "LMT.D"
   },
   {
    "address": "0x894134a25a5fac1c2c26f1d8fbf05111a3cb9487",
@@ -345094,7 +345066,7 @@
    "coingecko_id": "dinari-googl-dshares",
    "decimals": 18,
    "name": "Dinari GOOGL",
-   "shortcut": "GOOGLD"
+   "shortcut": "GOOGL.D"
   },
   {
    "address": "0x8eb270e296023e9d92081fdf967ddd7878724424",
@@ -345255,7 +345227,7 @@
    "coingecko_id": "dinari-walrf",
    "decimals": 18,
    "name": "Dinari WALRF",
-   "shortcut": "WALRFD"
+   "shortcut": "WALRF.D"
   },
   {
    "address": "0x9306f15e4cd8ab9ef017aa720a4a63da73418d00",
@@ -345527,7 +345499,7 @@
    "coingecko_id": "dinari-v",
    "decimals": 18,
    "name": "Dinari V",
-   "shortcut": "VD"
+   "shortcut": "V.D"
   },
   {
    "address": "0x97d4a4d04f41b4f958290bfdda45c1f3db4adda3",
@@ -345564,7 +345536,7 @@
    "coingecko_id": "dinari-rddt",
    "decimals": 18,
    "name": "Dinari RDDT",
-   "shortcut": "RDDTD"
+   "shortcut": "RDDT.D"
   },
   {
    "address": "0x982239d38af50b0168da33346d85fb12929c4c07",
@@ -345737,7 +345709,7 @@
    "coingecko_id": "dinari-usfr-dshares",
    "decimals": 18,
    "name": "Dinari USFR",
-   "shortcut": "USFRD"
+   "shortcut": "USFR.D"
   },
   {
    "address": "0x9c7049d2ddbda7df5da9a9069926f517d2d9e6ff",
@@ -345810,8 +345782,8 @@
    "chain_id": 42161,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0x9d5a383581882750ce27f84c72f017b378edb736",
@@ -345828,8 +345800,8 @@
    "chain_id": 42161,
    "coingecko_id": "dinari-brk-a-d",
    "decimals": 18,
-   "name": "Dinari BRK A",
-   "shortcut": "BRKAD"
+   "name": "Dinari BRK.A",
+   "shortcut": "BRK.A.D"
   },
   {
    "address": "0x9db8a10c7fe60d84397860b3af2e686d4f90c2b7",
@@ -346009,7 +345981,7 @@
    "coingecko_id": "dinari-soxl",
    "decimals": 18,
    "name": "Dinari SOXL",
-   "shortcut": "SOXLD"
+   "shortcut": "SOXL.D"
   },
   {
    "address": "0xa00a5538708b5aca7045f2ca15104707965bac94",
@@ -346124,7 +346096,7 @@
    "coingecko_id": "wrapped-berkshire-hathaway-xstock",
    "decimals": 18,
    "name": "Wrapped Berkshire Hathaway xStock",
-   "shortcut": "WBRKBX"
+   "shortcut": "WBRK.BX"
   },
   {
    "address": "0xa15907f3e7fdd0a83ec56f4ac543cb10f4d783eb",
@@ -346153,7 +346125,7 @@
    "coingecko_id": "dinari-spsk",
    "decimals": 18,
    "name": "Dinari SPSK",
-   "shortcut": "SPSKD"
+   "shortcut": "SPSK.D"
   },
   {
    "address": "0xa23e44aea714fbbc08ef28340d78067b9a8cad73",
@@ -346386,7 +346358,7 @@
    "coingecko_id": "dinari-ezbc",
    "decimals": 18,
    "name": "Dinari EZBC",
-   "shortcut": "EZBCD"
+   "shortcut": "EZBC.D"
   },
   {
    "address": "0xa71e2738704e367798baa2755af5a10499634953",
@@ -346442,7 +346414,7 @@
    "coingecko_id": "dinari-ccl",
    "decimals": 18,
    "name": "Dinari CCL",
-   "shortcut": "CCLD"
+   "shortcut": "CCL.D"
   },
   {
    "address": "0xa88a1ed0bac18727a615299ce5f557b8220a33d7",
@@ -346688,7 +346660,7 @@
    "coingecko_id": "dinari-pho",
    "decimals": 18,
    "name": "Dinari PHO",
-   "shortcut": "PHOD"
+   "shortcut": "PHO.D"
   },
   {
    "address": "0xad84746c961bc3142b0aefeb0a51a2880bbe4795",
@@ -347008,7 +346980,7 @@
    "coingecko_id": "dinari-gbtc",
    "decimals": 18,
    "name": "Dinari GBTC",
-   "shortcut": "GBTCD"
+   "shortcut": "GBTC.D"
   },
   {
    "address": "0xb14448b48452d7ba076abeb3c505fc044deaf4e9",
@@ -347218,7 +347190,7 @@
    "coingecko_id": "dinari-gme",
    "decimals": 18,
    "name": "Dinari GME",
-   "shortcut": "GMED"
+   "shortcut": "GME.D"
   },
   {
    "address": "0xb41bd4c99da73510d9e081c5fadbe7a27ac1f814",
@@ -347464,7 +347436,7 @@
    "coingecko_id": "dinari-pg",
    "decimals": 18,
    "name": "Dinari PG",
-   "shortcut": "PGD"
+   "shortcut": "PG.D"
   },
   {
    "address": "0xb9600c807f069d27f92a2a65b48f12eeef7e2007",
@@ -347749,7 +347721,7 @@
    "coingecko_id": "dinari-gld",
    "decimals": 18,
    "name": "Dinari GLD",
-   "shortcut": "GLDD"
+   "shortcut": "GLD.D"
   },
   {
    "address": "0xbea0005b8599265d41256905a9b3073d397812e4",
@@ -347814,7 +347786,7 @@
    "coingecko_id": "dinari-mara",
    "decimals": 18,
    "name": "Dinari MARA",
-   "shortcut": "MARAD"
+   "shortcut": "MARA.D"
   },
   {
    "address": "0xc11158c5da9db1d553ed28f0c2ba1cbedd42cfcb",
@@ -347882,7 +347854,7 @@
    "coingecko_id": "dinari-ibit",
    "decimals": 18,
    "name": "Dinari IBIT",
-   "shortcut": "IBITD"
+   "shortcut": "IBIT.D"
   },
   {
    "address": "0xc1eb7689147c81ac840d4ff0d298489fc7986d52",
@@ -347900,7 +347872,7 @@
    "coingecko_id": "dinari-weat",
    "decimals": 18,
    "name": "Dinari WEAT",
-   "shortcut": "WEATD"
+   "shortcut": "WEAT.D"
   },
   {
    "address": "0xc218a06a17feb66b1a730889fb9624326fabff4b",
@@ -348034,7 +348006,7 @@
    "coingecko_id": "dinari-btcw",
    "decimals": 18,
    "name": "Dinari BTCW",
-   "shortcut": "BTCWD"
+   "shortcut": "BTCW.D"
   },
   {
    "address": "0xc53ac24320e3a54c7211e4993c8095078a0cb3cf",
@@ -348441,7 +348413,7 @@
    "coingecko_id": "dinari-dal",
    "decimals": 18,
    "name": "Dinari DAL",
-   "shortcut": "DALD"
+   "shortcut": "DAL.D"
   },
   {
    "address": "0xccd05a0fcfc1380e9da27862adb2198e58e0d66f",
@@ -348468,7 +348440,7 @@
    "coingecko_id": "dinari-spwo",
    "decimals": 18,
    "name": "Dinari SPWO",
-   "shortcut": "SPWOD"
+   "shortcut": "SPWO.D"
   },
   {
    "address": "0xcd3246f6173217dbecf63ffab83d477b266679da",
@@ -348477,7 +348449,7 @@
    "coingecko_id": "dinari-boxx",
    "decimals": 18,
    "name": "Dinari BOXX",
-   "shortcut": "BOXXD"
+   "shortcut": "BOXX.D"
   },
   {
    "address": "0xcdb53a7cba9ec6d55dfe8f58bd6772826722d7bd",
@@ -348514,7 +348486,7 @@
    "coingecko_id": "dinari-aapl-dshares",
    "decimals": 18,
    "name": "Dinari AAPL",
-   "shortcut": "AAPLD"
+   "shortcut": "AAPL.D"
   },
   {
    "address": "0xce3a75572bc375476438206f6f29f46f8466ecc2",
@@ -348646,7 +348618,7 @@
    "coingecko_id": "dinari-cost",
    "decimals": 18,
    "name": "Dinari COST",
-   "shortcut": "COSTD"
+   "shortcut": "COST.D"
   },
   {
    "address": "0xd17e483364d849e3b3a52464bb2ca56626edfc31",
@@ -348910,8 +348882,8 @@
    "chain_id": 42161,
    "coingecko_id": "bridged-tia-hyperlane",
    "decimals": 6,
-   "name": "Bridged TIA  Hyperlane ",
-   "shortcut": "TIAN"
+   "name": "Bridged TIA (Hyperlane)",
+   "shortcut": "TIA.N"
   },
   {
    "address": "0xd58d345fd9c82262e087d2d0607624b410d88242",
@@ -349090,7 +349062,7 @@
    "coingecko_id": "dinari-sq",
    "decimals": 18,
    "name": "Dinari SQ",
-   "shortcut": "SQD"
+   "shortcut": "SQ.D"
   },
   {
    "address": "0xd8b95b1987741849ca7e71e976aeb535fd2e55a2",
@@ -349108,7 +349080,7 @@
    "coingecko_id": "dinari-amd",
    "decimals": 18,
    "name": "Dinari AMD",
-   "shortcut": "AMDD"
+   "shortcut": "AMD.D"
   },
   {
    "address": "0xd91903d548f19c0fc0a6b9ed09d2f72b4dfe7144",
@@ -349430,7 +349402,7 @@
    "coingecko_id": "dinari-defi",
    "decimals": 18,
    "name": "Dinari DEFI",
-   "shortcut": "DEFID"
+   "shortcut": "DEFI.D"
   },
   {
    "address": "0xddb46999f8891663a8f2828d25298f70416d7610",
@@ -349619,7 +349591,7 @@
    "coingecko_id": "dinari-jpm",
    "decimals": 18,
    "name": "Dinari JPM",
-   "shortcut": "JPMD"
+   "shortcut": "JPM.D"
   },
   {
    "address": "0xe16e2548a576ad448fb014bbe85284d7f3542df5",
@@ -349761,7 +349733,7 @@
    "coingecko_id": "dinari-rklb",
    "decimals": 18,
    "name": "Dinari RKLB",
-   "shortcut": "RKLBD"
+   "shortcut": "RKLB.D"
   },
   {
    "address": "0xe4177c1400a8eee1799835dcde2489c6f0d5d616",
@@ -349884,7 +349856,7 @@
    "coingecko_id": "dinari-cat",
    "decimals": 18,
    "name": "Dinari CAT",
-   "shortcut": "CATD"
+   "shortcut": "CAT.D"
   },
   {
    "address": "0xe649e6a1f2afc63ca268c2363691cecaf75cf47c",
@@ -349949,8 +349921,8 @@
    "chain_id": 42161,
    "coingecko_id": "overnight-fi-usd-arbitrum-one",
    "decimals": 6,
-   "name": "Overnight fi USD   Arbitrum One ",
-   "shortcut": "USD+"
+   "name": "xUSD",
+   "shortcut": "XUSD"
   },
   {
    "address": "0xe82335d58abb1cd44cd5f47cf7f5b378e4c32f05",
@@ -350102,7 +350074,7 @@
    "coingecko_id": "dinari-yum",
    "decimals": 18,
    "name": "Dinari YUM",
-   "shortcut": "YUMD"
+   "shortcut": "YUM.D"
   },
   {
    "address": "0xeb1fbe8b6b2af542d0a167355604c7e1e40ca293",
@@ -350121,7 +350093,7 @@
    "coingecko_id": "dinari-ushy",
    "decimals": 18,
    "name": "Dinari USHY",
-   "shortcut": "USHYD"
+   "shortcut": "USHY.D"
   },
   {
    "address": "0xeb3c4d71c31d291e47641cd09ea8e8f5696b6b4c",
@@ -350321,7 +350293,7 @@
    "coingecko_id": "zenpandacoin",
    "decimals": 18,
    "name": "ZenPandaCoin",
-   "shortcut": "ZPC"
+   "shortcut": "$ZPC"
   },
   {
    "address": "0xee9801669c6138e84bd50deb500827b776777d28",
@@ -350416,7 +350388,7 @@
    "coingecko_id": "dinari-hymb",
    "decimals": 18,
    "name": "Dinari HYMB",
-   "shortcut": "HYMBD"
+   "shortcut": "HYMB.D"
   },
   {
    "address": "0xef888bca6ab6b1d26dbec977c455388ecd794794",
@@ -350578,7 +350550,7 @@
    "coingecko_id": "dinari-pfe-dshares",
    "decimals": 18,
    "name": "Dinari PFE",
-   "shortcut": "PFED"
+   "shortcut": "PFE.D"
   },
   {
    "address": "0xf1f313acc8c65dc2e7eebeb166c7c30be634eb38",
@@ -350587,7 +350559,7 @@
    "coingecko_id": "dinari-ita",
    "decimals": 18,
    "name": "Dinari ITA",
-   "shortcut": "ITAD"
+   "shortcut": "ITA.D"
   },
   {
    "address": "0xf202ab403cd7e90197ec0f010ee897e283037706",
@@ -350626,7 +350598,7 @@
    "coingecko_id": "dinari-blk",
    "decimals": 18,
    "name": "Dinari BLK",
-   "shortcut": "BLKD"
+   "shortcut": "BLK.D"
   },
   {
    "address": "0xf329e36c7bf6e5e86ce2150875a84ce77f477375",
@@ -350730,7 +350702,7 @@
    "coingecko_id": "dinari-spy-dshares",
    "decimals": 18,
    "name": "Dinari SPY",
-   "shortcut": "SPYD"
+   "shortcut": "SPY.D"
   },
   {
    "address": "0xf4d48ce3ee1ac3651998971541badbb9a14d7234",
@@ -351204,11 +351176,10 @@
    "address": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
    "chain": "arb1",
    "chain_id": 42161,
-   "coingecko_id": "arbitrum-bridged-usdt-arbitrum",
-   "coingecko_rank": 80,
+   "coingecko_id": "usdt0",
    "decimals": 6,
-   "name": "Arbitrum Bridged USDT  Arbitrum ",
-   "shortcut": "USDT"
+   "name": "USDT0",
+   "shortcut": "USDT0"
   },
   {
    "address": "0xfd28f108e95f4d41daae9dbfff707d677985998e",
@@ -351347,8 +351318,8 @@
    "chain_id": 42161,
    "coingecko_id": "usd-coin-ethereum-bridged",
    "decimals": 6,
-   "name": "Arbitrum Bridged USDC  Arbitrum ",
-   "shortcut": "USDCE"
+   "name": "Arbitrum Bridged USDC (Arbitrum)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xffa188493c15dfaf2c206c97d8633377847b6a52",
@@ -352046,8 +352017,8 @@
    "chain_id": 42262,
    "coingecko_id": "sol-wormhole",
    "decimals": 9,
-   "name": "Wormhole Bridged SOL",
-   "shortcut": "SOL"
+   "name": "Wormhole Bridged WSOL",
+   "shortcut": "WSOL"
   },
   {
    "address": "0xd1df9ce4b6159441d18bd6887dbd7320a8d52a05",
@@ -352074,8 +352045,8 @@
    "chain_id": 42262,
    "coingecko_id": "tether-usd-wormhole-from-ethereum",
    "decimals": 6,
-   "name": "Bridged Tether  Wormhole Ethereum ",
-   "shortcut": "USDTET"
+   "name": "Wormhole Bridged USDT",
+   "shortcut": "USDT"
   },
   {
    "address": "0xe8a638b3b7565ee7c5eb9755e58552afc87b94dd",
@@ -352212,8 +352183,8 @@
    "chain_id": 42793,
    "coingecko_id": "layerzero-bridged-usdc-etherlink",
    "decimals": 6,
-   "name": "LayerZero Bridged USDC  Etherlink ",
-   "shortcut": "LZUSDC"
+   "name": "Etherlink Bridged USDC (Etherlink)",
+   "shortcut": "USDC"
   },
   {
    "address": "0x8ce7618e8f8e514d13889283f58ff03b794e6cc3",
@@ -352443,7 +352414,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xafb068838136358cfa6b54bea580b86df70bba7f",
@@ -353095,8 +353066,8 @@
    "chain_id": 43114,
    "coingecko_id": "bitcoin-avalanche-bridged-btc-b",
    "decimals": 8,
-   "name": "Avalanche Bridged BTC  Avalanche ",
-   "shortcut": "BTCB"
+   "name": "Lombard BTC",
+   "shortcut": "BTC.B"
   },
   {
    "address": "0x153374c6d6786b6ca2c4bc96f9c3a471428f2bc7",
@@ -353466,8 +353437,8 @@
    "chain_id": 43114,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0x214dd1b5cbe543d4189ab39832f1bc1eedebb1d3",
@@ -353657,10 +353628,10 @@
    "address": "0x26debd39d5ed069770406fca10a0e4f8d2c743eb",
    "chain": "avax",
    "chain_id": 43114,
-   "coingecko_id": "wrapped-gun",
+   "coingecko_id": "gunz",
    "decimals": 18,
-   "name": "Wrapped GUN",
-   "shortcut": "WGUN"
+   "name": "Gunz",
+   "shortcut": "GUN"
   },
   {
    "address": "0x26e9dbe75aed331e41272bece932ff1b48926ca9",
@@ -353821,8 +353792,8 @@
    "chain_id": 43114,
    "coingecko_id": "wrapped-aave-avalanche-btcb",
    "decimals": 8,
-   "name": "Wrapped Aave Avalanche BTC b",
-   "shortcut": "WAAVABTCB"
+   "name": "Wrapped Aave Avalanche BTC.b",
+   "shortcut": "WAAVABTC.B"
   },
   {
    "address": "0x2d731dfe4e60d732ac7ecaed369eb106eb1e351f",
@@ -354598,7 +354569,7 @@
    "coingecko_id": "bloodloop",
    "decimals": 18,
    "name": "BloodLoop",
-   "shortcut": "BLS"
+   "shortcut": "$BLS"
   },
   {
    "address": "0x46d0166d33f87b4bd398e4c8a0da17508e62e756",
@@ -354682,7 +354653,7 @@
    "coingecko_id": "booty-2",
    "decimals": 18,
    "name": "Booty",
-   "shortcut": "BOOTY"
+   "shortcut": "$BOOTY"
   },
   {
    "address": "0x4a6b1f8872f08daf38d3b675937c7a59751ddbe1",
@@ -354839,8 +354810,8 @@
    "chain_id": 43114,
    "coingecko_id": "avalanche-old-bridged-wbtc-avalanche",
    "decimals": 8,
-   "name": "Avalanche Bridged WBTC  Avalanche ",
-   "shortcut": "WBTC"
+   "name": "Avalanche Bridged WBTC (Avalanche)",
+   "shortcut": "WBTC.E"
   },
   {
    "address": "0x50c72103940d419fb64448f258f7eabba784f84b",
@@ -356564,7 +356535,7 @@
    "coingecko_id": "the-big-red",
    "decimals": 9,
    "name": "The Big Red",
-   "shortcut": "TD"
+   "shortcut": "$TD"
   },
   {
    "address": "0x88128fd4b259552a9a1d457f435a6527aab72d42",
@@ -357469,8 +357440,8 @@
    "chain_id": 43114,
    "coingecko_id": "gogopool-ggavax",
    "decimals": 18,
-   "name": "GoGoPool ggAVAX",
-   "shortcut": "GGAVAX"
+   "name": "Hypha Staked AVAX",
+   "shortcut": "STAVAX"
   },
   {
    "address": "0xa2776a53da0bf664ea34b8efa1c8ab4241a10968",
@@ -357611,10 +357582,10 @@
    "address": "0xa77e70d0af1ac7ff86726740db1bd065c3566937",
    "chain": "avax",
    "chain_id": 43114,
-   "coingecko_id": "playa3ull-games-2",
+   "coingecko_id": "wrapped-3ull",
    "decimals": 18,
-   "name": "PLAYA3ULL GAMES",
-   "shortcut": "3ULL"
+   "name": "Wrapped 3ULL",
+   "shortcut": "W3ULL"
   },
   {
    "address": "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664",
@@ -357622,8 +357593,8 @@
    "chain_id": 43114,
    "coingecko_id": "usd-coin-avalanche-bridged-usdc-e",
    "decimals": 6,
-   "name": "Avalanche Bridged USDC  Avalanche ",
-   "shortcut": "USDCE"
+   "name": "Avalanche Bridged USDC (Avalanche)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xa7e951c0ae1e93af39d73bf3d2f24f72cab73181",
@@ -357877,8 +357848,8 @@
    "chain_id": 43114,
    "coingecko_id": "allbridge",
    "decimals": 18,
-   "name": "Allbridge",
-   "shortcut": "ABR"
+   "name": "Allbridge Zero",
+   "shortcut": "ABR0"
   },
   {
    "address": "0xafc4d521df3c0566d61931f81f02f1a525bad04d",
@@ -358153,8 +358124,8 @@
    "chain_id": 43114,
    "coingecko_id": "yom",
    "decimals": 18,
-   "name": "$YOM",
-   "shortcut": "$YOM"
+   "name": "YOM",
+   "shortcut": "YOM"
   },
   {
    "address": "0xb648fa7a5f5ed3b3c743140346e3dc3fe94a9125",
@@ -358791,10 +358762,9 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0xcc18b41a0f63c67f17f23388c848aec67b583422",
@@ -360137,8 +360107,8 @@
    "chain_id": 43114,
    "coingecko_id": "sol-wormhole",
    "decimals": 9,
-   "name": "Wormhole Bridged SOL",
-   "shortcut": "SOL"
+   "name": "Wormhole Bridged WSOL",
+   "shortcut": "WSOL"
   },
   {
    "address": "0xfec5906e8470ea7e2a2242b314a35f4ff42b19e1",
@@ -360790,7 +360760,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xf50258d3c1dd88946c567920b986a12e65b50dac",
@@ -361686,7 +361656,7 @@
    "coingecko_id": "croak_on_linea",
    "decimals": 18,
    "name": "Croak",
-   "shortcut": "CROAK"
+   "shortcut": "$CROAK"
   },
   {
    "address": "0xb1afd04774c02ae84692619448b08ba79f19b1ff",
@@ -362310,7 +362280,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x59a61b8d3064a51a95a5d6393c03e2152b1a2770",
@@ -362774,10 +362744,9 @@
    "chain": "berachain",
    "chain_id": 80094,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0xcc601605dc5011616934b6fdac8a14d51b791a94",
@@ -362953,7 +362922,7 @@
    "coingecko_id": "dinari-ba",
    "decimals": 18,
    "name": "Dinari BA",
-   "shortcut": "BAD"
+   "shortcut": "BA.D"
   },
   {
    "address": "0x010392305558d58e1cb0eec5529a65bf3545f82e",
@@ -362972,7 +362941,7 @@
    "coingecko_id": "dinari-hodl",
    "decimals": 18,
    "name": "Dinari HODL",
-   "shortcut": "HODLD"
+   "shortcut": "HODL.D"
   },
   {
    "address": "0x049e6a52e2c9b7814c8178908f3630726c134c92",
@@ -363009,7 +362978,7 @@
    "coingecko_id": "dinari-hut",
    "decimals": 18,
    "name": "Dinari HUT",
-   "shortcut": "HUTD"
+   "shortcut": "HUT.D"
   },
   {
    "address": "0x08ccb86a31270fd97d927a4e17934c6262a68b7e",
@@ -363027,7 +362996,7 @@
    "coingecko_id": "dinari-ethe",
    "decimals": 18,
    "name": "Dinari ETHE",
-   "shortcut": "ETHED"
+   "shortcut": "ETHE.D"
   },
   {
    "address": "0x09bc998f64d32b83d4a534bb2d5a4806a04c855d",
@@ -363036,7 +363005,7 @@
    "coingecko_id": "dinari-spwo",
    "decimals": 18,
    "name": "Dinari SPWO",
-   "shortcut": "SPWOD"
+   "shortcut": "SPWO.D"
   },
   {
    "address": "0x0b96517fb729c6f6c00ab15abb3d72ae708d5960",
@@ -363045,7 +363014,7 @@
    "coingecko_id": "dinari-tqqq",
    "decimals": 18,
    "name": "Dinari TQQQ",
-   "shortcut": "TQQQD"
+   "shortcut": "TQQQ.D"
   },
   {
    "address": "0x0e576b0c554fbaef9893a2cd7b866af516bab581",
@@ -363054,7 +363023,7 @@
    "coingecko_id": "dinari-spsk",
    "decimals": 18,
    "name": "Dinari SPSK",
-   "shortcut": "SPSKD"
+   "shortcut": "SPSK.D"
   },
   {
    "address": "0x0e8c94ce5f658b52a8d4e30933520b2106a9397c",
@@ -363063,7 +363032,7 @@
    "coingecko_id": "dinari-ushy",
    "decimals": 18,
    "name": "Dinari USHY",
-   "shortcut": "USHYD"
+   "shortcut": "USHY.D"
   },
   {
    "address": "0x0f8881fc1fca1f5151fa4205d55922ffa15e707a",
@@ -363120,7 +363089,7 @@
    "coingecko_id": "dinari-mara",
    "decimals": 18,
    "name": "Dinari MARA",
-   "shortcut": "MARAD"
+   "shortcut": "MARA.D"
   },
   {
    "address": "0x1a49351bdb4be48c0009b661765d01ed58e8c2d8",
@@ -363139,7 +363108,7 @@
    "coingecko_id": "dinari-tjx",
    "decimals": 18,
    "name": "Dinari TJX",
-   "shortcut": "TJXD"
+   "shortcut": "TJX.D"
   },
   {
    "address": "0x1ba52a63adf7e9425ddd85b378dda25e3818e596",
@@ -363158,7 +363127,7 @@
    "coingecko_id": "dinari-v",
    "decimals": 18,
    "name": "Dinari V",
-   "shortcut": "VD"
+   "shortcut": "V.D"
   },
   {
    "address": "0x20fe91f17ec9080e3cac2d688b4ecb48c5ac3a9c",
@@ -363234,7 +363203,7 @@
    "coingecko_id": "dinari-ibit",
    "decimals": 18,
    "name": "Dinari IBIT",
-   "shortcut": "IBITD"
+   "shortcut": "IBIT.D"
   },
   {
    "address": "0x296c2186948712d66bef4778567c4d2f734bff3c",
@@ -363243,7 +363212,7 @@
    "coingecko_id": "dinari-arkb",
    "decimals": 18,
    "name": "Dinari ARKB",
-   "shortcut": "ARKBD"
+   "shortcut": "ARKB.D"
   },
   {
    "address": "0x2f67f59b3629bf24962290db9ede0cd4127e606d",
@@ -363272,7 +363241,7 @@
    "coingecko_id": "dinari-vxx",
    "decimals": 18,
    "name": "Dinari VXX",
-   "shortcut": "VXXD"
+   "shortcut": "VXX.D"
   },
   {
    "address": "0x336d814f94581bd70898da35feb266163bfc8199",
@@ -363329,7 +363298,7 @@
    "coingecko_id": "dinari-dal",
    "decimals": 18,
    "name": "Dinari DAL",
-   "shortcut": "DALD"
+   "shortcut": "DAL.D"
   },
   {
    "address": "0x3fada70ea1251bec1e87c2ff9cd5bb72a818c350",
@@ -363338,7 +363307,7 @@
    "coingecko_id": "dinari-adbe",
    "decimals": 18,
    "name": "Dinari ADBE",
-   "shortcut": "ADBED"
+   "shortcut": "ADBE.D"
   },
   {
    "address": "0x4040fe823164384d2b719546557f01136990395b",
@@ -363347,7 +363316,7 @@
    "coingecko_id": "dinari-csco",
    "decimals": 18,
    "name": "Dinari CSCO",
-   "shortcut": "CSCOD"
+   "shortcut": "CSCO.D"
   },
   {
    "address": "0x413e5687814841d65146c062c506c73992a57692",
@@ -363356,7 +363325,7 @@
    "coingecko_id": "dinari-vwo",
    "decimals": 18,
    "name": "Dinari VWO",
-   "shortcut": "VWOD"
+   "shortcut": "VWO.D"
   },
   {
    "address": "0x4186bfc76e2e237523cbc30fd220fe055156b41f",
@@ -363384,7 +363353,7 @@
    "coingecko_id": "dinari-wood",
    "decimals": 18,
    "name": "Dinari WOOD",
-   "shortcut": "WOODD"
+   "shortcut": "WOOD.D"
   },
   {
    "address": "0x4300000000000000000000000000000000000003",
@@ -363411,7 +363380,7 @@
    "coingecko_id": "dinari-ko",
    "decimals": 18,
    "name": "Dinari KO",
-   "shortcut": "KOD"
+   "shortcut": "KO.D"
   },
   {
    "address": "0x45907acf1c9f45450ded33e3f06f96dc298c5d70",
@@ -363420,7 +363389,7 @@
    "coingecko_id": "dinari-meli",
    "decimals": 18,
    "name": "Dinari MELI",
-   "shortcut": "MELID"
+   "shortcut": "MELI.D"
   },
   {
    "address": "0x47c337bd5b9344a6f3d6f58c474d9d8cd419d8ca",
@@ -363505,7 +363474,7 @@
    "coingecko_id": "dinari-pall",
    "decimals": 18,
    "name": "Dinari PALL",
-   "shortcut": "PALLD"
+   "shortcut": "PALL.D"
   },
   {
    "address": "0x578122317baca7a3c7bb5301460d2f4f96e9394a",
@@ -363583,7 +363552,7 @@
    "coingecko_id": "dinari-spus",
    "decimals": 18,
    "name": "Dinari SPUS",
-   "shortcut": "SPUSD"
+   "shortcut": "SPUS.D"
   },
   {
    "address": "0x5ffd9ebd27f2fcab044c0f0a26a45cb62fa29c06",
@@ -363620,7 +363589,7 @@
    "coingecko_id": "dinari-defi",
    "decimals": 18,
    "name": "Dinari DEFI",
-   "shortcut": "DEFID"
+   "shortcut": "DEFI.D"
   },
   {
    "address": "0x665b080affb4a7e0ceae3ce88ba0401c864635d8",
@@ -363629,7 +363598,7 @@
    "coingecko_id": "dinari-ezbc",
    "decimals": 18,
    "name": "Dinari EZBC",
-   "shortcut": "EZBCD"
+   "shortcut": "EZBC.D"
   },
   {
    "address": "0x67fa2887914fa3729e9eed7630294fe124f417a0",
@@ -363657,7 +363626,7 @@
    "coingecko_id": "dinari-ero",
    "decimals": 18,
    "name": "Dinari ERO",
-   "shortcut": "EROD"
+   "shortcut": "ERO.D"
   },
   {
    "address": "0x6a661312938d22a2a0e27f585073e4406903990a",
@@ -363685,7 +363654,7 @@
    "coingecko_id": "dinari-slx",
    "decimals": 18,
    "name": "Dinari SLX",
-   "shortcut": "SLXD"
+   "shortcut": "SLX.D"
   },
   {
    "address": "0x6cc87c5ab2cfac0f2d582286f5ba69ca555fecb0",
@@ -363753,7 +363722,7 @@
    "coingecko_id": "dinari-nly",
    "decimals": 18,
    "name": "Dinari NLY",
-   "shortcut": "NLYD"
+   "shortcut": "NLY.D"
   },
   {
    "address": "0x75483179a38d21f3608e71bbede5ec1314f0067d",
@@ -363781,7 +363750,7 @@
    "coingecko_id": "dinari-arkx",
    "decimals": 18,
    "name": "Dinari ARKX",
-   "shortcut": "ARKXD"
+   "shortcut": "ARKX.D"
   },
   {
    "address": "0x76da31d7c9cbeae102aff34d3398bc450c8374c1",
@@ -363799,7 +363768,7 @@
    "coingecko_id": "dinari-rklb",
    "decimals": 18,
    "name": "Dinari RKLB",
-   "shortcut": "RKLBD"
+   "shortcut": "RKLB.D"
   },
   {
    "address": "0x80eede496655fb9047dd39d9f418d5483ed600df",
@@ -363817,7 +363786,7 @@
    "coingecko_id": "dinari-amc",
    "decimals": 18,
    "name": "Dinari AMC",
-   "shortcut": "AMCD"
+   "shortcut": "AMC.D"
   },
   {
    "address": "0x818a92bc81aad0053d72ba753fb5bc3d0c5c0923",
@@ -363846,7 +363815,7 @@
    "coingecko_id": "dinari-arkk",
    "decimals": 18,
    "name": "Dinari ARKK",
-   "shortcut": "ARKKD"
+   "shortcut": "ARKK.D"
   },
   {
    "address": "0x870a8f46b62b8bdeda4c02530c1750cddf2ed32e",
@@ -363884,7 +363853,7 @@
    "coingecko_id": "dinari-sq",
    "decimals": 18,
    "name": "Dinari SQ",
-   "shortcut": "SQD"
+   "shortcut": "SQ.D"
   },
   {
    "address": "0x8ad2b97b7fca40af71bfef9857d10bc1bfe70175",
@@ -363893,7 +363862,7 @@
    "coingecko_id": "dinari-pg",
    "decimals": 18,
    "name": "Dinari PG",
-   "shortcut": "PGD"
+   "shortcut": "PG.D"
   },
   {
    "address": "0x8c3ede5db70719ab9191655994880b088dd03917",
@@ -363911,7 +363880,7 @@
    "coingecko_id": "dinari-cat",
    "decimals": 18,
    "name": "Dinari CAT",
-   "shortcut": "CATD"
+   "shortcut": "CAT.D"
   },
   {
    "address": "0x8d7e838f2feaec8b6d7445bfa699f68fe8e97718",
@@ -363920,7 +363889,7 @@
    "coingecko_id": "dinari-sivr",
    "decimals": 18,
    "name": "Dinari SIVR",
-   "shortcut": "SIVRD"
+   "shortcut": "SIVR.D"
   },
   {
    "address": "0x8f6a976b6c7fe18e31870eadfae09b3cb447541a",
@@ -363929,7 +363898,7 @@
    "coingecko_id": "dinari-ufo",
    "decimals": 18,
    "name": "Dinari UFO",
-   "shortcut": "UFOD"
+   "shortcut": "UFO.D"
   },
   {
    "address": "0x904eba5084426b0bb5c2e88770abc92155428fc2",
@@ -363978,7 +363947,7 @@
    "coingecko_id": "dinari-pho",
    "decimals": 18,
    "name": "Dinari PHO",
-   "shortcut": "PHOD"
+   "shortcut": "PHO.D"
   },
   {
    "address": "0x949185d3be66775ea648f4a306740ea9eff9c567",
@@ -363996,7 +363965,7 @@
    "coingecko_id": "dinari-gbtc",
    "decimals": 18,
    "name": "Dinari GBTC",
-   "shortcut": "GBTCD"
+   "shortcut": "GBTC.D"
   },
   {
    "address": "0x95b9b27f2eba05433b4a64257f0342285d89a479",
@@ -364024,7 +363993,7 @@
    "coingecko_id": "dinari-avgo",
    "decimals": 18,
    "name": "Dinari AVGO",
-   "shortcut": "AVGOD"
+   "shortcut": "AVGO.D"
   },
   {
    "address": "0x9a50953716ba58e3d6719ea5c437452ac578705f",
@@ -364071,7 +364040,7 @@
    "coingecko_id": "dinari-jnj",
    "decimals": 18,
    "name": "Dinari JNJ",
-   "shortcut": "JNJD"
+   "shortcut": "JNJ.D"
   },
   {
    "address": "0x9f04b6cefd5bcd67d76ab708f17553ce40188e6a",
@@ -364119,7 +364088,7 @@
    "coingecko_id": "dinari-iau",
    "decimals": 18,
    "name": "Dinari IAU",
-   "shortcut": "IAUD"
+   "shortcut": "IAU.D"
   },
   {
    "address": "0xa5de16db7c14cd87fb35042ed8e7a6f4f00b7f26",
@@ -364128,7 +364097,7 @@
    "coingecko_id": "dinari-riot",
    "decimals": 18,
    "name": "Dinari RIOT",
-   "shortcut": "RIOTD"
+   "shortcut": "RIOT.D"
   },
   {
    "address": "0xa8ef52a9c4010e20f3811f0a8606c788fccc7a2a",
@@ -364137,7 +364106,7 @@
    "coingecko_id": "dinari-cvx",
    "decimals": 18,
    "name": "Dinari CVX",
-   "shortcut": "CVXD"
+   "shortcut": "CVX.D"
   },
   {
    "address": "0xa9053e91a9ea714023de577929c3e119264d80d6",
@@ -364146,7 +364115,7 @@
    "coingecko_id": "dinari-bitb",
    "decimals": 18,
    "name": "Dinari BITB",
-   "shortcut": "BITBD"
+   "shortcut": "BITB.D"
   },
   {
    "address": "0xac402db779eeabcc6c88f0478bb381cd2d0e15f7",
@@ -364155,7 +364124,7 @@
    "coingecko_id": "dinari-walrf",
    "decimals": 18,
    "name": "Dinari WALRF",
-   "shortcut": "WALRFD"
+   "shortcut": "WALRF.D"
   },
   {
    "address": "0xb0de93a54da8a2cfcde44a06f797ab2fb9d39fb8",
@@ -364174,7 +364143,7 @@
    "coingecko_id": "dinari-snow",
    "decimals": 18,
    "name": "Dinari SNOW",
-   "shortcut": "SNOWD"
+   "shortcut": "SNOW.D"
   },
   {
    "address": "0xb1a5700fa2358173fe465e6ea4ff52e36e88e2ad",
@@ -364211,7 +364180,7 @@
    "coingecko_id": "dinari-rddt",
    "decimals": 18,
    "name": "Dinari RDDT",
-   "shortcut": "RDDTD"
+   "shortcut": "RDDT.D"
   },
   {
    "address": "0xb6e0d8a730c6e5c85c637b1cf7ad6fd07927b965",
@@ -364268,7 +364237,7 @@
    "coingecko_id": "dinari-ita",
    "decimals": 18,
    "name": "Dinari ITA",
-   "shortcut": "ITAD"
+   "shortcut": "ITA.D"
   },
   {
    "address": "0xbb4e01b8940e8e2b3a95ced7941969d033786ff7",
@@ -364287,7 +364256,7 @@
    "coingecko_id": "dinari-gld",
    "decimals": 18,
    "name": "Dinari GLD",
-   "shortcut": "GLDD"
+   "shortcut": "GLD.D"
   },
   {
    "address": "0xbe2019c75ebf9ead0ab3513fd3c1733f2eb490e7",
@@ -364296,7 +364265,7 @@
    "coingecko_id": "dinari-btcw",
    "decimals": 18,
    "name": "Dinari BTCW",
-   "shortcut": "BTCWD"
+   "shortcut": "BTCW.D"
   },
   {
    "address": "0xbf26ece8626c30f6efc6518ac93a773d24e6ff83",
@@ -364305,7 +364274,7 @@
    "coingecko_id": "dinari-fbtc",
    "decimals": 18,
    "name": "Dinari FBTC",
-   "shortcut": "FBTCD"
+   "shortcut": "FBTC.D"
   },
   {
    "address": "0xbf286a9c026f02dd4d2e3fc3887e77e425d15a11",
@@ -364314,7 +364283,7 @@
    "coingecko_id": "dinari-btco",
    "decimals": 18,
    "name": "Dinari BTCO",
-   "shortcut": "BTCOD"
+   "shortcut": "BTCO.D"
   },
   {
    "address": "0xbfdaa788366593d3c7d15f9abc0b1cab2b1694ba",
@@ -364323,7 +364292,7 @@
    "coingecko_id": "dinari-blk",
    "decimals": 18,
    "name": "Dinari BLK",
-   "shortcut": "BLKD"
+   "shortcut": "BLK.D"
   },
   {
    "address": "0xbffaea400b56da7b7085a27676d4b72361217e35",
@@ -364332,7 +364301,7 @@
    "coingecko_id": "dinari-ccl",
    "decimals": 18,
    "name": "Dinari CCL",
-   "shortcut": "CCLD"
+   "shortcut": "CCL.D"
   },
   {
    "address": "0xc19669a405067927865b40ea045a2baabbbe57f5",
@@ -364351,7 +364320,7 @@
    "coingecko_id": "dinari-bac",
    "decimals": 18,
    "name": "Dinari BAC",
-   "shortcut": "BACD"
+   "shortcut": "BAC.D"
   },
   {
    "address": "0xc6bbaf4d804327d84931310e49c863e63a2bd868",
@@ -364389,7 +364358,7 @@
    "coingecko_id": "dinari-spte",
    "decimals": 18,
    "name": "Dinari SPTE",
-   "shortcut": "SPTED"
+   "shortcut": "SPTE.D"
   },
   {
    "address": "0xcbf7b47e9da345812e3bd732e3ee369a7203b5ae",
@@ -364445,7 +364414,7 @@
    "coingecko_id": "dinari-sbux",
    "decimals": 18,
    "name": "Dinari SBUX",
-   "shortcut": "SBUXD"
+   "shortcut": "SBUX.D"
   },
   {
    "address": "0xd43d8adac6a4c7d9aeece7c3151fca8f23752cf8",
@@ -364484,7 +364453,7 @@
    "coingecko_id": "dinari-yum",
    "decimals": 18,
    "name": "Dinari YUM",
-   "shortcut": "YUMD"
+   "shortcut": "YUM.D"
   },
   {
    "address": "0xda5afff979a356af2cfa75bd0054c2c8c505234a",
@@ -364493,7 +364462,7 @@
    "coingecko_id": "dinari-xom",
    "decimals": 18,
    "name": "Dinari XOM",
-   "shortcut": "XOMD"
+   "shortcut": "XOM.D"
   },
   {
    "address": "0xdb13df2ea134e7df2208d74b96db063837db5b5c",
@@ -364512,7 +364481,7 @@
    "coingecko_id": "dinari-soxl",
    "decimals": 18,
    "name": "Dinari SOXL",
-   "shortcut": "SOXLD"
+   "shortcut": "SOXL.D"
   },
   {
    "address": "0xdd6a4d44987fc974c4113ef403b941fe09d0068c",
@@ -364521,7 +364490,7 @@
    "coingecko_id": "dinari-azn",
    "decimals": 18,
    "name": "Dinari AZN",
-   "shortcut": "AZND"
+   "shortcut": "AZN.D"
   },
   {
    "address": "0xddcd99775b70bee3b1d06399b69e45465dea010c",
@@ -364530,7 +364499,7 @@
    "coingecko_id": "dinari-hood",
    "decimals": 18,
    "name": "Dinari HOOD",
-   "shortcut": "HOODD"
+   "shortcut": "HOOD.D"
   },
   {
    "address": "0xddf7d080c82b8048baae54e376a3406572429b4e",
@@ -364568,7 +364537,7 @@
    "coingecko_id": "dinari-boxx",
    "decimals": 18,
    "name": "Dinari BOXX",
-   "shortcut": "BOXXD"
+   "shortcut": "BOXX.D"
   },
   {
    "address": "0xe20d45377370135c733876548de202040cfc0664",
@@ -364596,7 +364565,7 @@
    "coingecko_id": "dinari-gme",
    "decimals": 18,
    "name": "Dinari GME",
-   "shortcut": "GMED"
+   "shortcut": "GME.D"
   },
   {
    "address": "0xe36072dd051ce26261bf50cd966311cab62c596e",
@@ -364615,7 +364584,7 @@
    "coingecko_id": "dinari-rblx",
    "decimals": 18,
    "name": "Dinari RBLX",
-   "shortcut": "RBLXD"
+   "shortcut": "RBLX.D"
   },
   {
    "address": "0xe7903b1f75c534dd8159b313d92cdcfbc62cb3cd",
@@ -364633,7 +364602,7 @@
    "coingecko_id": "dinari-eem",
    "decimals": 18,
    "name": "Dinari EEM",
-   "shortcut": "EEMD"
+   "shortcut": "EEM.D"
   },
   {
    "address": "0xeb109ba8b4565e1ebf8845da3b78aba0c634655b",
@@ -364671,7 +364640,7 @@
    "coingecko_id": "dinari-hymb",
    "decimals": 18,
    "name": "Dinari HYMB",
-   "shortcut": "HYMBD"
+   "shortcut": "HYMB.D"
   },
   {
    "address": "0xf0a23fd4a51e9c5055b912e41a6052b56e6108b8",
@@ -364680,7 +364649,7 @@
    "coingecko_id": "dinari-brrr",
    "decimals": 18,
    "name": "Dinari BRRR",
-   "shortcut": "BRRRD"
+   "shortcut": "BRRR.D"
   },
   {
    "address": "0xf53c57338a304558709ef69fe53b518c5f62733e",
@@ -364708,7 +364677,7 @@
    "coingecko_id": "dinari-f",
    "decimals": 18,
    "name": "Dinari F",
-   "shortcut": "FD"
+   "shortcut": "F.D"
   },
   {
    "address": "0xfb3bcdc42d0f884b0f1e53f74ed152ff1cb77dc8",
@@ -364717,7 +364686,7 @@
    "coingecko_id": "dinari-jpm",
    "decimals": 18,
    "name": "Dinari JPM",
-   "shortcut": "JPMD"
+   "shortcut": "JPM.D"
   },
   {
    "address": "0xfcbe84b53fd3ed33b5dfa82fb005603daa5204a7",
@@ -364726,7 +364695,7 @@
    "coingecko_id": "dinari-mcd",
    "decimals": 18,
    "name": "Dinari MCD",
-   "shortcut": "MCDD"
+   "shortcut": "MCD.D"
   },
   {
    "address": "0xfd4d19f9fbb9f730c3c88a21755832bd2455144e",
@@ -364745,7 +364714,7 @@
    "coingecko_id": "dinari-cost",
    "decimals": 18,
    "name": "Dinari COST",
-   "shortcut": "COSTD"
+   "shortcut": "COST.D"
   },
   {
    "address": "0xfecf117ce579acb96e89872af6cc9525980c397c",
@@ -364754,7 +364723,7 @@
    "coingecko_id": "dinari-sony",
    "decimals": 18,
    "name": "Dinari SONY",
-   "shortcut": "SONYD"
+   "shortcut": "SONY.D"
   },
   {
    "address": "0x240962a6ddd67dd382db4d417cbdf0d8822aca2f",
@@ -364763,7 +364732,7 @@
    "coingecko_id": "bitcoin-bridged-zed20",
    "decimals": 18,
    "name": "Bitcoin Bridged ZED20",
-   "shortcut": "BTCZ"
+   "shortcut": "BTC.Z"
   },
   {
    "address": "0x3f7be9db9d37bd89c3fa722bb29ba17300c18fc8",
@@ -364800,9 +364769,8 @@
    "chain_id": 83872,
    "coingecko_id": "usd-coin-bridged-zed20",
    "decimals": 18,
-   "deleted": true,
-   "name": "USD Coin Bridged ZED20",
-   "shortcut": "USDCZ"
+   "name": "ZEDX Bridged USDC (Zedxion)",
+   "shortcut": "USDC.Z"
   },
   {
    "address": "0x2689faabe22ec4516d716da5b5f81e7e3ae379c3",
@@ -367883,7 +367851,7 @@
    "coingecko_id": "dinari-srln",
    "decimals": 18,
    "name": "Dinari SRLN",
-   "shortcut": "SRLND"
+   "shortcut": "SRLN.D"
   },
   {
    "address": "0x222365ef19f7947e5484218551b56bb3965aa7af",
@@ -368077,7 +368045,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x7d611dc23267f508de90724731dc88ca28ef7473",
@@ -368132,7 +368100,7 @@
    "coingecko_id": "anemoy-tokenized-apollo-diversified-credit-fund",
    "decimals": 6,
    "name": "Anemoy Tokenized Apollo Diversified Credit Fund",
-   "shortcut": "ACDRX"
+   "shortcut": "ACRDX"
   },
   {
    "address": "0x9d08946ca5856f882a56c29042fbedc5142663b9",
@@ -369678,10 +369646,9 @@
    "chain": "corn",
    "chain_id": 21000000,
    "coingecko_id": "solv-protocol-solvbtc-bbn",
-   "coingecko_rank": 95,
    "decimals": 18,
-   "name": "Solv Protocol SolvBTC BBN",
-   "shortcut": "SOLVBTCBBN"
+   "name": "Solv Protocol Staked BTC",
+   "shortcut": "XSOLVBTC"
   },
   {
    "address": "0xda5ddd7270381a7c2717ad10d1c0ecb19e3cdfb2",
@@ -369698,8 +369665,8 @@
    "chain_id": 21000000,
    "coingecko_id": "corn-bridged-usdc-corn",
    "decimals": 6,
-   "name": "Corn Bridged USDC  Corn ",
-   "shortcut": "USDCE"
+   "name": "Corn Bridged USDC (Corn)",
+   "shortcut": "USDC.E"
   },
   {
    "address": "0xecac9c5f704e954931349da37f60e39f515c11c1",
@@ -370111,8 +370078,8 @@
    "chain_id": 1313161554,
    "coingecko_id": "allbridge",
    "decimals": 18,
-   "name": "Allbridge",
-   "shortcut": "ABR"
+   "name": "Allbridge Zero",
+   "shortcut": "ABR0"
   },
   {
    "address": "0x306e974624511e3937f37e551c5736f1b2ad21eb",
@@ -370160,8 +370127,8 @@
    "chain_id": 1313161554,
    "coingecko_id": "rainbow-bridged-usdt-aurora",
    "decimals": 6,
-   "name": "Rainbow Bridged USDT  Aurora ",
-   "shortcut": "USDTE"
+   "name": "Rainbow Bridged USDT (Aurora)",
+   "shortcut": "USDT.E"
   },
   {
    "address": "0x501ace9c35e60f03a2af4d484f49f9b1efde9f40",
@@ -370587,7 +370554,7 @@
    "coingecko_id": "stargate-bridged-usdc",
    "decimals": 6,
    "name": "Stargate Bridged USDC",
-   "shortcut": "USDCE"
+   "shortcut": "USDC.E"
   },
   {
    "address": "0x0007e7f456a6bb854606f04cc16989acfe42f2f2",
@@ -370642,8 +370609,8 @@
    "chain_id": 1666600000,
    "coingecko_id": "frax-share",
    "decimals": 18,
-   "name": "Frax Share",
-   "shortcut": "FXS"
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX"
   },
   {
    "address": "0x078f358208685046a11c85e8ad32895ded33a249",
@@ -371373,8 +371340,8 @@
    "chain_id": 1666600000,
    "coingecko_id": "harmony-horizen-bridged-usdc-harmony",
    "decimals": 6,
-   "name": "Harmony Horizen Bridged USDC  Harmony ",
-   "shortcut": "USDC"
+   "name": "Harmony Horizon Bridged USDC (Harmony)",
+   "shortcut": "1USDC"
   },
   {
    "address": "0x9ab0db833557d95aff98c09b560145ad34e681b8",
@@ -372013,10 +371980,10 @@
   }
  ],
  "metadata": {
-  "commit_hash": "bdb5c7d38e5671fbe375060ee561013ad25c5e5e",
-  "datetime": "2026-07-29T02:09:11.805560+00:00",
-  "merkle_root": "8e8c341f6975bbc76415d77e451cd1c3f4fb5e3d024ccb498631ea015c25b8e1",
-  "unix_timestamp": 1785290951
+  "commit_hash": "f4b4f029576848ea6c52245ee91567ff33610d1d",
+  "datetime": "2026-07-29T02:11:00.942467+00:00",
+  "merkle_root": "eae8c29d27124dcfaa4a4d630d061adb51b9010bbcbe8a321ec8c652d564a02c",
+  "unix_timestamp": 1785291060
  },
  "networks": [
   {
@@ -372088,14 +372055,14 @@
    "slip44": 108
   },
   {
-   "chain": "tubq",
+   "chain": "quai",
    "chain_id": 9,
    "coingecko_id": "quai-network",
    "coingecko_network_id": "quai-network",
-   "is_testnet": true,
-   "name": "Ubiq Network Testnet",
-   "shortcut": "TUBQ",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "Quai Network",
+   "shortcut": "QUAI",
+   "slip44": 60
   },
   {
    "chain": "oeth",
@@ -373206,11 +373173,11 @@
    "slip44": 60
   },
   {
-   "chain": "ETE",
+   "chain": "ERA",
    "chain_id": 140,
    "is_testnet": false,
-   "name": "Eternal",
-   "shortcut": "ETE",
+   "name": "Eteria",
+   "shortcut": "ERA",
    "slip44": 60
   },
   {
@@ -373414,11 +373381,11 @@
    "slip44": 1
   },
   {
-   "chain": "omni",
+   "chain": "nom",
    "chain_id": 166,
    "is_testnet": false,
-   "name": "Omni",
-   "shortcut": "OMNI",
+   "name": "Nomina",
+   "shortcut": "NOM",
    "slip44": 1
   },
   {
@@ -373655,11 +373622,11 @@
    "slip44": 60
   },
   {
-   "chain": "tokb",
+   "chain": "tokb-dep",
    "chain_id": 195,
    "is_testnet": true,
-   "name": "X Layer Testnet",
-   "shortcut": "tOKB",
+   "name": "X Layer Testnet(Deprecated)",
+   "shortcut": "tOKBDep",
    "slip44": 1
   },
   {
@@ -373918,7 +373885,7 @@
    "coingecko_network_id": "mind-network",
    "is_testnet": false,
    "name": "Mind Network",
-   "shortcut": "FHE",
+   "shortcut": "ETH",
    "slip44": 60
   },
   {
@@ -373969,7 +373936,7 @@
    "chain_id": 237,
    "is_testnet": false,
    "name": "AEREDIUM",
-   "shortcut": "AER",
+   "shortcut": "AERX",
    "slip44": 60
   },
   {
@@ -373977,7 +373944,7 @@
    "chain_id": 238,
    "is_testnet": false,
    "name": "Blast",
-   "shortcut": "ETH",
+   "shortcut": "OWCT",
    "slip44": 60
   },
   {
@@ -374054,11 +374021,11 @@
   {
    "chain": "frax",
    "chain_id": 252,
-   "coingecko_id": "fraxtal",
+   "coingecko_id": "frax-share",
    "coingecko_network_id": "fraxtal",
    "is_testnet": false,
-   "name": "Fraxtal",
-   "shortcut": "FXTL",
+   "name": "Frax (prev. FXS)",
+   "shortcut": "FRAX",
    "slip44": 60
   },
   {
@@ -374179,11 +374146,11 @@
    "slip44": 60
   },
   {
-   "chain": "xr",
+   "chain": "xr1",
    "chain_id": 273,
    "is_testnet": false,
    "name": "XR One",
-   "shortcut": "XR",
+   "shortcut": "XR1",
    "slip44": 60
   },
   {
@@ -374418,11 +374385,11 @@
    "slip44": 1
   },
   {
-   "chain": "cvm",
+   "chain": "buycex",
    "chain_id": 323,
    "is_testnet": false,
-   "name": "Cosvm",
-   "shortcut": "CVM",
+   "name": "BuyCex Infinity Chain",
+   "shortcut": "BCX",
    "slip44": 60
   },
   {
@@ -374473,16 +374440,16 @@
    "chain_id": 332,
    "is_testnet": true,
    "name": "Omax Testnet",
-   "shortcut": "tOMAXT",
+   "shortcut": "tOMAX",
    "slip44": 1
   },
   {
-   "chain": "w3q",
+   "chain": "es-m",
    "chain_id": 333,
    "is_testnet": false,
-   "name": "Web3Q",
-   "shortcut": "W3Q",
-   "slip44": 60
+   "name": "EthStorage",
+   "shortcut": "ETH",
+   "slip44": 1
   },
   {
    "chain": "DFKTEST",
@@ -374557,7 +374524,7 @@
    "coingecko_network_id": "shape",
    "is_testnet": false,
    "name": "Shape",
-   "shortcut": "ETH",
+   "shortcut": "SHAPE",
    "slip44": 60
   },
   {
@@ -374974,11 +374941,11 @@
    "slip44": 60
   },
   {
-   "chain": "syndicate-chain-mainnet",
+   "chain": "syndicate",
    "chain_id": 510,
    "is_testnet": false,
-   "name": "Syndicate Chain",
-   "shortcut": "ETH",
+   "name": "Syndicate",
+   "shortcut": "SYND",
    "slip44": 60
   },
   {
@@ -375029,8 +374996,8 @@
    "coingecko_id": "fx-coin",
    "coingecko_network_id": "function-x",
    "is_testnet": false,
-   "name": "Function X",
-   "shortcut": "FX",
+   "name": "Pundi AIFX Omnilayer",
+   "shortcut": "PUNDAI",
    "slip44": 60
   },
   {
@@ -375346,11 +375313,11 @@
    "slip44": 60
   },
   {
-   "chain": "ultronsmartchain",
+   "chain": "Amaxsmartchain",
    "chain_id": 662,
    "is_testnet": false,
-   "name": "UltronSmartchain",
-   "shortcut": "ULC",
+   "name": "AmaxSmartchain",
+   "shortcut": "AMAX",
    "slip44": 60
   },
   {
@@ -376263,10 +376230,10 @@
    "chain": "stable",
    "chain_id": 988,
    "coingecko_id": "usdt0",
-   "coingecko_network_id": "stable-2",
+   "coingecko_network_id": "stable",
    "is_testnet": false,
-   "name": "Stable",
-   "shortcut": "gUSDT",
+   "name": "USDT0",
+   "shortcut": "USDT0",
    "slip44": 60
   },
   {
@@ -376310,22 +376277,22 @@
    "slip44": 1
   },
   {
-   "chain": "ln",
+   "chain": "hype-evm-testnet",
    "chain_id": 998,
-   "is_testnet": false,
-   "name": "Lucky Network",
-   "shortcut": "L99",
-   "slip44": 60
+   "is_testnet": true,
+   "name": "Hyperliquid EVM Testnet",
+   "shortcut": "tHYPE",
+   "slip44": 1
   },
   {
-   "chain": "twan",
+   "chain": "hype",
    "chain_id": 999,
    "coingecko_id": "hyperliquid",
    "coingecko_network_id": "hyperevm",
-   "coingecko_rank": 30,
-   "is_testnet": true,
-   "name": "Wanchain Testnet",
-   "shortcut": "tWAN",
+   "coingecko_rank": 10,
+   "is_testnet": false,
+   "name": "Hyperliquid",
+   "shortcut": "HYPE",
    "slip44": 1
   },
   {
@@ -376508,14 +376475,14 @@
    "slip44": 60
   },
   {
-   "chain": "shimmerevm-testnet-deprecated",
+   "chain": "ogpu",
    "chain_id": 1071,
    "coingecko_id": "open-gpu",
    "coingecko_network_id": "opengpu-mainnet",
-   "is_testnet": true,
-   "name": "ShimmerEVM Testnet Deprecated",
-   "shortcut": "tSMR",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "OPEN GPU",
+   "shortcut": "OGPU",
+   "slip44": 60
   },
   {
    "chain": "shimmerevm-testnet-deprecated-1072",
@@ -377012,8 +376979,8 @@
    "coingecko_id": "stepex",
    "coingecko_network_id": "step-network",
    "is_testnet": false,
-   "name": "StepEx",
-   "shortcut": "SPEX",
+   "name": "Step Network",
+   "shortcut": "FITFI",
    "slip44": 60
   },
   {
@@ -377305,21 +377272,21 @@
    "slip44": 1
   },
   {
-   "chain": "ELST",
+   "chain": "ATL",
    "chain_id": 1338,
    "is_testnet": true,
    "name": "Elysium Testnet",
-   "shortcut": "tLAVA",
+   "shortcut": "tPYR",
    "slip44": 1
   },
   {
-   "chain": "ELY",
+   "chain": "PYR",
    "chain_id": 1339,
    "coingecko_id": "lava",
    "coingecko_network_id": "elysium",
    "is_testnet": false,
-   "name": "Lava",
-   "shortcut": "LAVA",
+   "name": "Elysium",
+   "shortcut": "PYR",
    "slip44": 60
   },
   {
@@ -377499,13 +377466,13 @@
    "slip44": 1
   },
   {
-   "chain": "isl",
+   "chain": "vana",
    "chain_id": 1480,
    "coingecko_id": "vana",
    "coingecko_network_id": "vana",
    "is_testnet": false,
-   "name": "Islander",
-   "shortcut": "ISL",
+   "name": "Vana",
+   "shortcut": "VANA",
    "slip44": 60
   },
   {
@@ -377562,8 +377529,8 @@
    "coingecko_id": "story-2",
    "coingecko_network_id": "story",
    "is_testnet": false,
-   "name": "Story",
-   "shortcut": "IP",
+   "name": "Data Network",
+   "shortcut": "DATA",
    "slip44": 60
   },
   {
@@ -378462,10 +378429,10 @@
    "chain_id": 2001,
    "coingecko_id": "cardano",
    "coingecko_network_id": "milkomeda-cardano",
-   "coingecko_rank": 9,
+   "coingecko_rank": 19,
    "is_testnet": false,
-   "name": "Milkomeda C1",
-   "shortcut": "mADA",
+   "name": "Cardano",
+   "shortcut": "ADA",
    "slip44": 60
   },
   {
@@ -378523,7 +378490,7 @@
    "coingecko_network_id": "mainnetz",
    "is_testnet": false,
    "name": "MainnetZ",
-   "shortcut": "NETZ",
+   "shortcut": "NetZ",
    "slip44": 60
   },
   {
@@ -378633,11 +378600,11 @@
    "slip44": 60
   },
   {
-   "chain": "pha",
+   "chain": "phala",
    "chain_id": 2035,
    "is_testnet": false,
    "name": "Phala Network",
-   "shortcut": "PHA",
+   "shortcut": "ETH",
    "slip44": 60
   },
   {
@@ -378952,7 +378919,7 @@
    "chain_id": 2201,
    "is_testnet": true,
    "name": "Stable Testnet",
-   "shortcut": "tgUSDT",
+   "shortcut": "tUSDT0",
    "slip44": 1
   },
   {
@@ -378964,11 +378931,11 @@
    "slip44": 60
   },
   {
-   "chain": "eBTC",
+   "chain": "BTC",
    "chain_id": 2203,
    "is_testnet": false,
    "name": "Bitcoin EVM",
-   "shortcut": "eBTC",
+   "shortcut": "BTC",
    "slip44": 60
   },
   {
@@ -379094,11 +379061,11 @@
    "slip44": 60
   },
   {
-   "chain": "atla",
+   "chain": "olym",
    "chain_id": 2340,
-   "is_testnet": true,
-   "name": "Atleta Testnet",
-   "shortcut": "tATLA",
+   "is_testnet": false,
+   "name": "Atleta Olympia",
+   "shortcut": "ATLA",
    "slip44": 1
   },
   {
@@ -379151,8 +379118,8 @@
    "coingecko_id": "kiteai",
    "coingecko_network_id": "kiteai",
    "is_testnet": false,
-   "name": "KiteAI",
-   "shortcut": "KITE",
+   "name": "KITEAI",
+   "shortcut": "KITEAI",
    "slip44": 1
   },
   {
@@ -379310,12 +379277,12 @@
    "slip44": 60
   },
   {
-   "chain": "karak-testnet",
+   "chain": "karak-goerli",
    "chain_id": 2511,
-   "is_testnet": true,
-   "name": "Karak Testnet",
-   "shortcut": "tKRK",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "Karak Goerli",
+   "shortcut": "KRK",
+   "slip44": 60
   },
   {
    "chain": "K2-testnet",
@@ -379338,7 +379305,7 @@
    "chain_id": 2522,
    "is_testnet": true,
    "name": "Fraxtal Testnet",
-   "shortcut": "tfrxETH",
+   "shortcut": "tFRAX",
    "slip44": 1
   },
   {
@@ -379877,11 +379844,11 @@
    "slip44": 60
   },
   {
-   "chain": "esl2-d",
+   "chain": "qkcl2-b",
    "chain_id": 3335,
    "is_testnet": true,
-   "name": "EthStorage L2 Devnet",
-   "shortcut": "tETH",
+   "name": "QuarkChain L2 Beta Testnet",
+   "shortcut": "tQKC",
    "slip44": 1
   },
   {
@@ -379911,11 +379878,11 @@
    "slip44": 60
   },
   {
-   "chain": "es-m",
+   "chain": "esl2-d",
    "chain_id": 3339,
-   "is_testnet": false,
-   "name": "EthStorage",
-   "shortcut": "ETH",
+   "is_testnet": true,
+   "name": "EthStorage L2 Devnet",
+   "shortcut": "tETH",
    "slip44": 1
   },
   {
@@ -380018,8 +379985,8 @@
    "chain": "jzero",
    "chain_id": 3502,
    "is_testnet": false,
-   "name": "JZERO",
-   "shortcut": "JZR",
+   "name": "JFINPOS",
+   "shortcut": "JPOS",
    "slip44": 60
   },
   {
@@ -380165,8 +380132,8 @@
    "coingecko_id": "alvey-chain",
    "coingecko_network_id": "alverychain",
    "is_testnet": false,
-   "name": "Alvey Chain",
-   "shortcut": "WALV",
+   "name": "AlveyChain",
+   "shortcut": "ALV",
    "slip44": 60
   },
   {
@@ -380218,11 +380185,11 @@
    "slip44": 60
   },
   {
-   "chain": "dost",
+   "chain": "dos-test",
    "chain_id": 3939,
-   "is_testnet": false,
-   "name": "DOS Tesnet",
-   "shortcut": "DOS",
+   "is_testnet": true,
+   "name": "DOS Testnet",
+   "shortcut": "tDOS",
    "slip44": 1
   },
   {
@@ -380314,13 +380281,13 @@
    "slip44": 1
   },
   {
-   "chain": "GANTestnet",
+   "chain": "GANchain",
    "chain_id": 4048,
    "coingecko_network_id": "gpunet",
-   "is_testnet": true,
-   "name": "GAN Testnet",
-   "shortcut": "tGP",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "GANchain L1",
+   "shortcut": "GPU",
+   "slip44": 60
   },
   {
    "chain": "BobaoperaTestnet",
@@ -380344,8 +380311,8 @@
    "coingecko_id": "nahmii",
    "coingecko_network_id": "nahmii",
    "is_testnet": false,
-   "name": "Nahmii",
-   "shortcut": "NII",
+   "name": "Nahmii 3",
+   "shortcut": "ETH",
    "slip44": 60
   },
   {
@@ -380494,10 +380461,9 @@
    "chain_id": 4200,
    "coingecko_id": "wrapped-bitcoin",
    "coingecko_network_id": "merlin-chain",
-   "coingecko_rank": 12,
    "is_testnet": false,
-   "name": "Wrapped Bitcoin",
-   "shortcut": "WBTC",
+   "name": "Merlin",
+   "shortcut": "BTC",
    "slip44": 60
   },
   {
@@ -380569,7 +380535,7 @@
    "chain_id": 4270,
    "is_testnet": true,
    "name": "IKChain Testnet",
-   "shortcut": "tIKCr",
+   "shortcut": "tIKTokn",
    "slip44": 1
   },
   {
@@ -380738,8 +380704,8 @@
    "chain": "mst",
    "chain_id": 4646,
    "is_testnet": false,
-   "name": "MST Chain",
-   "shortcut": "MST",
+   "name": "MST",
+   "shortcut": "MSTC",
    "slip44": 4646
   },
   {
@@ -380860,11 +380826,11 @@
    "slip44": 60
   },
   {
-   "chain": "BXN",
+   "chain": "BXNdpr",
    "chain_id": 4999,
    "is_testnet": false,
-   "name": "BlackFort Exchange Network",
-   "shortcut": "BXN",
+   "name": "BlackFort Exchange Network Deprecated",
+   "shortcut": "BXNdpr",
    "slip44": 60
   },
   {
@@ -380979,10 +380945,10 @@
   {
    "chain": "pio",
    "chain_id": 5090,
-   "is_testnet": true,
-   "name": "Pioneer Chain Testnet",
-   "shortcut": "tPIO",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "Pione Chain",
+   "shortcut": "PIO",
+   "slip44": 60
   },
   {
    "chain": "syndicate-chain-testnet",
@@ -381068,11 +381034,11 @@
    "slip44": 1
   },
   {
-   "chain": "ZKME",
+   "chain": "MOCA",
    "chain_id": 5151,
    "is_testnet": true,
-   "name": "MeChain Testnet",
-   "shortcut": "tZKME",
+   "name": "Moca Chain Testnet",
+   "shortcut": "tMOCA",
    "slip44": 1
   },
   {
@@ -381123,8 +381089,8 @@
    "coingecko_id": "wrapped-ehmnd",
    "coingecko_network_id": "humanode",
    "is_testnet": false,
-   "name": "Humanode",
-   "shortcut": "eHMND",
+   "name": "Wrapped eHMND (eHMND)",
+   "shortcut": "WEHMND",
    "slip44": 60
   },
   {
@@ -381235,13 +381201,13 @@
    "slip44": 60
   },
   {
-   "chain": "saga",
+   "chain": "sagaevm",
    "chain_id": 5464,
    "coingecko_id": "saga-2",
    "coingecko_network_id": "saga",
    "is_testnet": false,
    "name": "Saga",
-   "shortcut": "GAS",
+   "shortcut": "SAGA",
    "slip44": 60
   },
   {
@@ -381265,10 +381231,10 @@
    "chain_id": 5545,
    "coingecko_id": "the-open-network",
    "coingecko_network_id": "duckchain",
-   "coingecko_rank": 24,
+   "coingecko_rank": 25,
    "is_testnet": false,
-   "name": "Toncoin",
-   "shortcut": "TON",
+   "name": "Gram (prev. Toncoin)",
+   "shortcut": "GRAM",
    "slip44": 60
   },
   {
@@ -381419,20 +381385,20 @@
   {
    "chain": "dukong",
    "chain_id": 5887,
-   "coingecko_network_id": "mantra-dao",
+   "coingecko_network_id": "mantra",
    "is_testnet": true,
    "name": "MANTRACHAIN Testnet",
-   "shortcut": "tOM",
+   "shortcut": "tMANTRA",
    "slip44": 1
   },
   {
-   "chain": "mantrachain",
+   "chain": "mantra",
    "chain_id": 5888,
-   "coingecko_id": "mantra-dao",
+   "coingecko_id": "mantra",
    "coingecko_network_id": "mantra-evm",
    "is_testnet": false,
-   "name": "MANTRA [Old]",
-   "shortcut": "OM",
+   "name": "MANTRA",
+   "shortcut": "MANTRA",
    "slip44": 1
   },
   {
@@ -382229,12 +382195,12 @@
    "slip44": 60
   },
   {
-   "chain": "RiseOfTheWarbotsTestnet",
+   "chain": "ttl",
    "chain_id": 7777,
-   "is_testnet": true,
-   "name": "Rise of the Warbots Testnet",
-   "shortcut": "tNMAC",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "TTL Coin",
+   "shortcut": "TTL",
+   "slip44": 60
   },
   {
    "chain": "ore",
@@ -382488,11 +382454,11 @@
    "slip44": 1
   },
   {
-   "chain": "BitEth",
+   "chain": "Bitcoin",
    "chain_id": 8086,
    "is_testnet": false,
-   "name": "BitEth",
-   "shortcut": "BTE",
+   "name": "Bitcoin Chain",
+   "shortcut": "BTC",
    "slip44": 60
   },
   {
@@ -382531,8 +382497,8 @@
    "chain": "zen",
    "chain_id": 8108,
    "is_testnet": false,
-   "name": "Zenchain",
-   "shortcut": "ZCX",
+   "name": "ZenChain",
+   "shortcut": "ZTC",
    "slip44": 60
   },
   {
@@ -382717,8 +382683,8 @@
    "chain": "zentest",
    "chain_id": 8408,
    "is_testnet": true,
-   "name": "Zenchain Testnet",
-   "shortcut": "tZCX",
+   "name": "ZenChain Testnet",
+   "shortcut": "tZTC",
    "slip44": 1
   },
   {
@@ -383002,8 +382968,8 @@
    "coingecko_id": "wrapped-jbc",
    "coingecko_network_id": "jibchain",
    "is_testnet": false,
-   "name": "JibSwap Wrapped JBC (Jibchain)",
-   "shortcut": "WJBC",
+   "name": "JIBCHAIN L1",
+   "shortcut": "JBC",
    "slip44": 60
   },
   {
@@ -383259,12 +383225,12 @@
    "slip44": 60
   },
   {
-   "chain": "twvm",
+   "chain": "tload",
    "chain_id": 9496,
-   "is_testnet": true,
-   "name": "WeaveVM Testnet",
-   "shortcut": "tWVM",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "Load Alphanet",
+   "shortcut": "tLOAD",
+   "slip44": 60
   },
   {
    "chain": "colsep",
@@ -385112,7 +385078,7 @@
    "chain_id": 21210,
    "is_testnet": false,
    "name": "1Money Network",
-   "shortcut": "USD1",
+   "shortcut": "FREE",
    "slip44": 60
   },
   {
@@ -385312,11 +385278,11 @@
    "slip44": 1
   },
   {
-   "chain": "MGC",
+   "chain": "XURAm",
    "chain_id": 24125,
    "is_testnet": false,
-   "name": "MagiChain",
-   "shortcut": "MGIX",
+   "name": "Nexurachain",
+   "shortcut": "XURA",
    "slip44": 60
   },
   {
@@ -385726,12 +385692,12 @@
    "slip44": 1
   },
   {
-   "chain": "filecoin-wallaby",
+   "chain": "wpay",
    "chain_id": 31415,
-   "is_testnet": true,
-   "name": "Filecoin - Wallaby testnet",
-   "shortcut": "tFIL",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "Wirex Pay",
+   "shortcut": "ETH",
+   "slip44": 60
   },
   {
    "chain": "mezo-testnet",
@@ -385746,10 +385712,9 @@
    "chain_id": 31612,
    "coingecko_id": "wrapped-bitcoin",
    "coingecko_network_id": "mezo",
-   "coingecko_rank": 15,
    "is_testnet": false,
-   "name": "Mezo",
-   "shortcut": "BTC",
+   "name": "Wrapped Bitcoin",
+   "shortcut": "WBTC",
    "slip44": 60
   },
   {
@@ -386077,8 +386042,8 @@
    "coingecko_id": "igra-bridged-kaspa",
    "coingecko_network_id": "igra",
    "is_testnet": false,
-   "name": "Igra Network",
-   "shortcut": "iKAS",
+   "name": "Igra Bridged Kaspa",
+   "shortcut": "IKAS",
    "slip44": 60
   },
   {
@@ -386251,7 +386216,7 @@
    "chain_id": 42261,
    "is_testnet": true,
    "name": "Oasis Emerald Testnet",
-   "shortcut": "tROSE",
+   "shortcut": "TEST",
    "slip44": 1
   },
   {
@@ -386773,8 +386738,8 @@
    "chain": "reddio-devnet",
    "chain_id": 50341,
    "is_testnet": true,
-   "name": "Reddio Devnet",
-   "shortcut": "tRED",
+   "name": "Reddio Testnet",
+   "shortcut": "tRDO",
    "slip44": 1
   },
   {
@@ -387452,11 +387417,11 @@
    "slip44": 60
   },
   {
-   "chain": "ccx",
+   "chain": "xcc",
    "chain_id": 65535,
    "is_testnet": false,
    "name": "CyberChain",
-   "shortcut": "CCX",
+   "shortcut": "XCC",
    "slip44": 60
   },
   {
@@ -387542,12 +387507,12 @@
    "slip44": 60
   },
   {
-   "chain": "cndr",
+   "chain": "cheese",
    "chain_id": 69420,
-   "is_testnet": true,
-   "name": "Condrieu",
-   "shortcut": "tCTE",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "CHEESE Blockchain",
+   "shortcut": "CHEESE",
+   "slip44": 60
   },
   {
    "chain": "ilyt",
@@ -387626,7 +387591,7 @@
    "chain_id": 71117,
    "is_testnet": true,
    "name": "Wadzchain Testnet",
-   "shortcut": "tWTK",
+   "shortcut": "tWCO",
    "slip44": 1
   },
   {
@@ -388358,8 +388323,8 @@
    "chain": "dhobyghaut",
    "chain_id": 90001,
    "is_testnet": true,
-   "name": "F(x)Core Testnet Network",
-   "shortcut": "tFX",
+   "name": "Pundi AIFX Omnilayer Testnet",
+   "shortcut": "tPUNDAI",
    "slip44": 1
   },
   {
@@ -388729,12 +388694,12 @@
    "slip44": 1
   },
   {
-   "chain": "usc",
+   "chain": "adi-testnet",
    "chain_id": 99999,
-   "is_testnet": false,
-   "name": "UB Smart Chain",
-   "shortcut": "UBC",
-   "slip44": 60
+   "is_testnet": true,
+   "name": "ADI Network AB Testnet",
+   "shortcut": "tADI",
+   "slip44": 1
   },
   {
    "chain": "qkc-r",
@@ -388845,10 +388810,10 @@
   {
    "chain": "chi1",
    "chain_id": 100100,
-   "is_testnet": true,
-   "name": "Deprecated Chiado Testnet",
-   "shortcut": "txDAI",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "Deprecated CHI",
+   "shortcut": "xDAI",
+   "slip44": 60
   },
   {
    "chain": "deinfra-mainnet",
@@ -389078,11 +389043,11 @@
   {
    "chain": "re-al",
    "chain_id": 111188,
-   "coingecko_id": "weth",
+   "coingecko_id": "real-ether",
    "coingecko_network_id": "re-al",
    "is_testnet": false,
-   "name": "re.al",
-   "shortcut": "reETH",
+   "name": "Real Ether",
+   "shortcut": "REETH",
    "slip44": 60
   },
   {
@@ -389273,8 +389238,8 @@
    "chain": "BitharvestTestnet",
    "chain_id": 141491,
    "is_testnet": true,
-   "name": "Bitharvest Chian Testnet",
-   "shortcut": "tbth",
+   "name": "Bitharvest Chain Testnet",
+   "shortcut": "tBTH",
    "slip44": 1
   },
   {
@@ -389357,12 +389322,12 @@
   {
    "chain": "tko-mainnet",
    "chain_id": 167000,
-   "coingecko_id": "taiko",
+   "coingecko_id": "ethereum",
    "coingecko_network_id": "taiko",
    "coingecko_rank": 2,
    "is_testnet": false,
    "name": "Taiko",
-   "shortcut": "TAIKO",
+   "shortcut": "ETH",
    "slip44": 60
   },
   {
@@ -389547,7 +389512,7 @@
    "chain_id": 192940,
    "is_testnet": true,
    "name": "Mind Network Testnet",
-   "shortcut": "tFHE",
+   "shortcut": "tETH",
    "slip44": 1
   },
   {
@@ -389804,11 +389769,11 @@
    "slip44": 60
   },
   {
-   "chain": "litentry",
+   "chain": "heima",
    "chain_id": 212013,
    "is_testnet": false,
-   "name": "Litentry",
-   "shortcut": "LIT",
+   "name": "Heima",
+   "shortcut": "HEI",
    "slip44": 60
   },
   {
@@ -390137,8 +390102,8 @@
    "chain": "saharatest",
    "chain_id": 313313,
    "is_testnet": true,
-   "name": "SaharaAI Testnet",
-   "shortcut": "tSAH",
+   "name": "Sahara AI Testnet",
+   "shortcut": "tSAHARA",
    "slip44": 1
   },
   {
@@ -390186,10 +390151,10 @@
   {
    "chain": "waba",
    "chain_id": 327126,
-   "is_testnet": true,
-   "name": "WABA Chain Testnet",
-   "shortcut": "tWABA",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "WABA Chain",
+   "shortcut": "WABA",
+   "slip44": 60
   },
   {
    "chain": "nal",
@@ -390574,11 +390539,11 @@
    "slip44": 1
   },
   {
-   "chain": "ATN",
+   "chain": "ATN-deprecated",
    "chain_id": 490000,
    "is_testnet": true,
-   "name": "Autonomys Testnet Nova Domain",
-   "shortcut": "TATC",
+   "name": "Autonomys Taurus Testnet",
+   "shortcut": "tAI3",
    "slip44": 1
   },
   {
@@ -390614,11 +390579,11 @@
    "slip44": 1
   },
   {
-   "chain": "dis",
+   "chain": "ethf",
    "chain_id": 513100,
    "is_testnet": false,
-   "name": "DisChain",
-   "shortcut": "DIS",
+   "name": "EthereumFair",
+   "shortcut": "ETHF",
    "slip44": 60
   },
   {
@@ -390739,10 +390704,10 @@
   {
    "chain": "HETU",
    "chain_id": 560000,
-   "is_testnet": true,
-   "name": "Hetu Testnet",
-   "shortcut": "tETH",
-   "slip44": 1
+   "is_testnet": false,
+   "name": "Hetu",
+   "shortcut": "HETU",
+   "slip44": 60
   },
   {
    "chain": "rogue",
@@ -390896,11 +390861,11 @@
    "slip44": 1
   },
   {
-   "chain": "prim",
+   "chain": "goldpn",
    "chain_id": 698369,
    "is_testnet": false,
-   "name": "Primea Chain",
-   "shortcut": "PRIM",
+   "name": "Primea Network",
+   "shortcut": "GOLDPN",
    "slip44": 60
   },
   {
@@ -391501,7 +391466,7 @@
    "chain_id": 1212101,
    "is_testnet": true,
    "name": "1Money Network Testnet",
-   "shortcut": "tUSD1",
+   "shortcut": "tFREE",
    "slip44": 1
   },
   {
@@ -391636,11 +391601,11 @@
    "slip44": 1
   },
   {
-   "chain": "test-prim",
+   "chain": "test-goldpn",
    "chain_id": 1698369,
    "is_testnet": true,
-   "name": "Primea Chain Testnet",
-   "shortcut": "tPRIM",
+   "name": "Primea Network Testnet",
+   "shortcut": "tGOLDPN",
    "slip44": 1
   },
   {
@@ -391769,8 +391734,8 @@
    "chain": "sahara",
    "chain_id": 3132023,
    "is_testnet": false,
-   "name": "SaharaAI Network",
-   "shortcut": "SAH",
+   "name": "Sahara AI",
+   "shortcut": "SAHARA",
    "slip44": 60
   },
   {
@@ -391977,8 +391942,8 @@
    "chain": "ting-testnet",
    "chain_id": 6666689,
    "is_testnet": true,
-   "name": "The Ting Blockchain Testnet Explorer",
-   "shortcut": "Ton",
+   "name": "Ting Chain Testnet",
+   "shortcut": "TING",
    "slip44": 1
   },
   {
@@ -392394,8 +392359,8 @@
    "chain": "mpsc",
    "chain_id": 16969696,
    "is_testnet": false,
-   "name": " Privix Chain",
-   "shortcut": "PSC",
+   "name": "Privix Chain",
+   "shortcut": "PRIVIX",
    "slip44": 60
   },
   {
@@ -392497,11 +392462,11 @@
    "slip44": 1
   },
   {
-   "chain": "Vcity",
+   "chain": "Vcitytestnet",
    "chain_id": 20230825,
    "is_testnet": true,
    "name": "Vcity Testnet",
-   "shortcut": "tVCITY",
+   "shortcut": "tVCT",
    "slip44": 1
   },
   {
@@ -392944,7 +392909,7 @@
    "chain_id": 96969696,
    "is_testnet": true,
    "name": " Privix Chain Testnet",
-   "shortcut": "tPSC",
+   "shortcut": "tPRIVIX",
    "slip44": 1
   },
   {
@@ -393123,8 +393088,8 @@
    "coingecko_id": "meld-2",
    "coingecko_network_id": "meld",
    "is_testnet": false,
-   "name": "MELD",
-   "shortcut": "MELD",
+   "name": "Meld",
+   "shortcut": "gMELD",
    "slip44": 60
   },
   {
@@ -393449,12 +393414,12 @@
   {
    "chain": "rari-mainnet",
    "chain_id": 1380012617,
-   "coingecko_id": "weth",
+   "coingecko_id": "ethereum",
    "coingecko_network_id": "rari",
    "coingecko_rank": 2,
    "is_testnet": false,
-   "name": "WETH",
-   "shortcut": "WETH",
+   "name": "Ethereum",
+   "shortcut": "ETH",
    "slip44": 60
   },
   {
@@ -393768,12 +393733,12 @@
    "slip44": 1
   },
   {
-   "chain": "onfa",
+   "chain": "onfatestnet",
    "chain_id": 8691942025,
-   "is_testnet": false,
-   "name": "ONFA Chain",
-   "shortcut": "OFC",
-   "slip44": 60
+   "is_testnet": true,
+   "name": "ONFA Chain Testnet",
+   "shortcut": "tOFCT",
+   "slip44": 1
   },
   {
    "chain": "tpalm",
@@ -393939,8 +393904,8 @@
    "chain": "SmartPay",
    "chain_id": 666301179999,
    "is_testnet": false,
-   "name": "Smart Pay Mobile Money",
-   "shortcut": "SMRTP",
+   "name": "SmartPay Mobile Money",
+   "shortcut": "SMM",
    "slip44": 60
   },
   {
@@ -423133,6 +423098,12 @@
    "shortcut": "OPIUMBIRD"
   },
   {
+   "coingecko_id": "superrarebears-rare",
+   "mint": "HmLspvjpQtQEnArUyJoBSFGS38gNJwBuxAeqSV9SZ66K",
+   "name": "SuperRareBears RARE",
+   "shortcut": "RARE"
+  },
+  {
    "coingecko_id": "the9bit",
    "mint": "HmMubgKx91Tpq3jmfcKQwsv5HrErqnCTTRJMB6afFR2u",
    "name": "The9bit",
@@ -430368,13 +430339,6 @@
    "mint": "znv3FZt2HFAvzYf5LxzVyryh3mBXWuTRRng25gEZAjh",
    "name": "Infinite Money Glitch",
    "shortcut": "IMG"
-  },
-  {
-   "coingecko_id": "dextoro-3",
-   "coingecko_rank": 97,
-   "mint": "zpfeF4zXpyXKSd6Hc6r7yRqWKZ289Bd3JVJW4SWKoLV",
-   "name": "dextoro",
-   "shortcut": "DTR"
   },
   {
    "coingecko_id": "pim-pimling",
