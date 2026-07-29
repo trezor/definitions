@@ -423986,10 +423986,10 @@
   }
  ],
  "metadata": {
-  "commit_hash": "e7f059bcdbb0879fe7ce5bf775fbc11ed8251eb1",
-  "datetime": "2026-07-29T16:16:00.208772+00:00",
-  "merkle_root": "38b0d3068de4f599ed849cca6b6e774a2becf9ce541dd297bfc9e8112cdc3f40",
-  "unix_timestamp": 1785341760
+  "commit_hash": "92e1f45aa671b23c0914b341ee7555180ccda771",
+  "datetime": "2026-07-29T16:30:14.747147+00:00",
+  "merkle_root": "f43fd297b26cd264606ecc8d0431b3c11851ce82a715a263317894980a51cf59",
+  "unix_timestamp": 1785342614
  },
  "networks": [
   {
