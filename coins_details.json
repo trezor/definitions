@@ -277,7 +277,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "0111101001111000011",
+   "shortcut": "01111010011110000110",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -2734,7 +2734,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "5SCAPE",
+   "shortcut": "$5SCAPE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -3544,7 +3544,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "ALPHA",
+   "shortcut": "$ALPHA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -7512,11 +7512,11 @@
   "aave-v3-usdc-e": {
    "coingecko_id": "aave-v3-usdc-e",
    "id": "erc20:arb1:0x625e7708f30ca75bfd92586e17077590c60eb4cd",
-   "name": "Aave v3 USDC e",
+   "name": "Aave v3 USDC.e",
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "AUSDCE",
+   "shortcut": "AUSDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -12341,7 +12341,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "WSB",
+   "shortcut": "$WSB",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -16065,7 +16065,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "/",
+   "shortcut": "\u7a7a\u6c14\u5e01/",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -17321,7 +17321,7 @@
     "energi",
     "ethereum"
    ],
-   "shortcut": "AKRO",
+   "shortcut": "KAON",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -19829,11 +19829,11 @@
   "alkimi": {
    "coingecko_id": "alkimi",
    "id": "erc20:eth:0x3106a0a076bedae847652f42ef07fd58589e001f",
-   "name": "Alkimi  OLD ",
+   "name": "Alkimi [OLD]",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "ADS",
+   "shortcut": "$ADS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -21812,7 +21812,7 @@
   },
   "alright-buddy": {
    "coingecko_id": "alright-buddy",
-   "id": "erc20:twan:0x47bb061c0204af921f43dc73c7d7768d2672ddee",
+   "id": "erc20:hype:0x47bb061c0204af921f43dc73c7d7768d2672ddee",
    "name": "alright buddy",
    "networks": [
     "hyperevm"
@@ -21868,7 +21868,7 @@
   },
   "alt": {
    "coingecko_id": "alt",
-   "id": "erc20:twan:0xa3882d42ed12b57c10c85e8ec8febd0774600000",
+   "id": "erc20:hype:0xa3882d42ed12b57c10c85e8ec8febd0774600000",
    "name": "ALT",
    "networks": [
     "hyperevm"
@@ -22412,12 +22412,12 @@
   },
   "alvey-chain": {
    "coingecko_id": "alvey-chain",
-   "id": "eth:WALV:3797",
-   "name": "Alvey Chain",
+   "id": "eth:ALV:3797",
+   "name": "AlveyChain",
    "networks": [
     "alverychain"
    ],
-   "shortcut": "WALV",
+   "shortcut": "ALV",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -28093,6 +28093,7 @@
     "arbitrum-one",
     "binance-smart-chain",
     "ethereum",
+    "hyperevm",
     "monad",
     "polygon-pos",
     "robinhood",
@@ -30726,36 +30727,6 @@
     "ethereum"
    ],
    "shortcut": "ARB",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "arbitrum-bridged-usdt-arbitrum": {
-   "coingecko_id": "arbitrum-bridged-usdt-arbitrum",
-   "id": "erc20:arb1:0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
-   "name": "Arbitrum Bridged USDT  Arbitrum ",
-   "networks": [
-    "arbitrum-one"
-   ],
-   "shortcut": "USDT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -33846,7 +33817,7 @@
    "networks": [
     "polygon-pos"
    ],
-   "shortcut": "MART",
+   "shortcut": "$MART",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -36826,7 +36797,7 @@
   },
   "ath": {
    "coingecko_id": "ath",
-   "id": "erc20:twan:0xf3d8e8c2fc0531f3bf72f7d72ea158ae2b000000",
+   "id": "erc20:hype:0xf3d8e8c2fc0531f3bf72f7d72ea158ae2b000000",
    "name": "ATH",
    "networks": [
     "hyperevm"
@@ -39378,11 +39349,11 @@
   "avalanche-bridged-btc-arbitrum-one": {
    "coingecko_id": "avalanche-bridged-btc-arbitrum-one",
    "id": "erc20:arb1:0x2297aebd383787a160dd0d9f71508148769342e3",
-   "name": "Avalanche Bridged BTC  Arbitrum One ",
+   "name": "Avalanche Bridged BTC (Arbitrum One)",
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "BTCB",
+   "shortcut": "BTC.B",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -39468,11 +39439,11 @@
   "avalanche-old-bridged-wbtc-avalanche": {
    "coingecko_id": "avalanche-old-bridged-wbtc-avalanche",
    "id": "erc20:avax:0x50b7545627a5162f82a992c33b87adc75187b218",
-   "name": "Avalanche Bridged WBTC  Avalanche ",
+   "name": "Avalanche Bridged WBTC (Avalanche)",
    "networks": [
     "avalanche"
    ],
-   "shortcut": "WBTC",
+   "shortcut": "WBTC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -42017,7 +41988,7 @@
    "networks": [
     "rootstock"
    ],
-   "shortcut": "FISH",
+   "shortcut": "$FISH",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -43790,7 +43761,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "BBT",
+   "shortcut": "$BBT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -44420,7 +44391,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "BABYLONG",
+   "shortcut": "$BABYLONG",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -47267,7 +47238,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "BANANA",
+   "shortcut": "BANANAS31",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -50689,7 +50660,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "HOUND",
+   "shortcut": "$HOUND",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -52967,12 +52938,12 @@
   "beethoven-x": {
    "coingecko_id": "beethoven-x",
    "id": "erc20:oeth:0xb4bc46bc6cb217b59ea8f4530bae26bf69f677f0",
-   "name": "Beethoven X",
+   "name": "Beethoven X (Legacy)",
    "networks": [
     "fantom",
     "optimistic-ethereum"
    ],
-   "shortcut": "BEETS",
+   "shortcut": "BEETS-LEGACY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -54671,11 +54642,11 @@
   "bepro-network": {
    "coingecko_id": "bepro-network",
    "id": "erc20:eth:0xcf3c8be2e2c42331da80ef210e9b1b307c03d36a",
-   "name": "Bepro",
+   "name": "LayerX",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "BEPRO",
+   "shortcut": "LX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -54955,7 +54926,7 @@
     "mantle",
     "solana"
    ],
-   "shortcut": "BRKBX",
+   "shortcut": "BRK.BX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -56951,7 +56922,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "BUD",
+   "shortcut": "$BUD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -58069,7 +58040,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "BILLY",
+   "shortcut": "$BILLY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -60896,36 +60867,6 @@
     }
    ]
   },
-  "bitclave": {
-   "coingecko_id": "bitclave",
-   "id": "erc20:eth:0x1234567461d3f8db7496581774bd869c83d51c93",
-   "name": "BitClave",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "CAT",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "bitcoin": {
    "coingecko_id": "bitcoin",
    "id": "bitcoin:BTC",
@@ -60969,11 +60910,11 @@
   "bitcoin-2-0": {
    "coingecko_id": "bitcoin-2-0",
    "id": "erc20:eth:0x3feb4fea5132695542f8ede5076ac43296d17c6d",
-   "name": "Bitcoin 2 0",
+   "name": "Bitcoin 2.0",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "BTC20",
+   "shortcut": "BTC2.0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -61059,11 +61000,11 @@
   "bitcoin-2015-wrapper-meme": {
    "coingecko_id": "bitcoin-2015-wrapper-meme",
    "id": "erc20:eth:0xc0bc84e95864bdfdcd1ccfb8a3aa522e79ca1410",
-   "name": "bitcoin  2015 Wrapper   Meme ",
+   "name": "bitcoin (2015 Wrapper) (Meme)",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "BTC",
+   "shortcut": "BTCE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -61188,7 +61129,7 @@
    "networks": [
     "avalanche",
     "megaeth",
-    "stable-2"
+    "stable"
    ],
    "shortcut": "BTC.B",
    "support": {
@@ -61341,7 +61282,7 @@
     "binance-smart-chain",
     "zedxion"
    ],
-   "shortcut": "BTCZ",
+   "shortcut": "BTC.Z",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -63421,12 +63362,12 @@
   "bitpro": {
    "coingecko_id": "bitpro",
    "id": "erc20:rsk:0x440cd83c160de5c96ddb20246815ea44c7abbca8",
-   "name": "BitPro",
+   "name": "BitPRO",
    "networks": [
     "arbitrum-one",
     "rootstock"
    ],
-   "shortcut": "BITP",
+   "shortcut": "BPRO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -63740,7 +63681,7 @@
     "binance-smart-chain",
     "ethereum"
    ],
-   "shortcut": "BSSB",
+   "shortcut": "$BSSB",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -65428,7 +65369,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "MRKT",
+   "shortcut": "$MRKT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -66977,7 +66918,7 @@
    "networks": [
     "avalanche"
    ],
-   "shortcut": "BLS",
+   "shortcut": "$BLS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -67503,7 +67444,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "BAPU",
+   "shortcut": "$BAPU",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -67683,7 +67624,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "BLUE",
+   "shortcut": "$BLUE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -68918,6 +68859,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "SHARE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "bnbtiger": {
+   "coingecko_id": "bnbtiger",
+   "id": "erc20:bnb:0xac68931b666e086e9de380cfdb0fb5704a35dc2d",
+   "name": "BNB Tiger OG",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "BNBTIGEROG",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -71835,7 +71806,7 @@
     "optimistic-ethereum",
     "solana"
    ],
-   "shortcut": "BOO",
+   "shortcut": "$BOO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -72884,7 +72855,7 @@
    "networks": [
     "avalanche"
    ],
-   "shortcut": "BOOTY",
+   "shortcut": "$BOOTY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -73056,7 +73027,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "BORED",
+   "shortcut": "$BORED",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -74286,7 +74257,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "BOYS",
+   "shortcut": "$BOYS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -75441,11 +75412,11 @@
   "brett-2-0": {
    "coingecko_id": "brett-2-0",
    "id": "erc20:base:0x885129e35d247b01c4485ef6b48564d0ebc8c362",
-   "name": "Brett 2 0",
+   "name": "Brett 2.0",
    "networks": [
     "base"
    ],
-   "shortcut": "BRETT20",
+   "shortcut": "BRETT2.0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -75651,11 +75622,11 @@
   "brett0x66": {
    "coingecko_id": "brett0x66",
    "id": "erc20:eth:0x66e564819340cc2f54abceb4e49941fa07e426b4",
-   "name": "BRETT0X66",
+   "name": "Brett",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "BRETT",
+   "shortcut": "$BRETT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -76234,38 +76205,11 @@
   "bridged-dog-go-to-the-moon": {
    "coingecko_id": "bridged-dog-go-to-the-moon",
    "id": "erc20:Merlin-Mainnet:0x32a4b8b10222f85301874837f27f4c416117b811",
-   "name": "Bridged DOG GO TO THE MOON  Merlin Chai",
+   "name": "Bridged DOG\u2022GO\u2022TO\u2022THE\u2022MOON (Merlin Chain)",
    "networks": [
     "merlin-chain"
    ],
-   "shortcut": "DOGGOTOTHEMOON",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "bridged-frax": {
-   "coingecko_id": "bridged-frax",
-   "id": "erc20:okb:0x80eede496655fb9047dd39d9f418d5483ed600df",
-   "name": "Bridged FRAX",
-   "networks": [
-    "mode",
-    "x-layer"
-   ],
-   "shortcut": "FRAX",
+   "shortcut": "DOG\u2022GO\u2022TO\u2022THE\u2022MOON",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -76287,11 +76231,11 @@
   "bridged-kyber-network-crystal-bsc": {
    "coingecko_id": "bridged-kyber-network-crystal-bsc",
    "id": "erc20:BTT:0x18fa72e0ee4c580a129b0ce5bd0694d716c7443e",
-   "name": "Bridged Kyber Network Crystal  BSC ",
+   "name": "Bridged Kyber Network Crystal (BSC)",
    "networks": [
     "bittorrent"
    ],
-   "shortcut": "KNCB",
+   "shortcut": "KNC_B",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -76313,11 +76257,11 @@
   "bridged-kyber-network-crystal-ethereum": {
    "coingecko_id": "bridged-kyber-network-crystal-ethereum",
    "id": "erc20:BTT:0xe467f79e9869757dd818dfb8535068120f6bcb97",
-   "name": "Bridged Kyber Network Crystal  Ethereum",
+   "name": "Bridged Kyber Network Crystal (Ethereum)",
    "networks": [
     "bittorrent"
    ],
-   "shortcut": "KNCE",
+   "shortcut": "KNC_E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -76561,11 +76505,11 @@
   "bridged-tia-hyperlane": {
    "coingecko_id": "bridged-tia-hyperlane",
    "id": "erc20:arb1:0xd56734d7f9979dd94fae3d67c7e928234e71cd4c",
-   "name": "Bridged TIA  Hyperlane ",
+   "name": "Bridged TIA (Hyperlane)",
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "TIAN",
+   "shortcut": "TIA.N",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -76708,11 +76652,11 @@
   "bridged-usd-coin-optimism": {
    "coingecko_id": "bridged-usd-coin-optimism",
    "id": "erc20:oeth:0x7f5c764cbc14f9669b88837ca1490cca17c31607",
-   "name": "Standard Bridged USDC e  Optimism ",
+   "name": "Standard Bridged USDC.e (Optimism)",
    "networks": [
     "optimistic-ethereum"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -76769,7 +76713,6 @@
     "bitgert",
     "boba",
     "fuse",
-    "metis-andromeda",
     "milkomeda-cardano",
     "okex-chain",
     "step-network",
@@ -76849,11 +76792,11 @@
   "bridged-usdc-gnosis": {
    "coingecko_id": "bridged-usdc-gnosis",
    "id": "erc20:gno:0x2a22f9c3b484c3629090feed35f17ff8f88f76f0",
-   "name": "Gnosis xDAI Bridged USDC  Gnosis ",
+   "name": "Gnosis xDAI Bridged USDC (Gnosis)",
    "networks": [
     "xdai"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -76927,11 +76870,11 @@
   "bridged-usdc-polygon-pos-bridge": {
    "coingecko_id": "bridged-usdc-polygon-pos-bridge",
    "id": "erc20:pol:0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-   "name": "Bridged USDC  Polygon PoS Bridge ",
+   "name": "Polygon Bridged USDC (Polygon PoS)",
    "networks": [
     "polygon-pos"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -76944,32 +76887,6 @@
      "name": "Trezor Suite",
      "url": "https://trezor.io/trezor-suite"
     },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "bridged-usdc-world-chain": {
-   "coingecko_id": "bridged-usdc-world-chain",
-   "id": "erc20:wc:0x79a02482a880bce3f13e09da970dc34db4cd24d1",
-   "name": "World Chain Bridged USDC  World Chain ",
-   "networks": [
-    "world-chain"
-   ],
-   "shortcut": "USDCE",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -80403,7 +80320,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "BULL",
+   "shortcut": "$BULL",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -80984,7 +80901,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "BMC",
+   "shortcut": "$BMC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -81911,7 +81828,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "RIPPER",
+   "shortcut": "$RIPPER",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -83123,7 +83040,7 @@
     "base",
     "solana"
    ],
-   "shortcut": "BYTE",
+   "shortcut": "$BYTE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -85621,7 +85538,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "CRDN",
+   "shortcut": "$CRDN",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -87194,7 +87111,7 @@
   },
   "catbal": {
    "coingecko_id": "catbal",
-   "id": "erc20:twan:0x11735dbd0b97cfa7accf47d005673ba185f7fd49",
+   "id": "erc20:hype:0x11735dbd0b97cfa7accf47d005673ba185f7fd49",
    "name": "Catbal",
    "networks": [
     "hyperevm"
@@ -91026,7 +90943,7 @@
     "solana",
     "soneium",
     "sonic",
-    "stable-2",
+    "stable",
     "superseed",
     "tac",
     "unichain",
@@ -91898,7 +91815,7 @@
   },
   "chateau-usd": {
    "coingecko_id": "chateau-usd",
-   "id": "erc20:twan:0x2222227d90046f1483b3fb37990dea31fcabea02",
+   "id": "erc20:hype:0x2222227d90046f1483b3fb37990dea31fcabea02",
    "name": "Chateau USD",
    "networks": [
     "hyperevm",
@@ -92811,7 +92728,7 @@
    "networks": [
     "abstract"
    ],
-   "shortcut": "CHESTER",
+   "shortcut": "$CHESTER",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -94850,7 +94767,7 @@
   },
   "chomolon-joff": {
    "coingecko_id": "chomolon-joff",
-   "id": "erc20:twan:0x62d5dd0190376c444a4b2e2e860aa392ec83ed80",
+   "id": "erc20:hype:0x62d5dd0190376c444a4b2e2e860aa392ec83ed80",
    "name": "Chomolon Joff",
    "networks": [
     "hyperevm"
@@ -96248,7 +96165,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "CINO",
+   "shortcut": "$CINO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -105103,40 +105020,6 @@
     }
    ]
   },
-  "connext": {
-   "coingecko_id": "connext",
-   "id": "erc20:oeth:0x58b9cb810a68a7f3e1e4f8cb45d1b9b3c79705e8",
-   "name": "Everclear",
-   "networks": [
-    "arbitrum-one",
-    "binance-smart-chain",
-    "optimistic-ethereum",
-    "polygon-pos",
-    "xdai"
-   ],
-   "shortcut": "NEXT",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "conocophillips-ondo-tokenized-stocks": {
    "coingecko_id": "conocophillips-ondo-tokenized-stocks",
    "id": "erc20:eth:0x8e6a5338eac4b6fe8d51a7653fad3b9da755eea6",
@@ -105960,7 +105843,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "MUST",
+   "shortcut": "$MUST",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -107396,11 +107279,11 @@
   "corn-bridged-usdc-corn": {
    "coingecko_id": "corn-bridged-usdc-corn",
    "id": "erc20:corn:0xdf0b24095e15044538866576754f3c964e902ee6",
-   "name": "Corn Bridged USDC  Corn ",
+   "name": "Corn Bridged USDC (Corn)",
    "networks": [
     "corn"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -107932,7 +107815,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "COSMIC",
+   "shortcut": "$COSMIC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -108990,7 +108873,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "CRAMER",
+   "shortcut": "$CRAMER",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -110118,7 +110001,7 @@
    "networks": [
     "linea"
    ],
-   "shortcut": "CROAK",
+   "shortcut": "$CROAK",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -121917,7 +121800,7 @@
     "base",
     "polygon-pos"
    ],
-   "shortcut": "FACTR",
+   "shortcut": "REAL",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -122345,11 +122228,11 @@
   "defi-ssi": {
    "coingecko_id": "defi-ssi",
    "id": "erc20:base:0x164ffdae2fe3891714bc2968f1875ca4fa1079d0",
-   "name": "DEFI ssi",
+   "name": "DEFI.ssi",
    "networks": [
     "base"
    ],
-   "shortcut": "DEFISSI",
+   "shortcut": "DEFI.SSI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -124731,7 +124614,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "DOGE",
+   "shortcut": "D.O.G.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -124800,7 +124683,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "DOGE",
+   "shortcut": "D.O.G.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -125773,7 +125656,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "HIXOKDKEKJCJDKSICND",
+   "shortcut": "HIXOKDKEKJCJDKSICNDN",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -126642,36 +126525,6 @@
    "coingecko_id": "dextoro-2",
    "id": "solana:FkqvTmDNgxgcdS7fPbZoQhPVuaYJPwSsP8mm4p7oNgf6",
    "name": "dextoro [OLD]",
-   "networks": [
-    "solana"
-   ],
-   "shortcut": "DTR",
-   "support": {
-    "T1B1": false,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "Backpack",
-     "url": "https://backpack.app/"
-    },
-    {
-     "name": "NuFi",
-     "url": "https://nu.fi"
-    }
-   ]
-  },
-  "dextoro-3": {
-   "coingecko_id": "dextoro-3",
-   "id": "solana:zpfeF4zXpyXKSd6Hc6r7yRqWKZ289Bd3JVJW4SWKoLV",
-   "name": "dextoro",
    "networks": [
     "solana"
    ],
@@ -128525,7 +128378,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "AAPLD",
+   "shortcut": "AAPL.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128558,7 +128411,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "ADBED",
+   "shortcut": "ADBE.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128591,7 +128444,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "AMCD",
+   "shortcut": "AMC.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128621,7 +128474,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "AMDD",
+   "shortcut": "AMD.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128651,7 +128504,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "AMZND",
+   "shortcut": "AMZN.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128684,7 +128537,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "ARKBD",
+   "shortcut": "ARKB.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128716,7 +128569,7 @@
     "base",
     "blast"
    ],
-   "shortcut": "ARKKD",
+   "shortcut": "ARKK.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128749,7 +128602,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "ARKXD",
+   "shortcut": "ARKX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128779,7 +128632,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "ARMD",
+   "shortcut": "ARM.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128812,7 +128665,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "AVGOD",
+   "shortcut": "AVGO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128845,7 +128698,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "AZND",
+   "shortcut": "AZN.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128878,7 +128731,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "BAD",
+   "shortcut": "BA.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128911,7 +128764,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "BACD",
+   "shortcut": "BAC.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128944,7 +128797,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "BITBD",
+   "shortcut": "BITB.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -128976,7 +128829,7 @@
     "base",
     "blast"
    ],
-   "shortcut": "BLKD",
+   "shortcut": "BLK.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129009,7 +128862,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "BOXXD",
+   "shortcut": "BOXX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129035,11 +128888,11 @@
   "dinari-brk-a-d": {
    "coingecko_id": "dinari-brk-a-d",
    "id": "erc20:arb1:0x9da913f4dca9b210a232d588113047685a4ed4b1",
-   "name": "Dinari BRK A",
+   "name": "Dinari BRK.A",
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "BRKAD",
+   "shortcut": "BRK.A.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129072,7 +128925,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "BRRRD",
+   "shortcut": "BRRR.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129105,7 +128958,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "BTCOD",
+   "shortcut": "BTCO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129138,7 +128991,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "BTCWD",
+   "shortcut": "BTCW.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129171,7 +129024,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "CATD",
+   "shortcut": "CAT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129204,7 +129057,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "CCLD",
+   "shortcut": "CCL.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129235,7 +129088,7 @@
     "arbitrum-one",
     "ethereum"
    ],
-   "shortcut": "COIND",
+   "shortcut": "COIN.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129268,7 +129121,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "COSTD",
+   "shortcut": "COST.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129301,7 +129154,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "CSCOD",
+   "shortcut": "CSCO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129334,7 +129187,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "CVXD",
+   "shortcut": "CVX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129367,7 +129220,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "DALD",
+   "shortcut": "DAL.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129400,7 +129253,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "DEFID",
+   "shortcut": "DEFI.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129430,7 +129283,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "DISD",
+   "shortcut": "DIS.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129463,7 +129316,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "EEMD",
+   "shortcut": "EEM.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129496,7 +129349,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "EROD",
+   "shortcut": "ERO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129529,7 +129382,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "ETHED",
+   "shortcut": "ETHE.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129562,7 +129415,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "EZBCD",
+   "shortcut": "EZBC.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129595,7 +129448,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "FD",
+   "shortcut": "F.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129628,7 +129481,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "FBTCD",
+   "shortcut": "FBTC.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129661,7 +129514,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "GBTCD",
+   "shortcut": "GBTC.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129694,7 +129547,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "GLDD",
+   "shortcut": "GLD.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129727,7 +129580,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "GMED",
+   "shortcut": "GME.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129757,7 +129610,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "GOOGLD",
+   "shortcut": "GOOGL.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129790,7 +129643,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "HODLD",
+   "shortcut": "HODL.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129823,7 +129676,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "HOODD",
+   "shortcut": "HOOD.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129856,7 +129709,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "HUTD",
+   "shortcut": "HUT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129889,7 +129742,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "HYMBD",
+   "shortcut": "HYMB.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129922,7 +129775,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "IAUD",
+   "shortcut": "IAU.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129955,7 +129808,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "IBITD",
+   "shortcut": "IBIT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -129988,7 +129841,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "ITAD",
+   "shortcut": "ITA.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130021,7 +129874,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "JNJD",
+   "shortcut": "JNJ.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130054,7 +129907,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "JPMD",
+   "shortcut": "JPM.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130087,7 +129940,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "KOD",
+   "shortcut": "KO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130117,7 +129970,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "LMTD",
+   "shortcut": "LMT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130149,7 +130002,7 @@
     "base",
     "blast"
    ],
-   "shortcut": "MARAD",
+   "shortcut": "MARA.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130182,7 +130035,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "MCDD",
+   "shortcut": "MCD.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130215,7 +130068,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "MELID",
+   "shortcut": "MELI.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130245,7 +130098,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "METAD",
+   "shortcut": "META.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130275,7 +130128,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "MSFTD",
+   "shortcut": "MSFT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130305,7 +130158,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "NFLXD",
+   "shortcut": "NFLX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130338,7 +130191,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "NLYD",
+   "shortcut": "NLY.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130368,7 +130221,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "NVDAD",
+   "shortcut": "NVDA.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130401,7 +130254,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "PALLD",
+   "shortcut": "PALL.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130431,7 +130284,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "PFED",
+   "shortcut": "PFE.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130464,7 +130317,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "PGD",
+   "shortcut": "PG.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130497,7 +130350,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "PHOD",
+   "shortcut": "PHO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130527,7 +130380,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "PLDD",
+   "shortcut": "PLD.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130557,7 +130410,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "PPLTD",
+   "shortcut": "PPLT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130587,7 +130440,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "PYPLD",
+   "shortcut": "PYPL.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130620,7 +130473,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "RBLXD",
+   "shortcut": "RBLX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130653,7 +130506,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "RDDTD",
+   "shortcut": "RDDT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130686,7 +130539,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "RIOTD",
+   "shortcut": "RIOT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130719,7 +130572,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "RKLBD",
+   "shortcut": "RKLB.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130752,7 +130605,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SBUXD",
+   "shortcut": "SBUX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130785,7 +130638,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SIVRD",
+   "shortcut": "SIVR.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130818,7 +130671,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SLXD",
+   "shortcut": "SLX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130851,7 +130704,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SNOWD",
+   "shortcut": "SNOW.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130884,7 +130737,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SONYD",
+   "shortcut": "SONY.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130917,7 +130770,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SOXLD",
+   "shortcut": "SOXL.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130950,7 +130803,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SPSKD",
+   "shortcut": "SPSK.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -130983,7 +130836,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SPTED",
+   "shortcut": "SPTE.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131016,7 +130869,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SPUSD",
+   "shortcut": "SPUS.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131049,7 +130902,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SPWOD",
+   "shortcut": "SPWO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131079,7 +130932,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "SPYD",
+   "shortcut": "SPY.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131112,7 +130965,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "SQD",
+   "shortcut": "SQ.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131142,7 +130995,7 @@
    "networks": [
     "plume-network"
    ],
-   "shortcut": "SRLND",
+   "shortcut": "SRLN.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131171,7 +131024,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "TJXD",
+   "shortcut": "TJX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131204,7 +131057,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "TQQQD",
+   "shortcut": "TQQQ.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131234,7 +131087,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "TSLAD",
+   "shortcut": "TSLA.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131267,7 +131120,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "UFOD",
+   "shortcut": "UFO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131327,7 +131180,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "USFRD",
+   "shortcut": "USFR.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131360,7 +131213,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "USHYD",
+   "shortcut": "USHY.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131393,7 +131246,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "VD",
+   "shortcut": "V.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131426,7 +131279,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "VWOD",
+   "shortcut": "VWO.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131459,7 +131312,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "VXXD",
+   "shortcut": "VXX.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131492,7 +131345,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "WALRFD",
+   "shortcut": "WALRF.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131524,7 +131377,7 @@
     "base",
     "ethereum"
    ],
-   "shortcut": "WEATD",
+   "shortcut": "WEAT.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131557,7 +131410,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "WOODD",
+   "shortcut": "WOOD.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131590,7 +131443,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "XOMD",
+   "shortcut": "XOM.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -131623,7 +131476,7 @@
     "blast",
     "ethereum"
    ],
-   "shortcut": "YUMD",
+   "shortcut": "YUM.D",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -133144,7 +132997,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "DMP",
+   "shortcut": "$DMP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -134592,11 +134445,11 @@
   "doge-2-0": {
    "coingecko_id": "doge-2-0",
    "id": "erc20:eth:0xf2ec4a773ef90c58d98ea734c0ebdb538519b988",
-   "name": "Doge 2 0",
+   "name": "Doge 2.0",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "DOGE20",
+   "shortcut": "DOGE2.0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -138880,7 +138733,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "DORAB",
+   "shortcut": "$DORAB",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -140445,7 +140298,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "DRIP",
+   "shortcut": "$DRIP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -149842,36 +149695,6 @@
     }
    ]
   },
-  "eosdac": {
-   "coingecko_id": "eosdac",
-   "id": "erc20:eth:0x7e9e431a0b8c4d532c745b1043c7fa29a48d4fba",
-   "name": "eosDAC",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "EOSDAC",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "epeg": {
    "coingecko_id": "epeg",
    "id": "erc20:base:0x81eb920f9b46298b39552fdaf147597ba2a70b07",
@@ -150681,7 +150504,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "ESAB",
+   "shortcut": "$ESAB",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -151543,6 +151366,7 @@
     "manta-pacific",
     "mantle",
     "metis-andromeda",
+    "mode",
     "monad",
     "morph-l2",
     "optimistic-ethereum",
@@ -151658,36 +151482,6 @@
     "scroll"
    ],
    "shortcut": "ETHFI",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "ether-fi-bridged-weeth-base": {
-   "coingecko_id": "ether-fi-bridged-weeth-base",
-   "id": "erc20:base:0x04c0599ae5a44757c0af6f9ec3b93da8976c150a",
-   "name": "ether fi Bridged weETH  Base ",
-   "networks": [
-    "base"
-   ],
-   "shortcut": "WEETHBASE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -151927,12 +151721,14 @@
     "morph-l2",
     "optimistic-ethereum",
     "polygon-zkevm",
+    "rari",
     "redstone",
     "robinhood",
     "scroll",
     "soneium",
     "superseed",
     "swellchain",
+    "taiko",
     "unichain",
     "world-chain",
     "zircuit",
@@ -153526,11 +153322,11 @@
   "eva-ai": {
    "coingecko_id": "eva-ai",
    "id": "erc20:eth:0x3566c8ee9780245e974e759a7716ea6ba0702588",
-   "name": "eVa ai",
+   "name": "eVa-ai",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "EVA",
+   "shortcut": "$EVA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -153840,7 +153636,12 @@
    "id": "erc20:eth:0x58b9cb810a68a7f3e1e4f8cb45d1b9b3c79705e8",
    "name": "Everclear",
    "networks": [
-    "ethereum"
+    "arbitrum-one",
+    "binance-smart-chain",
+    "ethereum",
+    "optimistic-ethereum",
+    "polygon-pos",
+    "xdai"
    ],
    "shortcut": "CLEAR",
    "support": {
@@ -154691,11 +154492,11 @@
   "exactly-usdc": {
    "coingecko_id": "exactly-usdc",
    "id": "erc20:oeth:0x81c9a7b55a4df39a9b7b5f781ec0e53539694873",
-   "name": "Exactly USD e Coin",
+   "name": "Exactly USD.e Coin",
    "networks": [
     "optimistic-ethereum"
    ],
-   "shortcut": "EXAUSDCE",
+   "shortcut": "EXAUSDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -155110,14 +154911,14 @@
     }
    ]
   },
-  "exod-b": {
-   "coingecko_id": "exod-b",
+  "exod": {
+   "coingecko_id": "exod",
    "id": "erc20:arb1:0x116998824ff90532906bab91becea4a8e4ce06db",
-   "name": "$EXOD-B",
+   "name": "EXOD",
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "EXOD-B",
+   "shortcut": "EXOD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -157095,11 +156896,11 @@
   "fame-rumble-kong-league": {
    "coingecko_id": "fame-rumble-kong-league",
    "id": "erc20:eth:0x26827f7f51769ea21f94ba98ba64f5d0dc8988f9",
-   "name": "FAME  Rumble Kong League",
+   "name": "FAME- Rumble Kong League",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "FAME",
+   "shortcut": "$FAME",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -158666,7 +158467,7 @@
     "mantle",
     "optimistic-ethereum"
    ],
-   "shortcut": "BOMB",
+   "shortcut": "FBOMB",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -159320,7 +159121,7 @@
    "id": "erc20:stable:0xeaf7ac0fdf150cdd89340fb762d83848de6a7b83",
    "name": "Fefer",
    "networks": [
-    "stable-2"
+    "stable"
    ],
    "shortcut": "FEFER",
    "support": {
@@ -159523,7 +159324,7 @@
   },
   "felix-feusd": {
    "coingecko_id": "felix-feusd",
-   "id": "erc20:twan:0x02c6a2fa58cc01a18b8d9e00ea48d65e4df26c70",
+   "id": "erc20:hype:0x02c6a2fa58cc01a18b8d9e00ea48d65e4df26c70",
    "name": "Felix feUSD",
    "networks": [
     "hyperevm"
@@ -160501,7 +160302,7 @@
     "binance-smart-chain",
     "solana"
    ],
-   "shortcut": "$FIGHT",
+   "shortcut": "FIGHT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -164000,7 +163801,7 @@
   },
   "flip": {
    "coingecko_id": "flip",
-   "id": "erc20:twan:0x5875fc0d25a48c17da1147dd1f432c6b54fb7e67",
+   "id": "erc20:hype:0x5875fc0d25a48c17da1147dd1f432c6b54fb7e67",
    "name": "FLIP",
    "networks": [
     "hyperevm"
@@ -169181,14 +168982,12 @@
     "ethereum",
     "evmos",
     "fantom",
-    "fraxtal",
     "harmony-shard-0",
     "moonbeam",
     "moonriver",
     "optimistic-ethereum",
     "polygon-pos",
-    "polygon-zkevm",
-    "sei-v2"
+    "polygon-zkevm"
    ],
    "shortcut": "FRAX",
    "support": {
@@ -169345,8 +169144,8 @@
   },
   "frax-share": {
    "coingecko_id": "frax-share",
-   "id": "erc20:eth:0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0",
-   "name": "Frax Share",
+   "id": "eth:FRAX:252",
+   "name": "Frax (prev. FXS)",
    "networks": [
     "arbitrum-one",
     "avalanche",
@@ -169361,7 +169160,7 @@
     "polygon-zkevm",
     "solana"
    ],
-   "shortcut": "FXS",
+   "shortcut": "FRAX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -169406,18 +169205,22 @@
     "binance-smart-chain",
     "blast",
     "ethereum",
+    "fraxtal",
     "ink",
     "katana",
     "linea",
+    "mode",
     "optimistic-ethereum",
     "plume-network",
     "polygon-pos",
     "polygon-zkevm",
     "scroll",
+    "sei-v2",
     "solana",
     "sonic",
-    "stable-2",
+    "stable",
     "unichain",
+    "x-layer",
     "zksync"
    ],
    "shortcut": "FRXUSD",
@@ -169441,32 +169244,6 @@
      "name": "NuFi",
      "url": "https://nu.fi"
     },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "fraxtal": {
-   "coingecko_id": "fraxtal",
-   "id": "eth:FXTL:252",
-   "name": "Fraxtal",
-   "networks": [
-    "fraxtal"
-   ],
-   "shortcut": "FXTL",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -169626,11 +169403,11 @@
   "free-bridged-solvbtcb-core": {
    "coingecko_id": "free-bridged-solvbtcb-core",
    "id": "erc20:core:0x5b1fb849f1f76217246b8aaac053b5c7b15b7dc3",
-   "name": "Free Bridged SolvBTC b  Core ",
+   "name": "Free Bridged SolvBTC.b (Core)",
    "networks": [
     "core"
    ],
-   "shortcut": "SOLVBTCB",
+   "shortcut": "SOLVBTC.B",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -170008,7 +169785,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "TRUMP",
+   "shortcut": "$TRUMP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -170816,7 +170593,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "FROGGI",
+   "shortcut": "$FROGGI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -170962,7 +170739,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "FROGS",
+   "shortcut": "$FROGS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -173005,12 +172782,12 @@
   },
   "fx-coin": {
    "coingecko_id": "fx-coin",
-   "id": "eth:FX:530",
-   "name": "Function X",
+   "id": "eth:PUNDAI:530",
+   "name": "Pundi AIFX Omnilayer",
    "networks": [
     "function-x"
    ],
-   "shortcut": "FX",
+   "shortcut": "PUNDAI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -175897,7 +175674,7 @@
     "base",
     "ethereum"
    ],
-   "shortcut": "GAPPY",
+   "shortcut": "$GAPPY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -179336,7 +179113,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "GHFFB47YII2RTEEYY10",
+   "shortcut": "GHFFB47YII2RTEEYY10O",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -180034,7 +179811,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "GIGA",
+   "shortcut": "$GIGA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -183379,6 +183156,32 @@
     }
    ]
   },
+  "gnosis-xdai-bridged-eurc-gnosis": {
+   "coingecko_id": "gnosis-xdai-bridged-eurc-gnosis",
+   "id": "erc20:gno:0x54e4cb2a4fa0ee46e3d9a98d13bea119666e09f6",
+   "name": "Omnibridge Bridged EURC (Gnosis)",
+   "networks": [
+    "xdai"
+   ],
+   "shortcut": "EURC.E",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "gnosis-xdai-bridged-usdc-gnosis": {
    "coingecko_id": "gnosis-xdai-bridged-usdc-gnosis",
    "id": "erc20:gno:0xddafbb505ad214d7b80b1f830fccc89b60fb7a83",
@@ -184685,11 +184488,11 @@
   "gogopool-ggavax": {
    "coingecko_id": "gogopool-ggavax",
    "id": "erc20:avax:0xa25eaf2906fa1a3a13edac9b9657108af7b703e3",
-   "name": "GoGoPool ggAVAX",
+   "name": "Hypha Staked AVAX",
    "networks": [
     "avalanche"
    ],
-   "shortcut": "GGAVAX",
+   "shortcut": "STAVAX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -186876,7 +186679,7 @@
     "ethereum",
     "fuse"
    ],
-   "shortcut": "G",
+   "shortcut": "$G",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -186906,7 +186709,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "GOODLE",
+   "shortcut": "$GOODLE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -188335,7 +188138,7 @@
     "ethereum",
     "klay-token"
    ],
-   "shortcut": "GRAM",
+   "shortcut": "GRAMPUS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -189446,7 +189249,7 @@
    "networks": [
     "polygon-pos"
    ],
-   "shortcut": "GREENGOLD",
+   "shortcut": "$GREENGOLD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -190423,11 +190226,11 @@
   "grok2-0": {
    "coingecko_id": "grok2-0",
    "id": "erc20:eth:0x87d907568a0761ea45d2917e324557920668f224",
-   "name": "Grok2 0",
+   "name": "Grok2.0",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "GROK20",
+   "shortcut": "GROK2.0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -190788,7 +190591,7 @@
    "networks": [
     "abstract"
    ],
-   "shortcut": "GROW",
+   "shortcut": "$GROW",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -191729,6 +191532,7 @@
    "id": "eth:GUN:43419",
    "name": "Gunz",
    "networks": [
+    "avalanche",
     "gunz",
     "solana"
    ],
@@ -192198,7 +192002,7 @@
     "cronos",
     "cronos-zkevm"
    ],
-   "shortcut": "H2",
+   "shortcut": "$H2",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -192881,7 +192685,7 @@
   },
   "hahype": {
    "coingecko_id": "hahype",
-   "id": "erc20:twan:0xfde5b0626fc80e36885e2fa9cd5ad9d7768d725c",
+   "id": "erc20:hype:0xfde5b0626fc80e36885e2fa9cd5ad9d7768d725c",
    "name": "haHYPE",
    "networks": [
     "hyperevm"
@@ -194091,7 +193895,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "HARAM",
+   "shortcut": "$HARAM",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -194276,7 +194080,7 @@
   },
   "harmonix-finance": {
    "coingecko_id": "harmonix-finance",
-   "id": "erc20:twan:0x391121d817da42ed3434d281aedbbcc416a2af18",
+   "id": "erc20:hype:0x391121d817da42ed3434d281aedbbcc416a2af18",
    "name": "Harmonix Finance",
    "networks": [
     "hyperevm"
@@ -194302,7 +194106,7 @@
   },
   "harmonix-khype": {
    "coingecko_id": "harmonix-khype",
-   "id": "erc20:twan:0x1368ee9d1212ae5b26ff166049220051a9eebc42",
+   "id": "erc20:hype:0x1368ee9d1212ae5b26ff166049220051a9eebc42",
    "name": "Harmonix kHYPE",
    "networks": [
     "hyperevm"
@@ -194328,7 +194132,7 @@
   },
   "harmonixusdcv2": {
    "coingecko_id": "harmonixusdcv2",
-   "id": "erc20:twan:0x1d5d9e73f8219fb4396a9060c49c155da0d65066",
+   "id": "erc20:hype:0x1d5d9e73f8219fb4396a9060c49c155da0d65066",
    "name": "Harmonix USDC",
    "networks": [
     "hyperevm"
@@ -194407,11 +194211,11 @@
   "harmony-horizen-bridged-usdc-harmony": {
    "coingecko_id": "harmony-horizen-bridged-usdc-harmony",
    "id": "erc20:hmy-s0:0x985458e523db3d53125813ed68c274899e9dfab4",
-   "name": "Harmony Horizen Bridged USDC  Harmony ",
+   "name": "Harmony Horizon Bridged USDC (Harmony)",
    "networks": [
     "harmony-shard-0"
    ],
-   "shortcut": "USDC",
+   "shortcut": "1USDC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -199809,7 +199613,7 @@
   },
   "hmuo-token": {
    "coingecko_id": "hmuo-token",
-   "id": "erc20:twan:0x217e7b0471e0a759eb52208b0b9a0b288295bd19",
+   "id": "erc20:hype:0x217e7b0471e0a759eb52208b0b9a0b288295bd19",
    "name": "HUMO Token",
    "networks": [
     "hyperevm"
@@ -200327,7 +200131,7 @@
     "base",
     "ethereum"
    ],
-   "shortcut": "HOKK",
+   "shortcut": "$HOKK",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -200915,7 +200719,7 @@
   },
   "holy-liquid": {
    "coingecko_id": "holy-liquid",
-   "id": "erc20:twan:0x738dd55c272b0b686382f62dd4a590056839f4f6",
+   "id": "erc20:hype:0x738dd55c272b0b686382f62dd4a590056839f4f6",
    "name": "Holy Liquid",
    "networks": [
     "hyperevm"
@@ -204868,7 +204672,7 @@
   },
   "hybr": {
    "coingecko_id": "hybr",
-   "id": "erc20:twan:0x067b0c72aa4c6bd3bfefff443c536dcd6a25a9c8",
+   "id": "erc20:hype:0x067b0c72aa4c6bd3bfefff443c536dcd6a25a9c8",
    "name": "HYBR",
    "networks": [
     "hyperevm"
@@ -204926,7 +204730,7 @@
   },
   "hybridge": {
    "coingecko_id": "hybridge",
-   "id": "erc20:twan:0x29dbf86a8c48ea4331e28b3c1eae824a2a45996a",
+   "id": "erc20:hype:0x29dbf86a8c48ea4331e28b3c1eae824a2a45996a",
    "name": "HyBridge",
    "networks": [
     "hyperevm"
@@ -204952,7 +204756,7 @@
   },
   "hybridge-bridged-link-hyperevm": {
    "coingecko_id": "hybridge-bridged-link-hyperevm",
-   "id": "erc20:twan:0x9a12cb8869498d8826567437abea27be1c2ba9ab",
+   "id": "erc20:hype:0x9a12cb8869498d8826567437abea27be1c2ba9ab",
    "name": "Hybridge Bridged LINK (HyperEVM)",
    "networks": [
     "hyperevm"
@@ -205395,7 +205199,7 @@
   },
   "hype-sphere": {
    "coingecko_id": "hype-sphere",
-   "id": "erc20:twan:0x3e5fba5dd52e931276b3c84df7542c2eeea1440b",
+   "id": "erc20:hype:0x3e5fba5dd52e931276b3c84df7542c2eeea1440b",
    "name": "Hype Sphere",
    "networks": [
     "hyperevm"
@@ -205541,7 +205345,7 @@
   },
   "hyper-usd": {
    "coingecko_id": "hyper-usd",
-   "id": "erc20:twan:0xb50a96253abdf803d85efcdce07ad8becbc52bd5",
+   "id": "erc20:hype:0xb50a96253abdf803d85efcdce07ad8becbc52bd5",
    "name": "Hyper USD",
    "networks": [
     "hyperevm"
@@ -205627,7 +205431,7 @@
   },
   "hyperbeat-lst-vault": {
    "coingecko_id": "hyperbeat-lst-vault",
-   "id": "erc20:twan:0x81e064d0eb539de7c3170edf38c1a42cbd752a76",
+   "id": "erc20:hype:0x81e064d0eb539de7c3170edf38c1a42cbd752a76",
    "name": "Hyperbeat LST Vault",
    "networks": [
     "hyperevm"
@@ -205653,7 +205457,7 @@
   },
   "hyperbeat-ultra-hype": {
    "coingecko_id": "hyperbeat-ultra-hype",
-   "id": "erc20:twan:0x96c6cbb6251ee1c257b2162ca0f39aa5fa44b1fb",
+   "id": "erc20:hype:0x96c6cbb6251ee1c257b2162ca0f39aa5fa44b1fb",
    "name": "Hyperbeat Ultra HYPE",
    "networks": [
     "hyperevm"
@@ -205679,7 +205483,7 @@
   },
   "hyperbeat-usdt": {
    "coingecko_id": "hyperbeat-usdt",
-   "id": "erc20:twan:0x5e105266db42f78fa814322bce7f388b4c2e61eb",
+   "id": "erc20:hype:0x5e105266db42f78fa814322bce7f388b4c2e61eb",
    "name": "Hyperbeat USDT",
    "networks": [
     "hyperevm"
@@ -205705,7 +205509,7 @@
   },
   "hyperbeat-x-ether-fi-hype": {
    "coingecko_id": "hyperbeat-x-ether-fi-hype",
-   "id": "erc20:twan:0xd8fc8f0b03eba61f64d08b0bef69d80916e5dda9",
+   "id": "erc20:hype:0xd8fc8f0b03eba61f64d08b0bef69d80916e5dda9",
    "name": "Hyperbeat x Ether.fi HYPE",
    "networks": [
     "hyperevm"
@@ -205981,7 +205785,7 @@
   },
   "hyperham": {
    "coingecko_id": "hyperham",
-   "id": "erc20:twan:0xd62dcc1e28d646db54e2204a40980f9db28e0363",
+   "id": "erc20:hype:0xd62dcc1e28d646db54e2204a40980f9db28e0363",
    "name": "HyperHam",
    "networks": [
     "hyperevm"
@@ -206127,7 +205931,7 @@
   },
   "hyperlane-bridged-usdc-mantra-evm": {
    "coingecko_id": "hyperlane-bridged-usdc-mantra-evm",
-   "id": "erc20:mantrachain:0x5e76be0f4e09057d75140216f70fd4ce3365bb29",
+   "id": "erc20:mantra:0x5e76be0f4e09057d75140216f70fd4ce3365bb29",
    "name": "Hyperlane Bridged USDC (Mantra EVM)",
    "networks": [
     "mantra-evm"
@@ -206153,7 +205957,7 @@
   },
   "hyperlend": {
    "coingecko_id": "hyperlend",
-   "id": "erc20:twan:0xbd6dab50f03a305a80037294fa8d1a9dc0cac91b",
+   "id": "erc20:hype:0xbd6dab50f03a305a80037294fa8d1a9dc0cac91b",
    "name": "HyperLend",
    "networks": [
     "hyperevm"
@@ -206179,12 +205983,38 @@
   },
   "hyperlink-hlhype": {
    "coingecko_id": "hyperlink-hlhype",
-   "id": "erc20:twan:0xbee62d1b61af920098873bd0336b46a5efdc0e83",
+   "id": "erc20:hype:0xbee62d1b61af920098873bd0336b46a5efdc0e83",
    "name": "HyperLink hlHYPE",
    "networks": [
     "hyperevm"
    ],
    "shortcut": "HLHYPE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "hyperliquid": {
+   "coingecko_id": "hyperliquid",
+   "id": "eth:HYPE:999",
+   "name": "Hyperliquid",
+   "networks": [
+    "hyperevm"
+   ],
+   "shortcut": "HYPE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -206275,7 +206105,7 @@
   },
   "hyperpie-staked-mhype": {
    "coingecko_id": "hyperpie-staked-mhype",
-   "id": "erc20:twan:0xdabb040c428436d41cecd0fb06bcfdbaad3a9aa8",
+   "id": "erc20:hype:0xdabb040c428436d41cecd0fb06bcfdbaad3a9aa8",
    "name": "SpinUp Staked mHYPE",
    "networks": [
     "hyperevm"
@@ -206392,7 +206222,7 @@
   },
   "hyperstable": {
    "coingecko_id": "hyperstable",
-   "id": "erc20:twan:0x8ff0dd9f9c40a0d76ef1bcfaf5f98c1610c74bd8",
+   "id": "erc20:hype:0x8ff0dd9f9c40a0d76ef1bcfaf5f98c1610c74bd8",
    "name": "Hyperstable USD",
    "networks": [
     "hyperevm"
@@ -206444,7 +206274,7 @@
   },
   "hyperstrategy": {
    "coingecko_id": "hyperstrategy",
-   "id": "erc20:twan:0x3fa145cad2c8108a68cfc803a8e1ae246c36df3e",
+   "id": "erc20:hype:0x3fa145cad2c8108a68cfc803a8e1ae246c36df3e",
    "name": "HyperStrategy",
    "networks": [
     "hyperevm"
@@ -206470,7 +206300,7 @@
   },
   "hyperswap": {
    "coingecko_id": "hyperswap",
-   "id": "erc20:twan:0x03832767bdf9a8ef007449942125ad605acfadb8",
+   "id": "erc20:hype:0x03832767bdf9a8ef007449942125ad605acfadb8",
    "name": "HyperSwap",
    "networks": [
     "hyperevm"
@@ -206556,7 +206386,7 @@
   },
   "hyperwave": {
    "coingecko_id": "hyperwave",
-   "id": "erc20:twan:0x0e01e3afd147c7f079ea19d0eca166ad3a22e79d",
+   "id": "erc20:hype:0x0e01e3afd147c7f079ea19d0eca166ad3a22e79d",
    "name": "Hyperwave",
    "networks": [
     "hyperevm"
@@ -206582,7 +206412,7 @@
   },
   "hyperwave-hlp": {
    "coingecko_id": "hyperwave-hlp",
-   "id": "erc20:twan:0x9fd7466f987fd4c45a5bbde22ed8aba5bc8d72d1",
+   "id": "erc20:hype:0x9fd7466f987fd4c45a5bbde22ed8aba5bc8d72d1",
    "name": "Hyperwave HLP",
    "networks": [
     "hyperevm"
@@ -206608,7 +206438,7 @@
   },
   "hyperwave-hype": {
    "coingecko_id": "hyperwave-hype",
-   "id": "erc20:twan:0x4de03ca1f02591b717495cfa19913ad56a2f5858",
+   "id": "erc20:hype:0x4de03ca1f02591b717495cfa19913ad56a2f5858",
    "name": "Hyperwave HYPE",
    "networks": [
     "hyperevm"
@@ -206750,7 +206580,7 @@
   },
   "hypurr-fun": {
    "coingecko_id": "hypurr-fun",
-   "id": "erc20:twan:0xa320d9f65ec992eff38622c63627856382db726c",
+   "id": "erc20:hype:0xa320d9f65ec992eff38622c63627856382db726c",
    "name": "Hypurr Fun",
    "networks": [
     "hyperevm"
@@ -206806,7 +206636,7 @@
   },
   "hypurrstrategy": {
    "coingecko_id": "hypurrstrategy",
-   "id": "erc20:twan:0x92eb91ac8bc3abe1812c0064e05e667335440d8e",
+   "id": "erc20:hype:0x92eb91ac8bc3abe1812c0064e05e667335440d8e",
    "name": "HypurrStrategy",
    "networks": [
     "hyperevm"
@@ -207530,7 +207360,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "AGNT",
+   "shortcut": "$AGNT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -207586,11 +207416,11 @@
   "ibc-bridged-usdc": {
    "coingecko_id": "ibc-bridged-usdc",
    "id": "erc20:sei:0x3894085ef7ff0f0aedf52e2a2704928d1ec074f1",
-   "name": "IBC Bridged USDC",
+   "name": "Noble USDC",
    "networks": [
     "sei-v2"
    ],
-   "shortcut": "USDC",
+   "shortcut": "USDC.N",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -207612,11 +207442,11 @@
   "ibc-bridged-usdt": {
    "coingecko_id": "ibc-bridged-usdt",
    "id": "erc20:sei:0xb75d0b03c06a926e488e2659df1a861f860bd3d1",
-   "name": "IBC Bridged USDT",
+   "name": "IBC Bridged USDT (Sei)",
    "networks": [
     "sei-v2"
    ],
-   "shortcut": "USDT",
+   "shortcut": "KAVAUSDT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -209305,12 +209135,12 @@
   },
   "igra-bridged-kaspa": {
    "coingecko_id": "igra-bridged-kaspa",
-   "id": "eth:iKAS:38833",
-   "name": "Igra Network",
+   "id": "eth:IKAS:38833",
+   "name": "Igra Bridged Kaspa",
    "networks": [
     "igra"
    ],
-   "shortcut": "iKAS",
+   "shortcut": "IKAS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -211149,7 +210979,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "INR",
+   "shortcut": "$INR",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -212554,7 +212384,7 @@
   "instadapp": {
    "coingecko_id": "instadapp",
    "id": "erc20:eth:0x6f40d4a6237c257fff2db00fa0510deeecd303eb",
-   "name": "Instadapp",
+   "name": "Fluid",
    "networks": [
     "arbitrum-one",
     "base",
@@ -212563,7 +212393,7 @@
     "polygon-pos",
     "solana"
    ],
-   "shortcut": "INST",
+   "shortcut": "FLUID",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -218921,7 +218751,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "ITO",
+   "shortcut": "$ITO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -221208,7 +221038,7 @@
   },
   "jeff-3": {
    "coingecko_id": "jeff-3",
-   "id": "erc20:twan:0x52e444545fbe9e5972a7a371299522f7871aec1f",
+   "id": "erc20:hype:0x52e444545fbe9e5972a7a371299522f7871aec1f",
    "name": "Jeff",
    "networks": [
     "hyperevm"
@@ -223725,7 +223555,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "JUICE",
+   "shortcut": "$JUICE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -223957,11 +223787,11 @@
   "jumpbox-eth": {
    "coingecko_id": "jumpbox-eth",
    "id": "erc20:base:0x5b9957a7459347163881d19a87f6dc13291c2b07",
-   "name": "JUMPBOX ETH",
+   "name": "JUMPBOX.ETH",
    "networks": [
     "base"
    ],
-   "shortcut": "JUMPBOXETH",
+   "shortcut": "JUMPBOX.ETH",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -227187,7 +227017,7 @@
    "networks": [
     "ronin"
    ],
-   "shortcut": "KANSTAR",
+   "shortcut": "$KANSTAR",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -228776,7 +228606,7 @@
   },
   "kei-stablecoin": {
    "coingecko_id": "kei-stablecoin",
-   "id": "erc20:twan:0xb5fe77d323d69eb352a02006ea8ecc38d882620c",
+   "id": "erc20:hype:0xb5fe77d323d69eb352a02006ea8ecc38d882620c",
    "name": "KEI Stablecoin",
    "networks": [
     "hyperevm"
@@ -231283,7 +231113,7 @@
   },
   "kinetic-staked-hype": {
    "coingecko_id": "kinetic-staked-hype",
-   "id": "erc20:twan:0xfd739d4e423301ce9385c1fb8850539d657c296d",
+   "id": "erc20:hype:0xfd739d4e423301ce9385c1fb8850539d657c296d",
    "name": "Kinetiq Staked HYPE",
    "networks": [
     "hyperevm"
@@ -231309,7 +231139,7 @@
   },
   "kinetiq": {
    "coingecko_id": "kinetiq",
-   "id": "erc20:twan:0x000000000000780555bd0bca3791f89f9542c2d6",
+   "id": "erc20:hype:0x000000000000780555bd0bca3791f89f9542c2d6",
    "name": "Kinetiq",
    "networks": [
     "hyperevm"
@@ -231335,7 +231165,7 @@
   },
   "kinetiq-earn-vault": {
    "coingecko_id": "kinetiq-earn-vault",
-   "id": "erc20:twan:0x9ba2edc44e0a4632eb4723e81d4142353e1bb160",
+   "id": "erc20:hype:0x9ba2edc44e0a4632eb4723e81d4142353e1bb160",
    "name": "Kinetiq Earn Vault",
    "networks": [
     "hyperevm"
@@ -231361,7 +231191,7 @@
   },
   "kinetiq-markets-lst": {
    "coingecko_id": "kinetiq-markets-lst",
-   "id": "erc20:twan:0x360c140e5344a1a0593d44b4ea6fc7c3daf0c473",
+   "id": "erc20:hype:0x360c140e5344a1a0593d44b4ea6fc7c3daf0c473",
    "name": "Kinetiq Markets HYPE",
    "networks": [
     "hyperevm"
@@ -231816,7 +231646,7 @@
   },
   "kintsu-staked-hype": {
    "coingecko_id": "kintsu-staked-hype",
-   "id": "erc20:twan:0xbef0142a0955a7d5dcce5c2a13fb84e332669d2d",
+   "id": "erc20:hype:0xbef0142a0955a7d5dcce5c2a13fb84e332669d2d",
    "name": "Kintsu Staked Hype",
    "networks": [
     "hyperevm"
@@ -232172,13 +232002,13 @@
   },
   "kiteai": {
    "coingecko_id": "kiteai",
-   "id": "eth:KITE:2366",
-   "name": "KiteAI",
+   "id": "eth:KITEAI:2366",
+   "name": "KITEAI",
    "networks": [
     "binance-smart-chain",
     "kiteai"
    ],
-   "shortcut": "KITE",
+   "shortcut": "KITEAI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -232320,7 +232150,7 @@
    "networks": [
     "polygon-pos"
    ],
-   "shortcut": "KMC",
+   "shortcut": "$KMC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -232555,7 +232385,7 @@
   },
   "kittenswap": {
    "coingecko_id": "kittenswap",
-   "id": "erc20:twan:0x618275f8efe54c2afa87bfb9f210a52f0ff89364",
+   "id": "erc20:hype:0x618275f8efe54c2afa87bfb9f210a52f0ff89364",
    "name": "Kittenswap",
    "networks": [
     "hyperevm"
@@ -233179,11 +233009,11 @@
   "klipx-x-tips": {
    "coingecko_id": "klipx-x-tips",
    "id": "erc20:bnb:0xc269d59a0d608ea0bd672f2f4616c372d8554444",
-   "name": "KlipX  X Tips",
+   "name": "ClipX",
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "KLIPX",
+   "shortcut": "CLIPX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -234022,7 +233852,7 @@
    "networks": [
     "ronin"
    ],
-   "shortcut": "KOKU",
+   "shortcut": "$KOKU",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -235908,12 +235738,12 @@
   "krwt": {
    "coingecko_id": "krwt",
    "id": "erc20:eth:0xc00db6b41473d065027f5ed6fada20fde75f142e",
-   "name": "KRWT",
+   "name": "KRWQ",
    "networks": [
     "base",
     "ethereum"
    ],
-   "shortcut": "KRWT",
+   "shortcut": "KRWQ",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -237694,11 +237524,11 @@
   "laika-4": {
    "coingecko_id": "laika-4",
    "id": "erc20:base:0x05a5b4e217004eb84c6787e0ecbe7a46cfd94cdd",
-   "name": "La ka",
+   "name": "La\u00efka",
    "networks": [
     "base"
    ],
-   "shortcut": "LAKA",
+   "shortcut": "LA\u00cfKA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -239049,7 +238879,7 @@
   },
   "last-usd": {
    "coingecko_id": "last-usd",
-   "id": "erc20:twan:0xca79db4b49f608ef54a5cb813fbed3a6387bc645",
+   "id": "erc20:hype:0xca79db4b49f608ef54a5cb813fbed3a6387bc645",
    "name": "Last USD",
    "networks": [
     "hyperevm"
@@ -239523,12 +239353,12 @@
   },
   "lava": {
    "coingecko_id": "lava",
-   "id": "eth:LAVA:1339",
-   "name": "Lava",
+   "id": "eth:PYR:1339",
+   "name": "Elysium",
    "networks": [
     "elysium"
    ],
-   "shortcut": "LAVA",
+   "shortcut": "PYR",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -239971,7 +239801,7 @@
    "name": "LayerZero Bridged PYUSD0 (Flow EVM)",
    "networks": [
     "flow-evm",
-    "stable-2"
+    "stable"
    ],
    "shortcut": "PYUSD0",
    "support": {
@@ -240077,11 +239907,11 @@
   "layerzero-bridged-usdc-etherlink": {
    "coingecko_id": "layerzero-bridged-usdc-etherlink",
    "id": "erc20:etlk:0x796ea11fa2dd751ed01b53c372ffdb4aaa8f00f9",
-   "name": "LayerZero Bridged USDC  Etherlink ",
+   "name": "Etherlink Bridged USDC (Etherlink)",
    "networks": [
     "etherlink"
    ],
-   "shortcut": "LZUSDC",
+   "shortcut": "USDC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -241027,7 +240857,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "LEGEND",
+   "shortcut": "$LEGEND",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -244456,12 +244286,12 @@
   },
   "lilly": {
    "coingecko_id": "lilly",
-   "id": "erc20:twan:0xf2e6a23b1aa09565fdb3a77af7772709de3f4f95",
+   "id": "erc20:hype:0xf2e6a23b1aa09565fdb3a77af7772709de3f4f95",
    "name": "LILLY",
    "networks": [
     "hyperevm"
    ],
-   "shortcut": "LILLY",
+   "shortcut": "$LILLY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -244952,7 +244782,7 @@
   },
   "limusd": {
    "coingecko_id": "limusd",
-   "id": "erc20:twan:0x1822bd335489d84abdd0779a7dcaeda0625e83c8",
+   "id": "erc20:hype:0x1822bd335489d84abdd0779a7dcaeda0625e83c8",
    "name": "limUSD",
    "networks": [
     "hyperevm"
@@ -246621,7 +246451,7 @@
   },
   "liquidlaunch": {
    "coingecko_id": "liquidlaunch",
-   "id": "erc20:twan:0x1ecd15865d7f8019d546f76d095d9c93cc34edfa",
+   "id": "erc20:hype:0x1ecd15865d7f8019d546f76d095d9c93cc34edfa",
    "name": "LiquidLaunch",
    "networks": [
     "hyperevm"
@@ -248330,7 +248160,7 @@
   },
   "locked-ultrasolid": {
    "coingecko_id": "locked-ultrasolid",
-   "id": "erc20:twan:0x343c40d90298e132f4ad68b4aafeada3dabab300",
+   "id": "erc20:hype:0x343c40d90298e132f4ad68b4aafeada3dabab300",
    "name": "Locked UltraSolid",
    "networks": [
     "hyperevm"
@@ -249138,7 +248968,7 @@
     "katana",
     "solana",
     "sonic",
-    "stable-2",
+    "stable",
     "swellchain",
     "tac"
    ],
@@ -249797,36 +249627,6 @@
     }
    ]
   },
-  "loom-network": {
-   "coingecko_id": "loom-network",
-   "id": "erc20:eth:0xa4e8c3ec456107ea67d3075bf9e3df3a75823db0",
-   "name": "Loom Network (OLD)",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "LOOMOLD",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "loom-network-new": {
    "coingecko_id": "loom-network-new",
    "id": "erc20:eth:0x42476f744292107e34519f9c357927074ea3f75d",
@@ -249950,7 +249750,7 @@
   },
   "looped-hype": {
    "coingecko_id": "looped-hype",
-   "id": "erc20:twan:0x5748ae796ae46a4f1348a1693de4b50560485562",
+   "id": "erc20:hype:0x5748ae796ae46a4f1348a1693de4b50560485562",
    "name": "Looped Hype",
    "networks": [
     "hyperevm"
@@ -250015,7 +249815,7 @@
   },
   "looping-collective": {
    "coingecko_id": "looping-collective",
-   "id": "erc20:twan:0x00fdbc53719604d924226215bc871d55e40a1009",
+   "id": "erc20:hype:0x00fdbc53719604d924226215bc871d55e40a1009",
    "name": "Looping Collective",
    "networks": [
     "hyperevm"
@@ -251231,14 +251031,14 @@
   "lrt-squared": {
    "coingecko_id": "lrt-squared",
    "id": "erc20:eth:0x8f08b70456eb22f6109f57b8fafe862ed28e6040",
-   "name": "LRT Squared",
+   "name": "King Protocol",
    "networks": [
     "arbitrum-one",
     "base",
     "ethereum",
     "swellchain"
    ],
-   "shortcut": "LRT2",
+   "shortcut": "KING",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -254437,11 +254237,11 @@
   "mag7-ssi": {
    "coingecko_id": "mag7-ssi",
    "id": "erc20:base:0x9e6a46f294bb67c20f1d1e7afb0bbef614403b55",
-   "name": "MAG7 ssi",
+   "name": "MAG7.ssi",
    "networks": [
     "base"
    ],
-   "shortcut": "MAG7SSI",
+   "shortcut": "MAG7.SSI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -256427,12 +256227,12 @@
   },
   "mainnetz": {
    "coingecko_id": "mainnetz",
-   "id": "eth:NETZ:2016",
+   "id": "eth:NetZ:2016",
    "name": "MainnetZ",
    "networks": [
     "mainnetz"
    ],
-   "shortcut": "NETZ",
+   "shortcut": "NetZ",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -257449,11 +257249,11 @@
   "manga-token": {
    "coingecko_id": "manga-token",
    "id": "erc20:bnb:0xc2cb89bbb5bba6e21db1dfe13493dfd7dcbabd68",
-   "name": "Manga",
+   "name": "Manga [OLD]",
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "MANGA",
+   "shortcut": "$MANGA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -258096,14 +257896,14 @@
     }
    ]
   },
-  "mantra-dao": {
-   "coingecko_id": "mantra-dao",
-   "id": "eth:OM:5888",
-   "name": "MANTRA [Old]",
+  "mantra": {
+   "coingecko_id": "mantra",
+   "id": "eth:MANTRA:5888",
+   "name": "MANTRA",
    "networks": [
     "mantra-evm"
    ],
-   "shortcut": "OM",
+   "shortcut": "MANTRA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -258124,7 +257924,7 @@
   },
   "mantra-usd": {
    "coingecko_id": "mantra-usd",
-   "id": "erc20:mantrachain:0xd2b95283011e47257917770d28bb3ee44c849f6f",
+   "id": "erc20:mantra:0xd2b95283011e47257917770d28bb3ee44c849f6f",
    "name": "MANTRA USD",
    "networks": [
     "mantra-evm"
@@ -259433,7 +259233,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "MARU",
+   "shortcut": "$MARU",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -263677,12 +263477,12 @@
   },
   "meld-2": {
    "coingecko_id": "meld-2",
-   "id": "eth:MELD:333000333",
-   "name": "MELD",
+   "id": "eth:gMELD:333000333",
+   "name": "Meld",
    "networks": [
     "meld"
    ],
-   "shortcut": "MELD",
+   "shortcut": "gMELD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -264427,11 +264227,11 @@
   "meme-ssi": {
    "coingecko_id": "meme-ssi",
    "id": "erc20:base:0xdd3acdbdc7b358df453a6cb6bca56c92aa5743aa",
-   "name": "MEME ssi",
+   "name": "MEME.ssi",
    "networks": [
     "base"
    ],
-   "shortcut": "MEMESSI",
+   "shortcut": "MEME.SSI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -264882,7 +264682,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "MEMEME",
+   "shortcut": "$MEMEME",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -268425,11 +268225,11 @@
   "meter-passport-bridged-usdc-meter": {
    "coingecko_id": "meter-passport-bridged-usdc-meter",
    "id": "erc20:Meter:0xd86e243fc0007e6226b07c9a50c9d70d78299eb5",
-   "name": "Meter Passport Bridged USDC  Meter ",
+   "name": "Meter Passport Bridged USDC (Meter)",
    "networks": [
     "meter"
    ],
-   "shortcut": "USDC",
+   "shortcut": "USDC.ETH",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -268625,6 +268425,32 @@
      "name": "NuFi",
      "url": "https://nu.fi"
     },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "metis-bridged-usdc-metis": {
+   "coingecko_id": "metis-bridged-usdc-metis",
+   "id": "erc20:metis-andromeda:0xea32a96608495e54156ae48931a7c20f0dcc1a21",
+   "name": "Metis Bridged USDC (Metis Andromeda)",
+   "networks": [
+    "metis-andromeda"
+   ],
+   "shortcut": "M.USDC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -268967,7 +268793,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "MCEUSDC",
+   "shortcut": "MC.EUSDC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -268993,11 +268819,11 @@
   "mev-capital-m-0-morpho-vault": {
    "coingecko_id": "mev-capital-m-0-morpho-vault",
    "id": "erc20:eth:0xfbdee8670b273e12b019210426e70091464b02ab",
-   "name": "MEV Capital M 0 Morpho Vault",
+   "name": "MEV Capital M^0 Morpho Vault",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "MCWM",
+   "shortcut": "MC.WM",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -269057,7 +268883,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "MCUSD0",
+   "shortcut": "MC.USD0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -269892,7 +269718,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "MICRO",
+   "shortcut": "$MICRO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -272203,6 +272029,7 @@
     "arbitrum-one",
     "base",
     "ethereum",
+    "fantom",
     "optimistic-ethereum",
     "polygon-pos",
     "sonic"
@@ -273710,36 +273537,6 @@
     "binance-smart-chain"
    ],
    "shortcut": "MIRA",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "mirada-ai": {
-   "coingecko_id": "mirada-ai",
-   "id": "erc20:eth:0xec12e2d7acd850fe3953d1dbf860f523914654a7",
-   "name": "Mirada AI",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "MIRX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -277814,7 +277611,7 @@
   },
   "monetrix-usd": {
    "coingecko_id": "monetrix-usd",
-   "id": "erc20:twan:0xe2d2959f89b6389deb624bf076fe7d9e5401f377",
+   "id": "erc20:hype:0xe2d2959f89b6389deb624bf076fe7d9e5401f377",
    "name": "Monetrix USD",
    "networks": [
     "hyperevm"
@@ -278809,7 +278606,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "MONKY",
+   "shortcut": "$MONKY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -284067,11 +283864,11 @@
   "multichain-bridged-usdt-bittorrent": {
    "coingecko_id": "multichain-bridged-usdt-bittorrent",
    "id": "erc20:BTT:0xdb28719f7f938507dbfe4f0eae55668903d34a15",
-   "name": "Multichain Bridged USDT  BitTorrent ",
+   "name": "Multichain Bridged USDT (BitTorrent)",
    "networks": [
     "bittorrent"
    ],
-   "shortcut": "USDTT",
+   "shortcut": "USDT_T",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -284539,12 +284336,12 @@
   "mummy-finance": {
    "coingecko_id": "mummy-finance",
    "id": "erc20:oeth:0x47536f17f4ff30e64a96a7555826b8f9e66ec468",
-   "name": "Mummy Finance",
+   "name": "Navigator Exchange",
    "networks": [
     "optimistic-ethereum",
     "sonic"
    ],
-   "shortcut": "MMY",
+   "shortcut": "NAVI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -287123,12 +286920,12 @@
   },
   "nahmii": {
    "coingecko_id": "nahmii",
-   "id": "eth:NII:4061",
-   "name": "Nahmii",
+   "id": "eth:ETH:4061",
+   "name": "Nahmii 3",
    "networks": [
     "nahmii"
    ],
-   "shortcut": "NII",
+   "shortcut": "ETH",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -288113,36 +287910,6 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "nasdaq420": {
-   "coingecko_id": "nasdaq420",
-   "id": "erc20:eth:0x615987d46003cc37387dbe544ff4f16fa1200077",
-   "name": "Nasdaq420",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "NASDAQ420",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -290086,12 +289853,12 @@
   "neopin": {
    "coingecko_id": "neopin",
    "id": "erc20:pol:0x306ee01a6ba3b4a8e993fa2c1adc7ea24462000c",
-   "name": "Neopin",
+   "name": "Mayflower",
    "networks": [
     "polygon-pos",
     "solana"
    ],
-   "shortcut": "NPT",
+   "shortcut": "MAY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -290511,7 +290278,7 @@
   },
   "nest-2": {
    "coingecko_id": "nest-2",
-   "id": "erc20:twan:0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035",
+   "id": "erc20:hype:0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035",
    "name": "NEST",
    "networks": [
     "hyperevm"
@@ -296277,7 +296044,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "NODE",
+   "shortcut": "$NODE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -299208,14 +298975,15 @@
   },
   "nsdq420": {
    "coingecko_id": "nsdq420",
-   "id": "solana:GXUisEapYfHJe8oFoWSPPyiLSLYT6Em9iEeXTFxUHyUA",
+   "id": "erc20:eth:0x615987d46003cc37387dbe544ff4f16fa1200077",
    "name": "NSDQ420",
    "networks": [
+    "ethereum",
     "solana"
    ],
    "shortcut": "NSDQ",
    "support": {
-    "T1B1": false,
+    "T1B1": true,
     "T2B1": true,
     "T2T1": true,
     "T3T1": true,
@@ -299233,6 +299001,14 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -300298,36 +300074,6 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "nusd": {
-   "coingecko_id": "nusd",
-   "id": "erc20:eth:0x57ab1ec28d129707052df4df418d58a2d46d5f51",
-   "name": "Synthetix sUSD",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "SUSD",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -301599,11 +301345,11 @@
   "oasys-bridged-usdc-oasys": {
    "coingecko_id": "oasys-bridged-usdc-oasys",
    "id": "erc20:OAS:0x4d17c0609b77e456fb98ea99a62bcef09adae32d",
-   "name": "Celer Bridged USDC  Oasys ",
+   "name": "Celer Bridged USDC (Oasys)",
    "networks": [
     "oasys"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -307384,6 +307130,37 @@
     }
    ]
   },
+  "open-gpu": {
+   "coingecko_id": "open-gpu",
+   "id": "eth:OGPU:1071",
+   "name": "OPEN GPU",
+   "networks": [
+    "ethereum",
+    "opengpu-mainnet"
+   ],
+   "shortcut": "OGPU",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "open-loot": {
    "coingecko_id": "open-loot",
    "id": "erc20:eth:0x1f57da732a77636d913c9a75d685b26cc85dcc3a",
@@ -312448,11 +312225,11 @@
   "overnight-fi-usd-arbitrum-one": {
    "coingecko_id": "overnight-fi-usd-arbitrum-one",
    "id": "erc20:arb1:0xe80772eaf6e2e18b651f160bc9158b2a5cafca65",
-   "name": "Overnight fi USD   Arbitrum One ",
+   "name": "xUSD",
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "USD+",
+   "shortcut": "XUSD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -313075,7 +312852,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "OZONE",
+   "shortcut": "$OZONE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -314532,7 +314309,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "PANANA",
+   "shortcut": "$PANANA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -318016,7 +317793,6 @@
    "id": "eth:PEAQ:3338",
    "name": "peaq",
    "networks": [
-    "binance-smart-chain",
     "peaq"
    ],
    "shortcut": "PEAQ",
@@ -318028,10 +317804,6 @@
     "T3W1": true
    },
    "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -318574,7 +318346,7 @@
   },
   "peg": {
    "coingecko_id": "peg",
-   "id": "erc20:twan:0x28245ab01298eaef7933bc90d35bd9dbca5c89db",
+   "id": "erc20:hype:0x28245ab01298eaef7933bc90d35bd9dbca5c89db",
    "name": "Hyperstable",
    "networks": [
     "hyperevm"
@@ -318663,7 +318435,7 @@
    "id": "erc20:stable:0xf7662a433c4fe50eb0dde47d44e803d3e10afa83",
    "name": "PEGD.fun",
    "networks": [
-    "stable-2"
+    "stable"
    ],
    "shortcut": "PEGD",
    "support": {
@@ -319793,11 +319565,11 @@
   "pepe-2-0": {
    "coingecko_id": "pepe-2-0",
    "id": "erc20:eth:0x0305f515fa978cf87226cf8a9776d25bcfb2cc0b",
-   "name": "Pepe 2 0",
+   "name": "Pepe 2.0",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "PEPE20",
+   "shortcut": "PEPE2.0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -322389,7 +322161,7 @@
   },
   "perpcoin": {
    "coingecko_id": "perpcoin",
-   "id": "erc20:twan:0xd2567ee20d75e8b74b44875173054365f6eb5052",
+   "id": "erc20:hype:0xd2567ee20d75e8b74b44875173054365f6eb5052",
    "name": "Perpcoin",
    "networks": [
     "hyperevm"
@@ -324637,7 +324409,7 @@
    "networks": [
     "abstract"
    ],
-   "shortcut": "PICO",
+   "shortcut": "$PICO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -325197,7 +324969,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "PILL",
+   "shortcut": "$PILL",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -325845,7 +325617,7 @@
   },
   "pip-3": {
    "coingecko_id": "pip-3",
-   "id": "erc20:twan:0x1bee6762f0b522c606dc2ffb106c0bb391b2e309",
+   "id": "erc20:hype:0x1bee6762f0b522c606dc2ffb106c0bb391b2e309",
    "name": "PiP",
    "networks": [
     "hyperevm"
@@ -326259,7 +326031,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "PIRATECOIN",
+   "shortcut": "PIRATECOIN\u2620",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -327493,8 +327265,7 @@
    "id": "eth:XPL:9745",
    "name": "Plasma",
    "networks": [
-    "plasma",
-    "unichain"
+    "plasma"
    ],
    "shortcut": "XPL",
    "support": {
@@ -327819,7 +327590,6 @@
    "id": "eth:3ULL:3011",
    "name": "PLAYA3ULL GAMES",
    "networks": [
-    "avalanche",
     "playa3ull-games"
    ],
    "shortcut": "3ULL",
@@ -327831,10 +327601,6 @@
     "T3W1": true
    },
    "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -327883,7 +327649,7 @@
     "binance-smart-chain",
     "ethereum"
    ],
-   "shortcut": "PLAY",
+   "shortcut": "$PLAY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -328404,11 +328170,11 @@
   "plebbit": {
    "coingecko_id": "plebbit",
    "id": "erc20:eth:0xea81dab2e0ecbc6b5c4172de4c22b6ef6e55bd8f",
-   "name": "Plebbit",
+   "name": "Bitsocial [OLD]",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "PLEB",
+   "shortcut": "BSO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -331181,36 +330947,6 @@
     }
    ]
   },
-  "polygon-bridged-usdt-polygon": {
-   "coingecko_id": "polygon-bridged-usdt-polygon",
-   "id": "erc20:pol:0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
-   "name": "Polygon Bridged USDT  Polygon ",
-   "networks": [
-    "polygon-pos"
-   ],
-   "shortcut": "USDT",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "polygon-bridged-wbtc-polygon-pos": {
    "coingecko_id": "polygon-bridged-wbtc-polygon-pos",
    "id": "erc20:pol:0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
@@ -332211,7 +331947,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "POM",
+   "shortcut": "$POM",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -332846,7 +332582,7 @@
    "networks": [
     "optimistic-ethereum"
    ],
-   "shortcut": "PUSDCE",
+   "shortcut": "PUSDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -335206,11 +334942,11 @@
   "president-platy": {
    "coingecko_id": "president-platy",
    "id": "erc20:cro:0x13c0ff45d019a5888db92631f18556211001883d",
-   "name": "President PLATY",
+   "name": "EXCELLENCE",
    "networks": [
     "cronos"
    ],
-   "shortcut": "PLATY",
+   "shortcut": "EOP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -335624,7 +335360,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "PRIMO",
+   "shortcut": "$PRIMO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -336492,7 +336228,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "PRO",
+   "shortcut": "$PRO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -336804,7 +336540,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "AMEN",
+   "shortcut": "$AMEN",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -340819,7 +340555,7 @@
   },
   "pup-token": {
    "coingecko_id": "pup-token",
-   "id": "erc20:twan:0x876e7f2f30935118a654fc0e1f807afc49efe500",
+   "id": "erc20:hype:0x876e7f2f30935118a654fc0e1f807afc49efe500",
    "name": "PUP Token",
    "networks": [
     "hyperevm"
@@ -341058,7 +340794,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "PURP",
+   "shortcut": "$PURP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -341289,7 +341025,7 @@
   },
   "purr-2": {
    "coingecko_id": "purr-2",
-   "id": "erc20:twan:0x9b498c3c8a0b8cd8ba1d9851d40d186f1872b44e",
+   "id": "erc20:hype:0x9b498c3c8a0b8cd8ba1d9851d40d186f1872b44e",
    "name": "Purr",
    "networks": [
     "hyperevm"
@@ -342320,7 +342056,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "Q",
+   "shortcut": "Q*",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -342472,6 +342208,32 @@
      "name": "Trezor Suite",
      "url": "https://trezor.io/trezor-suite"
     },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "quai-network": {
+   "coingecko_id": "quai-network",
+   "id": "eth:QUAI:9",
+   "name": "Quai Network",
+   "networks": [
+    "quai-network"
+   ],
+   "shortcut": "QUAI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -345543,11 +345305,11 @@
   "rainbow-bridged-usdt-aurora": {
    "coingecko_id": "rainbow-bridged-usdt-aurora",
    "id": "erc20:aurora:0x4988a896b1227218e4a686fde5eabdcabd91571f",
-   "name": "Rainbow Bridged USDT  Aurora ",
+   "name": "Rainbow Bridged USDT (Aurora)",
    "networks": [
     "aurora"
    ],
-   "shortcut": "USDTE",
+   "shortcut": "USDT.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -345723,7 +345485,7 @@
     "ethereum",
     "fantom"
    ],
-   "shortcut": "RAINI",
+   "shortcut": "$RAINI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -346229,7 +345991,7 @@
   },
   "ramses": {
    "coingecko_id": "ramses",
-   "id": "erc20:twan:0x555570a286f15ebdfe42b66ede2f724aa1ab5555",
+   "id": "erc20:hype:0x555570a286f15ebdfe42b66ede2f724aa1ab5555",
    "name": "Ramses",
    "networks": [
     "hyperevm"
@@ -347796,6 +347558,36 @@
     }
    ]
   },
+  "reach": {
+   "coingecko_id": "reach",
+   "id": "erc20:eth:0x8b12bd54ca9b2311960057c8f3c88013e79316e3",
+   "name": "Reach",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "$REACH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "reactive-network": {
    "coingecko_id": "reactive-network",
    "id": "eth:REACT:1597",
@@ -348156,6 +347948,32 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "real-ether": {
+   "coingecko_id": "real-ether",
+   "id": "eth:REETH:111188",
+   "name": "Real Ether",
+   "networks": [
+    "re-al"
+   ],
+   "shortcut": "REETH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -349521,11 +349339,11 @@
   "redbelly-bridged-usdc-redbelly": {
    "coingecko_id": "redbelly-bridged-usdc-redbelly",
    "id": "erc20:rbn:0x8201c02d4ab2214471e8c3ad6475c8b0cd9f2d06",
-   "name": "Redbelly Bridged USDC  Redbelly ",
+   "name": "Lucid Bridged USDC (Redbelly)",
    "networks": [
     "redbelly-network"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -349575,7 +349393,6 @@
    "id": "eth:RBNT:151",
    "name": "Redbelly Network",
    "networks": [
-    "ethereum",
     "redbelly-network"
    ],
    "shortcut": "RBNT",
@@ -349587,10 +349404,6 @@
     "T3W1": true
    },
    "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -354021,7 +353834,7 @@
   },
   "reverse-unit-bias": {
    "coingecko_id": "reverse-unit-bias",
-   "id": "erc20:twan:0x7dcffcb06b40344eeced2d1cbf096b299fe4b405",
+   "id": "erc20:hype:0x7dcffcb06b40344eeced2d1cbf096b299fe4b405",
    "name": "Reverse Unit Bias",
    "networks": [
     "hyperevm"
@@ -354627,7 +354440,7 @@
   },
   "rhypurr": {
    "coingecko_id": "rhypurr",
-   "id": "erc20:twan:0x0df4f69cf9417b1817ab9579bf099537a694667b",
+   "id": "erc20:hype:0x0df4f69cf9417b1817ab9579bf099537a694667b",
    "name": "rHYPURR",
    "networks": [
     "hyperevm"
@@ -359346,7 +359159,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "ROCKY",
+   "shortcut": "$ROCKY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -360314,11 +360127,11 @@
   "rootstock-bridged-usdt-rootstock": {
    "coingecko_id": "rootstock-bridged-usdt-rootstock",
    "id": "erc20:rsk:0xef213441a85df4d7acbdae0cf78004e1e486bb96",
-   "name": "Tether USD on RSK",
+   "name": "Rootstock Bridged USDT (Rootstock)",
    "networks": [
     "rootstock"
    ],
-   "shortcut": "rUSDT",
+   "shortcut": "RUSDT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -363929,12 +363742,12 @@
   },
   "saga-2": {
    "coingecko_id": "saga-2",
-   "id": "eth:GAS:5464",
+   "id": "eth:SAGA:5464",
    "name": "Saga",
    "networks": [
     "saga"
    ],
-   "shortcut": "GAS",
+   "shortcut": "SAGA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -367693,7 +367506,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "MANIA",
+   "shortcut": "$MANIA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -371062,36 +370875,6 @@
     }
    ]
   },
-  "sentinel-group": {
-   "coingecko_id": "sentinel-group",
-   "id": "erc20:eth:0xa44e5137293e855b1b7bc7e2c6f8cd796ffcb037",
-   "name": "Sentinel  OLD ",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "DVPN",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "sentinel-protocol": {
    "coingecko_id": "sentinel-protocol",
    "id": "erc20:arb1:0x6a9896837021ea3ed83f623f655c119c54abe02c",
@@ -372400,12 +372183,12 @@
   },
   "shape": {
    "coingecko_id": "shape",
-   "id": "eth:ETH:360",
+   "id": "eth:SHAPE:360",
    "name": "Shape",
    "networks": [
     "shape"
    ],
-   "shortcut": "ETH",
+   "shortcut": "SHAPE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -372518,7 +372301,7 @@
     "base",
     "solana"
    ],
-   "shortcut": "SHARBI",
+   "shortcut": "$SHARBI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -374127,7 +373910,7 @@
    "networks": [
     "binance-smart-chain"
    ],
-   "shortcut": "SHIBK",
+   "shortcut": "$SHIBK",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -379978,7 +379761,7 @@
     "pulsechain",
     "solana"
    ],
-   "shortcut": "SKOL",
+   "shortcut": "$SKOL",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -384558,7 +384341,7 @@
   "sol-wormhole": {
    "coingecko_id": "sol-wormhole",
    "id": "erc20:eth:0xd31a59c85ae9d8edefec411d448f90841571b89c",
-   "name": "Wormhole Bridged SOL",
+   "name": "Wormhole Bridged WSOL",
    "networks": [
     "arbitrum-one",
     "avalanche",
@@ -384568,7 +384351,7 @@
     "polygon-pos",
     "unichain"
    ],
-   "shortcut": "SOL",
+   "shortcut": "WSOL",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -384718,7 +384501,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "SOLACE",
+   "shortcut": "$SOLACE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -388150,7 +387933,7 @@
   "solv-protocol-solvbtc-bbn": {
    "coingecko_id": "solv-protocol-solvbtc-bbn",
    "id": "erc20:eth:0xd9d920aa40f578ab794426f5c90f6c731d159def",
-   "name": "Solv Protocol SolvBTC BBN",
+   "name": "Solv Protocol Staked BTC",
    "networks": [
     "arbitrum-one",
     "avalanche",
@@ -388172,7 +387955,7 @@
     "soneium",
     "sonic"
    ],
-   "shortcut": "SOLVBTCBBN",
+   "shortcut": "XSOLVBTC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -388243,7 +388026,7 @@
     "solana",
     "soneium"
    ],
-   "shortcut": "SOLVBTCJUP",
+   "shortcut": "SOLVBTC.JUP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -388725,8 +388508,6 @@
    "id": "eth:SOMI:5031",
    "name": "Somnia",
    "networks": [
-    "binance-smart-chain",
-    "ethereum",
     "somnia"
    ],
    "shortcut": "SOMI",
@@ -388738,10 +388519,6 @@
     "T3W1": true
    },
    "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -388958,11 +388735,11 @@
   "soneium-bridged-astar-soneium": {
    "coingecko_id": "soneium-bridged-astar-soneium",
    "id": "erc20:soneium:0x2cae934a1e84f693fbb78ca5ed3b0a6893259441",
-   "name": "Soneium Bridged Astar  Soneium ",
+   "name": "Soneium Bridged ASTR (Soneium)",
    "networks": [
     "soneium"
    ],
-   "shortcut": "ASTAR",
+   "shortcut": "ASTR",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -388984,11 +388761,11 @@
   "soneium-bridged-usdc-soneium": {
    "coingecko_id": "soneium-bridged-usdc-soneium",
    "id": "erc20:soneium:0xba9986d2381edf1da03b0b9c1f8b00dc4aacc369",
-   "name": "Soneium Bridged USDC  Soneium ",
+   "name": "Soneium Bridged USDC (Soneium)",
    "networks": [
     "soneium"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -389123,32 +388900,6 @@
     "sonic"
    ],
    "shortcut": "S",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "sonic-bridged-usdc-e-sonic": {
-   "coingecko_id": "sonic-bridged-usdc-e-sonic",
-   "id": "erc20:sonic:0x29219dd400f2bf60e5a23d13be72b486d4038894",
-   "name": "Sonic Bridged USDC e  Sonic ",
-   "networks": [
-    "sonic"
-   ],
-   "shortcut": "USDCE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -394916,11 +394667,11 @@
   "spx6900-2-0": {
    "coingecko_id": "spx6900-2-0",
    "id": "erc20:eth:0x230ea9aed5d08afdb22cd3c06c47cf24ad501301",
-   "name": "SPX6900 2 0",
+   "name": "SPX6900 2.0",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "SPX20",
+   "shortcut": "SPX2.0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -395562,7 +395313,7 @@
    "name": "\u200b\u200bStable",
    "networks": [
     "binance-smart-chain",
-    "stable-2"
+    "stable"
    ],
    "shortcut": "STABLE",
    "support": {
@@ -396835,7 +396586,7 @@
   },
   "staked-chusd": {
    "coingecko_id": "staked-chusd",
-   "id": "erc20:twan:0x888888facb316879129e1eee2451260e44b93aa8",
+   "id": "erc20:hype:0x888888facb316879129e1eee2451260e44b93aa8",
    "name": "Staked chUSD",
    "networks": [
     "hyperevm",
@@ -396890,32 +396641,6 @@
     }
    ]
   },
-  "staked-frax": {
-   "coingecko_id": "staked-frax",
-   "id": "erc20:frax:0xfc00000000000000000000000000000000000008",
-   "name": "Staked FRAX",
-   "networks": [
-    "fraxtal"
-   ],
-   "shortcut": "SFRAX",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "staked-frax-ether": {
    "coingecko_id": "staked-frax-ether",
    "id": "erc20:eth:0xac3e018457b222d93114458476f3e3416abbe38f",
@@ -396960,6 +396685,7 @@
    "networks": [
     "arbitrum-one",
     "ethereum",
+    "fraxtal",
     "katana",
     "mode",
     "sei-v2",
@@ -397017,7 +396743,7 @@
   },
   "staked-hype": {
    "coingecko_id": "staked-hype",
-   "id": "erc20:twan:0xffaa4a3d97fe9107cef8a3f48c069f577ff76cc1",
+   "id": "erc20:hype:0xffaa4a3d97fe9107cef8a3f48c069f577ff76cc1",
    "name": "Staked HYPE",
    "networks": [
     "hyperevm"
@@ -397043,7 +396769,7 @@
   },
   "staked-hype-shares": {
    "coingecko_id": "staked-hype-shares",
-   "id": "erc20:twan:0x94e8396e0869c9f2200760af0621afd240e1cf38",
+   "id": "erc20:hype:0x94e8396e0869c9f2200760af0621afd240e1cf38",
    "name": "Staked HYPE Shares",
    "networks": [
     "hyperevm"
@@ -397125,7 +396851,7 @@
   },
   "staked-loop": {
    "coingecko_id": "staked-loop",
-   "id": "erc20:twan:0x502ee789b448aa692901fe27ab03174c90f07dd1",
+   "id": "erc20:hype:0x502ee789b448aa692901fe27ab03174c90f07dd1",
    "name": "Staked LOOP",
    "networks": [
     "hyperevm"
@@ -398682,6 +398408,7 @@
     "cronos",
     "doma",
     "edu-chain",
+    "flow-evm",
     "fuse",
     "gensyn",
     "glue",
@@ -398696,38 +398423,12 @@
     "rari",
     "rootstock",
     "somnia",
-    "stable-2",
+    "stable",
     "story",
     "telos",
     "xdc-network"
    ],
-   "shortcut": "USDCE",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "stargate-bridged-usdc-flow": {
-   "coingecko_id": "stargate-bridged-usdc-flow",
-   "id": "erc20:flow-mainnet:0xf1815bd50389c46847f0bda824ec8da914045d14",
-   "name": "Stargate Bridged USDC  Flow ",
-   "networks": [
-    "flow-evm"
-   ],
-   "shortcut": "STGUSDC",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -398830,6 +398531,7 @@
     "botanix",
     "cronos",
     "degen",
+    "flow-evm",
     "fuse",
     "glue",
     "goat",
@@ -398848,32 +398550,6 @@
     "xdc-network"
    ],
    "shortcut": "WETH",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "stargate-bridged-weth-flow": {
-   "coingecko_id": "stargate-bridged-weth-flow",
-   "id": "erc20:flow-mainnet:0x2f6f07cdcf3588944bf4c42ac74ff24bf56e7590",
-   "name": "Stargate Bridged WETH  Flow ",
-   "networks": [
-    "flow-evm"
-   ],
-   "shortcut": "STGWETH",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -401136,12 +400812,12 @@
   },
   "stepex": {
    "coingecko_id": "stepex",
-   "id": "eth:SPEX:1234",
-   "name": "StepEx",
+   "id": "eth:FITFI:1234",
+   "name": "Step Network",
    "networks": [
     "step-network"
    ],
-   "shortcut": "SPEX",
+   "shortcut": "FITFI",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -402266,12 +401942,12 @@
   },
   "story-2": {
    "coingecko_id": "story-2",
-   "id": "eth:IP:1514",
-   "name": "Story",
+   "id": "eth:DATA:1514",
+   "name": "Data Network",
    "networks": [
     "story"
    ],
-   "shortcut": "IP",
+   "shortcut": "DATA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -402757,7 +402433,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "SR",
+   "shortcut": "S\u039eR",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -406526,6 +406202,36 @@
     }
    ]
   },
+  "superrarebears-rare": {
+   "coingecko_id": "superrarebears-rare",
+   "id": "solana:HmLspvjpQtQEnArUyJoBSFGS38gNJwBuxAeqSV9SZ66K",
+   "name": "SuperRareBears RARE",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "RARE",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "superreturn-ssuperusd": {
    "coingecko_id": "superreturn-ssuperusd",
    "id": "erc20:eth:0x139450c2dcef827c9a2a0bb1cb5506260940c9fd",
@@ -407056,7 +406762,7 @@
   },
   "susdai": {
    "coingecko_id": "susdai",
-   "id": "erc20:eth:0x0a1a1a107e45b7ced86833863f482bc5f4ed82ef",
+   "id": "erc20:eth:0x0b2b2b2076d95dda7817e785989fe353fe955ef9",
    "name": "Staked USDai",
    "networks": [
     "arbitrum-one",
@@ -407408,7 +407114,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "SWAG",
+   "shortcut": "$SWAG",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -408136,11 +407842,11 @@
   "swing-xyz": {
    "coingecko_id": "swing-xyz",
    "id": "erc20:eth:0xd8dd38ca016f3e0b3bc545d33cce72af274ce075",
-   "name": "Swing xyz",
+   "name": "Swing.xyz",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "SWING",
+   "shortcut": "$SWING",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -408389,11 +408095,11 @@
   "switcheo": {
    "coingecko_id": "switcheo",
    "id": "erc20:eth:0xb4371da53140417cbb3362055374b10d97e420bb",
-   "name": "Carbon Protocol",
+   "name": "Demex",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "SWTH",
+   "shortcut": "DMX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -409061,7 +408767,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "SYMP",
+   "shortcut": "$SYMP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -410365,12 +410071,11 @@
   },
   "taiko": {
    "coingecko_id": "taiko",
-   "id": "eth:TAIKO:167000",
+   "id": "erc20:eth:0x10dea67478c5f8c5e2d90e5e9b26dbe60c54d800",
    "name": "Taiko",
    "networks": [
     "binance-smart-chain",
-    "ethereum",
-    "taiko"
+    "ethereum"
    ],
    "shortcut": "TAIKO",
    "support": {
@@ -411552,11 +411257,11 @@
   "tapify": {
    "coingecko_id": "tapify",
    "id": "erc20:eth:0x5e7f6e008c6d9d7ad4c7eb75bd4ce62864cc7454",
-   "name": "Tapify",
+   "name": "Tap Protocol",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "TAPBITCOIN",
+   "shortcut": "TAP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -415499,7 +415204,7 @@
     "plasma",
     "polygon-pos",
     "solana",
-    "stable-2"
+    "stable"
    ],
    "shortcut": "XAUT0",
    "support": {
@@ -415595,14 +415300,14 @@
   "tether-usd-wormhole-from-ethereum": {
    "coingecko_id": "tether-usd-wormhole-from-ethereum",
    "id": "erc20:bnb:0x524bc91dc82d6b90ef29f76a3ecaabafffd490bc",
-   "name": "Bridged Tether  Wormhole Ethereum ",
+   "name": "Wormhole Bridged USDT",
    "networks": [
     "binance-smart-chain",
     "oasis",
     "polygon-pos",
     "solana"
    ],
-   "shortcut": "USDTET",
+   "shortcut": "USDT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -416799,7 +416504,7 @@
     "ethereum",
     "solana"
    ],
-   "shortcut": "KEKEC",
+   "shortcut": "$KEKEC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -416957,7 +416662,7 @@
    "networks": [
     "avalanche"
    ],
-   "shortcut": "TD",
+   "shortcut": "$TD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -420831,14 +420536,14 @@
   },
   "the-open-network": {
    "coingecko_id": "the-open-network",
-   "id": "eth:TON:5545",
-   "name": "Toncoin",
+   "id": "eth:GRAM:5545",
+   "name": "Gram (prev. Toncoin)",
    "networks": [
     "binance-smart-chain",
     "duckchain",
     "ethereum"
    ],
-   "shortcut": "TON",
+   "shortcut": "GRAM",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -422326,36 +422031,6 @@
     }
    ]
   },
-  "the-tokenized-bitcoin": {
-   "coingecko_id": "the-tokenized-bitcoin",
-   "id": "erc20:eth:0x3212b29e33587a00fb1c83346f5dbfa69a458923",
-   "name": "The Tokenized Bitcoin",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "IMBTC",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "the-top-influencer": {
    "coingecko_id": "the-top-influencer",
    "id": "solana:HS4DWjgJ2h51PCnhh95saqgLQ21Zps6VABK1vi9gpump",
@@ -423327,7 +423002,7 @@
     "base",
     "ethereum",
     "hyperevm",
-    "stable-2"
+    "stable"
    ],
    "shortcut": "THBILL",
    "support": {
@@ -424458,7 +424133,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "THREE",
+   "shortcut": "$THREE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -424780,6 +424455,32 @@
      "name": "Trezor Suite",
      "url": "https://trezor.io/trezor-suite"
     },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "thundercore-bridged-tt-wbnb-thundercore": {
+   "coingecko_id": "thundercore-bridged-tt-wbnb-thundercore",
+   "id": "erc20:TT:0x8ef1a1e0671aa44852f4d87105ef482470bb3e69",
+   "name": "ThunderCore Bridged TT WBNB  ThunderCor",
+   "networks": [
+    "thundercore"
+   ],
+   "shortcut": "TT-WBNB",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -426289,7 +425990,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "TOAD",
+   "shortcut": "$TOAD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -431516,7 +431217,7 @@
   },
   "treehouse-hype": {
    "coingecko_id": "treehouse-hype",
-   "id": "erc20:twan:0xb83d27f0f4133a7b0377a88089583131a903fdc7",
+   "id": "erc20:hype:0xb83d27f0f4133a7b0377a88089583131a903fdc7",
    "name": "Treehouse HYPE",
    "networks": [
     "hyperevm"
@@ -434340,7 +434041,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "TRU",
+   "shortcut": "TRUU",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -435484,7 +435185,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "USD",
+   "shortcut": "\u20b8USD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -437157,7 +436858,7 @@
   },
   "ultrasolid": {
    "coingecko_id": "ultrasolid",
-   "id": "erc20:twan:0xae60eafb73eb0516951ab20089cff32ac9dc63b7",
+   "id": "erc20:hype:0xae60eafb73eb0516951ab20089cff32ac9dc63b7",
    "name": "UltraSolid",
    "networks": [
     "hyperevm"
@@ -438476,7 +438177,7 @@
     "base",
     "ethereum"
    ],
-   "shortcut": "W",
+   "shortcut": "W\ud83c\udf56",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -439225,7 +438926,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "UNIT",
+   "shortcut": "$UNIT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -439280,7 +438981,7 @@
   },
   "unit-bitcoin": {
    "coingecko_id": "unit-bitcoin",
-   "id": "erc20:twan:0x9fdbda0a5e284c32744d2f17ee5c74b284993463",
+   "id": "erc20:hype:0x9fdbda0a5e284c32744d2f17ee5c74b284993463",
    "name": "Unit Bitcoin",
    "networks": [
     "hyperevm"
@@ -439336,7 +439037,7 @@
   },
   "unit-ethereum": {
    "coingecko_id": "unit-ethereum",
-   "id": "erc20:twan:0xbe6727b535545c67d5caa73dea54865b92cf7907",
+   "id": "erc20:hype:0xbe6727b535545c67d5caa73dea54865b92cf7907",
    "name": "Unit Ethereum",
    "networks": [
     "hyperevm"
@@ -439362,7 +439063,7 @@
   },
   "unit-fartcoin": {
    "coingecko_id": "unit-fartcoin",
-   "id": "erc20:twan:0x3b4575e689ded21caad31d64c4df1f10f3b2cedf",
+   "id": "erc20:hype:0x3b4575e689ded21caad31d64c4df1f10f3b2cedf",
    "name": "Unit Fartcoin",
    "networks": [
     "hyperevm"
@@ -439388,7 +439089,7 @@
   },
   "unit-plasma": {
    "coingecko_id": "unit-plasma",
-   "id": "erc20:twan:0x33af3c2540ba72054e044efe504867b39ae421f5",
+   "id": "erc20:hype:0x33af3c2540ba72054e044efe504867b39ae421f5",
    "name": "Unit Plasma",
    "networks": [
     "hyperevm"
@@ -439414,7 +439115,7 @@
   },
   "unit-pump": {
    "coingecko_id": "unit-pump",
-   "id": "erc20:twan:0x27ec642013bcb3d80ca3706599d3cda04f6f4452",
+   "id": "erc20:hype:0x27ec642013bcb3d80ca3706599d3cda04f6f4452",
    "name": "Unit Pump",
    "networks": [
     "hyperevm"
@@ -439440,7 +439141,7 @@
   },
   "unit-solana": {
    "coingecko_id": "unit-solana",
-   "id": "erc20:twan:0x068f321fa8fb9f0d135f290ef6a3e2813e1c8a29",
+   "id": "erc20:hype:0x068f321fa8fb9f0d135f290ef6a3e2813e1c8a29",
    "name": "Unit Solana",
    "networks": [
     "hyperevm"
@@ -440512,7 +440213,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "UOS",
+   "shortcut": "$UOS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -441406,7 +441107,7 @@
   },
   "upheaval": {
    "coingecko_id": "upheaval",
-   "id": "erc20:twan:0x9c3bcc457862dd6d8907ba11f8c7fe7e43a8c08b",
+   "id": "erc20:hype:0x9c3bcc457862dd6d8907ba11f8c7fe7e43a8c08b",
    "name": "Upheaval Finance",
    "networks": [
     "hyperevm"
@@ -442972,7 +442673,9 @@
     "polygon-pos",
     "sei-v2",
     "solana",
+    "sonic",
     "unichain",
+    "world-chain",
     "xdc-network",
     "zksync"
    ],
@@ -443010,11 +442713,11 @@
   "usd-coin-avalanche-bridged-usdc-e": {
    "coingecko_id": "usd-coin-avalanche-bridged-usdc-e",
    "id": "erc20:avax:0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664",
-   "name": "Avalanche Bridged USDC  Avalanche ",
+   "name": "Avalanche Bridged USDC (Avalanche)",
    "networks": [
     "avalanche"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -443040,11 +442743,12 @@
   "usd-coin-bridged-zed20": {
    "coingecko_id": "usd-coin-bridged-zed20",
    "id": "erc20:bnb:0x40f85d6040df96ea14cd41142bcd244e14cf76f6",
-   "name": "Zedxion Bridged USDC  Zedxion ",
+   "name": "ZEDX Bridged USDC (Zedxion)",
    "networks": [
-    "binance-smart-chain"
+    "binance-smart-chain",
+    "zedxion"
    ],
-   "shortcut": "USDCZ",
+   "shortcut": "USDC.Z",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -443070,11 +442774,11 @@
   "usd-coin-ethereum-bridged": {
    "coingecko_id": "usd-coin-ethereum-bridged",
    "id": "erc20:arb1:0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
-   "name": "Arbitrum Bridged USDC  Arbitrum ",
+   "name": "Arbitrum Bridged USDC (Arbitrum)",
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "USDCE",
+   "shortcut": "USDC.E",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -443354,12 +443058,12 @@
   "usd0-liquid-bond": {
    "coingecko_id": "usd0-liquid-bond",
    "id": "erc20:eth:0x35d8949372d46b7a3d5a56006ae77b215fc69bc0",
-   "name": "Staked USD0",
+   "name": "Bond USD0",
    "networks": [
     "arbitrum-one",
     "ethereum"
    ],
-   "shortcut": "USD0++",
+   "shortcut": "BUSD0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -443580,7 +443284,7 @@
   },
   "usdai": {
    "coingecko_id": "usdai",
-   "id": "erc20:eth:0x0b2b2b2076d95dda7817e785989fe353fe955ef9",
+   "id": "erc20:eth:0x0a1a1a107e45b7ced86833863f482bc5f4ed82ef",
    "name": "USDai",
    "networks": [
     "arbitrum-one",
@@ -444007,7 +443711,7 @@
   },
   "usdh-2": {
    "coingecko_id": "usdh-2",
-   "id": "erc20:twan:0x111111a1a0667d36bd57c0a9f569b98057111111",
+   "id": "erc20:hype:0x111111a1a0667d36bd57c0a9f569b98057111111",
    "name": "USDH",
    "networks": [
     "hyperevm"
@@ -444203,9 +443907,10 @@
   },
   "usdt0": {
    "coingecko_id": "usdt0",
-   "id": "eth:gUSDT:988",
-   "name": "Stable",
+   "id": "eth:USDT0:988",
+   "name": "USDT0",
    "networks": [
+    "arbitrum-one",
     "berachain",
     "hyperevm",
     "ink",
@@ -444215,13 +443920,14 @@
     "morph-l2",
     "optimistic-ethereum",
     "plasma",
+    "polygon-pos",
     "rootstock",
     "sei-v2",
-    "stable-2",
+    "stable",
     "unichain",
     "x-layer"
    ],
-   "shortcut": "gUSDT",
+   "shortcut": "USDT0",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -444795,7 +444501,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "USUAL",
+   "shortcut": "USUAL*",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -446185,8 +445891,8 @@
   },
   "vana": {
    "coingecko_id": "vana",
-   "id": "eth:ISL:1480",
-   "name": "Islander",
+   "id": "eth:VANA:1480",
+   "name": "Vana",
    "networks": [
     "arbitrum-one",
     "base",
@@ -446196,7 +445902,7 @@
     "polygon-pos",
     "vana"
    ],
-   "shortcut": "ISL",
+   "shortcut": "VANA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -447513,7 +447219,7 @@
   },
   "vegas": {
    "coingecko_id": "vegas",
-   "id": "erc20:twan:0xb09158c8297acee00b900dc1f8715df46b7246a6",
+   "id": "erc20:hype:0xb09158c8297acee00b900dc1f8715df46b7246a6",
    "name": "Vegas",
    "networks": [
     "hyperevm"
@@ -448523,7 +448229,7 @@
   },
   "ventuals-vhype": {
    "coingecko_id": "ventuals-vhype",
-   "id": "erc20:twan:0x8888888fdaac0e7cf8c6523c8955bf7954c216fa",
+   "id": "erc20:hype:0x8888888fdaac0e7cf8c6523c8955bf7954c216fa",
    "name": "Ventuals vHYPE",
    "networks": [
     "hyperevm"
@@ -457591,8 +457297,7 @@
    "name": "Wrapped BNB",
    "networks": [
     "binance-smart-chain",
-    "combo",
-    "thundercore"
+    "combo"
    ],
    "shortcut": "WBNB",
    "support": {
@@ -458434,7 +458139,7 @@
    "networks": [
     "base"
    ],
-   "shortcut": "WEEDE",
+   "shortcut": "$WEEDE",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -458769,7 +458474,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "WELL",
+   "shortcut": "$WELL",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -458899,7 +458604,7 @@
    "networks": [
     "wemix-network"
    ],
-   "shortcut": "WEMIX",
+   "shortcut": "WEMIX$",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -459369,15 +459074,13 @@
   },
   "weth": {
    "coingecko_id": "weth",
-   "id": "eth:reETH:111188",
-   "name": "re.al",
+   "id": "erc20:eth:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+   "name": "WETH",
    "networks": [
     "ethereum",
-    "rari",
-    "re-al",
-    "stable-2"
+    "stable"
    ],
-   "shortcut": "reETH",
+   "shortcut": "WETH",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -460572,7 +460275,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "DCAY",
+   "shortcut": "$DCAY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -465876,6 +465579,36 @@
     }
    ]
   },
+  "wrapped-3ull": {
+   "coingecko_id": "wrapped-3ull",
+   "id": "erc20:avax:0xa77e70d0af1ac7ff86726740db1bd065c3566937",
+   "name": "Wrapped 3ULL",
+   "networks": [
+    "avalanche"
+   ],
+   "shortcut": "W3ULL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "wrapped-a7a5-2": {
    "coingecko_id": "wrapped-a7a5-2",
    "id": "erc20:eth:0xf442ff10b8def89514560a66c0ad28777094636a",
@@ -466119,11 +465852,11 @@
   "wrapped-aave-avalanche-btcb": {
    "coingecko_id": "wrapped-aave-avalanche-btcb",
    "id": "erc20:avax:0x2d324fd1ca86d90f61b0965d2db2f86d22ea4b74",
-   "name": "Wrapped Aave Avalanche BTC b",
+   "name": "Wrapped Aave Avalanche BTC.b",
    "networks": [
     "avalanche"
    ],
-   "shortcut": "WAAVABTCB",
+   "shortcut": "WAAVABTC.B",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -466997,11 +466730,10 @@
   },
   "wrapped-apecoin": {
    "coingecko_id": "wrapped-apecoin",
-   "id": "erc20:twan:0xab11329560fa9c9c860bb21a9342215a1265bbb0",
+   "id": "erc20:apechain:0x48b62137edfa95a428d35c09e44256a739f6b557",
    "name": "Wrapped ApeCoin",
    "networks": [
-    "apechain",
-    "hyperevm"
+    "apechain"
    ],
    "shortcut": "WAPE",
    "support": {
@@ -467649,7 +467381,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "WBRKBX",
+   "shortcut": "WBRK.BX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -469074,6 +468806,7 @@
    "name": "Wrapped eETH",
    "networks": [
     "avalanche",
+    "base",
     "berachain",
     "binance-smart-chain",
     "blast",
@@ -469117,13 +468850,13 @@
   },
   "wrapped-ehmnd": {
    "coingecko_id": "wrapped-ehmnd",
-   "id": "eth:eHMND:5234",
-   "name": "Humanode",
+   "id": "eth:WEHMND:5234",
+   "name": "Wrapped eHMND (eHMND)",
    "networks": [
     "arbitrum-one",
     "humanode"
    ],
-   "shortcut": "eHMND",
+   "shortcut": "WEHMND",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -469828,6 +469561,7 @@
     "binance-smart-chain",
     "blast",
     "ethereum",
+    "fraxtal",
     "ink",
     "katana",
     "linea",
@@ -470146,39 +469880,9 @@
     }
    ]
   },
-  "wrapped-gun": {
-   "coingecko_id": "wrapped-gun",
-   "id": "erc20:avax:0x26debd39d5ed069770406fca10a0e4f8d2c743eb",
-   "name": "Wrapped GUN",
-   "networks": [
-    "avalanche"
-   ],
-   "shortcut": "WGUN",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "wrapped-hlp": {
    "coingecko_id": "wrapped-hlp",
-   "id": "erc20:twan:0x1359b05241ca5076c9f59605214f4f84114c0de8",
+   "id": "erc20:hype:0x1359b05241ca5076c9f59605214f4f84114c0de8",
    "name": "Wrapped HLP",
    "networks": [
     "hyperevm"
@@ -470603,12 +470307,12 @@
   },
   "wrapped-jbc": {
    "coingecko_id": "wrapped-jbc",
-   "id": "eth:WJBC:8899",
-   "name": "JibSwap Wrapped JBC (Jibchain)",
+   "id": "eth:JBC:8899",
+   "name": "JIBCHAIN L1",
    "networks": [
     "jibchain"
    ],
-   "shortcut": "WJBC",
+   "shortcut": "JBC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -470696,7 +470400,7 @@
     "ethereum",
     "polygon-pos"
    ],
-   "shortcut": "KAS",
+   "shortcut": "WKAS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -470970,6 +470674,32 @@
     "mantle"
    ],
    "shortcut": "WMNT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "wrapped-mantra": {
+   "coingecko_id": "wrapped-mantra",
+   "id": "erc20:mantra:0xe3047710ef6cb36bcf1e58145529778ea7cb5598",
+   "name": "Wrapped MANTRA",
+   "networks": [
+    "mantra-evm"
+   ],
+   "shortcut": "WMANTRA",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -472187,6 +471917,7 @@
    "name": "Wrapped Peaq",
    "networks": [
     "base",
+    "binance-smart-chain",
     "ethereum"
    ],
    "shortcut": "WPEAQ",
@@ -472563,9 +472294,10 @@
   },
   "wrapped-rbnt": {
    "coingecko_id": "wrapped-rbnt",
-   "id": "erc20:rbn:0x6ed1f491e2d31536d6561f6bdb2adc8f092a6076",
+   "id": "erc20:eth:0xb45ffb51984d626ee758b336c61cf20990c6bf13",
    "name": "Wrapped RBNT",
    "networks": [
+    "ethereum",
     "redbelly-network",
     "solana"
    ],
@@ -472646,6 +472378,32 @@
      "name": "Trezor Suite",
      "url": "https://trezor.io/trezor-suite"
     },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "wrapped-ronin": {
+   "coingecko_id": "wrapped-ronin",
+   "id": "erc20:ron:0xe514d9deb7966c8be0ca922de8a064264ea6bcd4",
+   "name": "Wrapped Ronin",
+   "networks": [
+    "ronin"
+   ],
+   "shortcut": "WRON",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -472828,32 +472586,6 @@
     }
    ]
   },
-  "wrapped-shape": {
-   "coingecko_id": "wrapped-shape",
-   "id": "erc20:shape:0x360aac543a23dbcefa8049d4c4d8b18da1cca360",
-   "name": "Wrapped SHAPE",
-   "networks": [
-    "shape"
-   ],
-   "shortcut": "WSHAPE",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "wrapped-shiden-network": {
    "coingecko_id": "wrapped-shiden-network",
    "id": "erc20:sdn:0x0f933dc137d21ca519ae4c7e93f87a4c8ef365ef",
@@ -473002,10 +472734,12 @@
   },
   "wrapped-somi": {
    "coingecko_id": "wrapped-somi",
-   "id": "erc20:SomniaMainnet:0x046ede9564a72571df6f5e44d0405360c0f4dcab",
+   "id": "erc20:eth:0x1b0f6590d21dc02b92ad3a7d00f8884dc4f1aed9",
    "name": "Wrapped SOMI",
    "networks": [
     "base",
+    "binance-smart-chain",
+    "ethereum",
     "somnia"
    ],
    "shortcut": "WSOMI",
@@ -473060,32 +472794,6 @@
      "name": "NuFi",
      "url": "https://nu.fi"
     },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "wrapped-sonic-origin": {
-   "coingecko_id": "wrapped-sonic-origin",
-   "id": "erc20:sonic:0x9f0df7799f6fdad409300080cff680f5a23df4b1",
-   "name": "Wrapped Origin Sonic",
-   "networks": [
-    "sonic"
-   ],
-   "shortcut": "WOS",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -473902,7 +473610,8 @@
    "name": "Wrapped XPL",
    "networks": [
     "binance-smart-chain",
-    "plasma"
+    "plasma",
+    "unichain"
    ],
    "shortcut": "WXPL",
    "support": {
@@ -474001,6 +473710,36 @@
     "etherlink"
    ],
    "shortcut": "WXTZ",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "wrapped-zano": {
+   "coingecko_id": "wrapped-zano",
+   "id": "erc20:eth:0xdb85f6685950e285b1e611037bebe5b34e2b7d78",
+   "name": "Wrapped Zano",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "WZANO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -475812,7 +475551,7 @@
   },
   "xbtc-2": {
    "coingecko_id": "xbtc-2",
-   "id": "erc20:twan:0x97df58ce4489896f4ec7d16b59b64ad0a56243a8",
+   "id": "erc20:hype:0x97df58ce4489896f4ec7d16b59b64ad0a56243a8",
    "name": "xBTC",
    "networks": [
     "hyperevm"
@@ -475918,7 +475657,7 @@
    "networks": [
     "moonbeam"
    ],
-   "shortcut": "XCDOT",
+   "shortcut": "DOT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -477167,7 +476906,7 @@
   },
   "xhype-2": {
    "coingecko_id": "xhype-2",
-   "id": "erc20:twan:0xac962fa04bf91b7fd0dc0c5c32414e0ce3c51e03",
+   "id": "erc20:hype:0xac962fa04bf91b7fd0dc0c5c32414e0ce3c51e03",
    "name": "xHYPE",
    "networks": [
     "hyperevm"
@@ -477560,7 +477299,7 @@
    "networks": [
     "cronos"
    ],
-   "shortcut": "XTC",
+   "shortcut": "$XTC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -478405,7 +478144,7 @@
   },
   "xram-liquid-staking-token": {
    "coingecko_id": "xram-liquid-staking-token",
-   "id": "erc20:twan:0x5555c2542836e7a6c8d3e133d5aa9773b65d5555",
+   "id": "erc20:hype:0x5555c2542836e7a6c8d3e133d5aa9773b65d5555",
    "name": "xRAM Liquid Staking Token",
    "networks": [
     "hyperevm"
@@ -482335,11 +482074,11 @@
   "yom": {
    "coingecko_id": "yom",
    "id": "erc20:avax:0xb6314518b61b4864162c7ae7fdc36261e0a14c4b",
-   "name": "$YOM",
+   "name": "YOM",
    "networks": [
     "avalanche"
    ],
-   "shortcut": "$YOM",
+   "shortcut": "YOM",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -486118,7 +485857,7 @@
    "networks": [
     "arbitrum-one"
    ],
-   "shortcut": "ZPC",
+   "shortcut": "$ZPC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -487060,7 +486799,7 @@
    "networks": [
     "pulsechain"
    ],
-   "shortcut": "ZER",
+   "shortcut": "ZER\u00d8",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -488332,7 +488071,7 @@
    "networks": [
     "ethereum"
    ],
-   "shortcut": "ZKITTY",
+   "shortcut": "$ZKITTY",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -490062,13 +489801,13 @@
  },
  "info": {
   "support_counter": {
-   "T1B1": 11071,
-   "T2B1": 16038,
-   "T2T1": 16045,
-   "T3T1": 16038,
-   "T3W1": 16038
+   "T1B1": 11063,
+   "T2B1": 16029,
+   "T2T1": 16036,
+   "T3T1": 16029,
+   "T3W1": 16029
   },
-  "updated_at": 1785323865,
-  "updated_at_readable": "Wed Jul 29 13:17:45 2026"
+  "updated_at": 1785324456,
+  "updated_at_readable": "Wed Jul 29 13:27:36 2026"
  }
 }
