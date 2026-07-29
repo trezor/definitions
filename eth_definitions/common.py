@@ -19,6 +19,7 @@ from trezorlib.merkle_tree import MerkleTree
 try:
     from trezorlib.messages import (
         DefinitionType,
+        EthereumERC7730EnumEntry,
         EthereumABITupleInfo,
         EthereumABIType,
         EthereumABIValueInfo,
@@ -55,6 +56,26 @@ if not any(
     f.name == "const_value" for f in EthereumERC7730Path.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730Path.const_value")
+if not any(
+    f.name == "slice_start" for f in EthereumERC7730Path.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730Path.slice_start")
+if not hasattr(EthereumERC7730FieldFormatterType, "FORMATTER_CALLDATA"):
+    _missing_proto.append("EthereumERC7730FieldFormatterType.FORMATTER_CALLDATA")
+if not any(
+    f.name == "callee_path" for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.callee_path")
+if not hasattr(EthereumERC7730FieldFormatterType, "FORMATTER_ENUM"):
+    _missing_proto.append("EthereumERC7730FieldFormatterType.FORMATTER_ENUM")
+if not any(
+    f.name == "enum_values" for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.enum_values")
+if not any(
+    f.name == "provider_name" for f in EthereumDisplayFormatInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumDisplayFormatInfo.provider_name")
 if _missing_proto:
     raise SystemExit(
         "Your trezorlib is outdated — missing " + ", ".join(_missing_proto) + ".\n"
@@ -194,6 +215,9 @@ class _ContainerPath(t.TypedDict):
 
 class _DataPath(t.TypedDict):
     path: list[int]
+    # trailing byte slice of the walked value (e.g. `token.[-20:]`)
+    slice_start: t.NotRequired[int]
+    slice_end: t.NotRequired[int]
 
 
 class _ConstValuePath(t.TypedDict):
@@ -201,6 +225,11 @@ class _ConstValuePath(t.TypedDict):
 
 
 ERC7730Path = _ContainerPath | _DataPath | _ConstValuePath
+
+
+class ERC7730EnumValue(t.TypedDict):
+    key: int  # the decoded calldata value (uint32)
+    value: str  # what the user sees for it
 
 
 class ERC7730Field(t.TypedDict):
@@ -218,6 +247,13 @@ class ERC7730Field(t.TypedDict):
     base: t.NotRequired[str]
     prefix: t.NotRequired[bool]
 
+    # CalldataFormatter params
+    callee_path: t.NotRequired[ERC7730Path]
+    selector: t.NotRequired[str]  # hex (no 0x prefix), 4 bytes
+
+    # enum fields: key->display mapping looked up on-device
+    enum_values: t.NotRequired[list[ERC7730EnumValue]]
+
 
 class ERC20DisplayFormat(t.TypedDict):
     chain_id: int
@@ -226,6 +262,9 @@ class ERC20DisplayFormat(t.TypedDict):
     intent: str
     parameter_definitions: list[ABIValue]
     field_definitions: list[ERC7730Field]
+
+    # metadata.owner, or "<registry subdir>: <contractName>" / subdir fallback
+    provider_name: t.NotRequired[str]
 
     deleted: t.NotRequired[bool]
 
@@ -378,7 +417,11 @@ def _build_erc7730_path(d: ERC7730Path) -> EthereumERC7730Path:
             container_path=EthereumERC7730ContainerPath[d["container_path"]]
         )
     if "path" in d:
-        return EthereumERC7730Path(path=list(d["path"]))
+        return EthereumERC7730Path(
+            path=list(d["path"]),
+            slice_start=d.get("slice_start"),
+            slice_end=d.get("slice_end"),
+        )
     if "const_value" in d:
         return EthereumERC7730Path(const_value=d["const_value"])
     raise AssertionError("unreachable")
@@ -401,6 +444,18 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
             if "const_token_address" in d
             else None
         ),
+        callee_path=(
+            _build_erc7730_path(d["callee_path"]) if "callee_path" in d else None
+        ),
+        selector=bytes.fromhex(d["selector"]) if "selector" in d else None,
+        enum_values=(
+            [
+                EthereumERC7730EnumEntry(key=e["key"], value=e["value"])
+                for e in d["enum_values"]
+            ]
+            if "enum_values" in d
+            else None
+        ),
     )
 
 
@@ -415,6 +470,7 @@ def _serialize_eth_display_format(
 ) -> bytes:
     info = EthereumDisplayFormatInfo(
         chain_id=display_format["chain_id"],
+        provider_name=display_format.get("provider_name"),
         address=bytes.fromhex(_strip_0x("address", display_format["address"])),
         func_sig=bytes.fromhex(_strip_0x("func_sig", display_format["func_sig"])),
         intent=display_format["intent"],
