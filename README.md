@@ -2,6 +2,22 @@
 
 Repository storing external token/network definitions belonging to `Trezor`. It helps by offloading the storage of these data into a client application, so that the device itself does not need to store them (because of flash-size constraints). It also allows for more frequent updates of these definitions. Device requests these data on demand and validates the signature.
 
+## Repository structure
+
+- `cli.py` - entry point for all definition handling (`download`, `generate`, `sign`, ...)
+- `definitions/` - Python package with the tooling, split by concern:
+  - `common.py` - coin-agnostic core: definitions file format, payload encoding, shared helpers
+  - `serialize.py` - serialization dispatch over all coins, Merkle root computation
+  - `downloader.py` - coin-agnostic downloading/caching of source data (CoinGecko, DeFiLlama)
+  - `download.py` - the `download` command orchestrating the whole pipeline
+  - `check_definitions.py`, `generate.py`, `sign.py`, `crypto.py` - coin-agnostic diffing, binary generation and signing
+  - `ethereum/` - everything Ethereum-specific: types, serialization, data sources (`ethereum-lists`, ERC-7730 registry, on-chain), built-in definitions check
+  - `solana/` - everything Solana-specific: types, serialization, data sources
+- `coins_details/` - generation of `coins_details.json` (market/support data per coin)
+- `ethereum-lists/`, `ethereum/clear-signing-erc7730-registry`, `coins_details/trezor_common` - data source submodules
+
+When adding definitions for another coin, add a new `definitions/<coin>/` subpackage with its types, serialization and data loading, and wire it into `serialize.py` / `download.py`.
+
 ## Update procedure
 
 `./do_update.sh` makes sure to update all definitions to their latest version. It is using data from multiple sources, e.g. `ethereum-lists` repository and `coingecko` API.

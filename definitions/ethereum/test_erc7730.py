@@ -405,7 +405,9 @@ def test_addressname_on_uint_in_tuple_retypes_only_that_leaf():
     desc = _descriptor(
         formats={
             "f((uint256 receiver, uint256 amount) order)": {
-                "fields": [{"path": "order.receiver", "label": "To", "format": "addressName"}]
+                "fields": [
+                    {"path": "order.receiver", "label": "To", "format": "addressName"}
+                ]
             }
         }
     )
@@ -422,7 +424,9 @@ def test_addressname_over_uint_array_iteration_retypes_element():
     # element decodes as an address.
     desc = _descriptor(
         formats={
-            "f(uint256[] xs)": {"fields": [{"path": "xs.[]", "label": "L", "format": "addressName"}]}
+            "f(uint256[] xs)": {
+                "fields": [{"path": "xs.[]", "label": "L", "format": "addressName"}]
+            }
         }
     )
     [rec] = build_display_formats(desc)
@@ -435,8 +439,16 @@ def test_two_addressname_fields_on_same_uint_leaf_both_kept():
         formats={
             "f(uint256[] pools)": {
                 "fields": [
-                    {"path": "pools.[0]", "label": "First pool", "format": "addressName"},
-                    {"path": "pools.[-1]", "label": "Last pool", "format": "addressName"},
+                    {
+                        "path": "pools.[0]",
+                        "label": "First pool",
+                        "format": "addressName",
+                    },
+                    {
+                        "path": "pools.[-1]",
+                        "label": "Last pool",
+                        "format": "addressName",
+                    },
                 ]
             }
         }
@@ -450,7 +462,11 @@ def test_addressname_on_bytes_is_kept_without_retype():
     # The firmware's AddressNameFormatter renders bytes values as hex directly;
     # the declared ABI type stays (bytes32 is left-aligned, address isn't).
     desc = _descriptor(
-        formats={"f(bytes32 h)": {"fields": [{"path": "h", "label": "L", "format": "addressName"}]}}
+        formats={
+            "f(bytes32 h)": {
+                "fields": [{"path": "h", "label": "L", "format": "addressName"}]
+            }
+        }
     )
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
@@ -463,7 +479,9 @@ def test_addressname_on_tuple_still_skips_file():
     # KIND_OTHER (a whole tuple/array) has no address reinterpretation.
     desc = _descriptor(
         formats={
-            "f(uint256[] xs)": {"fields": [{"path": "xs", "label": "L", "format": "addressName"}]}
+            "f(uint256[] xs)": {
+                "fields": [{"path": "xs", "label": "L", "format": "addressName"}]
+            }
         }
     )
     unsupported: list = []
@@ -683,7 +701,7 @@ def test_tokenamount_const_token_keeps_threshold():
 
 def test_const_token_address_serializes_to_proto():
     # The const_token_address hex makes it onto the proto field as raw bytes.
-    from .common import _build_erc7730_field_info
+    from .serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
         {
@@ -697,7 +715,7 @@ def test_const_token_address_serializes_to_proto():
 
 
 def test_const_value_path_serializes_to_proto():
-    from .common import _build_erc7730_path
+    from .serialize import _build_erc7730_path
 
     info = _build_erc7730_path({"const_value": "kmgcEURC"})
     assert info.const_value == "kmgcEURC"
@@ -711,7 +729,7 @@ def test_negative_index_path_serializes_to_proto():
 
     from trezorlib import protobuf
 
-    from .common import _build_erc7730_path
+    from .serialize import _build_erc7730_path
 
     info = _build_erc7730_path({"path": [0, -1]})
     buf = io.BytesIO()
@@ -1115,7 +1133,11 @@ def test_unindexed_array_without_iteration_skips_file():
 
 def test_unsupported_formatter_skips_file_and_is_collected():
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"path": "x", "label": "L", "format": _UNSUPPORTED_FORMAT}]}}
+        formats={
+            "f(uint256 x)": {
+                "fields": [{"path": "x", "label": "L", "format": _UNSUPPORTED_FORMAT}]
+            }
+        }
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
@@ -1128,7 +1150,11 @@ def test_raw_constant_field_emits_const_value():
     # A displayed field bound to a literal constant (no calldata `path`) rides
     # in the proto as a const_value path, rendered as-is by the raw formatter.
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"label": "Summary", "format": "raw", "value": "hi"}]}}
+        formats={
+            "f(uint256 x)": {
+                "fields": [{"label": "Summary", "format": "raw", "value": "hi"}]
+            }
+        }
     )
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
@@ -1166,7 +1192,11 @@ def test_constant_field_with_unresolvable_constant_skips_file():
         formats={
             "f(uint256 x)": {
                 "fields": [
-                    {"label": "L", "format": "raw", "value": "$.metadata.constants.missing"}
+                    {
+                        "label": "L",
+                        "format": "raw",
+                        "value": "$.metadata.constants.missing",
+                    }
                 ]
             }
         }
@@ -1194,7 +1224,9 @@ def test_constant_field_with_non_raw_formatter_skips_file():
 
 def test_constant_field_stringifies_numbers_and_logs():
     desc = _descriptor(
-        formats={"f(uint256 x)": {"fields": [{"label": "N", "format": "raw", "value": 42}]}}
+        formats={
+            "f(uint256 x)": {"fields": [{"label": "N", "format": "raw", "value": 42}]}
+        }
     )
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
@@ -1227,11 +1259,22 @@ def test_const_field_end_to_end_keeps_display_format():
         formats={
             "deposit(uint256 assets, address receiver)": {
                 "fields": [
-                    {"path": "assets", "label": "Deposit asset", "format": "tokenAmount",
-                     "params": {"token": "0x" + "ab" * 20}},
-                    {"label": "Share ticker", "format": "raw",
-                     "value": "$.metadata.constants.vaultTicker"},
-                    {"path": "receiver", "label": "Send shares to", "format": "addressName"},
+                    {
+                        "path": "assets",
+                        "label": "Deposit asset",
+                        "format": "tokenAmount",
+                        "params": {"token": "0x" + "ab" * 20},
+                    },
+                    {
+                        "label": "Share ticker",
+                        "format": "raw",
+                        "value": "$.metadata.constants.vaultTicker",
+                    },
+                    {
+                        "path": "receiver",
+                        "label": "Send shares to",
+                        "format": "addressName",
+                    },
                 ]
             }
         },
@@ -1248,7 +1291,7 @@ def test_const_field_end_to_end_keeps_display_format():
 
 
 def test_const_value_field_info_serializes_to_proto():
-    from .common import _build_erc7730_field_info
+    from .serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
         {
@@ -1267,7 +1310,11 @@ def test_constant_path_field_emits_const_value():
         formats={
             "f(uint256 x)": {
                 "fields": [
-                    {"path": "$.metadata.constants.note", "label": "Note", "format": "raw"}
+                    {
+                        "path": "$.metadata.constants.note",
+                        "label": "Note",
+                        "format": "raw",
+                    }
                 ]
             }
         },
@@ -1299,7 +1346,13 @@ def test_addressname_on_20_byte_slice_no_retype_no_adjustment():
     desc = _descriptor(
         formats={
             "unoswap(uint256 minReturn, uint256 dex)": {
-                "fields": [{"path": "dex.[-20:]", "label": "Last pool", "format": "addressName"}]
+                "fields": [
+                    {
+                        "path": "dex.[-20:]",
+                        "label": "Last pool",
+                        "format": "addressName",
+                    }
+                ]
             }
         }
     )
@@ -1322,7 +1375,13 @@ def test_date_on_sliced_word_is_kept():
     desc = _descriptor(
         formats={
             "f(uint256 goodUntil)": {
-                "fields": [{"path": "goodUntil.[-4:]", "label": "Expiration time", "format": "date"}]
+                "fields": [
+                    {
+                        "path": "goodUntil.[-4:]",
+                        "label": "Expiration time",
+                        "format": "date",
+                    }
+                ]
             }
         }
     )
@@ -1335,7 +1394,9 @@ def test_date_on_sliced_word_is_kept():
 def test_date_on_unsliced_bytes_still_skips_file():
     # The bytes allowance is slice-only; date over plain bytes stays a drop.
     desc = _descriptor(
-        formats={"f(bytes32 x)": {"fields": [{"path": "x", "label": "T", "format": "date"}]}}
+        formats={
+            "f(bytes32 x)": {"fields": [{"path": "x", "label": "T", "format": "date"}]}
+        }
     )
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc)
@@ -1369,7 +1430,13 @@ def test_raw_on_sliced_word_is_kept():
     desc = _descriptor(
         formats={
             "f(uint256 takerTraits)": {
-                "fields": [{"path": "takerTraits.[:1]", "label": "Additional action", "format": "raw"}]
+                "fields": [
+                    {
+                        "path": "takerTraits.[:1]",
+                        "label": "Additional action",
+                        "format": "raw",
+                    }
+                ]
             }
         }
     )
@@ -1383,7 +1450,9 @@ def test_amount_on_sliced_word_skips_file():
     # AmountFormatter needs an int; a sliced value is bytes on-device.
     desc = _descriptor(
         formats={
-            "f(uint256 x)": {"fields": [{"path": "x.[-8:]", "label": "A", "format": "amount"}]}
+            "f(uint256 x)": {
+                "fields": [{"path": "x.[-8:]", "label": "A", "format": "amount"}]
+            }
         }
     )
     unsupported: list = []
@@ -1397,7 +1466,7 @@ def test_sliced_path_serializes_to_proto():
 
     from trezorlib import protobuf
 
-    from .common import _build_erc7730_path
+    from .serialize import _build_erc7730_path
 
     info = _build_erc7730_path({"path": [0, -1], "slice_start": -20})
     assert info.slice_start == -20
@@ -1457,8 +1526,12 @@ def test_calldata_callee_in_word_slice_is_narrowed():
         formats={
             "f(bytes data)": {
                 "fields": [
-                    {"path": "data", "label": "Call", "format": "calldata",
-                     "params": {"calleePath": "data.[0:32]"}}
+                    {
+                        "path": "data",
+                        "label": "Call",
+                        "format": "calldata",
+                        "params": {"calleePath": "data.[0:32]"},
+                    }
                 ]
             }
         }
@@ -1466,7 +1539,9 @@ def test_calldata_callee_in_word_slice_is_narrowed():
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
     assert rec["field_definitions"][0]["callee_path"] == {
-        "path": [0], "slice_start": 12, "slice_end": 32,
+        "path": [0],
+        "slice_start": 12,
+        "slice_end": 32,
     }
     assert [k for _s, k, _d in adjustments] == ["address-in-word-slice"]
 
@@ -1628,8 +1703,12 @@ def test_calldata_on_non_bytes_skips_file():
         formats={
             "f(uint256 x, address t)": {
                 "fields": [
-                    {"path": "x", "label": "L", "format": "calldata",
-                     "params": {"calleePath": "t"}}
+                    {
+                        "path": "x",
+                        "label": "L",
+                        "format": "calldata",
+                        "params": {"calleePath": "t"},
+                    }
                 ]
             }
         }
@@ -1641,7 +1720,7 @@ def test_calldata_on_non_bytes_skips_file():
 
 
 def test_calldata_serializes_to_proto():
-    from .common import _build_erc7730_field_info
+    from .serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
         {
@@ -1663,7 +1742,13 @@ def test_calldata_serializes_to_proto():
 
 def _enum_desc(params, enums=None, sig="f(uint8 mode)", path="mode"):
     return _descriptor(
-        formats={sig: {"fields": [{"path": path, "label": "Mode", "format": "enum", "params": params}]}},
+        formats={
+            sig: {
+                "fields": [
+                    {"path": path, "label": "Mode", "format": "enum", "params": params}
+                ]
+            }
+        },
         enums=enums,
     )
 
@@ -1701,7 +1786,10 @@ def test_enum_bool_keys_map_to_1_0():
         {"key": 1, "value": "Grant all"},
         {"key": 0, "value": "Deny all"},
     ]
-    assert {kind for _src, kind, _det in adjustments} == {"enum-bool-keys", "enum-field"}
+    assert {kind for _src, kind, _det in adjustments} == {
+        "enum-bool-keys",
+        "enum-field",
+    }
 
 
 def test_enum_missing_ref_skips_file():
@@ -1754,7 +1842,7 @@ def test_enum_on_address_skips_file():
 
 
 def test_enum_values_serialize_to_proto():
-    from .common import _build_erc7730_field_info
+    from .serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
         {
@@ -1784,7 +1872,9 @@ def test_provider_name_falls_back_to_subdir_and_contract_name():
     # 1inch-style: no owner, but a contractName and the registry subdirectory.
     desc = _descriptor(formats=_ADDR_FIELD)
     desc["metadata"]["contractName"] = "AggregationRouterV6"
-    [rec] = build_display_formats(desc, source="1inch/calldata-AggregationRouterV6.json")
+    [rec] = build_display_formats(
+        desc, source="1inch/calldata-AggregationRouterV6.json"
+    )
     assert rec["provider_name"] == "1inch: AggregationRouterV6"
 
 
@@ -1802,12 +1892,12 @@ def test_provider_name_absent_when_nothing_known():
 
 
 def test_provider_name_serializes_to_proto():
-    from .common import _serialize_eth_display_format
+    from .serialize import serialize_display_format
 
     desc = _descriptor(formats=_ADDR_FIELD)
     desc["metadata"]["owner"] = "Kiln"
     [rec] = build_display_formats(desc, source="kiln/f.json")
-    assert _serialize_eth_display_format(rec, 1234567890)
+    assert serialize_display_format(rec, 1234567890)
 
 
 # =====================================================================
@@ -1820,7 +1910,9 @@ def test_dropped_format_discards_its_adjustments():
     # dropped later in the field loop must not leak its earlier adjustments.
     desc = _descriptor(
         formats={
-            "good(address x)": {"fields": [{"path": "x", "label": "A", "format": "addressName"}]},
+            "good(address x)": {
+                "fields": [{"path": "x", "label": "A", "format": "addressName"}]
+            },
             "bad(uint256 y, bytes d)": {
                 "fields": [
                     {"path": "y", "label": "Y", "format": "addressName"},  # adjustment
@@ -1845,7 +1937,11 @@ def test_nested_field_group_is_flattened():
                     {
                         "path": "#.marketParams",
                         "fields": [
-                            {"path": "loanToken", "label": "Loan Token", "format": "addressName"},
+                            {
+                                "path": "loanToken",
+                                "label": "Loan Token",
+                                "format": "addressName",
+                            },
                             {"path": "lltv", "label": "LLTV", "format": "raw"},
                         ],
                     },
@@ -1872,7 +1968,12 @@ def test_nested_group_within_group_is_flattened():
                     {
                         "path": "#.outer",
                         "fields": [
-                            {"path": "", "fields": [{"path": "a", "label": "A", "format": "addressName"}]}
+                            {
+                                "path": "",
+                                "fields": [
+                                    {"path": "a", "label": "A", "format": "addressName"}
+                                ],
+                            }
                         ],
                     }
                 ]
@@ -1895,7 +1996,9 @@ def test_group_over_array_still_drops_per_element():
                 "fields": [
                     {
                         "path": "#.swaps.[]",
-                        "fields": [{"path": "t", "label": "T", "format": "addressName"}],
+                        "fields": [
+                            {"path": "t", "label": "T", "format": "addressName"}
+                        ],
                     }
                 ]
             }
@@ -1912,8 +2015,13 @@ def test_hidden_group_is_skipped():
         formats={
             "f((address a, uint256 b) t, address to)": {
                 "fields": [
-                    {"path": "#.t", "visible": "never",
-                     "fields": [{"path": "a", "label": "A", "format": "addressName"}]},
+                    {
+                        "path": "#.t",
+                        "visible": "never",
+                        "fields": [
+                            {"path": "a", "label": "A", "format": "addressName"}
+                        ],
+                    },
                     {"path": "to", "label": "To", "format": "addressName"},
                 ]
             }
@@ -1928,8 +2036,13 @@ def test_optional_group_is_hidden_and_logged():
         formats={
             "f((address a, uint256 b) t, address to)": {
                 "fields": [
-                    {"path": "#.t", "visible": "optional",
-                     "fields": [{"path": "a", "label": "A", "format": "addressName"}]},
+                    {
+                        "path": "#.t",
+                        "visible": "optional",
+                        "fields": [
+                            {"path": "a", "label": "A", "format": "addressName"}
+                        ],
+                    },
                     {"path": "to", "label": "To", "format": "addressName"},
                 ]
             }
@@ -1974,8 +2087,12 @@ def test_group_member_with_absolute_path_is_not_joined():
         formats={
             "f((uint256 x) t, address to)": {
                 "fields": [
-                    {"path": "#.t",
-                     "fields": [{"path": "#.to", "label": "To", "format": "addressName"}]},
+                    {
+                        "path": "#.t",
+                        "fields": [
+                            {"path": "#.to", "label": "To", "format": "addressName"}
+                        ],
+                    },
                 ]
             }
         }
@@ -2104,7 +2221,12 @@ def test_optional_visibility_hides_field_and_logs():
             "f(address to, uint256 fee)": {
                 "fields": [
                     {"path": "to", "label": "To", "format": "addressName"},
-                    {"path": "fee", "label": "Fee", "format": "amount", "visible": "optional"},
+                    {
+                        "path": "fee",
+                        "label": "Fee",
+                        "format": "amount",
+                        "visible": "optional",
+                    },
                 ]
             }
         }
@@ -2123,7 +2245,12 @@ def test_optional_visibility_with_bad_path_does_not_skip_file():
             "f(address to)": {
                 "fields": [
                     {"path": "to", "label": "To", "format": "addressName"},
-                    {"path": "nope.[0:2].x", "label": "X", "format": "amount", "visible": "optional"},
+                    {
+                        "path": "nope.[0:2].x",
+                        "label": "X",
+                        "format": "amount",
+                        "visible": "optional",
+                    },
                 ]
             }
         }
@@ -2140,8 +2267,12 @@ def test_visibility_rule_object_skips_file():
             "f(address to, uint256 fee)": {
                 "fields": [
                     {"path": "to", "label": "To", "format": "addressName"},
-                    {"path": "fee", "label": "Fee", "format": "amount",
-                     "visible": {"mustMatch": [0]}},
+                    {
+                        "path": "fee",
+                        "label": "Fee",
+                        "format": "amount",
+                        "visible": {"mustMatch": [0]},
+                    },
                 ]
             }
         }
@@ -2256,7 +2387,11 @@ def test_bytes20_tuple_field_end_to_end():
 def test_addressname_on_int160_skips_file():
     # int160 is numeric but signed — the uint->address retype does not apply.
     desc = _descriptor(
-        formats={"f(int160 x)": {"fields": [{"path": "x", "label": "L", "format": "addressName"}]}}
+        formats={
+            "f(int160 x)": {
+                "fields": [{"path": "x", "label": "L", "format": "addressName"}]
+            }
+        }
     )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):

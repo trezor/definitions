@@ -4,14 +4,14 @@ from copy import deepcopy
 import click
 import pytest
 
-from . import download as dl
-from .download import (
+from ..test_data import erc20_tokens, networks
+from . import load as dl
+from .load import (
     _dedup_display_formats,
     _force_networks_fields_sizes_t1,
     _force_tokens_fields_sizes_t1,
     _write_display_formats_log,
 )
-from .test_data import erc20_tokens, networks
 
 
 def _rec(chain_id=1, address="0x" + "11" * 20, func_sig="0xdeadbeef", intent="Swap"):
@@ -71,9 +71,15 @@ def test_write_display_formats_log_has_all_sections(tmp_path, monkeypatch):
     monkeypatch.setattr(dl, "DISPLAY_FORMATS_LOG_PATH", tmp_path / "out.log")
     _write_display_formats_log(
         unsupported=[("provA/f.json", "unsupported-formatter", "enum (field 'X')")],
-        conflicts=[("chain=1 address=0xabc selector=0xdead", "provA/f.json", "provB/g.json")],
+        conflicts=[
+            ("chain=1 address=0xabc selector=0xdead", "provA/f.json", "provB/g.json")
+        ],
         adjustments=[
-            ("provC/h.json", "calldata-as-raw", "data shown as raw bytes (field 'Swap')")
+            (
+                "provC/h.json",
+                "calldata-as-raw",
+                "data shown as raw bytes (field 'Swap')",
+            )
         ],
     )
     text = (tmp_path / "out.log").read_text()
@@ -201,9 +207,7 @@ def test_update_display_formats_only_preserves_other_sections(tmp_path, monkeypa
     monkeypatch.setattr(
         dl,
         "store_definitions_data",
-        lambda metadata, definitions_data, **kw: captured.update(
-            data=definitions_data
-        ),
+        lambda metadata, definitions_data, **kw: captured.update(data=definitions_data),
     )
 
     dl._update_display_formats_only(
