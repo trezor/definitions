@@ -15,7 +15,8 @@ import trezor_common.tools.coin_info as coin_info
 from trezor_common.tools.coin_info import Coin
 
 if t.TYPE_CHECKING:
-    from ..eth_definitions.common import ERC20Token, Network, SolanaToken
+    from ..definitions.ethereum.types import ERC20Token, Network
+    from ..definitions.solana.types import SolanaToken
 
 
 class WalletInfo(t.TypedDict):

@@ -60,7 +60,7 @@ from erc7730.model.paths import (
 from erc7730.model.paths import Field as PathField
 from erc7730.model.paths.path_parser import to_path
 
-from .common import ABITuple, ABIValue, ERC20DisplayFormat, ERC7730Field, ERC7730Path
+from .types import ABITuple, ABIValue, ERC20DisplayFormat, ERC7730Field, ERC7730Path
 
 LOG = logging.getLogger(__name__)
 
@@ -439,12 +439,12 @@ def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, s
             out["slice_end"] = end
         # The sliced value is bytes on-device. A statically 20-byte slice is
         # the packed-address pattern and renders/behaves as an address.
-        kind = (
-            KIND_ADDRESS if _nominal_slice_length(start, end) == 20 else KIND_BYTES
-        )
+        kind = KIND_ADDRESS if _nominal_slice_length(start, end) == 20 else KIND_BYTES
         return out, kind
 
-    kind = KIND_OTHER if leaf_base is None else _classify_kind(leaf_base, leaf_array_depth)
+    kind = (
+        KIND_OTHER if leaf_base is None else _classify_kind(leaf_base, leaf_array_depth)
+    )
     return out, kind
 
 
@@ -749,6 +749,7 @@ def _flatten_field_group(
                 "malformed-field-entry", f"{sub!r} (in group {base!r})"
             )
         if base:
+
             def _join(p: Any) -> Any:
                 if isinstance(p, str) and not p.startswith(("#", "@", "$")):
                     return f"{base}.{p}"
@@ -894,7 +895,11 @@ def _check_kind_or_reinterpret(
     if kind in _FORMATTER_VALUE_KIND[fmt]:
         return
 
-    if fmt == "date" and kind == KIND_BYTES and ("slice_start" in path or "slice_end" in path):
+    if (
+        fmt == "date"
+        and kind == KIND_BYTES
+        and ("slice_start" in path or "slice_end" in path)
+    ):
         return
 
     if fmt == "addressName" and kind == KIND_NUMERIC and "path" in path:
@@ -1207,9 +1212,7 @@ def _apply_threshold(
         out["threshold"] = _normalize_hex(hex(threshold))
 
 
-def _apply_unit_params(
-    out: ERC7730Field, params: dict[str, Any], label: str
-) -> None:
+def _apply_unit_params(out: ERC7730Field, params: dict[str, Any], label: str) -> None:
     """Copy FORMATTER_UNIT's decimals / base / prefix params."""
     if params.get("decimals") is not None:
         try:
@@ -1352,9 +1355,7 @@ def _apply_enum_params(
     if parts is not None and parts[:2] == ("metadata", "enums"):
         entries = ctx.enums.get(parts[2])
     if not isinstance(entries, dict) or not entries:
-        raise UnsupportedFeature(
-            "unresolvable-enum-ref", f"{ref!r} (field {label!r})"
-        )
+        raise UnsupportedFeature("unresolvable-enum-ref", f"{ref!r} (field {label!r})")
 
     values: list[dict[str, Any]] = []
     bool_keys = False
@@ -1535,7 +1536,11 @@ def _build_one_format(
     if issues:
         return None, issues, []
     intent = _get_intent(display_format)
-    return (func_sig_hex, intent, parameter_definitions, field_defs), [], ctx.adjustments
+    return (
+        (func_sig_hex, intent, parameter_definitions, field_defs),
+        [],
+        ctx.adjustments,
+    )
 
 
 def build_display_formats(

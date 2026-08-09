@@ -5,16 +5,11 @@ from pathlib import Path
 
 import click
 
-from .common import (
-    DEFINITIONS_PATH,
-    ERC20Token,
-    Network,
-    hash_dict_on_keys,
-    load_json_file,
-)
+from ..common import DEFINITIONS_PATH, hash_dict_on_keys, load_json_file
+from .types import ERC20Token, Network
 
 HERE = Path(__file__).parent
-ROOT = HERE.parent
+ROOT = HERE.parent.parent
 TREZOR_COMMON = ROOT / "coins_details" / "trezor_common"
 ETH_DEFS_DIR = TREZOR_COMMON / "defs" / "ethereum"
 

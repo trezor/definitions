@@ -14,10 +14,10 @@ from pathlib import Path
 
 import requests
 
-from .common import load_json_file
+from ..common import load_json_file
 
 HERE = Path(__file__).parent
-ROOT = HERE.parent
+ROOT = HERE.parent.parent
 NETWORKS_PATH = ROOT / "ethereum-lists" / "chains" / "_data" / "chains"
 
 # keccak256("decimals()")[:4] - the ERC-20 decimals() function selector

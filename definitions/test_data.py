@@ -1,4 +1,4 @@
-from .common import ERC20Token, Network
+from .ethereum.types import ERC20Token, Network
 
 networks: list[Network] = [
     {

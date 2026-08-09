@@ -2,7 +2,7 @@
 
 # the repo's own sources, excluding the submodules under ethereum-lists/,
 # coins_details/trezor_common/ and ethereum/
-PY_SRC = cli.py conftest.py eth_definitions coins_details/coins_details.py
+PY_SRC = cli.py conftest.py definitions coins_details/coins_details.py
 
 test:
 	pytest --random-order .

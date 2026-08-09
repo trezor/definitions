@@ -409,9 +409,7 @@ def test_check_definitions_list_modified_shortcut_force(
 
 
 @parametrized
-@mock.patch(
-    "eth_definitions.check_definitions._print_definition_change", return_value=True
-)
+@mock.patch("definitions.check_definitions._print_definition_change", return_value=True)
 def test_check_definitions_list_modified_shortcut_interact_accept(
     mock_confirm: mock.MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -451,7 +449,7 @@ def test_check_definitions_list_modified_shortcut_interact_accept(
 
 @parametrized
 @mock.patch(
-    "eth_definitions.check_definitions._print_definition_change", return_value=False
+    "definitions.check_definitions._print_definition_change", return_value=False
 )
 def test_check_definitions_list_modified_shortcut_interact_decline(
     mock_confirm: mock.MagicMock,

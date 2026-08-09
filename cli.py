@@ -2,16 +2,17 @@ from __future__ import annotations
 
 import click
 
-from eth_definitions.builtin_defs import check_builtin
-from eth_definitions.common import get_merkle_root, load_definitions_data
-from eth_definitions.download import download
-from eth_definitions.generate import generate_definitions
-from eth_definitions.sign import sign_definitions
+from definitions.common import load_definitions_data
+from definitions.download import download
+from definitions.ethereum.builtin_defs import check_builtin
+from definitions.generate import generate_definitions
+from definitions.serialize import get_merkle_root
+from definitions.sign import sign_definitions
 
 
 @click.group()
 def cli() -> None:
-    """Script for handling Ethereum definitions (networks and tokens)."""
+    """Script for handling coin/network/token definitions (Ethereum, Solana, ...)."""
 
 
 cli.add_command(download)

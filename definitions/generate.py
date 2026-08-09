@@ -17,14 +17,12 @@ from . import crypto
 from .common import (
     GENERATED_DEFINITIONS_DIR,
     DefinitionsData,
-    ERC20DisplayFormat,
-    ERC20Token,
-    Network,
-    SolanaToken,
     load_definitions_data,
-    serialize_definitions,
     setup_logging,
 )
+from .ethereum.types import ERC20DisplayFormat, ERC20Token, Network
+from .serialize import serialize_definitions
+from .solana.types import SolanaToken
 
 LOG = logging.getLogger(__name__)
 
