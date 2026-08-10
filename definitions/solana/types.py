@@ -11,5 +11,5 @@ class SolanaToken(t.TypedDict):
     shortcut: str  # change later to symbol
 
     coingecko_id: t.NotRequired[str]
-    coingecko_rank: t.NotRequired[bool]
+    coingecko_rank: t.NotRequired[int]
     deleted: t.NotRequired[bool]

@@ -15,7 +15,7 @@ class Network(t.TypedDict):
 
     coingecko_id: t.NotRequired[str]
     coingecko_network_id: t.NotRequired[str]
-    coingecko_rank: t.NotRequired[bool]
+    coingecko_rank: t.NotRequired[int]
     deleted: t.NotRequired[bool]
 
 
@@ -28,7 +28,7 @@ class ERC20Token(t.TypedDict):
     shortcut: str  # change later to symbol
 
     coingecko_id: t.NotRequired[str]
-    coingecko_rank: t.NotRequired[bool]
+    coingecko_rank: t.NotRequired[int]
     deleted: t.NotRequired[bool]
 
 

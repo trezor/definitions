@@ -313,6 +313,8 @@ def download(
             show_all=show_all,
             show_added=show_added,
             update_callback=callback,
+            main_keys=("mint",),
+            def_type="TOKEN",
         )
         check_definitions_list(
             old_defs=old_defs.get("erc20_display_formats", []),

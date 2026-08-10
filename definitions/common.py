@@ -161,7 +161,7 @@ def load_definitions_data(
 ) -> tuple[DefinitionsFileMetadata, DefinitionsData]:
     if not path.is_file():
         raise click.ClickException(
-            f'File "{path}" with prepared definitions does not exists.'
+            f'File "{path}" with prepared definitions does not exist.'
         )
 
     defs_data: DefinitionsFileFormat = load_json_file(path)
@@ -172,7 +172,7 @@ def load_definitions_data(
     except KeyError:
         raise click.ClickException(
             "File with prepared definitions is not complete. "
-            '"metadata", "networks", "erc20_tokens" and "solana_tokens" sections may be missing.'
+            '"metadata", "networks", "erc20_tokens", "solana_tokens" and "erc20_display_formats" sections may be missing.'
         )
 
 
