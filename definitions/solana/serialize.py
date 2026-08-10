@@ -39,6 +39,6 @@ def serialize_token(token: SolanaToken, timestamp: int) -> bytes:
     except Exception as e:
         print(f"Error serializing solana token: {e}")
         print(token)
-        raise e
+        raise
 
     return encode_payload(token_info, DefinitionType.SOLANA_TOKEN, timestamp)
