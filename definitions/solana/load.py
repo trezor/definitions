@@ -14,19 +14,25 @@ from .types import SolanaToken
 def _build_solana_token(complex_token: dict[str, Any]) -> SolanaToken | None:
     """Build a Solana token from jup.ag data."""
     # simple validation
-    if not complex_token.get("address") or not complex_token.get("symbol"):
+    address = complex_token.get("address")
+    name = complex_token.get("name")
+    symbol = complex_token.get("symbol")
+    if not address or not name or not symbol:
         return None
 
     try:
-        tools.b58decode(complex_token["address"])
+        mint = tools.b58decode(address)
     except Exception as e:
         logging.warning(f"Failed to decode Solana token: {e}")
         return None
+    if len(mint) != 32:
+        logging.warning(f"Invalid Solana mint length ({len(mint)} != 32): {address}")
+        return None
 
     return {
-        "mint": complex_token["address"],
-        "name": complex_token["name"],
-        "shortcut": complex_token["symbol"].upper(),
+        "mint": address,
+        "name": name,
+        "shortcut": symbol.upper(),
     }
 
 
