@@ -137,7 +137,8 @@ def _build_token(
     complex_token: dict[str, Any], chain_id: int, chain: str
 ) -> ERC20Token | None:
     # simple validation
-    if complex_token["address"][:2] != "0x" or int(complex_token["decimals"]) < 0:
+    decimals = int(complex_token["decimals"])
+    if complex_token["address"][:2] != "0x" or decimals < 0:
         return None
     try:
         bytes.fromhex(complex_token["address"][2:])
@@ -148,7 +149,7 @@ def _build_token(
         address=str(complex_token["address"]).lower(),
         chain=chain,
         chain_id=chain_id,
-        decimals=complex_token["decimals"],
+        decimals=decimals,
         name=complex_token["name"],
         shortcut=complex_token["symbol"],
     )
