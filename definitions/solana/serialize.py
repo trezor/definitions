@@ -31,8 +31,11 @@ class SolanaTokenInfo(protobuf.MessageType):
 
 def serialize_token(token: SolanaToken, timestamp: int) -> bytes:
     try:
+        mint = tools.b58decode(token["mint"])
+        if len(mint) != 32:
+            raise ValueError(f"Invalid Solana mint length: {len(mint)} != 32")
         token_info = SolanaTokenInfo(
-            mint=tools.b58decode(token["mint"]),
+            mint=mint,
             symbol=token["shortcut"],
             name=token["name"],
         )
