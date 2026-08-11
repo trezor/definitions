@@ -50,6 +50,14 @@ CURRENT_TIMESTAMP_STR = CURRENT_TIME.strftime(TIMESTAMP_FORMAT)
 
 FORMAT_VERSION_BYTES = b"trzd1"
 
+# Version of the whole definitions blob, stored in `metadata.version`.
+# Absent version in older blobs means the same as version 1.
+# Bump it (via `cli.py bump-version`) on any backward-incompatible change,
+# e.g. an ERC-7730 serialization change or a signing-scheme change.
+# Independent from `unix_timestamp`, which remains the freshness gate used
+# by firmware to progressively deprecate old definitions.
+DEFINITIONS_FORMAT_VERSION = 1
+
 
 class ChangeResolutionStrategy(Enum):
     REJECT_ALL_CHANGES = 1
@@ -77,6 +85,7 @@ class DefinitionsFileMetadata(t.TypedDict):
     merkle_root: str
     commit_hash: str
     signature: t.NotRequired[str]
+    version: t.NotRequired[int]
 
 
 class DefinitionsFileFormat(t.TypedDict):
