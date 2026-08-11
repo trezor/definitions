@@ -24,6 +24,23 @@ When adding definitions for another coin, add a new `definitions/<coin>/` subpac
 
 This script will automatically create a commit with these changes.
 
+## Versioning
+
+`definitions-latest.json::metadata::version` is an integer version of the whole definitions blob. Historical blobs without the field are equivalent to version 1.
+
+Bump it with `python cli.py bump-version` (or `bump-version N` to set it explicitly) on any **backward-incompatible** change, e.g.:
+
+- an ERC-7730 clear-signing serialization/parsing change (see [trezor-firmware#7496](https://github.com/trezor/trezor-firmware/issues/7496)),
+- a change of the signing scheme (e.g. reducing the CoSi signature quorum).
+
+The version is carried forward across `download` runs automatically; bumping is always a deliberate, manual act.
+
+Notes:
+
+- The version is **not** part of the signed Merkle root, so bumping it alone does not require re-signing. If the bump accompanies a serialization change, the Merkle root changes and the definitions must be re-signed as usual.
+- `unix_timestamp` is independent of the version and remains the freshness gate used by firmware (including legacy Model One) to progressively deprecate old definitions.
+- Client applications (Connect/Suite) use the version to serve firmware-specific definitions (e.g. under a versioned path), and new firmware may reject older definitions by requiring a minimum timestamp at a format cutover.
+
 ## Signing procedure
 
 To prevent incorrect/malicious definitions from being supplied to `Trezor`, they need to be signed before using them.

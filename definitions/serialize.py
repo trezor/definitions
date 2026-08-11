@@ -11,7 +11,14 @@ import typing as t
 
 from trezorlib.merkle_tree import MerkleTree
 
-from .common import DefinitionsData, DefinitionsFileMetadata, get_git_commit_hash
+from .common import (
+    DEFINITIONS_FORMAT_VERSION,
+    DEFINITIONS_PATH,
+    DefinitionsData,
+    DefinitionsFileMetadata,
+    get_git_commit_hash,
+    load_json_file,
+)
 from .ethereum import serialize as ethereum_serialize
 from .ethereum.types import ERC20DisplayFormat, ERC20Token, Network
 from .solana import serialize as solana_serialize
@@ -60,17 +67,31 @@ def serialize_definitions(
     }
 
 
+def _load_current_version() -> int:
+    """Carry forward the blob version from the existing definitions file."""
+    try:
+        metadata = load_json_file(DEFINITIONS_PATH)["metadata"]
+        return int(metadata.get("version", DEFINITIONS_FORMAT_VERSION))
+    except (OSError, KeyError, TypeError, ValueError):
+        return DEFINITIONS_FORMAT_VERSION
+
+
 def make_metadata(
-    definitions_data: DefinitionsData, now: datetime.datetime | None = None
+    definitions_data: DefinitionsData,
+    now: datetime.datetime | None = None,
+    version: int | None = None,
 ) -> DefinitionsFileMetadata:
     if now is None:
         now = datetime.datetime.now(datetime.timezone.utc)
     timestamp = int(now.timestamp())
     time_str = now.isoformat()
     merkle_root = get_merkle_root(definitions_data, timestamp)
+    if version is None:
+        version = _load_current_version()
     return DefinitionsFileMetadata(
         datetime=time_str,
         unix_timestamp=timestamp,
         merkle_root=merkle_root,
         commit_hash=get_git_commit_hash(),
+        version=version,
     )
