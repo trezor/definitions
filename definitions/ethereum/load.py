@@ -92,6 +92,8 @@ NETWORK_OVERRIDES: dict[int, Network] = {
         name="HyperEVM",
         shortcut="HYPE",
         slip44=60,
+        coingecko_id="hyperliquid",
+        coingecko_network_id="hyperevm",
     ),
 }
 
