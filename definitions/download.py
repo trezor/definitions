@@ -271,7 +271,7 @@ def download(
         # enrich networks by symbols known from coingecko
         if (network := native_coin_to_network.get(cg_coin["id"])) is not None:
             network["name"] = cg_coin["name"]
-            network["shortcut"] = cg_coin["symbol"].upper()
+            network["shortcut"] = cg_coin["symbol"]
 
     # get top 100 ids
     cg_top100_ids = {d["id"]: d for d in cg_top100}

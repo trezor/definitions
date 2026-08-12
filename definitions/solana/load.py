@@ -32,7 +32,7 @@ def _build_solana_token(complex_token: dict[str, Any]) -> SolanaToken | None:
     return {
         "mint": address,
         "name": name,
-        "shortcut": symbol.upper(),
+        "shortcut": symbol,
     }
 
 
