@@ -965,6 +965,75 @@ def test_unit_non_numeric_decimals_skips_file():
         build_display_formats(desc)
 
 
+def test_unit_base_literal_is_kept():
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {
+                "fields": [
+                    {
+                        "path": "x",
+                        "label": "Stake amount",
+                        "format": "unit",
+                        "params": {"base": "POL", "decimals": 18},
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["base"] == "POL"
+
+
+def test_unit_base_constant_ref_is_resolved():
+    # `base` may be a $.metadata.constants.* reference (yieldxyz staking tokens).
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {
+                "fields": [
+                    {
+                        "path": "x",
+                        "label": "Stake amount",
+                        "format": "unit",
+                        "params": {
+                            "base": "$.metadata.constants.stakingTokenTicker",
+                            "decimals": 18,
+                        },
+                    }
+                ]
+            }
+        },
+        constants={"stakingTokenTicker": "POL"},
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["base"] == "POL"
+
+
+def test_unit_base_unresolvable_constant_ref_skips_file():
+    unsupported: list = []
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {
+                "fields": [
+                    {
+                        "path": "x",
+                        "label": "Stake amount",
+                        "format": "unit",
+                        "params": {
+                            "base": "$.metadata.constants.missing",
+                            "decimals": 18,
+                        },
+                    }
+                ]
+            }
+        }
+    )
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {
+        "unresolvable-constant-value"
+    }
+
+
 # =====================================================================
 #                       raw / date formatters
 # =====================================================================

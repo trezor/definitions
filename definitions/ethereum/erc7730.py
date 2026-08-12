@@ -1070,7 +1070,7 @@ def _build_path_field(
     if fmt == "tokenAmount":
         _apply_token_amount_params(out, params, path_str, label, ctx)
     elif fmt == "unit":
-        _apply_unit_params(out, params, label)
+        _apply_unit_params(out, params, label, ctx)
     elif fmt == "date":
         _apply_date_params(out, params, path_str, label, ctx)
     elif fmt == "calldata":
@@ -1186,7 +1186,7 @@ def _apply_threshold(
 ) -> None:
     """Normalize a `threshold` param to hex bytes; reject the unserializable."""
     threshold = params.get("threshold")
-    if isinstance(threshold, str) and threshold.startswith("$"):
+    if isinstance(threshold, str) and threshold.startswith("$."):
         resolved = _resolve_constant(threshold, constants)
         if resolved is None:
             raise UnsupportedFeature(
@@ -1212,7 +1212,9 @@ def _apply_threshold(
         out["threshold"] = _normalize_hex(hex(threshold))
 
 
-def _apply_unit_params(out: ERC7730Field, params: dict[str, Any], label: str) -> None:
+def _apply_unit_params(
+    out: ERC7730Field, params: dict[str, Any], label: str, ctx: _FormatContext
+) -> None:
     """Copy FORMATTER_UNIT's decimals / base / prefix params."""
     if params.get("decimals") is not None:
         try:
@@ -1228,8 +1230,16 @@ def _apply_unit_params(out: ERC7730Field, params: dict[str, Any], label: str) ->
                 f"{decimals} out of uint32 range (field {label!r})",
             )
         out["decimals"] = decimals
-    if params.get("base"):
-        out["base"] = str(params["base"])
+    base = params.get("base")
+    if base:
+        if isinstance(base, str) and base.startswith("$."):
+            resolved = _resolve_constant(base, ctx.constants)
+            if resolved is None:
+                raise UnsupportedFeature(
+                    "unresolvable-constant-value", f"{base!r} (field {label!r})"
+                )
+            base = resolved
+        out["base"] = str(base)
     if params.get("prefix") is not None:
         out["prefix"] = bool(params["prefix"])
 
