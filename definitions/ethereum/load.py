@@ -47,6 +47,7 @@ ENABLED_PROVIDERS = frozenset(
     {
         "1inch",
         "aave",
+        "benqi",
         "consensus-specs",
         "corestake",
         "ethena",
