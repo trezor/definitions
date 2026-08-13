@@ -59,12 +59,8 @@ ENABLED_PROVIDERS = frozenset(
         "opencover",
         "p2p",
         "poap",
-        "quickswap",
         "sei",
-        "starkgate",
-        "swell",
         "tether",
-        "walletconnect",
         "weth",
         "yieldxyz",
     }
