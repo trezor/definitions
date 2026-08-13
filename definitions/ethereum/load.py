@@ -58,7 +58,6 @@ ENABLED_PROVIDERS = frozenset(
         "lombard",
         "opencover",
         "p2p",
-        "poap",
         "sei",
         "tether",
         "weth",
