@@ -101,7 +101,19 @@
             "url": "https://trezor.io/trezor-suite"
         }
     ],
+    "eth:HYPE:999": [
+        {
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        }
+    ],
     "eth:BNB:56": [
+        {
+            "name": "Trezor Suite",
+            "url": "https://trezor.io/trezor-suite"
+        }
+    ],
+    "eth:ETH:4663": [
         {
             "name": "Trezor Suite",
             "url": "https://trezor.io/trezor-suite"
