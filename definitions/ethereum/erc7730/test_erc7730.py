@@ -1029,9 +1029,7 @@ def test_unit_base_unresolvable_constant_ref_skips_file():
     )
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {
-        "unresolvable-constant-value"
-    }
+    assert {feat for _src, feat, _det in unsupported} == {"unresolvable-constant-value"}
 
 
 # =====================================================================

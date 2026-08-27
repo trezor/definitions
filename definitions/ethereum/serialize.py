@@ -73,17 +73,19 @@ if _missing_proto:
     )
 
 
-def serialize_network(network: Network, timestamp: int) -> bytes:
+def serialize_network(network: Network, timestamp: int, version: int) -> bytes:
     network_info = EthereumNetworkInfo(
         chain_id=network["chain_id"],
         symbol=network["shortcut"],
         slip44=network["slip44"],
         name=network["name"],
     )
-    return encode_payload(network_info, DefinitionType.ETHEREUM_NETWORK, timestamp)
+    return encode_payload(
+        network_info, DefinitionType.ETHEREUM_NETWORK, timestamp, version
+    )
 
 
-def serialize_token(token: ERC20Token, timestamp: int) -> bytes:
+def serialize_token(token: ERC20Token, timestamp: int, version: int) -> bytes:
     token_info = EthereumTokenInfo(
         address=bytes.fromhex(token["address"][2:]),
         chain_id=token["chain_id"],
@@ -91,7 +93,7 @@ def serialize_token(token: ERC20Token, timestamp: int) -> bytes:
         decimals=token["decimals"],
         name=token["name"],
     )
-    return encode_payload(token_info, DefinitionType.ETHEREUM_TOKEN, timestamp)
+    return encode_payload(token_info, DefinitionType.ETHEREUM_TOKEN, timestamp, version)
 
 
 _ABI_VARIANT_KEYS = frozenset({"atomic", "dynamic", "tuple", "array"})
@@ -181,7 +183,7 @@ def _strip_0x(label: str, value: str) -> str:
 
 
 def serialize_display_format(
-    display_format: ERC20DisplayFormat, timestamp: int
+    display_format: ERC20DisplayFormat, timestamp: int, version: int
 ) -> bytes:
     info = EthereumDisplayFormatInfo(
         chain_id=display_format["chain_id"],
@@ -196,4 +198,6 @@ def serialize_display_format(
             _build_erc7730_field_info(f) for f in display_format["field_definitions"]
         ],
     )
-    return encode_payload(info, DefinitionType.ETHEREUM_DISPLAY_FORMAT, timestamp)
+    return encode_payload(
+        info, DefinitionType.ETHEREUM_DISPLAY_FORMAT, timestamp, version
+    )

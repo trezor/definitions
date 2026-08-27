@@ -41,14 +41,13 @@ ROOT = HERE.parent
 DEFINITIONS_PATH = ROOT / "definitions-latest.json"
 DISPLAY_FORMATS_LOG_PATH = ROOT / "definitions-latest.log"
 GENERATED_DEFINITIONS_DIR = ROOT / "definitions-latest"
-DEPLOY_DEFINITIONS_TAR = ROOT / "definitions-deploy.tar.xz"
 
 CURRENT_TIME = datetime.datetime.now(datetime.timezone.utc)
 TIMESTAMP_FORMAT = "%d.%m.%Y %X%z"
 CURRENT_UNIX_TIMESTAMP = int(CURRENT_TIME.timestamp())
 CURRENT_TIMESTAMP_STR = CURRENT_TIME.strftime(TIMESTAMP_FORMAT)
 
-FORMAT_VERSION_BYTES = b"trzd1"
+MAGIC = b"trzd"
 
 
 class ChangeResolutionStrategy(Enum):
@@ -143,12 +142,14 @@ def encode_payload(
     info: protobuf.MessageType,
     data_type_num: DefinitionType,
     timestamp: int,
+    version: int,
 ) -> bytes:
     """Wrap a coin-specific protobuf message into a signed-definition payload."""
     buf = io.BytesIO()
     protobuf.dump_message(buf, info)
     payload = definitions.DefinitionPayload(
-        magic=FORMAT_VERSION_BYTES,
+        magic=MAGIC,
+        version=str(version).encode("ascii"),
         data_type=data_type_num,
         timestamp=timestamp,
         data=buf.getvalue(),
