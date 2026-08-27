@@ -201,13 +201,18 @@ def test_update_display_formats_only_preserves_other_sections(tmp_path, monkeypa
     )
     # The diff/apply step is exercised elsewhere; here we assert the section swap.
     monkeypatch.setattr(dl, "check_definitions_list", lambda **kwargs: None)
-    monkeypatch.setattr(dl, "make_metadata", lambda data: {"meta": "x"})
+    monkeypatch.setattr(dl, "make_metadata", lambda data, version: {"version": version})
 
     captured = {}
     monkeypatch.setattr(
         dl,
         "store_definitions_data",
-        lambda metadata, definitions_data, **kw: captured.update(data=definitions_data),
+        lambda definitions_data, **kw: captured.update(data=definitions_data),
+    )
+    monkeypatch.setattr(
+        dl,
+        "store_metadata",
+        lambda metadata: captured.update(metadata=metadata),
     )
 
     dl._update_display_formats_only(
@@ -224,6 +229,8 @@ def test_update_display_formats_only_preserves_other_sections(tmp_path, monkeypa
     assert data.solana_tokens == old["solana_tokens"]
     # only the display formats are refreshed
     assert data.erc20_display_formats == new_formats
+    # metadata is stored for every active version
+    assert captured["metadata"]["version"] in dl.ACTIVE_VERSIONS
 
 
 def test_update_display_formats_only_requires_existing_file(tmp_path, monkeypatch):

@@ -18,12 +18,14 @@ import click
 
 from ..check_definitions import check_definitions_list
 from ..common import (
+    ACTIVE_VERSIONS,
     DEFINITIONS_PATH,
     DISPLAY_FORMATS_LOG_PATH,
     ChangeResolutionStrategy,
     DefinitionsData,
     load_json_file,
     store_definitions_data,
+    store_metadata,
 )
 from ..downloader import Downloader
 from ..serialize import make_metadata
@@ -477,5 +479,7 @@ def _update_display_formats_only(
         erc20_display_formats=display_formats,
     )
 
-    metadata = make_metadata(definitions_data)
-    store_definitions_data(metadata, definitions_data)
+    store_definitions_data(definitions_data)
+    for version in ACTIVE_VERSIONS:
+        metadata = make_metadata(definitions_data, version)
+        store_metadata(metadata)

@@ -29,8 +29,10 @@ This script will automatically create a commit with these changes.
 To prevent incorrect/malicious definitions from being supplied to `Trezor`, they need to be signed before using them.
 
 Signing has the following steps:
-- run `python cli.py computed-merkle-root` to get the `merkle_root` computed from the definitions data rather than trusting the value stored in `definitions-latest.json::metadata::merkle_root`
+- run `python cli.py computed-merkle-root` to get the `merkle_root` computed from the definitions data rather than trusting the value stored in `definitions-latest-metadata-v1.json::merkle_root`
 - sign it with appropriate keys (outside of definitions repo)
 - get the signature and provide it as an argument to `do_sign.sh`, e.g. `./do_sign.sh abcd...`
 - the results should look something like this signing commit - https://github.com/trezor/definitions/commit/42d3093e83c85dade59af92a37fb3c33d3b047eb
 - `definitions.tar.gz` file should also be created, containing signed definitions, ready for deployment
+
+Metadata (merkle root, signature, format version) are version-specific and live in `definitions-latest-metadata-v<version>.json`, separate from the coin data in `definitions-latest.json`.

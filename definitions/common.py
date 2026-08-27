@@ -42,12 +42,40 @@ DEFINITIONS_PATH = ROOT / "definitions-latest.json"
 DISPLAY_FORMATS_LOG_PATH = ROOT / "definitions-latest.log"
 GENERATED_DEFINITIONS_DIR = ROOT / "definitions-latest"
 
+# Definitions format versions the tooling currently produces metadata for.
+# Metadata (merkle root, signature) is version-specific, so one metadata file
+# per active version is generated. 
+ACTIVE_VERSIONS: tuple[int, ...] = (1,)
+
 CURRENT_TIME = datetime.datetime.now(datetime.timezone.utc)
 TIMESTAMP_FORMAT = "%d.%m.%Y %X%z"
 CURRENT_UNIX_TIMESTAMP = int(CURRENT_TIME.timestamp())
 CURRENT_TIMESTAMP_STR = CURRENT_TIME.strftime(TIMESTAMP_FORMAT)
 
 MAGIC = b"trzd"
+
+
+def metadata_path(version: int) -> Path:
+    return ROOT / f"definitions-latest-metadata-v{version}.json"
+
+
+def validate_version(version: int) -> int:
+    if version not in ACTIVE_VERSIONS:
+        supported = ", ".join(str(v) for v in ACTIVE_VERSIONS)
+        raise click.ClickException(
+            f"Unsupported definitions version {version}. "
+            f"Supported versions: {supported}."
+        )
+    return version
+
+
+def resolve_default_version() -> int:
+    if len(ACTIVE_VERSIONS) != 1:
+        raise click.ClickException(
+            "Multiple definitions versions are active, specify --version. "
+            f"Active versions: {', '.join(str(v) for v in ACTIVE_VERSIONS)}."
+        )
+    return ACTIVE_VERSIONS[0]
 
 
 class ChangeResolutionStrategy(Enum):
@@ -75,6 +103,7 @@ class DefinitionsFileMetadata(t.TypedDict):
     unix_timestamp: int
     merkle_root: str
     commit_hash: str
+    version: int
     signature: t.NotRequired[str]
 
 
@@ -83,7 +112,6 @@ class DefinitionsFileFormat(t.TypedDict):
     erc20_tokens: list[ERC20Token]
     solana_tokens: list[SolanaToken]
     erc20_display_formats: list[ERC20DisplayFormat]
-    metadata: DefinitionsFileMetadata
 
 
 @dataclasses.dataclass
@@ -102,13 +130,12 @@ class DefinitionsData:
             erc20_display_formats=data["erc20_display_formats"],
         )
 
-    def to_dict(self, metadata: DefinitionsFileMetadata) -> DefinitionsFileFormat:
+    def to_dict(self) -> DefinitionsFileFormat:
         return {
             "networks": self.networks,
             "erc20_tokens": self.erc20_tokens,
             "solana_tokens": self.solana_tokens,
             "erc20_display_formats": self.erc20_display_formats,
-            "metadata": metadata,
         }
 
 
@@ -158,37 +185,68 @@ def encode_payload(
 
 
 def load_definitions_data(
-    path: Path = DEFINITIONS_PATH,
+    version: int | None = None,
+    *,
+    path: Path | None = None,
 ) -> tuple[DefinitionsFileMetadata, DefinitionsData]:
+    """Load definitions data and the metadata of the given format version.
+
+    Coin sections come from `definitions-latest.json`, metadata from
+    `definitions-latest-metadata-v<version>.json`. When `version` is None,
+    the sole active version is used (must be only one active).
+    """
+    if version is None:
+        version = resolve_default_version()
+    validate_version(version)
+
+    if path is None:
+        path = DEFINITIONS_PATH
     if not path.is_file():
         raise click.ClickException(
             f'File "{path}" with prepared definitions does not exist.'
         )
+    meta_path = metadata_path(version)
+    if not meta_path.is_file():
+        raise click.ClickException(
+            f'File "{meta_path}" with definitions metadata does not exist.'
+        )
 
     defs_data: DefinitionsFileFormat = load_json_file(path)
+    metadata: DefinitionsFileMetadata = load_json_file(meta_path)
+    if metadata.get("version") != version:
+        raise click.ClickException(
+            f'Metadata file "{meta_path}" has version {metadata.get("version")!r}, '
+            f"expected {version}."
+        )
     try:
-        metadata = defs_data["metadata"]
         definitions_data = DefinitionsData.from_dict(defs_data)
         return metadata, definitions_data
     except KeyError:
         raise click.ClickException(
             "File with prepared definitions is not complete. "
-            '"metadata", "networks", "erc20_tokens", "solana_tokens" and "erc20_display_formats" sections may be missing.'
+            '"networks", "erc20_tokens", "solana_tokens" and "erc20_display_formats" sections may be missing.'
         )
 
 
-def store_definitions_data(
-    metadata: DefinitionsFileMetadata,
-    definitions_data: DefinitionsData,
-    *,
-    path: Path = DEFINITIONS_PATH,
-) -> None:
+def _dump_json(path: Path, data: t.Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-
-    defs = definitions_data.to_dict(metadata)
-
     with open(path, "w") as f:
-        json.dump(defs, f, ensure_ascii=False, sort_keys=True, indent=1)
+        json.dump(data, f, ensure_ascii=False, sort_keys=True, indent=1)
         f.write("\n")
 
+
+def store_definitions_data(
+    definitions_data: DefinitionsData,
+    *,
+    path: Path | None = None,
+) -> None:
+    if path is None:
+        path = DEFINITIONS_PATH
+    _dump_json(path, definitions_data.to_dict())
     logging.info(f"Success - results saved under {path}")
+
+
+def store_metadata(metadata: DefinitionsFileMetadata) -> None:
+    meta_path = metadata_path(metadata["version"])
+    _dump_json(meta_path, metadata)
+    logging.info(f"Success - metadata saved under {meta_path}")
