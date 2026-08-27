@@ -10,8 +10,9 @@ from trezorlib.merkle_tree import MerkleTree
 from .common import (
     get_git_commit_hash,
     load_definitions_data,
+    resolve_default_version,
     setup_logging,
-    store_definitions_data,
+    store_metadata,
 )
 from .crypto import verify_signature
 from .generate import serialize_with_progress
@@ -22,6 +23,12 @@ LOG = logging.getLogger(__name__)
 @click.command(name="sign")
 @click.argument("signature", required=True)
 @click.option(
+    "--version",
+    type=int,
+    default=None,
+    help="Definitions format version to sign. Defaults to the sole active version.",
+)
+@click.option(
     "-V",
     "--verify",
     is_flag=True,
@@ -30,6 +37,7 @@ LOG = logging.getLogger(__name__)
 @click.option("-v", "--verbose", is_flag=True, help="Display more info.")
 def sign_definitions(
     signature: str,
+    version: int | None,
     verify: bool,
     verbose: bool,
 ) -> None:
@@ -43,14 +51,19 @@ def sign_definitions(
     """
     setup_logging(verbose)
 
+    if version is None:
+        version = resolve_default_version()
+
     # load prepared definitions
-    metadata, definitions_data = load_definitions_data()
+    metadata, definitions_data = load_definitions_data(version)
     loaded_merkle_root = metadata["merkle_root"]
 
     if verify:
         # Recompute merkle root
         timestamp = metadata["unix_timestamp"]
-        serializations = serialize_with_progress(definitions_data, timestamp, 1)
+        serializations = serialize_with_progress(
+            definitions_data, timestamp, metadata["version"]
+        )
         mt = MerkleTree(serializations.keys())
         computed_root = mt.get_root_hash().hex()
 
@@ -81,4 +94,4 @@ def sign_definitions(
     # Update metadata with new signature
     metadata["signature"] = signature_bytes.hex()
     metadata["commit_hash"] = get_git_commit_hash()
-    store_definitions_data(metadata, definitions_data)
+    store_metadata(metadata)

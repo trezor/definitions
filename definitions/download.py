@@ -15,12 +15,14 @@ import click
 
 from .check_definitions import check_definitions_list
 from .common import (
+    ACTIVE_VERSIONS,
     DEFINITIONS_PATH,
     ChangeResolutionStrategy,
     DefinitionsData,
     load_json_file,
     setup_logging,
     store_definitions_data,
+    store_metadata,
 )
 from .downloader import Downloader
 from .ethereum.builtin_defs import check_builtin_defs
@@ -351,6 +353,8 @@ def download(
         erc20_display_formats=display_formats,
     )
 
-    # save results
-    metadata = make_metadata(definitions_data)
-    store_definitions_data(metadata, definitions_data)
+    # save results: coin sections once, per-version metadata for all active versions
+    store_definitions_data(definitions_data)
+    for version in ACTIVE_VERSIONS:
+        metadata = make_metadata(definitions_data, version)
+        store_metadata(metadata)

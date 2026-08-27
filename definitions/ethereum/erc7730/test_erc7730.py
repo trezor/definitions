@@ -1964,7 +1964,7 @@ def test_provider_name_serializes_to_proto():
     desc = _descriptor(formats=_ADDR_FIELD)
     desc["metadata"]["owner"] = "Kiln"
     [rec] = build_display_formats(desc, source="kiln/f.json")
-    assert serialize_display_format(rec, 1234567890)
+    assert serialize_display_format(rec, 1234567890, 1)
 
 
 # =====================================================================

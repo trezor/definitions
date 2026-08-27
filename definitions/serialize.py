@@ -65,8 +65,8 @@ def serialize_definitions(
 
 def make_metadata(
     definitions_data: DefinitionsData,
+    version: int,
     now: datetime.datetime | None = None,
-    version: int = 1,
 ) -> DefinitionsFileMetadata:
     if now is None:
         now = datetime.datetime.now(datetime.timezone.utc)
@@ -78,4 +78,5 @@ def make_metadata(
         unix_timestamp=timestamp,
         merkle_root=merkle_root,
         commit_hash=get_git_commit_hash(),
+        version=version,
     )

@@ -18,7 +18,9 @@ from .common import (
     GENERATED_DEFINITIONS_DIR,
     DefinitionsData,
     load_definitions_data,
+    resolve_default_version,
     setup_logging,
+    validate_version,
 )
 from .ethereum.types import ERC20DisplayFormat, ERC20Token, Network
 from .serialize import serialize_definitions
@@ -168,14 +170,15 @@ def create_deploy_tar(src_dir: Path, out_file: Path) -> None:
 @click.option(
     "--version",
     type=int,
-    default=1,
-    help="Version of the definitions blob encoded behind magic.",
+    default=None,
+    help="Version of the definitions blob encoded behind magic. "
+    "Defaults to the sole active version.",
 )
 @click.option("-v", "--verbose", is_flag=True, help="Display more info.")
 def generate_definitions(
     outdir: Path,
     dev_sign: bool,
-    version: int,
+    version: int | None,
     verbose: bool,
 ) -> None:
     """Generate binary token definitions for python-trezor and others.
@@ -183,6 +186,9 @@ def generate_definitions(
     If ran without `--dev-sign` it will use the signature from metadata if available.
     If ran with `--dev-sign` it will sign with development keys.
     """
+    if version is None:
+        version = resolve_default_version()
+    validate_version(version)
     if (
         outdir.is_dir()
         and list(outdir.iterdir())
@@ -199,8 +205,8 @@ def generate_definitions(
     shutil.rmtree(outdir, ignore_errors=True)
     outdir.mkdir(parents=True)
 
-    # load prepared definitions
-    metadata, definitions_data = load_definitions_data()
+    # load prepared definitions (metadata for the requested version)
+    metadata, definitions_data = load_definitions_data(version)
     timestamp = metadata["unix_timestamp"]
     loaded_merkle_root = metadata["merkle_root"]
 
