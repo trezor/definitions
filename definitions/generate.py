@@ -82,7 +82,7 @@ def _write_path(path: Path, data: bytes, exists_ok: bool = False) -> None:
 
 
 def serialize_with_progress(
-    definitions_data: DefinitionsData, timestamp: int
+    definitions_data: DefinitionsData, timestamp: int, version: int
 ) -> dict[bytes, Network | ERC20Token | SolanaToken | ERC20DisplayFormat]:
     with click.progressbar(
         length=len(definitions_data.networks)
@@ -91,7 +91,9 @@ def serialize_with_progress(
         + len(definitions_data.erc20_display_formats),
         label="Serializing definitions",
     ) as bar:
-        return serialize_definitions(definitions_data, timestamp, progress=bar.update)
+        return serialize_definitions(
+            definitions_data, timestamp, version, progress=bar.update
+        )
 
 
 def _archive_dir(
@@ -163,10 +165,17 @@ def create_deploy_tar(src_dir: Path, out_file: Path) -> None:
     help="Output directory for generated definitions.",
 )
 @click.option("-d", "--dev-sign", is_flag=True, help="Sign with dev keys.")
+@click.option(
+    "--version",
+    type=int,
+    default=1,
+    help="Version of the definitions blob encoded behind magic.",
+)
 @click.option("-v", "--verbose", is_flag=True, help="Display more info.")
 def generate_definitions(
     outdir: Path,
     dev_sign: bool,
+    version: int,
     verbose: bool,
 ) -> None:
     """Generate binary token definitions for python-trezor and others.
@@ -196,7 +205,7 @@ def generate_definitions(
     loaded_merkle_root = metadata["merkle_root"]
 
     # serialize definitions
-    serializations = serialize_with_progress(definitions_data, timestamp)
+    serializations = serialize_with_progress(definitions_data, timestamp, version)
 
     # build Merkle tree
     mt = MerkleTree(serializations.keys())
@@ -243,4 +252,4 @@ def generate_definitions(
                 print(f"serialization longer than 1024 bytes - {item}")
                 continue
 
-    create_deploy_tar(outdir, outdir / "deploy.tar.xz")
+    create_deploy_tar(outdir, outdir / f"deploy_{version}_{timestamp}.tar.xz")

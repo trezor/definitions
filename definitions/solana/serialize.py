@@ -29,7 +29,7 @@ class SolanaTokenInfo(protobuf.MessageType):
         self.name = name
 
 
-def serialize_token(token: SolanaToken, timestamp: int) -> bytes:
+def serialize_token(token: SolanaToken, timestamp: int, version: int) -> bytes:
     try:
         mint = tools.b58decode(token["mint"])
         if len(mint) != 32:
@@ -44,4 +44,4 @@ def serialize_token(token: SolanaToken, timestamp: int) -> bytes:
         print(token)
         raise
 
-    return encode_payload(token_info, DefinitionType.SOLANA_TOKEN, timestamp)
+    return encode_payload(token_info, DefinitionType.SOLANA_TOKEN, timestamp, version)

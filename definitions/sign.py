@@ -50,7 +50,7 @@ def sign_definitions(
     if verify:
         # Recompute merkle root
         timestamp = metadata["unix_timestamp"]
-        serializations = serialize_with_progress(definitions_data, timestamp)
+        serializations = serialize_with_progress(definitions_data, timestamp, 1)
         mt = MerkleTree(serializations.keys())
         computed_root = mt.get_root_hash().hex()
 

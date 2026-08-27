@@ -18,8 +18,10 @@ from .solana import serialize as solana_serialize
 from .solana.types import SolanaToken
 
 
-def get_merkle_root(definitions_data: DefinitionsData, timestamp: int) -> str:
-    serializations = serialize_definitions(definitions_data, timestamp)
+def get_merkle_root(
+    definitions_data: DefinitionsData, timestamp: int, version: int
+) -> str:
+    serializations = serialize_definitions(definitions_data, timestamp, version)
     merkle_tree = MerkleTree(serializations.keys())
     return merkle_tree.get_root_hash().hex()
 
@@ -27,6 +29,7 @@ def get_merkle_root(definitions_data: DefinitionsData, timestamp: int) -> str:
 def serialize_definitions(
     definitions_data: DefinitionsData,
     timestamp: int,
+    version: int,
     progress: t.Callable[[int], None] = lambda _: None,
 ) -> dict[bytes, Network | ERC20Token | SolanaToken | ERC20DisplayFormat]:
     T = t.TypeVar("T")
@@ -37,19 +40,19 @@ def serialize_definitions(
             progress(1)
 
     network_bytes = {
-        ethereum_serialize.serialize_network(n, timestamp): n
+        ethereum_serialize.serialize_network(n, timestamp, version): n
         for n in wrap(definitions_data.networks)
     }
     erc20_token_bytes = {
-        ethereum_serialize.serialize_token(t, timestamp): t
+        ethereum_serialize.serialize_token(t, timestamp, version): t
         for t in wrap(definitions_data.erc20_tokens)
     }
     solana_token_bytes = {
-        solana_serialize.serialize_token(t, timestamp): t
+        solana_serialize.serialize_token(t, timestamp, version): t
         for t in wrap(definitions_data.solana_tokens)
     }
     display_format_bytes = {
-        ethereum_serialize.serialize_display_format(df, timestamp): df
+        ethereum_serialize.serialize_display_format(df, timestamp, version): df
         for df in wrap(definitions_data.erc20_display_formats)
     }
     return {
@@ -61,13 +64,15 @@ def serialize_definitions(
 
 
 def make_metadata(
-    definitions_data: DefinitionsData, now: datetime.datetime | None = None
+    definitions_data: DefinitionsData,
+    now: datetime.datetime | None = None,
+    version: int = 1,
 ) -> DefinitionsFileMetadata:
     if now is None:
         now = datetime.datetime.now(datetime.timezone.utc)
     timestamp = int(now.timestamp())
     time_str = now.isoformat()
-    merkle_root = get_merkle_root(definitions_data, timestamp)
+    merkle_root = get_merkle_root(definitions_data, timestamp, version)
     return DefinitionsFileMetadata(
         datetime=time_str,
         unix_timestamp=timestamp,
