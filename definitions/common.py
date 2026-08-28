@@ -40,12 +40,17 @@ ROOT = HERE.parent
 
 DEFINITIONS_PATH = ROOT / "definitions-latest.json"
 DISPLAY_FORMATS_LOG_PATH = ROOT / "definitions-latest.log"
-GENERATED_DEFINITIONS_DIR = ROOT / "definitions-latest"
 
 # Definitions format versions the tooling currently produces metadata for.
 # Metadata (merkle root, signature) is version-specific, so one metadata file
-# per active version is generated. 
-ACTIVE_VERSIONS: tuple[int, ...] = (1,)
+# per active version is generated.
+ACTIVE_VERSIONS: tuple[int, ...] = (1, 2)
+
+# Number of CoSi signatures required by definition format version.
+SIGNATURES_REQUIRED: dict[int, int] = {
+    1: 2,
+    2: 1,
+}
 
 CURRENT_TIME = datetime.datetime.now(datetime.timezone.utc)
 TIMESTAMP_FORMAT = "%d.%m.%Y %X%z"
@@ -57,6 +62,10 @@ MAGIC = b"trzd"
 
 def metadata_path(version: int) -> Path:
     return ROOT / f"definitions-latest-metadata-v{version}.json"
+
+
+def generated_definitions_dir(version: int) -> Path:
+    return ROOT / f"definitions-latest-v{version}"
 
 
 def validate_version(version: int) -> int:
