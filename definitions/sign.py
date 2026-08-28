@@ -84,7 +84,7 @@ def sign_definitions(
 
     # Verify signature
     try:
-        verify_signature(signature_bytes, root_hash)
+        verify_signature(signature_bytes, root_hash, version)
     except InvalidSignature:
         raise click.ClickException(
             "Provided signature is not valid for current "

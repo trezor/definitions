@@ -3,5 +3,6 @@ __pycache__
 .pytest_cache
 definitions-cache.json
 definitions-latest
+definitions-latest-v*
 *.log
 definitions.tar.xz
