@@ -63,8 +63,9 @@ def test_validate_version_accepts_active(version):
 
 
 def test_validate_version_rejects_inactive():
+    inactive_version = max(common.ACTIVE_VERSIONS) + 1
     with pytest.raises(click.ClickException, match="Unsupported definitions version"):
-        validate_version(2)
+        validate_version(inactive_version)
 
 
 def test_resolve_default_version():
@@ -143,3 +144,22 @@ def test_store_metadata_writes_per_version_files(tmp_root):
         assert metadata_path(version).is_file()
         stored = json.loads(metadata_path(version).read_text())
         assert stored["version"] == version
+
+
+# ====== payload header (magic + version) ======
+
+
+@pytest.mark.parametrize("version", common.ACTIVE_VERSIONS)
+def test_payload_header_contains_magic_and_version(version):
+    from .ethereum.serialize import serialize_token
+
+    token = {
+        "address": "0x" + "ab" * 20,
+        "chain_id": 1,
+        "shortcut": "ABC",
+        "decimals": 18,
+        "name": "Test Token",
+    }
+    serialized = serialize_token(token, 1234567890, version)
+    assert serialized[:4] == b"trzd"
+    assert serialized[4:5] == str(version).encode("ascii")
