@@ -460880,9 +460880,10 @@
   }
  ],
  "metadata": {
-  "commit_hash": "d3c593d54e25c929bf4874492dc0fd12695573d8",
+  "commit_hash": "8a57ea6abb93f729e073eceda28589f066c766e7",
   "datetime": "2026-08-31T12:07:39.966681+00:00",
   "merkle_root": "6b217682d007f88b85a0ced9882738d73d9ed5cf5a1de1b0685a67738a90192a",
+  "signature": "035f375b86e1c2689c8168f3bd022d20f2f9b5fcb9a757090b004608de4cb95af8aa4e5e6a76781193e0fdc7fbc88e4575dc216475b40f0308d0c3f72ea6d15e0f",
   "unix_timestamp": 1788178059
  },
  "networks": [
