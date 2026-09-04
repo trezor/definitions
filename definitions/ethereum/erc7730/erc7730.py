@@ -60,7 +60,7 @@ from erc7730.model.paths import (
 from erc7730.model.paths import Field as PathField
 from erc7730.model.paths.path_parser import to_path
 
-from .types import ABITuple, ABIValue, ERC20DisplayFormat, ERC7730Field, ERC7730Path
+from ..types import ABITuple, ABIValue, ERC20DisplayFormat, ERC7730Field, ERC7730Path
 
 LOG = logging.getLogger(__name__)
 
