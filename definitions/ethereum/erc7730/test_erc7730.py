@@ -701,7 +701,7 @@ def test_tokenamount_const_token_keeps_threshold():
 
 def test_const_token_address_serializes_to_proto():
     # The const_token_address hex makes it onto the proto field as raw bytes.
-    from .serialize import _build_erc7730_field_info
+    from ..serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
         {
@@ -715,7 +715,7 @@ def test_const_token_address_serializes_to_proto():
 
 
 def test_const_value_path_serializes_to_proto():
-    from .serialize import _build_erc7730_path
+    from ..serialize import _build_erc7730_path
 
     info = _build_erc7730_path({"const_value": "kmgcEURC"})
     assert info.const_value == "kmgcEURC"
@@ -729,7 +729,7 @@ def test_negative_index_path_serializes_to_proto():
 
     from trezorlib import protobuf
 
-    from .serialize import _build_erc7730_path
+    from ..serialize import _build_erc7730_path
 
     info = _build_erc7730_path({"path": [0, -1]})
     buf = io.BytesIO()
@@ -1360,7 +1360,7 @@ def test_const_field_end_to_end_keeps_display_format():
 
 
 def test_const_value_field_info_serializes_to_proto():
-    from .serialize import _build_erc7730_field_info
+    from ..serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
         {
@@ -1535,7 +1535,7 @@ def test_sliced_path_serializes_to_proto():
 
     from trezorlib import protobuf
 
-    from .serialize import _build_erc7730_path
+    from ..serialize import _build_erc7730_path
 
     info = _build_erc7730_path({"path": [0, -1], "slice_start": -20})
     assert info.slice_start == -20
@@ -1789,7 +1789,7 @@ def test_calldata_on_non_bytes_skips_file():
 
 
 def test_calldata_serializes_to_proto():
-    from .serialize import _build_erc7730_field_info
+    from ..serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
         {
@@ -1911,7 +1911,7 @@ def test_enum_on_address_skips_file():
 
 
 def test_enum_values_serialize_to_proto():
-    from .serialize import _build_erc7730_field_info
+    from ..serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
         {
@@ -1961,7 +1961,7 @@ def test_provider_name_absent_when_nothing_known():
 
 
 def test_provider_name_serializes_to_proto():
-    from .serialize import serialize_display_format
+    from ..serialize import serialize_display_format
 
     desc = _descriptor(formats=_ADDR_FIELD)
     desc["metadata"]["owner"] = "Kiln"
