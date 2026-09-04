@@ -15,8 +15,8 @@ from trezorlib.merkle_tree import MerkleTree
 
 from . import crypto
 from .common import (
-    GENERATED_DEFINITIONS_DIR,
     DefinitionsData,
+    generated_definitions_dir,
     load_definitions_data,
     resolve_default_version,
     setup_logging,
@@ -163,8 +163,9 @@ def create_deploy_tar(src_dir: Path, out_file: Path) -> None:
     "-o",
     "--outdir",
     type=click.Path(resolve_path=True, file_okay=False, writable=True, path_type=Path),
-    default=GENERATED_DEFINITIONS_DIR,
-    help="Output directory for generated definitions.",
+    default=None,
+    help="Output directory for generated definitions. "
+    "Defaults to definitions-latest-v<version>.",
 )
 @click.option("-d", "--dev-sign", is_flag=True, help="Sign with dev keys.")
 @click.option(
@@ -176,7 +177,7 @@ def create_deploy_tar(src_dir: Path, out_file: Path) -> None:
 )
 @click.option("-v", "--verbose", is_flag=True, help="Display more info.")
 def generate_definitions(
-    outdir: Path,
+    outdir: Path | None,
     dev_sign: bool,
     version: int | None,
     verbose: bool,
@@ -189,10 +190,12 @@ def generate_definitions(
     if version is None:
         version = resolve_default_version()
     validate_version(version)
+    if outdir is None:
+        outdir = generated_definitions_dir(version)
     if (
         outdir.is_dir()
         and list(outdir.iterdir())
-        and outdir != GENERATED_DEFINITIONS_DIR
+        and outdir != generated_definitions_dir(version)
         and not click.confirm(
             f"Directory {outdir} is not empty. Contents will be DELETED. Continue?"
         )
@@ -239,7 +242,7 @@ def generate_definitions(
         )
 
     try:
-        crypto.verify_signature(signature_bytes, root_hash, dev=dev_sign)
+        crypto.verify_signature(signature_bytes, root_hash, version, dev=dev_sign)
     except InvalidSignature:
         raise click.ClickException(
             "Signature is not valid for computed "

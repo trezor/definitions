@@ -15,12 +15,17 @@ for arg in "$@"; do
     esac
 done
 
+# Definitions format versions to generate (kept in sync with definitions/common.py)
+ACTIVE_VERSIONS=( $(python -c "from definitions.common import ACTIVE_VERSIONS; print(' '.join(map(str, ACTIVE_VERSIONS)))") )
+
 # Fast local iteration on the ERC-7730 registry: refresh only the display
 # formats and rebuild the signed tarball. Skips the git-clean gate, the
 # submodule update, the CoinGecko-heavy coins details, and the auto-commit.
 if [[ -n "$ERC7730_ONLY" ]]; then
     python cli.py download -v --erc7730-only $SHOW_ADDED
-    python cli.py generate --dev-sign
+    for VERSION in "${ACTIVE_VERSIONS[@]}"; do
+        python cli.py generate --dev-sign --version "$VERSION"
+    done
     exit 0
 fi
 
@@ -38,8 +43,10 @@ git submodule update -- "ethereum/clear-signing-erc7730-registry"
 # Download definitions
 python cli.py download -v --sleep-duration 2.5 $SHOW_ADDED
 
-# Sign them with dev private keys
-python cli.py generate --dev-sign
+# Sign them with dev private keys (per format version)
+for VERSION in "${ACTIVE_VERSIONS[@]}"; do
+    python cli.py generate --dev-sign --version "$VERSION"
+done
 
 # Generate coins details
 python coins_details/coins_details.py

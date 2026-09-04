@@ -2,10 +2,13 @@
 
 set -e # Exit on any error
 
-if [ -z "$1" ]; then
-    echo "Usage: $0 <signature hex>"
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: $0 <version> <signature hex>"
     exit 1
 fi
+
+VERSION="$1"
+SIGNATURE="$2"
 
 function are_there_git_changes {
     ! git diff-index --quiet HEAD
@@ -17,16 +20,16 @@ if are_there_git_changes; then
     exit 1
 fi
 
-MERKLE_ROOT=$(python cli.py current-merkle-root)
+MERKLE_ROOT=$(python cli.py current-merkle-root --version "$VERSION")
 
-python cli.py sign --verify "$1"
-git add definitions-latest.json definitions-latest-metadata-v1.json
-git commit -m "Sign definitions for $MERKLE_ROOT"
+python cli.py sign --verify --version "$VERSION" "$SIGNATURE"
+git add definitions-latest.json "definitions-latest-metadata-v${VERSION}.json"
+git commit -m "Sign definitions v${VERSION} for $MERKLE_ROOT"
 
 # update the signed branch
 git branch --force signed HEAD
 
-python cli.py generate
+python cli.py generate --version "$VERSION"
 
 echo "Don't forget to push main & signed branches:"
 echo "  git push origin main"
