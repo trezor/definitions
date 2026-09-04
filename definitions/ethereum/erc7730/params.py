@@ -4,8 +4,6 @@ Split out of `erc7730.py` section 4c: one `apply_*_params` helper per
 formatter that takes a `params` dict, shared `_FormatContext` and (already
 built) `out` field dict, and fills in the formatter-specific proto keys —
 `_build_path_field` (still in `erc7730.py`) dispatches to these by `fmt`.
-No leading underscore: unlike this module's other helpers, these are
-called from `erc7730.py`, not just within this file.
 Also holds the token/native-currency address helpers only `tokenAmount`
 needs, which moved here with their one caller.
 """
