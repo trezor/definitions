@@ -606,29 +606,18 @@ def _resolve_ref(
 
 
 _FORMATTER_MAP = {
-    "addressName": "FORMATTER_ADDRESS_NAME",
+    "addressName": "FORMATTER_ADDRESS_NAME",        # TODO: Support `local` and `contract`. requires FW changes.
     "amount": "FORMATTER_AMOUNT",
     "tokenAmount": "FORMATTER_TOKEN_AMOUNT",
     "unit": "FORMATTER_UNIT",
-    # The firmware renders `raw` per Solidity type (int as decimal,
-    # address/bytes as hex, bool as text, string as-is) and `date` as a
-    # human-readable unix timestamp.
     "raw": "FORMATTER_RAW",
     "date": "FORMATTER_DATE",
-    # `calldata` is the embedded calldata of a nested contract call. The
-    # firmware resolves the callee address from `callee_path`, fetches that
-    # contract's display format, and renders the nested call as extra rows
-    # (CalldataFormatter in clear_signing.py).
     "calldata": "FORMATTER_CALLDATA",
-    # `enum` looks the decoded calldata value up in the descriptor-supplied
-    # `enum_values` mapping and shows the mapped string; a key missing from
-    # the mapping fails clear signing on-device (blind-signing fallback)
-    # rather than risk showing a wrong value.
     "enum": "FORMATTER_ENUM",
 }
 
 # The leaf-value kind(s) each formatter accepts. `_check_kind_or_reinterpret`
-# enforces this; `addressName` gets reinterpretations instead of a hard drop.
+# enforces this.
 _FORMATTER_VALUE_KIND = {
     "addressName": frozenset({KIND_ADDRESS}),
     "amount": frozenset({KIND_NUMERIC}),
@@ -636,9 +625,7 @@ _FORMATTER_VALUE_KIND = {
     "unit": frozenset({KIND_NUMERIC}),
     # `raw` renders any scalar leaf; only whole arrays / tuples are rejected.
     "raw": frozenset({KIND_ADDRESS, KIND_NUMERIC, KIND_BYTES}),
-    # `date` paths point at a uint timestamp/blockheight.
     "date": frozenset({KIND_NUMERIC}),
-    # embedded calldata is a dynamic `bytes` value.
     "calldata": frozenset({KIND_BYTES}),
     # enum keys are small uints; KIND_BYTES admits the bool case
     # (True/False keys over a bool value, mapped to 1/0).
@@ -1035,8 +1022,6 @@ def _build_path_field(
 
     fmt = field_def["format"]  # present, else _field_is_displayed is False
     label = field_def.get("label", "")
-    # A displayed field needs a label (the proto requires one); an empty label
-    # would render blank on-device, so treat it as missing display info.
     if not label:
         raise UnsupportedFeature(
             "missing-label", f"{fmt} field at {field_def.get('path')!r}"
