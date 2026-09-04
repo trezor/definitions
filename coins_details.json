@@ -498083,6 +498083,67 @@
     }
    ]
   },
+  "usd-coin": {
+   "coingecko_id": "usd-coin",
+   "id": "erc20:eth:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+   "name": "USDC",
+   "networks": [
+    "arbitrum-one",
+    "avalanche",
+    "base",
+    "celo",
+    "cronos",
+    "ethereum",
+    "hyperevm",
+    "injective",
+    "ink",
+    "monad",
+    "morph-l2",
+    "optimistic-ethereum",
+    "pharos",
+    "plasma",
+    "plume-network",
+    "polygon-pos",
+    "sei-v2",
+    "solana",
+    "sonic",
+    "unichain",
+    "world-chain",
+    "x-layer",
+    "xdc-network",
+    "zksync"
+   ],
+   "shortcut": "USDC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "usd-coin-avalanche-bridged-usdc-e": {
    "coingecko_id": "usd-coin-avalanche-bridged-usdc-e",
    "id": "erc20:avax:0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664",
@@ -550732,13 +550793,13 @@
  },
  "info": {
   "support_counter": {
-   "T1B1": 12471,
-   "T2B1": 17654,
-   "T2T1": 17661,
-   "T3T1": 17654,
-   "T3W1": 17654
+   "T1B1": 12472,
+   "T2B1": 17655,
+   "T2T1": 17662,
+   "T3T1": 17655,
+   "T3W1": 17655
   },
-  "updated_at": 1788178136,
-  "updated_at_readable": "Mon Aug 31 14:08:56 2026"
+  "updated_at": 1788544822,
+  "updated_at_readable": "Fri Sep  4 20:00:22 2026"
  }
 }

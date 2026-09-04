@@ -58,7 +58,7 @@ class CoinDetail:
 
     @classmethod
     def from_eth_network(cls, network: Network) -> CoinDetail:
-        cg_id = network.get("coingecko_id")
+        cg_id = network.get("coingecko_id") if not network["is_testnet"] else None
         network_cg_id = network.get("coingecko_network_id")
 
         key = f"eth:{network['shortcut']}:{network['chain_id']}"

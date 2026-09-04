@@ -1,4 +1,4 @@
-Updated at: Mon Aug 31 14:08:56 2026
+Updated at: Fri Sep  4 20:00:22 2026
 bitcoin Bitcoin (BTC)
 actinium Actinium (ACM)
 axe Axe (AXE)
@@ -3842,6 +3842,7 @@ three THREE ($THREE)
 aave-link Aave LINK (ALINK)
 eutbl Spiko EU T-Bills Money Market Fund (EUTBL)
 bazaars Bazaars (BZR)
+usd-coin USDC (USDC)
 shina-inu-2 Shina Inu (SHIN)
 merlin-chain Merlin Chain (MERL)
 spheroid-universe Spheroid Universe (SPH)
