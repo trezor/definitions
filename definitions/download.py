@@ -28,6 +28,7 @@ from .downloader import Downloader
 from .ethereum.builtin_defs import check_builtin_defs
 from .ethereum.load import (
     TOKENS_PATH,
+    ADDITIONAL_TOKENS,
     force_networks_fields_sizes_t1,
     force_tokens_fields_sizes_t1,
     load_display_formats_from_repo,
@@ -202,7 +203,7 @@ def download(
 
     # merge tokens - CoinGecko have precedence, so starting with Ethereum repo first
     token_deduplicator: dict[tuple[int, str], ERC20Token] = {}
-    for token in repo_tokens + cg_tokens:
+    for token in repo_tokens + cg_tokens + ADDITIONAL_TOKENS:
         token_deduplicator[(token["chain_id"], token["address"])] = token
     erc20_tokens = list(token_deduplicator.values())
 
