@@ -36,7 +36,7 @@ def _build_solana_token(complex_token: dict[str, Any]) -> SolanaToken | None:
     }
 
 
-def _load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaToken]:
+def load_solana_tokens_from_coingecko(downloader: Downloader) -> list[SolanaToken]:
     """Load Solana tokens from coingecko API."""
     tokens: list[SolanaToken] = []
     all_tokens = downloader.get_coingecko_tokens_for_network("solana")
