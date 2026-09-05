@@ -7,10 +7,10 @@ import pytest
 from ..test_data import erc20_tokens, networks
 from . import load as dl
 from .load import (
-    _dedup_display_formats,
-    _force_networks_fields_sizes_t1,
-    _force_tokens_fields_sizes_t1,
-    _write_display_formats_log,
+    dedup_display_formats,
+    force_networks_fields_sizes_t1,
+    force_tokens_fields_sizes_t1,
+    write_display_formats_log,
 )
 
 
@@ -31,7 +31,7 @@ def _rec(chain_id=1, address="0x" + "11" * 20, func_sig="0xdeadbeef", intent="Sw
 def test_dedup_detects_conflicting_override():
     a = _rec(intent="Swap")
     b = _rec(intent="Exchange")  # same key, different payload
-    emitted, conflicts = _dedup_display_formats(
+    emitted, conflicts = dedup_display_formats(
         [("provA/f.json", True, [a]), ("provB/g.json", True, [b])], {1}
     )
     assert len(conflicts) == 1
@@ -42,7 +42,7 @@ def test_dedup_detects_conflicting_override():
 
 
 def test_dedup_identical_definitions_not_a_conflict():
-    emitted, conflicts = _dedup_display_formats(
+    emitted, conflicts = dedup_display_formats(
         [("x.json", True, [_rec()]), ("y.json", True, [_rec()])], {1}
     )
     assert conflicts == []
@@ -52,7 +52,7 @@ def test_dedup_identical_definitions_not_a_conflict():
 def test_dedup_conflicts_span_gated_and_ungated_but_only_gated_emitted():
     ungated = _rec(intent="A")
     gated = _rec(intent="B")
-    emitted, conflicts = _dedup_display_formats(
+    emitted, conflicts = dedup_display_formats(
         [("other/f.json", False, [ungated]), ("lifi/g.json", True, [gated])], {1}
     )
     assert len(conflicts) == 1
@@ -60,7 +60,7 @@ def test_dedup_conflicts_span_gated_and_ungated_but_only_gated_emitted():
 
 
 def test_dedup_ignores_unknown_chains():
-    emitted, conflicts = _dedup_display_formats(
+    emitted, conflicts = dedup_display_formats(
         [("x.json", True, [_rec(chain_id=999)])], {1}
     )
     assert emitted == []
@@ -69,7 +69,7 @@ def test_dedup_ignores_unknown_chains():
 
 def test_write_display_formats_log_has_all_sections(tmp_path, monkeypatch):
     monkeypatch.setattr(dl, "DISPLAY_FORMATS_LOG_PATH", tmp_path / "out.log")
-    _write_display_formats_log(
+    write_display_formats_log(
         unsupported=[("provA/f.json", "unsupported-formatter", "enum (field 'X')")],
         conflicts=[
             ("chain=1 address=0xabc selector=0xdead", "provA/f.json", "provB/g.json")
@@ -97,7 +97,7 @@ def test_write_display_formats_log_has_all_sections(tmp_path, monkeypatch):
 def test_force_tokens_fields_sizes_t1_no_change():
     # No change
     all_tokens = deepcopy(erc20_tokens)
-    _force_tokens_fields_sizes_t1(all_tokens)
+    force_tokens_fields_sizes_t1(all_tokens)
     assert all_tokens == erc20_tokens
 
 
@@ -105,7 +105,7 @@ def test_force_tokens_fields_sizes_t1_value_error():
     # Invalid address - ValueError
     all_tokens = deepcopy(erc20_tokens)
     all_tokens[0]["address"] += "0"
-    _force_tokens_fields_sizes_t1(all_tokens)
+    force_tokens_fields_sizes_t1(all_tokens)
     # First token is missing
     assert len(all_tokens) == len(erc20_tokens) - 1
     assert all_tokens[:] == erc20_tokens[1:]
@@ -116,7 +116,7 @@ def test_force_tokens_fields_sizes_t1_longer_address():
     all_tokens = deepcopy(erc20_tokens)
     bad_index = 1
     all_tokens[bad_index]["address"] += "00"
-    _force_tokens_fields_sizes_t1(all_tokens)
+    force_tokens_fields_sizes_t1(all_tokens)
     # Bad index is missing, all others are the same
     assert len(all_tokens) == len(erc20_tokens) - 1
     assert all_tokens[:bad_index] == erc20_tokens[:bad_index]
@@ -128,7 +128,7 @@ def test_force_tokens_fields_sizes_t1_two_invalid():
     all_tokens = deepcopy(erc20_tokens)
     all_tokens[1]["address"] += "0"
     all_tokens[3]["address"] += "00"
-    _force_tokens_fields_sizes_t1(all_tokens)
+    force_tokens_fields_sizes_t1(all_tokens)
     # Two tokens are missing
     assert len(all_tokens) == len(erc20_tokens) - 2
     popped_tokens = deepcopy(erc20_tokens)
@@ -141,7 +141,7 @@ def test_force_tokens_fields_sizes_t1_name_over_limit():
     # Name over limit
     all_tokens = deepcopy(erc20_tokens)
     all_tokens[0]["name"] = "a" * 512
-    _force_tokens_fields_sizes_t1(all_tokens)
+    force_tokens_fields_sizes_t1(all_tokens)
     # Name shortened
     assert all_tokens[0]["name"] == "a" * 256
     assert len(all_tokens) == len(erc20_tokens)
@@ -152,7 +152,7 @@ def test_force_tokens_fields_sizes_t1_shortcut_over_limit():
     # Shortcut over limit
     all_tokens = deepcopy(erc20_tokens)
     all_tokens[0]["shortcut"] = "b" * 512
-    _force_tokens_fields_sizes_t1(all_tokens)
+    force_tokens_fields_sizes_t1(all_tokens)
     # Shortcut shortened
     assert all_tokens[0]["shortcut"] == "b" * 256
     assert len(all_tokens) == len(erc20_tokens)
@@ -163,7 +163,7 @@ def test_force_networks_fields_sizes_t1_name_over_limit():
     # Name over limit
     all_networks = deepcopy(networks)
     all_networks[0]["name"] = "a" * 512
-    _force_networks_fields_sizes_t1(all_networks)
+    force_networks_fields_sizes_t1(all_networks)
     # Name shortened
     assert all_networks[0]["name"] == "a" * 256
     assert len(all_networks) == len(networks)
@@ -174,7 +174,7 @@ def test_force_networks_fields_sizes_t1_shortcut_over_limit():
     # Shortcut over limit
     all_networks = deepcopy(networks)
     all_networks[0]["shortcut"] = "b" * 512
-    _force_networks_fields_sizes_t1(all_networks)
+    force_networks_fields_sizes_t1(all_networks)
     # Shortcut shortened
     assert all_networks[0]["shortcut"] == "b" * 256
     assert len(all_networks) == len(networks)
@@ -197,7 +197,7 @@ def test_update_display_formats_only_preserves_other_sections(tmp_path, monkeypa
 
     new_formats = [_rec(intent="NEW")]
     monkeypatch.setattr(
-        dl, "_load_display_formats_from_repo", lambda networks: list(new_formats)
+        dl, "load_display_formats_from_repo", lambda networks: list(new_formats)
     )
     # The diff/apply step is exercised elsewhere; here we assert the section swap.
     monkeypatch.setattr(dl, "check_definitions_list", lambda **kwargs: None)
@@ -215,7 +215,7 @@ def test_update_display_formats_only_preserves_other_sections(tmp_path, monkeypa
         lambda metadata: captured.update(metadata=metadata),
     )
 
-    dl._update_display_formats_only(
+    dl.update_display_formats_only(
         networks=[{"chain_id": 1}],
         change_strategy=None,
         show_all=False,
@@ -236,6 +236,6 @@ def test_update_display_formats_only_preserves_other_sections(tmp_path, monkeypa
 def test_update_display_formats_only_requires_existing_file(tmp_path, monkeypatch):
     monkeypatch.setattr(dl, "DEFINITIONS_PATH", tmp_path / "missing.json")
     with pytest.raises(click.ClickException):
-        dl._update_display_formats_only(
+        dl.update_display_formats_only(
             networks=[], change_strategy=None, show_all=False, show_added=False
         )
