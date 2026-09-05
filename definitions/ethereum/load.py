@@ -95,6 +95,19 @@ NETWORK_OVERRIDES: dict[int, Network] = {
     ),
 }
 
+ADDITIONAL_TOKENS: list[ERC20Token] = [
+    {
+        "address": "0x3600000000000000000000000000000000000000",
+        "chain": "arc-testnet",
+        "chain_id": 5042002,
+        "coingecko_id": "usd-coin",
+        "decimals": 18,
+        "name": "USDC",
+        "shortcut": "USDC",
+    },
+]
+
+
 def load_ethereum_networks_from_repo() -> list[Network]:
     """Load ethereum networks from submodule."""
     networks: list[Network] = []
