@@ -28,18 +28,19 @@ from .downloader import Downloader
 from .ethereum.builtin_defs import check_builtin_defs
 from .ethereum.load import (
     TOKENS_PATH,
-    _force_networks_fields_sizes_t1,
-    _force_tokens_fields_sizes_t1,
-    _load_display_formats_from_repo,
-    _load_erc20_tokens_from_coingecko,
-    _load_erc20_tokens_from_repo,
-    _load_ethereum_networks_from_repo,
-    _update_display_formats_only,
+    ADDITIONAL_TOKENS,
+    force_networks_fields_sizes_t1,
+    force_tokens_fields_sizes_t1,
+    load_display_formats_from_repo,
+    load_erc20_tokens_from_coingecko,
+    load_erc20_tokens_from_repo,
+    load_ethereum_networks_from_repo,
+    update_display_formats_only,
 )
 from .ethereum.onchain import OnchainDecimalsResolver
 from .ethereum.types import ERC20Token, Network
 from .serialize import make_metadata
-from .solana.load import _load_solana_tokens_from_coingecko
+from .solana.load import load_solana_tokens_from_coingecko
 
 
 @click.command()
@@ -125,10 +126,10 @@ def download(
         force_accept=force_changes,
     )
 
-    networks = _load_ethereum_networks_from_repo()
+    networks = load_ethereum_networks_from_repo()
 
     if erc7730_only:
-        _update_display_formats_only(networks, change_strategy, show_all, show_added)
+        update_display_formats_only(networks, change_strategy, show_all, show_added)
         return
 
     # init definitions downloader
@@ -184,12 +185,12 @@ def download(
             network_to_cid[network_id] = chain_id
 
     # get tokens
-    cg_tokens = _load_erc20_tokens_from_coingecko(downloader, networks)
-    repo_tokens = _load_erc20_tokens_from_repo(networks)
-    solana_tokens = _load_solana_tokens_from_coingecko(downloader)
+    cg_tokens = load_erc20_tokens_from_coingecko(downloader, networks)
+    repo_tokens = load_erc20_tokens_from_repo(networks)
+    solana_tokens = load_solana_tokens_from_coingecko(downloader)
 
     # get ERC-7730 display formats from the registry submodule
-    display_formats = _load_display_formats_from_repo(networks)
+    display_formats = load_display_formats_from_repo(networks)
 
     # get data used in further processing now to be able to save cache before we do any
     # token collision process and others
@@ -202,7 +203,7 @@ def download(
 
     # merge tokens - CoinGecko have precedence, so starting with Ethereum repo first
     token_deduplicator: dict[tuple[int, str], ERC20Token] = {}
-    for token in repo_tokens + cg_tokens:
+    for token in repo_tokens + cg_tokens + ADDITIONAL_TOKENS:
         token_deduplicator[(token["chain_id"], token["address"])] = token
     erc20_tokens = list(token_deduplicator.values())
 
@@ -254,8 +255,8 @@ def download(
     erc20_tokens = [t for t in erc20_tokens if t["shortcut"]]
 
     # Enforce the maximum field sizes
-    _force_networks_fields_sizes_t1(networks)
-    _force_tokens_fields_sizes_t1(erc20_tokens)
+    force_networks_fields_sizes_t1(networks)
+    force_tokens_fields_sizes_t1(erc20_tokens)
 
     # map coingecko ids to tokens
     # NOTE: changes the `tokens` in place!

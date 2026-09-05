@@ -95,8 +95,20 @@ NETWORK_OVERRIDES: dict[int, Network] = {
     ),
 }
 
+ADDITIONAL_TOKENS: list[ERC20Token] = [
+    {
+        "address": "0x3600000000000000000000000000000000000000",
+        "chain": "arc-testnet",
+        "chain_id": 5042002,
+        "coingecko_id": "usd-coin",
+        "decimals": 18,
+        "name": "USDC",
+        "shortcut": "USDC",
+    },
+]
 
-def _load_ethereum_networks_from_repo() -> list[Network]:
+
+def load_ethereum_networks_from_repo() -> list[Network]:
     """Load ethereum networks from submodule."""
     networks: list[Network] = []
     for chain in sorted(
@@ -155,7 +167,7 @@ def _build_token(
     )
 
 
-def _load_erc20_tokens_from_coingecko(
+def load_erc20_tokens_from_coingecko(
     downloader: Downloader, networks: list[Network]
 ) -> list[ERC20Token]:
     tokens: list[ERC20Token] = []
@@ -176,7 +188,7 @@ def _load_erc20_tokens_from_coingecko(
     return tokens
 
 
-def _load_erc20_tokens_from_repo(networks: list[Network]) -> list[ERC20Token]:
+def load_erc20_tokens_from_repo(networks: list[Network]) -> list[ERC20Token]:
     """Load ERC20 tokens from submodule."""
     tokens: list[ERC20Token] = []
     for network in networks:
@@ -190,7 +202,7 @@ def _load_erc20_tokens_from_repo(networks: list[Network]) -> list[ERC20Token]:
     return tokens
 
 
-def _force_networks_fields_sizes_t1(networks: list[Network]) -> None:
+def force_networks_fields_sizes_t1(networks: list[Network]) -> None:
     """Check sizes of embedded network fields for Trezor model 1 based on
     "legacy/firmware/protob/messages-ethereum.options"."""
     # EthereumNetworkInfo.name     max_size:256
@@ -206,7 +218,7 @@ def _force_networks_fields_sizes_t1(networks: list[Network]) -> None:
             network["shortcut"] = network["shortcut"][:limit]
 
 
-def _force_tokens_fields_sizes_t1(tokens: list[ERC20Token]) -> None:
+def force_tokens_fields_sizes_t1(tokens: list[ERC20Token]) -> None:
     """Check sizes of embeded token fields for Trezor model 1 based on
     "legacy/firmware/protob/messages-ethereum.options"."""
     # EthereumTokenInfo.name    max_size:256
@@ -243,7 +255,7 @@ def _force_tokens_fields_sizes_t1(tokens: list[ERC20Token]) -> None:
         tokens.pop(idx)
 
 
-def _load_display_formats_from_repo(
+def load_display_formats_from_repo(
     networks: list[Network],
 ) -> list[ERC20DisplayFormat]:
     """Load ERC-7730 calldata display formats from the registry submodule.
@@ -294,14 +306,14 @@ def _load_display_formats_from_repo(
         gated = path.parent.name in ENABLED_PROVIDERS
         loaded.append((rel, gated, records))
 
-    display_formats, conflicts = _dedup_display_formats(loaded, known_chain_ids)
+    display_formats, conflicts = dedup_display_formats(loaded, known_chain_ids)
     for key_str, overridden, kept in conflicts:
         logging.warning(
             f"display-format override: {kept} redefines {key_str} (was {overridden})"
         )
 
     if loaded or unsupported:
-        _write_display_formats_log(unsupported, conflicts, adjustments)
+        write_display_formats_log(unsupported, conflicts, adjustments)
     else:
         # Nothing scanned at all — the registry submodule is most likely
         # uninitialized (e.g. a shallow checkout). Surface the probable cause
@@ -313,7 +325,7 @@ def _load_display_formats_from_repo(
     return display_formats
 
 
-def _dedup_display_formats(
+def dedup_display_formats(
     loaded: list[tuple[str, bool, list[ERC20DisplayFormat]]],
     known_chain_ids: set[int],
 ) -> tuple[list[ERC20DisplayFormat], list[tuple[str, str, str]]]:
@@ -379,7 +391,7 @@ def _grouped_section_lines(
     return lines
 
 
-def _write_display_formats_log(
+def write_display_formats_log(
     unsupported: list[tuple[str, str, str]],
     conflicts: list[tuple[str, str, str]],
     adjustments: list[tuple[str, str, str]],
@@ -433,7 +445,7 @@ def _write_display_formats_log(
     )
 
 
-def _update_display_formats_only(
+def update_display_formats_only(
     networks: list[Network],
     change_strategy: ChangeResolutionStrategy,
     show_all: bool,
@@ -448,7 +460,7 @@ def _update_display_formats_only(
             f"{DEFINITIONS_PATH} not found — run a full download first."
         )
 
-    display_formats = _load_display_formats_from_repo(networks)
+    display_formats = load_display_formats_from_repo(networks)
 
     old_defs = load_json_file(DEFINITIONS_PATH)
 
