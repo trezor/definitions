@@ -35,8 +35,7 @@ if (
     raise SystemExit(
         "Your trezorlib is outdated — DefinitionPayload has no 'version' field.\n"
         "The split magic/version payload format needs the updated trezorlib. Run:\n"
-        "  uv pip install -e ../trezor-firmware/python\n"
-        "  uv run --no-sync ./do_update.sh"
+        "  uv sync"
     )
 
 from .ethereum.types import ERC20DisplayFormat, ERC20Token, Network

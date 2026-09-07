@@ -3,7 +3,7 @@ revision = 3
 requires-python = "==3.12.*"
 
 [options]
-exclude-newer = "0001-01-01T00:00:00Z" # This has no effect and is included for backwards compatibility when using relative exclude-newer values.
+exclude-newer = "2026-08-08T09:36:26.067729091Z"
 exclude-newer-span = "P30D"
 
 [options.exclude-newer-package]
@@ -293,7 +293,7 @@ requires-dist = [
     { name = "readchar", specifier = ">=4.2.0,<5" },
     { name = "requests", specifier = ">=2.28.2,<3" },
     { name = "rich", specifier = ">=13.8.0,<14" },
-    { name = "trezor", specifier = ">=0.20.0,<0.21.0" },
+    { name = "trezor", git = "https://github.com/trezor/trezor-firmware.git?subdirectory=python&rev=1bf3c5e4c956eb5d1095a2889f4f95d6c030b2f2" },
     { name = "urllib3", specifier = ">=2.7.0,<3" },
 ]
 
@@ -1100,8 +1100,8 @@ wheels = [
 
 [[package]]
 name = "trezor"
-version = "0.20.2"
-source = { registry = "https://pypi.org/simple" }
+version = "0.20.3"
+source = { git = "https://github.com/trezor/trezor-firmware.git?subdirectory=python&rev=1bf3c5e4c956eb5d1095a2889f4f95d6c030b2f2#1bf3c5e4c956eb5d1095a2889f4f95d6c030b2f2" }
 dependencies = [
     { name = "click" },
     { name = "construct" },
@@ -1116,10 +1116,6 @@ dependencies = [
     { name = "shamir-mnemonic" },
     { name = "slip10" },
     { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/5e/f8/479a694f6d6f39f53e77733c653879e5b047cdeb458f8e6e550379540802/trezor-0.20.2.tar.gz", hash = "sha256:0ab3cebb44fecb532b77d5a2b401b50187a1d70b7251a6cc2df5494e52ffdf57", size = 418700, upload-time = "2026-07-31T09:57:27.597Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/dd/bd/6535cc1e50804dcb1a2d39890ea14cc68e64a7260230ad3a69d789e72231/trezor-0.20.2-py3-none-any.whl", hash = "sha256:1acd67664bdc1cf389e719c91a09e6069688afa05959715955d5c1c54a2fefde", size = 339970, upload-time = "2026-07-31T09:57:26.125Z" },
 ]
 
 [[package]]

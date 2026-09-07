@@ -31,8 +31,7 @@ except ImportError as e:
     raise SystemExit(
         f"Import error: {e}\n\n"
         "Your trezorlib is outdated. Run:\n"
-        "  uv pip install -e ../trezor-firmware/python\n"
-        "  uv run --no-sync ./do_update.sh"
+        "  uv sync"
     ) from None
 
 
@@ -68,8 +67,7 @@ if _missing_proto:
     raise SystemExit(
         "Your trezorlib is outdated — missing " + ", ".join(_missing_proto) + ".\n"
         "The ERC-7730 clear-signing formatters need the updated proto. Run:\n"
-        "  uv pip install -e ../trezor-firmware/python\n"
-        "  uv run --no-sync ./do_update.sh"
+        "  uv sync"
     )
 
 
