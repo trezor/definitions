@@ -78401,7 +78401,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "internet-computer",
-   "coingecko_rank": 59,
+   "coingecko_rank": 52,
    "decimals": 8,
    "name": "Internet Computer",
    "shortcut": "ICP"
@@ -82400,6 +82400,15 @@
    "shortcut": "SQT"
   },
   {
+   "address": "0x093df218d70ea6036afa26704a1c70d12010b908",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "aptusd",
+   "decimals": 18,
+   "name": "aptUSD",
+   "shortcut": "APTUSD"
+  },
+  {
    "address": "0x09400ec683f70174e1217d6dcdbf42448e8de5d6",
    "chain": "eth",
    "chain_id": 1,
@@ -84082,6 +84091,15 @@
    "decimals": 18,
    "name": "Costco (Ondo Tokenized Stock)",
    "shortcut": "COSTON"
+  },
+  {
+   "address": "0x0c862c4aff0c87f3b4e93350ecf2dd6ada0c5400",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "zrdao-token",
+   "decimals": 18,
+   "name": "ZRDAO Token",
+   "shortcut": "ZRT"
   },
   {
    "address": "0x0c90c57aaf95a3a87eadda6ec3974c99d786511f",
@@ -87241,6 +87259,7 @@
    "chain_id": 1,
    "coingecko_id": "equity-residential-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
   },
@@ -87420,7 +87439,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "hashnote-usyc",
-   "coingecko_rank": 35,
+   "coingecko_rank": 38,
    "decimals": 6,
    "name": "Circle USYC",
    "shortcut": "USYC"
@@ -88190,7 +88209,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "decimals": 18,
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -88698,7 +88717,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "worldcoin-wld",
-   "coingecko_rank": 62,
+   "coingecko_rank": 54,
    "decimals": 18,
    "name": "Worldcoin",
    "shortcut": "WLD"
@@ -93441,7 +93460,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -94952,7 +94971,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "lighter",
-   "coingecko_rank": 72,
+   "coingecko_rank": 69,
    "decimals": 18,
    "name": "Lighter",
    "shortcut": "LIT"
@@ -98608,7 +98627,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "leo-token",
-   "coingecko_rank": 15,
+   "coingecko_rank": 17,
    "decimals": 18,
    "name": "LEO Token",
    "shortcut": "LEO"
@@ -101956,7 +101975,7 @@
    "chain_id": 1,
    "coingecko_id": "dohrnii",
    "decimals": 18,
-   "name": "Dohrnii",
+   "name": "Dohrnii [OLD]",
    "shortcut": "DHN"
   },
   {
@@ -103946,6 +103965,7 @@
    "chain_id": 1,
    "coingecko_id": "sivo-defi",
    "decimals": 6,
+   "deleted": true,
    "name": "Sivo DeFi",
    "shortcut": "SIVOUSDX"
   },
@@ -106094,6 +106114,7 @@
    "chain_id": 1,
    "coingecko_id": "webster-financial-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
   },
@@ -106439,6 +106460,15 @@
    "deleted": true,
    "name": "Vendetta Finance",
    "shortcut": "VEN"
+  },
+  {
+   "address": "0x3a54e9b53f32fd3441a87e1a95c853e595c8326f",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "dohrnii-2",
+   "decimals": 18,
+   "name": "Dohrnii",
+   "shortcut": "DHN"
   },
   {
    "address": "0x3a62b4259e5c2e2314e254b2c79ebaf5e57e8cf3",
@@ -107332,7 +107362,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "mantle",
-   "coingecko_rank": 46,
+   "coingecko_rank": 44,
    "decimals": 18,
    "name": "Mantle",
    "shortcut": "MNT"
@@ -109202,6 +109232,7 @@
    "chain_id": 1,
    "coingecko_id": "electronic-arts-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
@@ -109314,7 +109345,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "gho",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "decimals": 18,
    "name": "GHO",
    "shortcut": "GHO"
@@ -110404,6 +110435,15 @@
    "shortcut": "YUSD"
   },
   {
+   "address": "0x42778037d69350508cdd34d9fa17053970591101",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "marvin-3",
+   "decimals": 18,
+   "name": "Marvin",
+   "shortcut": "MARVIN"
+  },
+  {
    "address": "0x4278a8944cf63753b13e9f726bbc1192412988d8",
    "chain": "eth",
    "chain_id": 1,
@@ -110840,7 +110880,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "superstate-short-duration-us-government-securities-fund-ustb",
-   "coingecko_rank": 79,
+   "coingecko_rank": 88,
    "decimals": 6,
    "name": "Invesco Short Duration US Government Securities Fund",
    "shortcut": "USTB"
@@ -111942,7 +111982,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "polygon-ecosystem-token",
-   "coingecko_rank": 70,
+   "coingecko_rank": 71,
    "decimals": 18,
    "name": "POL (ex-MATIC)",
    "shortcut": "POL"
@@ -112040,7 +112080,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "pax-gold",
-   "coingecko_rank": 44,
+   "coingecko_rank": 47,
    "decimals": 18,
    "name": "PAX Gold",
    "shortcut": "PAXG"
@@ -114052,7 +114092,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "quant-network",
-   "coingecko_rank": 73,
+   "coingecko_rank": 75,
    "decimals": 18,
    "name": "Quant",
    "shortcut": "QNT"
@@ -115132,7 +115172,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -115371,6 +115411,15 @@
    "decimals": 18,
    "name": "Atoshi",
    "shortcut": "ATOS"
+  },
+  {
+   "address": "0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "shein-xstock",
+   "decimals": 18,
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
   },
   {
    "address": "0x4d0d8aedfe8b90adc1aff16bc2dc7af36a33a5c7",
@@ -116698,7 +116747,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "usdd",
-   "coingecko_rank": 54,
+   "coingecko_rank": 59,
    "decimals": 18,
    "name": "USDD",
    "shortcut": "USDD"
@@ -117508,7 +117557,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -119079,7 +119128,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "bitget-token",
-   "coingecko_rank": 58,
+   "coingecko_rank": 60,
    "decimals": 18,
    "name": "Bitget Token",
    "shortcut": "BGB"
@@ -119698,7 +119747,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "sky",
-   "coingecko_rank": 52,
+   "coingecko_rank": 55,
    "decimals": 18,
    "name": "Sky",
    "shortcut": "SKY"
@@ -120529,7 +120578,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -120643,7 +120692,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "the-open-network",
-   "coingecko_rank": 26,
+   "coingecko_rank": 27,
    "decimals": 9,
    "name": "Gram (prev. Toncoin)",
    "shortcut": "GRAM"
@@ -121511,7 +121560,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "janus-henderson-anemoy-aaa-clo-fund",
-   "coingecko_rank": 85,
+   "coingecko_rank": 90,
    "decimals": 6,
    "name": "Janus Henderson Anemoy AAA CLO Fund",
    "shortcut": "JAAA"
@@ -125409,7 +125458,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "htx-dao",
-   "coingecko_rank": 55,
+   "coingecko_rank": 57,
    "decimals": 18,
    "name": "HTX DAO",
    "shortcut": "HTX"
@@ -126026,6 +126075,7 @@
    "chain_id": 1,
    "coingecko_id": "junior-dola",
    "decimals": 18,
+   "deleted": true,
    "name": "Junior DOLA",
    "shortcut": "JRDOLA"
   },
@@ -126461,7 +126511,6 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "pudgy-penguins",
-   "coingecko_rank": 98,
    "decimals": 18,
    "name": "Pudgy Penguins",
    "shortcut": "PENGU"
@@ -128834,7 +128883,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "tether-gold",
-   "coingecko_rank": 36,
+   "coingecko_rank": 37,
    "decimals": 6,
    "name": "Tether Gold",
    "shortcut": "XAUT"
@@ -129634,7 +129683,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "pepe",
-   "coingecko_rank": 53,
+   "coingecko_rank": 58,
    "decimals": 18,
    "name": "Pepe",
    "shortcut": "PEPE"
@@ -130643,7 +130692,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "dai",
-   "coingecko_rank": 22,
+   "coingecko_rank": 21,
    "decimals": 18,
    "name": "Dai",
    "shortcut": "DAI"
@@ -131924,6 +131973,15 @@
    "shortcut": "AFK"
   },
   {
+   "address": "0x6d8a6e97446d858a1d1564bbdb4638429015dbe8",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "midas-hyperithm-arbitrage-eth",
+   "decimals": 18,
+   "name": "Midas Hyperithm Arbitrage ETH",
+   "shortcut": "MARBETH"
+  },
+  {
    "address": "0x6d8f7ac13e8c2944d27e0f9bc6aa0122f2ec1384",
    "chain": "eth",
    "chain_id": 1,
@@ -132059,7 +132117,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "render-token",
-   "coingecko_rank": 84,
+   "coingecko_rank": 87,
    "decimals": 18,
    "name": "Render",
    "shortcut": "RENDER"
@@ -132694,6 +132752,15 @@
    "decimals": 18,
    "name": "Silo Finance [OLD]",
    "shortcut": "SILO"
+  },
+  {
+   "address": "0x6f80a22a57c7f0257094ea8d426af3f747defbc7",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "junior-dola",
+   "decimals": 18,
+   "name": "Junior DOLA",
+   "shortcut": "JRDOLA"
   },
   {
    "address": "0x6f85e53b3c563d82925dc9ee1f37897afdc912e3",
@@ -134893,7 +134960,6 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "usual-usd",
-   "coingecko_rank": 99,
    "decimals": 18,
    "name": "Usual USD",
    "shortcut": "USD0"
@@ -135612,7 +135678,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "okb",
-   "coingecko_rank": 41,
+   "coingecko_rank": 42,
    "decimals": 18,
    "name": "OKB",
    "shortcut": "OKB"
@@ -135915,6 +135981,15 @@
    "decimals": 18,
    "name": "AGII",
    "shortcut": "AGII"
+  },
+  {
+   "address": "0x75e2fc69ff2ac12af65ba7d321bbf4f878c535d2",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "stockereum-fun",
+   "decimals": 18,
+   "name": "Stockereum.fun",
+   "shortcut": "STOCKER"
   },
   {
    "address": "0x75e88b8c2d34a52a6d36deada664d7dc9116e4ef",
@@ -136552,7 +136627,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "blackrock-usd-institutional-digital-liquidity-fund",
-   "coingecko_rank": 33,
+   "coingecko_rank": 35,
    "decimals": 6,
    "name": "BlackRock USD Institutional Digital Liquidity Fund",
    "shortcut": "BUIDL"
@@ -140463,7 +140538,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -141722,7 +141797,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "ripple-usd",
-   "coingecko_rank": 40,
+   "coingecko_rank": 41,
    "decimals": 18,
    "name": "Ripple USD",
    "shortcut": "RLUSD"
@@ -142004,7 +142079,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "blockchain-capital",
-   "coingecko_rank": 69,
+   "coingecko_rank": 73,
    "decimals": 2,
    "name": "Blockchain Capital",
    "shortcut": "BCAP"
@@ -146309,7 +146384,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "janus-henderson-anemoy-treasury-fund",
-   "coingecko_rank": 75,
+   "coingecko_rank": 86,
    "decimals": 6,
    "name": "Janus Henderson Anemoy Treasury Fund",
    "shortcut": "JTRSY"
@@ -146757,7 +146832,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "usd1-wlfi",
-   "coingecko_rank": 23,
+   "coingecko_rank": 25,
    "decimals": 18,
    "name": "USD1",
    "shortcut": "USD1"
@@ -150793,7 +150868,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "shiba-inu",
-   "coingecko_rank": 31,
+   "coingecko_rank": 32,
    "decimals": 18,
    "name": "Shiba Inu",
    "shortcut": "SHIB"
@@ -156561,7 +156636,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "eutbl",
-   "coingecko_rank": 74,
+   "coingecko_rank": 78,
    "decimals": 5,
    "name": "Spiko EU T-Bills Money Market Fund",
    "shortcut": "EUTBL"
@@ -156620,7 +156695,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "crypto-com-chain",
-   "coingecko_rank": 37,
+   "coingecko_rank": 36,
    "decimals": 8,
    "name": "Cronos",
    "shortcut": "CRO"
@@ -166293,7 +166368,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "arbitrum",
-   "coingecko_rank": 93,
+   "coingecko_rank": 68,
    "decimals": 18,
    "name": "Arbitrum",
    "shortcut": "ARB"
@@ -166837,7 +166912,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "nexo",
-   "coingecko_rank": 76,
+   "coingecko_rank": 83,
    "decimals": 18,
    "name": "NEXO",
    "shortcut": "NEXO"
@@ -170403,6 +170478,15 @@
    "deleted": true,
    "name": "GoldFinX",
    "shortcut": "GIX"
+  },
+  {
+   "address": "0xbd49537cc9105e8c1651ed12b94cd9a3d79bf3d9",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "hastra-smb",
+   "decimals": 6,
+   "name": "Hastra SMB",
+   "shortcut": "SMB"
   },
   {
    "address": "0xbd4ab8b9c26c4888e2792cac6d5793efea9ebb20",
@@ -178677,7 +178761,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "united-stables",
-   "coingecko_rank": 63,
+   "coingecko_rank": 64,
    "decimals": 18,
    "name": "United Stables",
    "shortcut": "U"
@@ -181874,6 +181958,7 @@
    "chain_id": 1,
    "coingecko_id": "bouncebit",
    "decimals": 18,
+   "deleted": true,
    "name": "BounceBit",
    "shortcut": "BB"
   },
@@ -182197,6 +182282,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "curve-dao-token",
+   "coingecko_rank": 96,
    "decimals": 18,
    "name": "Curve DAO",
    "shortcut": "CRV"
@@ -183061,6 +183147,7 @@
    "chain_id": 1,
    "coingecko_id": "seur",
    "decimals": 18,
+   "deleted": true,
    "name": "sEUR",
    "shortcut": "SEUR"
   },
@@ -184585,7 +184672,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "world-liberty-financial",
-   "coingecko_rank": 48,
+   "coingecko_rank": 49,
    "decimals": 18,
    "name": "World Liberty Financial",
    "shortcut": "WLFI"
@@ -184625,6 +184712,15 @@
    "decimals": 18,
    "name": "Noon USN",
    "shortcut": "USN"
+  },
+  {
+   "address": "0xda6a067d9435a28549d75dd459c0016911c26e54",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "sivo-defi",
+   "decimals": 6,
+   "name": "Sivo DeFi",
+   "shortcut": "SLP"
   },
   {
    "address": "0xda6a3876ad460194cd7ba28062d838c98ee2fd1d",
@@ -188526,6 +188622,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "injective-protocol",
+   "coingecko_rank": 99,
    "decimals": 18,
    "name": "Injective",
    "shortcut": "INJ"
@@ -188859,7 +188956,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "global-dollar",
-   "coingecko_rank": 27,
+   "coingecko_rank": 30,
    "decimals": 6,
    "name": "Global Dollar",
    "shortcut": "USDG"
@@ -190320,7 +190417,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "gatechain-token",
-   "coingecko_rank": 77,
+   "coingecko_rank": 74,
    "decimals": 18,
    "name": "Gate",
    "shortcut": "GT"
@@ -192735,6 +192832,15 @@
    "shortcut": "EBTC"
   },
   {
+   "address": "0xeb892628d1e58bc475a6dcb7f5dbc4f591632aa4",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "staked-axis-usd",
+   "decimals": 18,
+   "name": "Staked Axis USD",
+   "shortcut": "SUSDX"
+  },
+  {
    "address": "0xeb935deb517e4c2abc282e5e251ed4d05db79e93",
    "chain": "eth",
    "chain_id": 1,
@@ -194217,6 +194323,15 @@
    "deleted": true,
    "name": "Daomatian",
    "shortcut": "DAO"
+  },
+  {
+   "address": "0xee53ee4c6532cf81b63ea49be4bbdb0c2ab398be",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "marb",
+   "decimals": 18,
+   "name": "mArb",
+   "shortcut": "MARB"
   },
   {
    "address": "0xee573a945b01b788b9287ce062a0cfc15be9fd86",
@@ -197072,6 +197187,15 @@
    "decimals": 18,
    "name": "COPYTRACK",
    "shortcut": "CPY"
+  },
+  {
+   "address": "0xf44bcadd42f1dace4e2e52fe3bda082148bcbfd3",
+   "chain": "eth",
+   "chain_id": 1,
+   "coingecko_id": "midas-hyperithm-arbitrage-btc",
+   "decimals": 18,
+   "name": "Midas Hyperithm Arbitrage BTC",
+   "shortcut": "MARBBTC"
   },
   {
    "address": "0xf45091f25d374bbe956c0bb64bb85e02d07aa741",
@@ -200162,7 +200286,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "falcon-finance",
-   "coingecko_rank": 60,
+   "coingecko_rank": 62,
    "decimals": 18,
    "name": "Falcon USD",
    "shortcut": "USDF"
@@ -200405,7 +200529,7 @@
    "chain": "eth",
    "chain_id": 1,
    "coingecko_id": "ondo-finance",
-   "coingecko_rank": 51,
+   "coingecko_rank": 48,
    "decimals": 18,
    "name": "Ondo",
    "shortcut": "ONDO"
@@ -203692,6 +203816,7 @@
    "chain": "oeth",
    "chain_id": 10,
    "coingecko_id": "curve-dao-token",
+   "coingecko_rank": 96,
    "decimals": 18,
    "name": "Curve DAO",
    "shortcut": "CRV"
@@ -204002,6 +204127,7 @@
    "chain_id": 10,
    "coingecko_id": "equity-residential-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
   },
@@ -205133,7 +205259,7 @@
    "chain": "oeth",
    "chain_id": 10,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -205334,6 +205460,7 @@
    "chain_id": 10,
    "coingecko_id": "webster-financial-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
   },
@@ -205532,6 +205659,7 @@
    "chain_id": 10,
    "coingecko_id": "electronic-arts-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
@@ -205948,6 +206076,15 @@
    "shortcut": "SMOIHX"
   },
   {
+   "address": "0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "chain": "oeth",
+   "chain_id": 10,
+   "coingecko_id": "shein-xstock",
+   "decimals": 18,
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
+  },
+  {
    "address": "0x4d396c675ada9f74b9c92276cffd13a83b514093",
    "chain": "oeth",
    "chain_id": 10,
@@ -206325,7 +206462,7 @@
    "chain": "oeth",
    "chain_id": 10,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -206509,7 +206646,7 @@
    "chain": "oeth",
    "chain_id": 10,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -207102,7 +207239,7 @@
    "chain": "oeth",
    "chain_id": 10,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -207366,7 +207503,7 @@
    "chain": "oeth",
    "chain_id": 10,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -208847,7 +208984,7 @@
    "chain": "oeth",
    "chain_id": 10,
    "coingecko_id": "blackrock-usd-institutional-digital-liquidity-fund",
-   "coingecko_rank": 33,
+   "coingecko_rank": 35,
    "decimals": 6,
    "name": "BlackRock USD Institutional Digital Liquidity Fund",
    "shortcut": "BUIDL"
@@ -210901,7 +211038,7 @@
    "chain": "oeth",
    "chain_id": 10,
    "coingecko_id": "worldcoin-wld",
-   "coingecko_rank": 62,
+   "coingecko_rank": 54,
    "decimals": 18,
    "name": "Worldcoin",
    "shortcut": "WLD"
@@ -213662,7 +213799,7 @@
    "chain": "cro",
    "chain_id": 25,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -214660,7 +214797,7 @@
    "chain": "rsk",
    "chain_id": 30,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -215339,6 +215476,7 @@
    "chain_id": 50,
    "coingecko_id": "roxonn",
    "decimals": 18,
+   "deleted": true,
    "name": "ROXONN",
    "shortcut": "ROXN"
   },
@@ -215403,7 +215541,7 @@
    "chain": "xdc",
    "chain_id": 50,
    "coingecko_id": "falcon-finance",
-   "coingecko_rank": 60,
+   "coingecko_rank": 62,
    "decimals": 18,
    "name": "Falcon USD",
    "shortcut": "USDF"
@@ -215514,7 +215652,7 @@
    "chain": "xdc",
    "chain_id": 50,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -215677,7 +215815,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "aster-2",
-   "coingecko_rank": 47,
+   "coingecko_rank": 45,
    "decimals": 18,
    "name": "Aster",
    "shortcut": "ASTER"
@@ -215812,6 +215950,7 @@
    "chain_id": 56,
    "coingecko_id": "planck",
    "decimals": 18,
+   "deleted": true,
    "name": "Planck",
    "shortcut": "PLANCK"
   },
@@ -216071,7 +216210,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "stable-2",
-   "coingecko_rank": 88,
+   "coingecko_rank": 89,
    "decimals": 18,
    "name": "​​Stable",
    "shortcut": "STABLE"
@@ -220440,7 +220579,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "decimals": 18,
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -220676,7 +220815,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "cosmos",
-   "coingecko_rank": 81,
+   "coingecko_rank": 80,
    "decimals": 18,
    "name": "Cosmos Hub",
    "shortcut": "ATOM"
@@ -220944,6 +221083,15 @@
    "deleted": true,
    "name": "OLOID",
    "shortcut": "OLOID"
+  },
+  {
+   "address": "0x0f6c3988cd4a3746d6bb72e3111d2c05fc8a7777",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "giggle-max-brother",
+   "decimals": 18,
+   "name": "Giggle Max Brother",
+   "shortcut": "TOM"
   },
   {
    "address": "0x0f6d3353914caafe18ab0c835a789afc886e7039",
@@ -222188,6 +222336,7 @@
    "chain_id": 56,
    "coingecko_id": "equity-residential-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
   },
@@ -227673,7 +227822,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "memecore",
-   "coingecko_rank": 38,
+   "coingecko_rank": 39,
    "decimals": 18,
    "name": "MemeCore",
    "shortcut": "M"
@@ -228850,7 +228999,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "pepe",
-   "coingecko_rank": 53,
+   "coingecko_rank": 58,
    "decimals": 18,
    "name": "Pepe",
    "shortcut": "PEPE"
@@ -229025,6 +229174,15 @@
    "decimals": 18,
    "name": "iShares A.I. Innovation and Tech Active ETF (Ondo Tokenized)",
    "shortcut": "BAION"
+  },
+  {
+   "address": "0x265b3982ea730748100947f52561a4eab54affff",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "ast-fun",
+   "decimals": 18,
+   "name": "ast.fun",
+   "shortcut": "AST"
   },
   {
    "address": "0x267022751e06d97b9ee4e5f26cc1023670bdb349",
@@ -231264,7 +231422,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "blackrock-usd-institutional-digital-liquidity-fund",
-   "coingecko_rank": 33,
+   "coingecko_rank": 35,
    "decimals": 6,
    "name": "BlackRock USD Institutional Digital Liquidity Fund",
    "shortcut": "BUIDL"
@@ -235548,6 +235706,7 @@
    "chain_id": 56,
    "coingecko_id": "webster-financial-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
   },
@@ -237648,6 +237807,7 @@
    "chain_id": 56,
    "coingecko_id": "electronic-arts-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
@@ -237808,6 +237968,7 @@
    "chain_id": 56,
    "coingecko_id": "usd-coin-bridged-zed20",
    "decimals": 18,
+   "deleted": true,
    "name": "ZEDX Bridged USDC (Zedxion)",
    "shortcut": "USDC.Z"
   },
@@ -239657,7 +239818,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "usdd",
-   "coingecko_rank": 54,
+   "coingecko_rank": 59,
    "decimals": 18,
    "name": "USDD",
    "shortcut": "USDD"
@@ -240187,7 +240348,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "world-liberty-financial",
-   "coingecko_rank": 48,
+   "coingecko_rank": 49,
    "decimals": 18,
    "name": "World Liberty Financial",
    "shortcut": "WLFI"
@@ -242073,6 +242234,15 @@
    "shortcut": "AMT"
   },
   {
+   "address": "0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "shein-xstock",
+   "decimals": 18,
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
+  },
+  {
    "address": "0x4d0cc4786b383e2c7846ba994546b85954924802",
    "chain": "bnb",
    "chain_id": 56,
@@ -243857,6 +244027,15 @@
    "decimals": 18,
    "name": "Kimberly-Clark xStock",
    "shortcut": "KMBX"
+  },
+  {
+   "address": "0x5191b13fc0e90026942da71d619d64f4289ddc69",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "noxo",
+   "decimals": 18,
+   "name": "NOXO",
+   "shortcut": "NOXO"
   },
   {
    "address": "0x51ba0b044d96c3abfca52b64d733603ccc4f0d4d",
@@ -246488,7 +246667,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "janus-henderson-anemoy-aaa-clo-fund",
-   "coingecko_rank": 85,
+   "coingecko_rank": 90,
    "decimals": 6,
    "name": "Janus Henderson Anemoy AAA CLO Fund",
    "shortcut": "JAAA"
@@ -247843,7 +248022,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -249382,7 +249561,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "htx-dao",
-   "coingecko_rank": 55,
+   "coingecko_rank": 57,
    "decimals": 18,
    "name": "HTX DAO",
    "shortcut": "HTX"
@@ -250121,7 +250300,6 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "pudgy-penguins",
-   "coingecko_rank": 98,
    "decimals": 18,
    "name": "Pudgy Penguins",
    "shortcut": "PENGU"
@@ -256202,7 +256380,6 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "usual-usd",
-   "coingecko_rank": 99,
    "decimals": 18,
    "name": "Usual USD",
    "shortcut": "USD0"
@@ -256274,6 +256451,15 @@
    "deleted": true,
    "name": "Belifex",
    "shortcut": "BEFX"
+  },
+  {
+   "address": "0x75b364916b65f1e8959fa0210a6922c2ee237777",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "trustcat",
+   "decimals": 18,
+   "name": "TrustCat",
+   "shortcut": "TRUSTCAT"
   },
   {
    "address": "0x75b6dcd603314bcd8b3683e526d63193cf7d7bae",
@@ -256625,7 +256811,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "the-open-network",
-   "coingecko_rank": 26,
+   "coingecko_rank": 27,
    "decimals": 9,
    "name": "Gram (prev. Toncoin)",
    "shortcut": "GRAM"
@@ -257989,6 +258175,15 @@
    "deleted": true,
    "name": "Chainlist",
    "shortcut": "CLIST"
+  },
+  {
+   "address": "0x7a848a5a8169aa6a2f603d056a749f924f504444",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "the-final-form-bull",
+   "decimals": 18,
+   "name": "The Final Form Bull",
+   "shortcut": "CZ"
   },
   {
    "address": "0x7a983559e130723b70e45bd637773dbdfd3f71db",
@@ -259669,6 +259864,15 @@
    "deleted": true,
    "name": "Betero",
    "shortcut": "BTE"
+  },
+  {
+   "address": "0x7fb4758cb0c617c0bab1baf80525fab958637777",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "bnbo",
+   "decimals": 18,
+   "name": "币恩宝",
+   "shortcut": "BNBO"
   },
   {
    "address": "0x7fbec0bb6a7152e77c30d005b5d49cbc08a602c3",
@@ -264062,7 +264266,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "usd1-wlfi",
-   "coingecko_rank": 23,
+   "coingecko_rank": 25,
    "decimals": 18,
    "name": "USD1",
    "shortcut": "USD1"
@@ -264072,7 +264276,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "hashnote-usyc",
-   "coingecko_rank": 35,
+   "coingecko_rank": 38,
    "decimals": 6,
    "name": "Circle USYC",
    "shortcut": "USYC"
@@ -269617,7 +269821,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "beldex",
-   "coingecko_rank": 89,
+   "coingecko_rank": 93,
    "decimals": 9,
    "name": "Beldex",
    "shortcut": "BDX"
@@ -271596,6 +271800,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "injective-protocol",
+   "coingecko_rank": 99,
    "decimals": 18,
    "name": "Injective",
    "shortcut": "INJ"
@@ -277580,7 +277785,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "falcon-finance",
-   "coingecko_rank": 60,
+   "coingecko_rank": 62,
    "decimals": 18,
    "name": "Falcon USD",
    "shortcut": "USDF"
@@ -279997,6 +280202,15 @@
    "shortcut": "EXVG"
   },
   {
+   "address": "0xbb87378b58894338f0937b9691a5a6dc3a5a7777",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "little-sage",
+   "decimals": 18,
+   "name": "孙小圣 (Little Sage)",
+   "shortcut": "孙小圣"
+  },
+  {
    "address": "0xbb87dc5daac59d6e11ea2461ca69543f4b844444",
    "chain": "bnb",
    "chain_id": 56,
@@ -281331,7 +281545,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -284666,6 +284880,15 @@
    "shortcut": "HYPER"
   },
   {
+   "address": "0xc9d825e83aada475bd4d38c8ca984ed746277777",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "stonks-9",
+   "decimals": 18,
+   "name": "Stonks",
+   "shortcut": "STONKS"
+  },
+  {
    "address": "0xc9dbcff0448d330aaf1dd78fc204370e5e54a797",
    "chain": "bnb",
    "chain_id": 56,
@@ -286063,7 +286286,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "united-stables",
-   "coingecko_rank": 63,
+   "coingecko_rank": 64,
    "decimals": 18,
    "name": "United Stables",
    "shortcut": "U"
@@ -291564,7 +291787,6 @@
    "chain_id": 56,
    "coingecko_id": "cofinex-2",
    "decimals": 18,
-   "deleted": true,
    "name": "Cofinex",
    "shortcut": "CNX"
   },
@@ -292167,6 +292389,15 @@
    "deleted": true,
    "name": "Zahnymous",
    "shortcut": "ZAH"
+  },
+  {
+   "address": "0xe0620abea429a66ba69d9a0cde9ab93dc15bb9c4",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "bouncebit",
+   "decimals": 18,
+   "name": "BounceBit",
+   "shortcut": "BB"
   },
   {
    "address": "0xe069af87450fb51fc0d0e044617f1c134163e591",
@@ -294973,6 +295204,15 @@
    "deleted": true,
    "name": "Memeverse",
    "shortcut": "MEME"
+  },
+  {
+   "address": "0xe9337dde3dd9e97f1f45a56412767ce5098e7777",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "why-bother-looking-elsewhere-binance-has-it-all",
+   "decimals": 18,
+   "name": "何必东奔西走 币安全部都有 (Why bother looking elsewhere? Binance has it ",
+   "shortcut": "币有"
   },
   {
    "address": "0xe93da37413d99b304f55ec3826032a40ae657f8d",
@@ -298688,6 +298928,15 @@
    "shortcut": "TTMION"
   },
   {
+   "address": "0xf40592daacb3e5abf358789f5688c0b4f64d7777",
+   "chain": "bnb",
+   "chain_id": 56,
+   "coingecko_id": "flork-3",
+   "decimals": 18,
+   "name": "FLORK",
+   "shortcut": "FLORK"
+  },
+  {
    "address": "0xf40a230bd8162e34f97a3e113c4e44a7e9bafa16",
    "chain": "bnb",
    "chain_id": 56,
@@ -300327,7 +300576,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -301308,7 +301557,7 @@
    "chain": "bnb",
    "chain_id": 56,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -303538,7 +303787,7 @@
    "chain": "okt",
    "chain_id": 66,
    "coingecko_id": "okb",
-   "coingecko_rank": 41,
+   "coingecko_rank": 42,
    "decimals": 18,
    "name": "OKB",
    "shortcut": "OKB"
@@ -304583,7 +304832,7 @@
    "chain": "gno",
    "chain_id": 100,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -305408,7 +305657,7 @@
    "chain": "gno",
    "chain_id": 100,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -305520,7 +305769,7 @@
    "chain": "gno",
    "chain_id": 100,
    "coingecko_id": "gho",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "decimals": 18,
    "name": "GHO",
    "shortcut": "GHO"
@@ -306232,7 +306481,7 @@
    "chain": "heco",
    "chain_id": 128,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -306242,7 +306491,7 @@
    "chain": "heco",
    "chain_id": 128,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -306643,7 +306892,7 @@
    "chain": "heco",
    "chain_id": 128,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -307159,7 +307408,7 @@
    "chain": "unichain",
    "chain_id": 130,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -307277,7 +307526,7 @@
    "chain": "unichain",
    "chain_id": 130,
    "coingecko_id": "jupiter-exchange-solana",
-   "coingecko_rank": 86,
+   "coingecko_rank": 82,
    "decimals": 6,
    "name": "Jupiter",
    "shortcut": "JUP"
@@ -307343,7 +307592,7 @@
    "chain": "unichain",
    "chain_id": 130,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -307362,7 +307611,7 @@
    "chain": "pol",
    "chain_id": 137,
    "coingecko_id": "polygon-ecosystem-token",
-   "coingecko_rank": 70,
+   "coingecko_rank": 71,
    "decimals": 18,
    "name": "POL (ex-MATIC)",
    "shortcut": "POL"
@@ -308948,6 +309197,7 @@
    "chain": "pol",
    "chain_id": 137,
    "coingecko_id": "curve-dao-token",
+   "coingecko_rank": 96,
    "decimals": 18,
    "name": "Curve DAO",
    "shortcut": "CRV"
@@ -310214,7 +310464,7 @@
    "chain": "pol",
    "chain_id": 137,
    "coingecko_id": "blackrock-usd-institutional-digital-liquidity-fund",
-   "coingecko_rank": 33,
+   "coingecko_rank": 35,
    "decimals": 6,
    "name": "BlackRock USD Institutional Digital Liquidity Fund",
    "shortcut": "BUIDL"
@@ -311821,7 +312071,7 @@
    "chain": "pol",
    "chain_id": 137,
    "coingecko_id": "nexo",
-   "coingecko_rank": 76,
+   "coingecko_rank": 83,
    "decimals": 18,
    "name": "NEXO",
    "shortcut": "NEXO"
@@ -313071,7 +313321,7 @@
    "chain": "pol",
    "chain_id": 137,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -317836,7 +318086,7 @@
    "chain": "pol",
    "chain_id": 137,
    "coingecko_id": "eutbl",
-   "coingecko_rank": 74,
+   "coingecko_rank": 78,
    "decimals": 5,
    "name": "Spiko EU T-Bills Money Market Fund",
    "shortcut": "EUTBL"
@@ -319065,7 +319315,7 @@
    "chain": "pol",
    "chain_id": 137,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -321367,7 +321617,7 @@
    "chain": "pol",
    "chain_id": 137,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -324467,7 +324717,7 @@
    "chain": "mon",
    "chain_id": 143,
    "coingecko_id": "usd1-wlfi",
-   "coingecko_rank": 23,
+   "coingecko_rank": 25,
    "decimals": 6,
    "name": "USD1",
    "shortcut": "USD1"
@@ -324955,7 +325205,7 @@
    "chain": "mon",
    "chain_id": 143,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -325122,7 +325372,7 @@
    "chain": "mon",
    "chain_id": 143,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -325420,7 +325670,7 @@
    "chain": "mon",
    "chain_id": 143,
    "coingecko_id": "janus-henderson-anemoy-aaa-clo-fund",
-   "coingecko_rank": 85,
+   "coingecko_rank": 90,
    "decimals": 18,
    "name": "Janus Henderson Anemoy AAA CLO Fund",
    "shortcut": "JAAA"
@@ -325529,7 +325779,7 @@
    "chain": "mon",
    "chain_id": 143,
    "coingecko_id": "janus-henderson-anemoy-treasury-fund",
-   "coingecko_rank": 75,
+   "coingecko_rank": 86,
    "decimals": 18,
    "name": "Janus Henderson Anemoy Treasury Fund",
    "shortcut": "JTRSY"
@@ -325802,7 +326052,7 @@
    "chain": "mon",
    "chain_id": 143,
    "coingecko_id": "gho",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "decimals": 18,
    "name": "GHO",
    "shortcut": "GHO"
@@ -326064,6 +326314,7 @@
    "chain_id": 146,
    "coingecko_id": "beets",
    "decimals": 18,
+   "deleted": true,
    "name": "Beets",
    "shortcut": "BEETS"
   },
@@ -326452,7 +326703,7 @@
    "chain": "sonic",
    "chain_id": 146,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -327486,7 +327737,7 @@
    "chain": "manta",
    "chain_id": 169,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -327496,7 +327747,7 @@
    "chain": "manta",
    "chain_id": 169,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -327800,7 +328051,7 @@
    "chain": "hsk",
    "chain_id": 177,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -328238,6 +328489,7 @@
    "chain_id": 196,
    "coingecko_id": "equity-residential-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
   },
@@ -329139,6 +329391,7 @@
    "chain_id": 196,
    "coingecko_id": "webster-financial-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
   },
@@ -329211,6 +329464,7 @@
    "chain_id": 196,
    "coingecko_id": "electronic-arts-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
@@ -329482,7 +329736,7 @@
    "chain": "okb",
    "chain_id": 196,
    "coingecko_id": "global-dollar",
-   "coingecko_rank": 27,
+   "coingecko_rank": 30,
    "decimals": 6,
    "name": "Global Dollar",
    "shortcut": "USDG"
@@ -329522,6 +329776,15 @@
    "decimals": 18,
    "name": "Smoore International xStock",
    "shortcut": "SMOIHX"
+  },
+  {
+   "address": "0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "chain": "okb",
+   "chain_id": 196,
+   "coingecko_id": "shein-xstock",
+   "decimals": 18,
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
   },
   {
    "address": "0x4d396c675ada9f74b9c92276cffd13a83b514093",
@@ -329963,7 +330226,7 @@
    "chain": "okb",
    "chain_id": 196,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -331004,7 +331267,7 @@
    "chain": "okb",
    "chain_id": 196,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -334292,7 +334555,7 @@
    "chain": "obnb",
    "chain_id": 204,
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "decimals": 18,
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -334368,7 +334631,7 @@
    "chain": "obnb",
    "chain_id": 204,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -334571,7 +334834,7 @@
    "chain": "lens",
    "chain_id": 232,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -334728,7 +334991,7 @@
    "chain": "tacchain_239-1",
    "chain_id": 239,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -335403,6 +335666,7 @@
    "chain": "ftm",
    "chain_id": 250,
    "coingecko_id": "curve-dao-token",
+   "coingecko_rank": 96,
    "decimals": 18,
    "name": "Curve DAO",
    "shortcut": "CRV"
@@ -336634,7 +336898,7 @@
    "chain": "ftm",
    "chain_id": 250,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -336886,7 +337150,7 @@
    "chain": "ftm",
    "chain_id": 250,
    "coingecko_id": "nexo",
-   "coingecko_rank": 76,
+   "coingecko_rank": 83,
    "decimals": 18,
    "name": "NEXO",
    "shortcut": "NEXO"
@@ -337627,7 +337891,7 @@
    "chain": "ftm",
    "chain_id": 250,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -338745,7 +339009,7 @@
    "chain": "frax",
    "chain_id": 252,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -338764,7 +339028,7 @@
    "chain": "frax",
    "chain_id": 252,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -338831,7 +339095,7 @@
    "chain": "frax",
    "chain_id": 252,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -339010,7 +339274,7 @@
    "chain": "kroma",
    "chain_id": 255,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -339634,7 +339898,7 @@
    "chain": "hedera-mainnet",
    "chain_id": 295,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -340071,7 +340335,7 @@
    "chain": "zksync",
    "chain_id": 324,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -340081,7 +340345,7 @@
    "chain": "zksync",
    "chain_id": 324,
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "decimals": 18,
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -340253,7 +340517,7 @@
    "chain": "zksync",
    "chain_id": 324,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -340301,7 +340565,7 @@
    "chain": "zksync",
    "chain_id": 324,
    "coingecko_id": "blockchain-capital",
-   "coingecko_rank": 69,
+   "coingecko_rank": 73,
    "decimals": 2,
    "name": "Blockchain Capital",
    "shortcut": "BCAP"
@@ -340423,7 +340687,7 @@
    "chain": "zksync",
    "chain_id": 324,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -342936,7 +343200,7 @@
    "chain": "zkCRO",
    "chain_id": 388,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -343231,7 +343495,7 @@
    "chain": "wc",
    "chain_id": 480,
    "coingecko_id": "worldcoin-wld",
-   "coingecko_rank": 62,
+   "coingecko_rank": 54,
    "decimals": 18,
    "name": "Worldcoin",
    "shortcut": "WLD"
@@ -343351,7 +343615,7 @@
    "chain": "wc",
    "chain_id": 480,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -343493,7 +343757,7 @@
    "chain": "astr",
    "chain_id": 592,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -344096,7 +344360,7 @@
    "chain": "bittensor-evm-mainnet",
    "chain_id": 964,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -344106,7 +344370,7 @@
    "chain": "stable",
    "chain_id": 988,
    "coingecko_id": "stable-2",
-   "coingecko_rank": 88,
+   "coingecko_rank": 89,
    "decimals": 18,
    "name": "​​Stable",
    "shortcut": "STABLE"
@@ -344152,7 +344416,7 @@
    "chain": "stable",
    "chain_id": 988,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -344745,6 +345009,15 @@
    "shortcut": "CATBAL"
   },
   {
+   "address": "0x122b03fbd590826ffcfbed4cf53b251e914520e1",
+   "chain": "hype",
+   "chain_id": 999,
+   "coingecko_id": "terminal-2",
+   "decimals": 18,
+   "name": "Terminal",
+   "shortcut": "TERMINAL"
+  },
+  {
    "address": "0x125d8c0fa5707e928cda279195313f0ad6e9fefe",
    "chain": "twan",
    "chain_id": 999,
@@ -344787,6 +345060,7 @@
    "chain_id": 999,
    "coingecko_id": "equity-residential-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
   },
@@ -345002,7 +345276,7 @@
    "chain": "hype",
    "chain_id": 999,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -345852,6 +346126,7 @@
    "chain_id": 999,
    "coingecko_id": "webster-financial-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
   },
@@ -345962,6 +346237,7 @@
    "chain_id": 999,
    "coingecko_id": "electronic-arts-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
@@ -346302,6 +346578,15 @@
    "shortcut": "SMOIHX"
   },
   {
+   "address": "0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "chain": "hype",
+   "chain_id": 999,
+   "coingecko_id": "shein-xstock",
+   "decimals": 18,
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
+  },
+  {
    "address": "0x4d34798f18eb747f7225663f0553ea2d880cf75d",
    "chain": "hype",
    "chain_id": 999,
@@ -346390,6 +346675,15 @@
    "decimals": 18,
    "name": "SEDA",
    "shortcut": "SEDA"
+  },
+  {
+   "address": "0x4f9e014f620d83b08342c8bdff3043fb2220b727",
+   "chain": "hype",
+   "chain_id": 999,
+   "coingecko_id": "qone",
+   "decimals": 18,
+   "name": "qONE",
+   "shortcut": "QONE"
   },
   {
    "address": "0x4fe141616da62b8633efac1935dd6662c25a6538",
@@ -346810,7 +347104,7 @@
    "chain": "hype",
    "chain_id": 999,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -348779,7 +349073,7 @@
    "chain": "hype",
    "chain_id": 999,
    "coingecko_id": "stable-2",
-   "coingecko_rank": 88,
+   "coingecko_rank": 89,
    "decimals": 18,
    "name": "​​Stable",
    "shortcut": "STABLE"
@@ -351352,7 +351646,6 @@
    "chain": "hype",
    "chain_id": 999,
    "coingecko_id": "pudgy-penguins",
-   "coingecko_rank": 98,
    "decimals": 18,
    "name": "Pudgy Penguins",
    "shortcut": "PENGU"
@@ -351903,7 +352196,7 @@
    "chain": "metis-andromeda",
    "chain_id": 1088,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -351932,7 +352225,7 @@
    "chain": "metis-andromeda",
    "chain_id": 1088,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -352237,7 +352530,7 @@
    "chain": "metis-andromeda",
    "chain_id": 1088,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -352344,7 +352637,7 @@
    "chain": "zkevm",
    "chain_id": 1101,
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "decimals": 18,
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -352655,7 +352948,7 @@
    "chain": "zkevm",
    "chain_id": 1101,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -352777,7 +353070,7 @@
    "chain": "wemix",
    "chain_id": 1111,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -352927,7 +353220,7 @@
    "chain": "core",
    "chain_id": 1116,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -353396,7 +353689,7 @@
    "chain": "mbeam",
    "chain_id": 1284,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -354160,7 +354453,7 @@
    "chain": "mriver",
    "chain_id": 1285,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -354709,7 +355002,7 @@
    "chain": "sei",
    "chain_id": 1329,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -355277,7 +355570,7 @@
    "chain": "pharos",
    "chain_id": 1672,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -355370,7 +355663,7 @@
    "chain": "soneium",
    "chain_id": 1868,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -356369,7 +356662,7 @@
    "chain": "swellchain",
    "chain_id": 1923,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -356379,7 +356672,7 @@
    "chain": "swellchain",
    "chain_id": 1923,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -356918,7 +357211,7 @@
    "chain": "milkAda",
    "chain_id": 2001,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -357078,7 +357371,7 @@
    "chain": "ron",
    "chain_id": 2020,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -357451,7 +357744,7 @@
    "chain": "kava",
    "chain_id": 2222,
    "coingecko_id": "cosmos",
-   "coingecko_rank": 81,
+   "coingecko_rank": 80,
    "decimals": 6,
    "name": "Cosmos Hub",
    "shortcut": "ATOM"
@@ -357566,7 +357859,7 @@
    "chain": "kava",
    "chain_id": 2222,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -357585,7 +357878,7 @@
    "chain": "kava",
    "chain_id": 2222,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -358010,7 +358303,7 @@
    "chain": "abstract",
    "chain_id": 2741,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -358271,7 +358564,6 @@
    "chain": "abstract",
    "chain_id": 2741,
    "coingecko_id": "pudgy-penguins",
-   "coingecko_rank": 98,
    "decimals": 18,
    "name": "Pudgy Penguins",
    "shortcut": "PENGU"
@@ -358612,7 +358904,7 @@
    "chain": "morph",
    "chain_id": 2818,
    "coingecko_id": "usd1-wlfi",
-   "coingecko_rank": 23,
+   "coingecko_rank": 25,
    "decimals": 18,
    "name": "USD1",
    "shortcut": "USD1"
@@ -358631,7 +358923,7 @@
    "chain": "morph",
    "chain_id": 2818,
    "coingecko_id": "bitget-token",
-   "coingecko_rank": 58,
+   "coingecko_rank": 60,
    "decimals": 18,
    "name": "Bitget Token",
    "shortcut": "BGB"
@@ -358661,7 +358953,7 @@
    "chain": "morph",
    "chain_id": 2818,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -358671,7 +358963,7 @@
    "chain": "morph",
    "chain_id": 2818,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -358681,7 +358973,7 @@
    "chain": "morph",
    "chain_id": 2818,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -358760,6 +359052,15 @@
    "decimals": 6,
    "name": "USDT0",
    "shortcut": "USDT0"
+  },
+  {
+   "address": "0x0000000000000000000000000000000000000809",
+   "chain": "PEAQ",
+   "chain_id": 3338,
+   "coingecko_id": "peaq-2",
+   "decimals": 18,
+   "name": "peaq",
+   "shortcut": "PEAQ"
   },
   {
    "address": "0x1190fb50226b54958e284bd674eff346936af885",
@@ -358912,7 +359213,7 @@
    "chain": "BTNX",
    "chain_id": 3637,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -359271,7 +359572,7 @@
    "chain": "Merlin-Mainnet",
    "chain_id": 4200,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -359521,7 +359822,7 @@
    "chain": "megaeth",
    "chain_id": 4326,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -359576,7 +359877,7 @@
    "chain": "megaeth",
    "chain_id": 4326,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -359895,6 +360196,15 @@
    "shortcut": "OIL"
   },
   {
+   "address": "0x000b2164a76560323163343431db8be550f164b8",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "chrome-dino",
+   "decimals": 18,
+   "name": "Chrome Dino",
+   "shortcut": "DINO"
+  },
+  {
    "address": "0x00eb2583f442d35473bed8801efb01c82d84c149",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -359911,6 +360221,15 @@
    "decimals": 18,
    "name": "NINEHOOD",
    "shortcut": "NINEHOOD"
+  },
+  {
+   "address": "0x0145acbccefbed6f303c420beeaaac72e905430b",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "wolf-pack",
+   "decimals": 18,
+   "name": "Wolf Pack",
+   "shortcut": "PACK"
   },
   {
    "address": "0x01637b14b7378b99de75a64d50656d98488d9a4d",
@@ -359967,6 +360286,15 @@
    "shortcut": "PLEB"
   },
   {
+   "address": "0x02ee0b6b6b172eeb66d0939aeb63cb44de66aee1",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "voyager-technologies-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Voyager Technologies, Inc. • Robinhood Token",
+   "shortcut": "VOYG"
+  },
+  {
    "address": "0x034d81835137ea6579a3824fc47176ade055c76d",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -359994,6 +360322,15 @@
    "shortcut": "JNJ"
   },
   {
+   "address": "0x046234ab18e3288df55f4fd6ebc5de581eff8d5e",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "twist-bioscience-corporation-robinhood-token",
+   "decimals": 18,
+   "name": "Twist Bioscience Corporation • Robinhood Token",
+   "shortcut": "TWST"
+  },
+  {
    "address": "0x0500a1a597a631cec9637767f7b75c5b5d0c1db4",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360019,6 +360356,15 @@
    "decimals": 18,
    "name": "Insiders",
    "shortcut": "INSIDERS"
+  },
+  {
+   "address": "0x05a0b68e36eaa371049c9f711cbc34c0b201af51",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "hut-8-corp-robinhood-token",
+   "decimals": 18,
+   "name": "Hut 8 Corp. • Robinhood Token",
+   "shortcut": "HUT"
   },
   {
    "address": "0x05a3d1cd21d0c88145e82600e62e7e496e0f222b",
@@ -360084,6 +360430,24 @@
    "shortcut": "WEBSITE"
   },
   {
+   "address": "0x07c44da0848960bff894f17584db8b2f60b2409e",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "jpmorgan-chase-co-robinhood-token",
+   "decimals": 18,
+   "name": "JPMorgan Chase & Co. • Robinhood Token",
+   "shortcut": "JPM"
+  },
+  {
+   "address": "0x07ebb29a38fbcb41563817e5e19f2cec619c90d2",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "bundle-cat",
+   "decimals": 18,
+   "name": "Bundle Cat",
+   "shortcut": "BUN"
+  },
+  {
    "address": "0x0817b4bae4d153126405c2995cb94afa5987bc48",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360138,6 +360502,15 @@
    "shortcut": "FLAMINGO"
   },
   {
+   "address": "0x0a1e0cc751f77c2c93760fc957cc8e4e779b2bc8",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "prism-4",
+   "decimals": 18,
+   "name": "prism.",
+   "shortcut": "PRISM"
+  },
+  {
    "address": "0x0a6da86ada2606f7d90415b5d431aa5f378ea798",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360172,6 +360545,15 @@
    "decimals": 18,
    "name": "Steel",
    "shortcut": "STEEL"
+  },
+  {
+   "address": "0x0b551573d731090b3f57129c11b0a4a9e4d0a69c",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "digitaldon",
+   "decimals": 18,
+   "name": "DigitalDon",
+   "shortcut": "DON"
   },
   {
    "address": "0x0b5fb4031cae9163db10b169ee72685f0edc8545",
@@ -360219,6 +360601,15 @@
    "shortcut": "NOW"
   },
   {
+   "address": "0x0cc8522ca4f423638032d0211a6e823392a1eae1",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "playground-2",
+   "decimals": 18,
+   "name": "Playground",
+   "shortcut": "PBUX"
+  },
+  {
    "address": "0x0db4494693a034e3fb89009013113858b2cb8c45",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360255,6 +360646,15 @@
    "shortcut": "BUY"
   },
   {
+   "address": "0x0ef754390ff70ee1f2326b3be86f3e51bd0e425c",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "draftkings-inc-robinhood-token",
+   "decimals": 18,
+   "name": "DraftKings Inc. • Robinhood Token",
+   "shortcut": "DKNG"
+  },
+  {
    "address": "0x0f17206447090e464c277571124dd2688e48aea9",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360264,6 +360664,15 @@
    "shortcut": "QCOM"
   },
   {
+   "address": "0x0f421d05e67b9e25d754e8e685af91b37bff6cef",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "size-it",
+   "decimals": 18,
+   "name": "size it",
+   "shortcut": "SIZE"
+  },
+  {
    "address": "0x0f68bee9880a41cdf9713c24358ffdb4756d53c2",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360271,6 +360680,15 @@
    "decimals": 18,
    "name": "skrimp",
    "shortcut": "SKRMP"
+  },
+  {
+   "address": "0x0f9783923c3c1b5b573b9105c01a2c88b3f40ffb",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "six-flags-entertainment-corporation-robinhood-token",
+   "decimals": 18,
+   "name": "Six Flags Entertainment Corporation • Robinhood Token",
+   "shortcut": "FUN"
   },
   {
    "address": "0x10dc3d3719b507e6bf3fc90c3d327d8590827777",
@@ -360300,6 +360718,24 @@
    "shortcut": "SPY"
   },
   {
+   "address": "0x11b70d0243baf75e85ce03201a92b5b7c33beb59",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "robin-the-frog",
+   "decimals": 18,
+   "name": "Robin the Frog",
+   "shortcut": "ROBIN"
+  },
+  {
+   "address": "0x12d5ee7917ca430073c3a638ee1e6f0648a98a01",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "fatcoin-2",
+   "decimals": 18,
+   "name": "FATCOIN",
+   "shortcut": "FATCOIN"
+  },
+  {
    "address": "0x12e3c047bf9aecaf9ddc98c05c31bfd1dd043993",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360318,6 +360754,15 @@
    "shortcut": "AMZN"
   },
   {
+   "address": "0x139ea209a647fd1f8bf275b982d3dbad3e4b1a4d",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ember-4",
+   "decimals": 18,
+   "name": "ember",
+   "shortcut": "EMBER"
+  },
+  {
    "address": "0x141eea040c2250eec0314e336975e81f85f6585e",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360325,6 +360770,15 @@
    "decimals": 18,
    "name": "AXT Inc • Robinhood Token",
    "shortcut": "AXTI"
+  },
+  {
+   "address": "0x145ea700b2f8b8414eb8f6dddcd022b6690aa50a",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "robodog",
+   "decimals": 18,
+   "name": "ROBODOG",
+   "shortcut": "ASTRO"
   },
   {
    "address": "0x14641000a501bdc736116abf84e6fcea9b90a713",
@@ -360336,6 +360790,15 @@
    "shortcut": "MESH"
   },
   {
+   "address": "0x14d89afd8ba9aa33a0c7810b30c3f798a1a7f169",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "affirm-holdings-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Affirm Holdings, Inc. • Robinhood Token",
+   "shortcut": "AFRM"
+  },
+  {
    "address": "0x156e175dd063a8ce274c50654ef40e0032b3fbcf",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360343,6 +360806,15 @@
    "decimals": 18,
    "name": "Broadcom • Robinhood Token",
    "shortcut": "AVGO"
+  },
+  {
+   "address": "0x157a752f3446fe891d6e2881006813703fbb3ad9",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "fidel-catstro",
+   "decimals": 18,
+   "name": "Fidel Catstro",
+   "shortcut": "CATSTRO"
   },
   {
    "address": "0x15cd20759ce7f3285c29a319de2d1a2e098c6f43",
@@ -360354,6 +360826,15 @@
    "shortcut": "XLK"
   },
   {
+   "address": "0x15d36b6a28d8327abc7afabf0f106ae2c9af5c4d",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "pare",
+   "decimals": 18,
+   "name": "Pare",
+   "shortcut": "PARE"
+  },
+  {
    "address": "0x15e8b90d9444d1a5e9b39f5c9547a104ae69ba11",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360362,6 +360843,24 @@
    "deleted": true,
    "name": "buy and retire",
    "shortcut": "530A"
+  },
+  {
+   "address": "0x15ed9ae7f55b832988df1b6745afe209f380b5ff",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "larping-cat",
+   "decimals": 18,
+   "name": "Larping Cat",
+   "shortcut": "LARPY"
+  },
+  {
+   "address": "0x16391c40e85fb2246a2c8c17bfa2594c5d3ef84b",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "touch-grass-2",
+   "decimals": 18,
+   "name": "Touch Grass",
+   "shortcut": "GRASS"
   },
   {
    "address": "0x164d9da79722c5294369e79807980e0bff257777",
@@ -360398,6 +360897,24 @@
    "decimals": 18,
    "name": "Dog In Hood",
    "shortcut": "DIH"
+  },
+  {
+   "address": "0x17c35105dab9936f113af60f3bf74783caf08301",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "hooddomains",
+   "decimals": 18,
+   "name": "HoodDomains",
+   "shortcut": "HD"
+  },
+  {
+   "address": "0x183536d2859641a54dd9c0405e7676e476c7c4ca",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "baby-cash-cat-2",
+   "decimals": 18,
+   "name": "Baby Cash Cat",
+   "shortcut": "BABYCASHCAT"
   },
   {
    "address": "0x18e674231a58c239dc7daedcffe15ec3a24cff5c",
@@ -360461,6 +360978,15 @@
    "decimals": 18,
    "name": "RobinhoodCat",
    "shortcut": "RHCAT"
+  },
+  {
+   "address": "0x1c1daef0300551adbfbe403e7d567b6c5aff566f",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "hotdog-2",
+   "decimals": 18,
+   "name": "hotdog",
+   "shortcut": "HOTDOG"
   },
   {
    "address": "0x1c690498150252222c275a5ced69d3a6b1f52d5e",
@@ -360589,6 +361115,15 @@
    "shortcut": "CIFR"
   },
   {
+   "address": "0x218d0dc56476b05f131bd6cc82b80c7b052fa9b1",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "openbell",
+   "decimals": 18,
+   "name": "Openbell",
+   "shortcut": "BELL"
+  },
+  {
    "address": "0x218eec7d0c6a26ba119063b3228b8d04085545d3",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360605,6 +361140,15 @@
    "decimals": 18,
    "name": "divinely protected",
    "shortcut": "222"
+  },
+  {
+   "address": "0x223e93b1bed7de244445db2dea4c7900e8045acc",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "9to5",
+   "decimals": 18,
+   "name": "9TO5",
+   "shortcut": "9TO5"
   },
   {
    "address": "0x22d8e3b004288da6da60195a17031eba47d537e7",
@@ -360679,6 +361223,15 @@
    "shortcut": "NPC"
   },
   {
+   "address": "0x242b125567bbc6c24a0b48e3ed0e7184ddcea124",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "cameco-corporation-robinhood-token",
+   "decimals": 18,
+   "name": "Cameco Corporation • Robinhood Token",
+   "shortcut": "CCJ"
+  },
+  {
    "address": "0x24d8657e10af588b12de3e102a116f77b9e35ee8",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360740,6 +361293,24 @@
    "decimals": 18,
    "name": "Frens",
    "shortcut": "FRENS"
+  },
+  {
+   "address": "0x27495511b8a2e163efc75d788706a40dd100bc27",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "the-brotherhood",
+   "decimals": 18,
+   "name": "THE BROTHERHOOD",
+   "shortcut": "PACK"
+  },
+  {
+   "address": "0x275bd09e2dd9ea3da99e9160277d8691e33f47fa",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "hoodrat-5",
+   "decimals": 18,
+   "name": "hoodrat",
+   "shortcut": "HOODRAT"
   },
   {
    "address": "0x2778c5024d5ca2cdb0f8ead671ffc69963adcd9c",
@@ -360841,6 +361412,42 @@
    "shortcut": "DAHOOD"
   },
   {
+   "address": "0x29ffc36bcc7d857f325b435533041c3dd9fa26e5",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "quantums",
+   "decimals": 18,
+   "name": "Quantums",
+   "shortcut": "QUANT"
+  },
+  {
+   "address": "0x2a4a33a2163d005d8e7f1d9ac08d14c98db288d5",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "twofold",
+   "decimals": 18,
+   "name": "Twofold",
+   "shortcut": "TWO"
+  },
+  {
+   "address": "0x2a658404ce167f024bf7c90a18fc4265b1a7667a",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "oscar-health-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Oscar Health, Inc. • Robinhood Token",
+   "shortcut": "OSCR"
+  },
+  {
+   "address": "0x2af847f8b2c9b9ff745c5dc146e16f2a8a44fd02",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "the-goldman-sachs-group-inc-robinhood-token",
+   "decimals": 18,
+   "name": "The Goldman Sachs Group, Inc. • Robinhood Token",
+   "shortcut": "GS"
+  },
+  {
    "address": "0x2b10d89ba75cfe18f2678a66e4c18c1005b03afa",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360859,6 +361466,15 @@
    "shortcut": "ALO"
   },
   {
+   "address": "0x2cc0fac44b8252f6b10208b091aff2c94b4da77d",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "sinjoh",
+   "decimals": 18,
+   "name": "Sinjoh",
+   "shortcut": "INJOH"
+  },
+  {
    "address": "0x2d427692e928fa156ec22acfabafa0447c5805b7",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360868,6 +361484,15 @@
    "shortcut": "GLXY"
   },
   {
+   "address": "0x2d8d6f4a93acd7a916a5a654ec8b690ba3b3eadd",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "statics-protocol",
+   "decimals": 18,
+   "name": "Statics Protocol",
+   "shortcut": "STATICS"
+  },
+  {
    "address": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -360875,6 +361500,15 @@
    "decimals": 18,
    "name": "Alphabet Class A • Robinhood Token",
    "shortcut": "GOOGL"
+  },
+  {
+   "address": "0x2e8c31162b855a2ffa90f6f8634643ad6f111e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "artificial-inu-3",
+   "decimals": 18,
+   "name": "Artificial Inu",
+   "shortcut": "AI"
   },
   {
    "address": "0x2e9c3b1c6e7703d1784b2b8f80ef4e99d76b3e56",
@@ -360893,6 +361527,15 @@
    "decimals": 18,
    "name": "Pepe Community",
    "shortcut": "PEPE"
+  },
+  {
+   "address": "0x2f219c706e052dc25372a0c59dcc2afe0cab12f3",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "market-cap-2",
+   "decimals": 18,
+   "name": "Market Cap",
+   "shortcut": "CAP"
   },
   {
    "address": "0x2f36ba966bf29f702bb290245406a5b0e3e1a66e",
@@ -360983,6 +361626,15 @@
    "decimals": 18,
    "name": "flowr",
    "shortcut": "FLOWR"
+  },
+  {
+   "address": "0x3207d891ddd0db2981a6976b58b22e27c0699b4b",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "cash-cow-2",
+   "decimals": 18,
+   "name": "cash cow",
+   "shortcut": "CASHCOW"
   },
   {
    "address": "0x322f0929c4625ed5bad873c95208d54e1c003b2d",
@@ -361111,6 +361763,15 @@
    "shortcut": "HAN"
   },
   {
+   "address": "0x3786728a2c49c4617bf4fe5bd82b90b6b0df5508",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "denar-markets",
+   "decimals": 18,
+   "name": "Denar Markets",
+   "shortcut": "DENAR"
+  },
+  {
    "address": "0x385b36ff682ab4c76e7c37a66b96aabc466471d5",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361118,6 +361779,15 @@
    "decimals": 18,
    "name": "pools.trade",
    "shortcut": "POOLS"
+  },
+  {
+   "address": "0x385f4f8ae47651ce5f58f5265395a669f8281e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "a-meme-coin",
+   "decimals": 18,
+   "name": "A Meme Coin",
+   "shortcut": "AMC"
   },
   {
    "address": "0x38a22a55fe0bb97428d1f145bc8bd0e2d4f12e2c",
@@ -361183,6 +361853,15 @@
    "shortcut": "RKLB"
   },
   {
+   "address": "0x3b4a0048a00787a644932cd648faa043410c163e",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "the-dogestar",
+   "decimals": 18,
+   "name": "The Dogestar",
+   "shortcut": "SIRIUS"
+  },
+  {
    "address": "0x3bbfdbc9c6dcb95577fee16eed10f0bc2856a03d",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361201,6 +361880,24 @@
    "shortcut": "ARCHER"
   },
   {
+   "address": "0x3e2cf3aec80adcffcae3436938934be970894066",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "froge-3",
+   "decimals": 18,
+   "name": "FROGE",
+   "shortcut": "FROGE"
+  },
+  {
+   "address": "0x3ec8a8174129d5cbecef67ee2af8621319c34c03",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "doge-1-3",
+   "decimals": 18,
+   "name": "DOGE-1",
+   "shortcut": "DOGE-1"
+  },
+  {
    "address": "0x3f5e952b29be5d70846fc2ba472bea05761a769e",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361217,6 +361914,15 @@
    "decimals": 18,
    "name": "Dice Protocol",
    "shortcut": "DICE"
+  },
+  {
+   "address": "0x3fa09cc6b73d4419ab5660743d8a7ded3385fdb4",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "airbnb-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Airbnb, Inc. • Robinhood Token",
+   "shortcut": "ABNB"
   },
   {
    "address": "0x3fb8976980d486084b2eb4a404bd12e72823958f",
@@ -361273,6 +361979,15 @@
    "shortcut": "FAMILY"
   },
   {
+   "address": "0x410ca9f26f71adc9cdb44077fa3c86f7196ae1b7",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "texas-pacific-land-corporation-robinhood-token",
+   "decimals": 18,
+   "name": "Texas Pacific Land Corporation • Robinhood Token",
+   "shortcut": "TPL"
+  },
+  {
    "address": "0x411efb0e7f985935daec3d4c3ebaea0d0ad7d89f",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361316,6 +362031,24 @@
    "decimals": 18,
    "name": "Figma, Inc. • Robinhood Token",
    "shortcut": "FIG"
+  },
+  {
+   "address": "0x420393b70a34d6aef855ef56e87d4d4161f27c27",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "the-lighter-liger",
+   "decimals": 18,
+   "name": "The Lighter Liger",
+   "shortcut": "LIGER"
+  },
+  {
+   "address": "0x4214e44c97865858d78e37d5d4ee3262acf30406",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "sounder-liquidity",
+   "decimals": 18,
+   "name": "Sounder Liquidity",
+   "shortcut": "SOUNDER"
   },
   {
    "address": "0x43b07d15ce533bec5476d70c22a78a1b2b662155",
@@ -361390,11 +362123,30 @@
    "shortcut": "SENKAI"
   },
   {
+   "address": "0x4720eb2277009bdc57c988fa076dd6d79a821e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "copperinu",
+   "decimals": 18,
+   "name": "COPPERINU",
+   "shortcut": "COPPERINU"
+  },
+  {
+   "address": "0x47366e0f257ac009e82bd46fb74e2fb50826ce98",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "agent-obs",
+   "decimals": 18,
+   "name": "Agent OBS",
+   "shortcut": "AOBS"
+  },
+  {
    "address": "0x47ee684e52e5d92de0b24d4e00ad45c7af7db9a3",
    "chain": "robinhoodchain",
    "chain_id": 4663,
    "coingecko_id": "hooddomains",
    "decimals": 18,
+   "deleted": true,
    "name": "HoodDomains",
    "shortcut": "HD"
   },
@@ -361439,7 +362191,7 @@
    "chain": "robinhoodchain",
    "chain_id": 4663,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -361526,6 +362278,15 @@
    "shortcut": "NINJACAT"
   },
   {
+   "address": "0x4b1c1725fa83d1a3effe48c992c969788cfac32a",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "p",
+   "decimals": 18,
+   "name": "P",
+   "shortcut": "P"
+  },
+  {
    "address": "0x4c9d9527c4e3cf9faf70f0df8429d2cced157492",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361607,6 +362368,33 @@
    "shortcut": "HPEPE"
   },
   {
+   "address": "0x4f964f87c599eb4e4c2b71b1441d9307d1d12aa3",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "global-x-uranium-etf-robinhood-token",
+   "decimals": 18,
+   "name": "Global X Uranium ETF • Robinhood Token",
+   "shortcut": "URA"
+  },
+  {
+   "address": "0x501b1b3b79750313ad2c4cccd08586c4c17d7283",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "the-walt-disney-company-robinhood-token",
+   "decimals": 18,
+   "name": "The Walt Disney Company • Robinhood Token",
+   "shortcut": "DIS"
+  },
+  {
+   "address": "0x513e7a4375dd34d4c0a609b7003a1674056c863e",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "rh-otc",
+   "decimals": 18,
+   "name": "RH OTC",
+   "shortcut": "RHOTC"
+  },
+  {
    "address": "0x516c0878acca15e7eb2f6a401b5b6cd2a0f9f455",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361625,6 +362413,15 @@
    "shortcut": "WIF"
   },
   {
+   "address": "0x5173d45a1191ee33cbb7d8c7e65f21b04ed54802",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ramses",
+   "decimals": 18,
+   "name": "Ramses",
+   "shortcut": "RAM"
+  },
+  {
    "address": "0x51b57d1157975756c156ee28e3e167718792b665",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361632,6 +362429,15 @@
    "decimals": 18,
    "name": "The Little Guy",
    "shortcut": "GUY"
+  },
+  {
+   "address": "0x51e7bf39c6cf1a7f53ddfaa5db346c69994511f2",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "purgy-pengoon",
+   "decimals": 18,
+   "name": "Purgy Pengoon",
+   "shortcut": "GOONER"
   },
   {
    "address": "0x51fb76be80ab6daaa345d818f4e06441816b4fea",
@@ -361668,6 +362474,15 @@
    "decimals": 18,
    "name": "Monolithic Power Systems, Inc. • Robinhood Token",
    "shortcut": "MPWR"
+  },
+  {
+   "address": "0x52f380a513112428723abf8afed125824e4a1e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "peptides-3",
+   "decimals": 18,
+   "name": "Peptides",
+   "shortcut": "PEPTIDES"
   },
   {
    "address": "0x532c5583671870723ceef573600208af49c87c54",
@@ -361769,6 +362584,24 @@
    "shortcut": "INTU"
   },
   {
+   "address": "0x570c5aa79c798e7a418412cc8399ae5bcce570c5",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ekubo-stock-liquidity-token",
+   "decimals": 18,
+   "name": "Ekubo Stock Liquidity Token",
+   "shortcut": "STONX"
+  },
+  {
+   "address": "0x5759a852243a56a48853af1d28fd4e0f33747c9b",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "robinhood-asteroid",
+   "decimals": 18,
+   "name": "Robinhood Asteroid",
+   "shortcut": "18932"
+  },
+  {
    "address": "0x5788116f4fe1820bf499c26fc7203630bf2d020f",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361851,6 +362684,15 @@
    "shortcut": "CASHDOG"
   },
   {
+   "address": "0x5a8625d314fdd298101d87932a784b756a401e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "agi-frog",
+   "decimals": 18,
+   "name": "AGI Frog",
+   "shortcut": "AGI"
+  },
+  {
    "address": "0x5ab3d4c385b400f3abb49e80de2faf6a88a7b691",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361896,6 +362738,15 @@
    "shortcut": "QUANT"
   },
   {
+   "address": "0x5b6ef408c4ebb166788c0ca4cb644f12ac757777",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "chilleez",
+   "decimals": 18,
+   "name": "Chilleez",
+   "shortcut": "CHILLZ"
+  },
+  {
    "address": "0x5b97476b922f3305131b8f0b9d333172e87f4aae",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -361912,6 +362763,15 @@
    "decimals": 18,
    "name": "Saitama in Hood",
    "shortcut": "SAITAMA"
+  },
+  {
+   "address": "0x5baaec1b70864f01dbdb747358ff59f2e2ccf7d5",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "giga-2",
+   "decimals": 18,
+   "name": "GIGA",
+   "shortcut": "GIGA"
   },
   {
    "address": "0x5bd252b4d7aa573813d1c6a4888f778790583667",
@@ -361963,10 +362823,19 @@
    "chain": "robinhoodchain",
    "chain_id": 4663,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
+  },
+  {
+   "address": "0x5d6ef090a1461b11c9427ac319260122d1c61e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "icoin-2",
+   "decimals": 18,
+   "name": "iCoin",
+   "shortcut": "ICOIN"
   },
   {
    "address": "0x5d6fa71583e40d6a40ab09cd071f24f6603b0970",
@@ -361976,6 +362845,24 @@
    "decimals": 18,
    "name": "Yarrow",
    "shortcut": "YARROW"
+  },
+  {
+   "address": "0x5d90f9920add2f55dde36046c845b12d7a7c006c",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "hecla-mining-company-robinhood-token",
+   "decimals": 18,
+   "name": "Hecla Mining Company • Robinhood Token",
+   "shortcut": "HL"
+  },
+  {
+   "address": "0x5d9144d2d017386519a7134fcc7f1e4ba22f920c",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "lil-shrub",
+   "decimals": 9,
+   "name": "Lil' Shrub",
+   "shortcut": "SHRUB"
   },
   {
    "address": "0x5e453647539d4dd766d7c4c3d6ce589900d39415",
@@ -362003,6 +362890,15 @@
    "decimals": 18,
    "name": "Take-Two Interactive Software • Robinhood Token",
    "shortcut": "TTWO"
+  },
+  {
+   "address": "0x5e8907a3f45d7b30be6addbab0312e46e5061614",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "bankless-coin",
+   "decimals": 18,
+   "name": "Bankless Coin",
+   "shortcut": "BANKLESS"
   },
   {
    "address": "0x5edb417509a869b1d8222dea05257b8c8ba00361",
@@ -362063,7 +362959,7 @@
    "chain": "robinhoodchain",
    "chain_id": 4663,
    "coingecko_id": "global-dollar",
-   "coingecko_rank": 27,
+   "coingecko_rank": 30,
    "decimals": 6,
    "name": "Global Dollar",
    "shortcut": "USDG"
@@ -362130,6 +363026,15 @@
    "decimals": 18,
    "name": "YOLO",
    "shortcut": "YOLO"
+  },
+  {
+   "address": "0x62cd5cd9d354a2a50affe9efa21c8918b9640a5b",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "lady-exchange",
+   "decimals": 18,
+   "name": "LADY Exchange",
+   "shortcut": "LDX"
   },
   {
    "address": "0x62fd0668e10d8b72339be2dcf7643001688ff13b",
@@ -362294,6 +363199,15 @@
    "shortcut": "TENOV"
   },
   {
+   "address": "0x6835dbf2d7d5852f84bf0a80de00cab3864f44b1",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "hyperhood",
+   "decimals": 18,
+   "name": "HyperHood",
+   "shortcut": "HH"
+  },
+  {
    "address": "0x684618c70480a70637692a51a3a9398dfd7ab0f5",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362301,6 +363215,15 @@
    "decimals": 18,
    "name": "gtr.trade",
    "shortcut": "GTR"
+  },
+  {
+   "address": "0x68be8735ec63e0b7b2c2ee1e1323fb25a3fa6ab2",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "west-pharmaceutical-services-inc-robinhood-token",
+   "decimals": 18,
+   "name": "West Pharmaceutical Services, Inc. • Robinhood Token",
+   "shortcut": "WST"
   },
   {
    "address": "0x692dcca648e2e26baaf9da4aebf7cdd5ac2171d5",
@@ -362330,6 +363253,15 @@
    "shortcut": "TYGR"
   },
   {
+   "address": "0x69c68e4c00c6f6e4ac027300293a879be1e11e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ap",
+   "decimals": 18,
+   "name": "ap",
+   "shortcut": "AP"
+  },
+  {
    "address": "0x6a4baa1927f37256017342dbd8fec0c12831b8e3",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362337,6 +363269,15 @@
    "decimals": 18,
    "name": "Pulse Pastures by Virtuals",
    "shortcut": "PP"
+  },
+  {
+   "address": "0x6b1d42927b1a84ec28fa88d4fc6fa7af404966be",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "pair",
+   "decimals": 18,
+   "name": "PAIR",
+   "shortcut": "PAIR"
   },
   {
    "address": "0x6b711b581adde09158b5b26df9ed428caf8479b1",
@@ -362411,6 +363352,15 @@
    "shortcut": "BACKED"
   },
   {
+   "address": "0x71dff63057274f5d20330c5f18b5922b97660f9c",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "artificial-pepe",
+   "decimals": 18,
+   "name": "Artificial Pepe",
+   "shortcut": "AP"
+  },
+  {
    "address": "0x727701f88f09fed71eb217bcea88b3f314cf7079",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362469,7 +363419,6 @@
    "chain": "robinhoodchain",
    "chain_id": 4663,
    "coingecko_id": "pudgy-penguins",
-   "coingecko_rank": 98,
    "decimals": 18,
    "name": "Pudgy Penguins",
    "shortcut": "PENGU"
@@ -362511,6 +363460,15 @@
    "shortcut": "MEOW"
   },
   {
+   "address": "0x75ce3ea0f536671c404e68f8b4bb8bc5326242ed",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "chicken-2",
+   "decimals": 18,
+   "name": "CHICKEN",
+   "shortcut": "CHKN"
+  },
+  {
    "address": "0x75ecb5f2bfde7f8c3258511dc0996f10d5c88b8b",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362527,6 +363485,15 @@
    "decimals": 18,
    "name": "MowCat",
    "shortcut": "MOW"
+  },
+  {
+   "address": "0x76af8d3b40a0d7b5197935d0e84c14f7a3782e87",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "boxed-cat",
+   "decimals": 18,
+   "name": "Boxed Cat",
+   "shortcut": "BOXED"
   },
   {
    "address": "0x77061b45c5e4d440bd681b5f72bd0f4231a6fc04",
@@ -362554,6 +363521,15 @@
    "decimals": 18,
    "name": "MOSAIC",
    "shortcut": "MOSAIC"
+  },
+  {
+   "address": "0x77a719b0f3e7072fc80ed5d67f9aaa580b245462",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "shellr-packs",
+   "decimals": 18,
+   "name": "Shellr Packs",
+   "shortcut": "SHELLR"
   },
   {
    "address": "0x77b0aa38451ccdc1b42587e2f80b9879a7f82356",
@@ -362610,6 +363586,15 @@
    "shortcut": "HOOD"
   },
   {
+   "address": "0x79fa4d9aabc058f3449f25e373e2f8f0a34f9ae0",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "unity-software-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Unity Software Inc. • Robinhood Token",
+   "shortcut": "U"
+  },
+  {
    "address": "0x7ac87d8fdb45200fdd51e4aca225244485c984c5",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362617,6 +363602,24 @@
    "decimals": 18,
    "name": "Strategic Super Reserve",
    "shortcut": "SSR"
+  },
+  {
+   "address": "0x7ad7b2256ffcf7c6f7c7d95cf238d2ecc2c485e0",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "arc-finance-2",
+   "decimals": 18,
+   "name": "Arc Finance",
+   "shortcut": "ARC"
+  },
+  {
+   "address": "0x7b630f080807df83908b4ade46ba6396ee66b098",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "dont-blink",
+   "decimals": 18,
+   "name": "dont blink",
+   "shortcut": "BLINK"
   },
   {
    "address": "0x7b86ca230145d077a783d0410e999ad6ee86de52",
@@ -362664,6 +363667,24 @@
    "shortcut": "EBAY"
   },
   {
+   "address": "0x7cd7073a71eaf5f6e4febfa98460ee66cd97deb1",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "biscotti",
+   "decimals": 18,
+   "name": "Biscotti",
+   "shortcut": "BISCOTTI"
+  },
+  {
+   "address": "0x7dbf38976f6d3b9c529e7d9484a71898b409ee6a",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "zzz-2",
+   "decimals": 18,
+   "name": "ZZZ",
+   "shortcut": "ZZZ"
+  },
+  {
    "address": "0x7dc013eb55e436f30d7ed1afe4e36d6e45e3c3f7",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362671,6 +363692,24 @@
    "decimals": 18,
    "name": "Zscaler • Robinhood Token",
    "shortcut": "ZS"
+  },
+  {
+   "address": "0x7df5daaf80e65dfcc7a1435d9b52bcf2b5753fbe",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "unipcs",
+   "decimals": 18,
+   "name": "Unipcs",
+   "shortcut": "UNIPCS"
+  },
+  {
+   "address": "0x7dfce6b37a679184e8cd1711bfa871d06851e379",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "paramount-skydance-corporation-robinhood-token",
+   "decimals": 18,
+   "name": "Paramount Skydance Corporation • Robinhood Token",
+   "shortcut": "PSKY"
   },
   {
    "address": "0x7e86381a763f0ecca2bdf27c54eac403ddd48123",
@@ -362754,6 +363793,15 @@
    "shortcut": "RICE"
   },
   {
+   "address": "0x812486eaea648819853f8e372dc9f1516c7868bd",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ubik",
+   "decimals": 18,
+   "name": "ubik",
+   "shortcut": "UBIK"
+  },
+  {
    "address": "0x822cc93ffd030293e9842c30bbd678f530701867",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362770,6 +363818,15 @@
    "decimals": 18,
    "name": "Workday • Robinhood Token",
    "shortcut": "WDAY"
+  },
+  {
+   "address": "0x8325b27fc0193411a80c71fc0e45f423a970630f",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "the-gap-inc-robinhood-token",
+   "decimals": 18,
+   "name": "The Gap, Inc. • Robinhood Token",
+   "shortcut": "GAP"
   },
   {
    "address": "0x834a24d16bf56d692c2e5fff9428f9d01f2f1ca5",
@@ -362853,6 +363910,33 @@
    "shortcut": "PEPONS"
   },
   {
+   "address": "0x85a574f2ff0795685f58d1d7b0d4b51f148ac489",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "printer",
+   "decimals": 18,
+   "name": "PRINTER",
+   "shortcut": "PRINTER"
+  },
+  {
+   "address": "0x862cdccb67c8a22fdb247d09a08b1dad09447777",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "mooncat-2",
+   "decimals": 18,
+   "name": "mooncat",
+   "shortcut": "MOON"
+  },
+  {
+   "address": "0x867e4279755008a341591c4805ba59795924ca44",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "dominion-energy-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Dominion Energy, Inc. • Robinhood Token",
+   "shortcut": "D"
+  },
+  {
    "address": "0x86923f96303d656e4aa86d9d42d1e57ad2023fdc",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362896,6 +363980,15 @@
    "decimals": 18,
    "name": "novara",
    "shortcut": "NVR"
+  },
+  {
+   "address": "0x89314dd83f307d7d9bc19ff261888027fa531658",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "robinhood-pixel-cat",
+   "decimals": 18,
+   "name": "Robinhood Pixel Cat",
+   "shortcut": "PIXELCAT"
   },
   {
    "address": "0x894e1ec2d74ffe5aef8dc8a9e84686accb964f2a",
@@ -362943,6 +364036,15 @@
    "shortcut": "OKLO"
   },
   {
+   "address": "0x8b3e3ba1a55b939f93f0a205f94520b9468e17f8",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "rhivian",
+   "decimals": 18,
+   "name": "RHIVIAN",
+   "shortcut": "RIDE"
+  },
+  {
    "address": "0x8b48e9da0501a3556a961463fcf39bb426501d0d",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362979,6 +364081,15 @@
    "shortcut": "CELH"
   },
   {
+   "address": "0x8d1612b4b78ebf08cfbf01a04fa270ccbb0509a2",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "rocket-strategy",
+   "decimals": 18,
+   "name": "rocket strategy",
+   "shortcut": "RKST"
+  },
+  {
    "address": "0x8d4dfaaa4198b6486e0293fec914c2b6a821d4dc",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -362986,6 +364097,15 @@
    "decimals": 18,
    "name": "Kitsu",
    "shortcut": "KITSU"
+  },
+  {
+   "address": "0x8d8f709357203b4933af3ac410cc521c5680611f",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "money-dog",
+   "decimals": 18,
+   "name": "Money Dog",
+   "shortcut": "MONEYDOG"
   },
   {
    "address": "0x8e08a4f781bb12abdc350f70bc8033364eee0b32",
@@ -363013,6 +364133,24 @@
    "decimals": 18,
    "name": "VIBE AI",
    "shortcut": "VIBE"
+  },
+  {
+   "address": "0x8e859dbdfbfd2df6a99870e2871eaa58e8784e05",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "nest-4",
+   "decimals": 18,
+   "name": "Nest",
+   "shortcut": "NEST"
+  },
+  {
+   "address": "0x8ea0eb3505f5b3bd2bbea0febae0ce850cc73ecc",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ourolayer",
+   "decimals": 18,
+   "name": "OuroLayer",
+   "shortcut": "OURO"
   },
   {
    "address": "0x8ec17c059f250a5c19566c3fc56ee13a343dd283",
@@ -363069,6 +364207,15 @@
    "shortcut": "APE"
   },
   {
+   "address": "0x8fcf98e1348d3ddee46cdd15a5c7d9a8d423077d",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "legs-fun",
+   "decimals": 18,
+   "name": "legs.fun",
+   "shortcut": "LEGS"
+  },
+  {
    "address": "0x8fde2c15d44eb7cc1a889bc74633e226f91d3295",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363123,6 +364270,15 @@
    "shortcut": "GREENBOW"
   },
   {
+   "address": "0x914337bed5caa75ba1726037207dd88b33926e04",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "macy-s-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Macy's, Inc. • Robinhood Token",
+   "shortcut": "M"
+  },
+  {
    "address": "0x91f41b74b7906266d4d28a327ebd0ed86c119261",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363130,6 +364286,24 @@
    "decimals": 18,
    "name": "uOHM",
    "shortcut": "UOHM"
+  },
+  {
+   "address": "0x9226bbec110fbd4701817f2db55280f43a08822e",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "vishay-intertechnology-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Vishay Intertechnology, Inc. • Robinhood Token",
+   "shortcut": "VSH"
+  },
+  {
+   "address": "0x92c3f36749bc625df940ce81282ee2013ab11e71",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "avis-budget-group-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Avis Budget Group, Inc. • Robinhood Token",
+   "shortcut": "CAR"
   },
   {
    "address": "0x92d176ccbeeffecd8089e841d09ea17b6c22d969",
@@ -363195,6 +364369,15 @@
    "shortcut": "GEV"
   },
   {
+   "address": "0x94e1c8e6009f4e4717388c02bed4c08f1fce7407",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "spotify-technology-s-a-robinhood-token",
+   "decimals": 18,
+   "name": "Spotify Technology S.A. • Robinhood Token",
+   "shortcut": "SPOT"
+  },
+  {
    "address": "0x94fef3763ed87051267dcd7ffc5df416b6c03a7e",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363249,6 +364432,15 @@
    "shortcut": "KLAC"
   },
   {
+   "address": "0x96f57c3cc8928a00fd2dac1a48e83505e599332d",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "interactive-brokers-group-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Interactive Brokers Group, Inc. • Robinhood Token",
+   "shortcut": "IBKR"
+  },
+  {
    "address": "0x970078468807853bc316432e745165eb34398ba3",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363265,6 +364457,15 @@
    "decimals": 18,
    "name": "EQUITY BROKERS",
    "shortcut": "EQUITY"
+  },
+  {
+   "address": "0x97216593d3b2769da6f0adeee6fb8e36da4e319f",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ponsancoin",
+   "decimals": 18,
+   "name": "Ponsancoin",
+   "shortcut": "PONSAN"
   },
   {
    "address": "0x9727b500ac8726c716f018e5d3ca871481245065",
@@ -363294,6 +364495,15 @@
    "shortcut": "NEUT"
   },
   {
+   "address": "0x98096d17e191b3da1d5f99a6d7b3584351b11e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "boner-coin",
+   "decimals": 18,
+   "name": "Boner Coin",
+   "shortcut": "BONER"
+  },
+  {
    "address": "0x980dcf6766fa79f5cf0c4aadb3ab477ff15a9619",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363312,6 +364522,15 @@
    "shortcut": "SOFI"
   },
   {
+   "address": "0x9936403a9cc72cf306063e3496ea387428a3aecd",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "absolute-cinema",
+   "decimals": 18,
+   "name": "ABSOLUTE CINEMA",
+   "shortcut": "CINEMA"
+  },
+  {
    "address": "0x99b1887e985a985ecb23ac248421eac96cb92492",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363328,6 +364547,15 @@
    "decimals": 18,
    "name": "Ambarella, Inc. • Robinhood Token",
    "shortcut": "AMBA"
+  },
+  {
+   "address": "0x9a73d60b9c8c2d330eb6d885e69fcc1399c33c18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "vibestarter",
+   "decimals": 18,
+   "name": "Vibestarter",
+   "shortcut": "VIBES"
   },
   {
    "address": "0x9a7842eded60b0fe1e03eec342c82a397c821ed0",
@@ -363384,6 +364612,15 @@
    "shortcut": "NOTHING"
   },
   {
+   "address": "0x9bff87700337babf5099e99f322f888dafb1d551",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "visa-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Visa Inc. • Robinhood Token",
+   "shortcut": "V"
+  },
+  {
    "address": "0x9ca1cc0c90d97b4f36c5e2232d4fbd705a73c65d",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363400,6 +364637,15 @@
    "decimals": 18,
    "name": "EquiFold",
    "shortcut": "EQUI"
+  },
+  {
+   "address": "0x9d7d4d0e0c41fa6bc1e30ddf8645d8f83c101e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "chrome-cat",
+   "decimals": 18,
+   "name": "Chrome Cat",
+   "shortcut": "CHROME"
   },
   {
    "address": "0x9d9c6684f596f66a64c030b93a886d51fd4d7931",
@@ -363447,6 +364693,15 @@
    "shortcut": "FISV"
   },
   {
+   "address": "0x9fa1c5e90a11294f83a9f135b81ad1b537a5ffdc",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "zeal-2",
+   "decimals": 18,
+   "name": "Zeal",
+   "shortcut": "ZEAL"
+  },
+  {
    "address": "0x9fb101579e716b2571ab069c2718cd06b69ffdd7",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363463,6 +364718,15 @@
    "decimals": 18,
    "name": "URU",
    "shortcut": "URU"
+  },
+  {
+   "address": "0xa01bc586cd5f4f253bfab4e44400c52dbc18bc50",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "voxelithic-protocol",
+   "decimals": 18,
+   "name": "Voxelithic Protocol",
+   "shortcut": "VOXEL"
   },
   {
    "address": "0xa03ff46bf392714a7557bfdfa5bc8c617d6783a3",
@@ -363501,6 +364765,15 @@
    "shortcut": "APP"
   },
   {
+   "address": "0xa26992c4268a8a78a4d872fe4bdad2ed03ac287d",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "manyways-inference",
+   "decimals": 18,
+   "name": "Manyways Inference",
+   "shortcut": "MANY"
+  },
+  {
    "address": "0xa2718f80f1fe0cdec69c9023ee006807dd487a8c",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363537,6 +364810,24 @@
    "shortcut": "USO"
   },
   {
+   "address": "0xa3602804e096cb73bd8344afc1ff3f3390b899c5",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "pez",
+   "decimals": 18,
+   "name": "PEZ",
+   "shortcut": "PEZ"
+  },
+  {
+   "address": "0xa3b6aee90017b72c0812dc1e013de70eb2917ba3",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "earn",
+   "decimals": 18,
+   "name": "EARN",
+   "shortcut": "EARN"
+  },
+  {
    "address": "0xa3b9120593c93169e36a0cdea1324584b745e03f",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363553,6 +364844,15 @@
    "decimals": 18,
    "name": "Cashcat Strategy",
    "shortcut": "CATSTR"
+  },
+  {
+   "address": "0xa45abdc77918f7b9199b022eee400c0bc5712bd2",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "paypal-holdings-inc-robinhood-token",
+   "decimals": 18,
+   "name": "PayPal Holdings, Inc. • Robinhood Token",
+   "shortcut": "PYPL"
   },
   {
    "address": "0xa4874f62c8826e19cf8691bcabd02fe1a0b7401f",
@@ -363634,6 +364934,15 @@
    "decimals": 18,
    "name": "American Airlines Group Inc. • Robinhood Token",
    "shortcut": "AAL"
+  },
+  {
+   "address": "0xa65d0267c8637fcc46ff91e48de766721c750fe3",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "farting-unicorn-2",
+   "decimals": 18,
+   "name": "Farting Unicorn",
+   "shortcut": "FUNI"
   },
   {
    "address": "0xa68a46db0baa6e23a024c90741ace041b588c3ae",
@@ -363726,6 +365035,42 @@
    "shortcut": "VLAD"
   },
   {
+   "address": "0xa934ba4f59070149d37a93f8a002af79bae35563",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "predict-fwa",
+   "decimals": 18,
+   "name": "predict FWA",
+   "shortcut": "PFWA"
+  },
+  {
+   "address": "0xa9efe2fc94de79734c03051515f48f254ce61e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "doggie-mode",
+   "decimals": 18,
+   "name": "Doggie Mode",
+   "shortcut": "DOGGIE"
+  },
+  {
+   "address": "0xa9fcd15f315f5ffa918d3a767a980ee3dc019667",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "baby-artificial-inu",
+   "decimals": 18,
+   "name": "Baby Artificial Inu",
+   "shortcut": "BABYAI"
+  },
+  {
+   "address": "0xaa07a0e9209e16ac99708c3ec70159c6ef3128a3",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "orbio-so",
+   "decimals": 18,
+   "name": "Orbio.so",
+   "shortcut": "ORBIO"
+  },
+  {
    "address": "0xaa40e79e987517f7462bf79315b8a118799b04e3",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363769,6 +365114,15 @@
    "decimals": 18,
    "name": "StockPackz",
    "shortcut": "PACKZ"
+  },
+  {
+   "address": "0xab093def657f15df31b33922a95e047add645b29",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "mushroom-2",
+   "decimals": 18,
+   "name": "MUSHROOM",
+   "shortcut": "SHROOM"
   },
   {
    "address": "0xab26d5b48bd07f1248a66fd817036f785078b51d",
@@ -363888,6 +365242,15 @@
    "shortcut": "HWM"
   },
   {
+   "address": "0xaf0172ddea4ce60db3ebab05748a00b14fc8e433",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "goldcoin",
+   "decimals": 18,
+   "name": "Goldcoin",
+   "shortcut": "GLC"
+  },
+  {
    "address": "0xaf3d76f1834a1d425780943c99ea8a608f8a93f9",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -363913,6 +365276,15 @@
    "decimals": 18,
    "name": "Palo Alto Networks, Inc. • Robinhood Token",
    "shortcut": "PANW"
+  },
+  {
+   "address": "0xb06b1e58f5ba2a3df1ab74c01cb2a44c5395b3be",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "bodkin",
+   "decimals": 18,
+   "name": "BODKIN",
+   "shortcut": "BODKIN"
   },
   {
    "address": "0xb0992820e760d836549ba69bc7598b4af75dee03",
@@ -363969,6 +365341,15 @@
    "shortcut": "LEMON"
   },
   {
+   "address": "0xb1e9b822b81bbbdab375f7f4d86e44fa04d12b07",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "pons-bot",
+   "decimals": 18,
+   "name": "Pons Bot",
+   "shortcut": "PONSBOT"
+  },
+  {
    "address": "0xb245a0e4bcf6f7961b68785d54ccdf51eac906c1",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364005,6 +365386,15 @@
    "shortcut": "CHWDR"
   },
   {
+   "address": "0xb3722e8c446dd66a521ad5bf38578ede7782f833",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "honeywell-international-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Honeywell International Inc. • Robinhood Token",
+   "shortcut": "HON"
+  },
+  {
    "address": "0xb47f4702deb124cb4eb6286be83c9d84277c6239",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364012,6 +365402,24 @@
    "decimals": 18,
    "name": "Karma by Virtuals",
    "shortcut": "KARMA"
+  },
+  {
+   "address": "0xb48d34dd8b53324cb8525461c8e548522db885ec",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "sluice",
+   "decimals": 18,
+   "name": "Sluice",
+   "shortcut": "SLUICE"
+  },
+  {
+   "address": "0xb51d57cbe67152fd163f59d1e0f950c6b647fb07",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "magatard",
+   "decimals": 18,
+   "name": "Magatard",
+   "shortcut": "MAGATARD"
   },
   {
    "address": "0xb66d83f0a7eae1bed80df1e049a5d6aefa90eb66",
@@ -364039,6 +365447,15 @@
    "decimals": 18,
    "name": "VANTIS by Virtuals",
    "shortcut": "VANTIS"
+  },
+  {
+   "address": "0xb7eaecc89d3e2f9fd597d61726ae824900db8360",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "stratton-market",
+   "decimals": 18,
+   "name": "Stratton Market",
+   "shortcut": "STRATTON"
   },
   {
    "address": "0xb7edfe2f33c1ac06830a971dfb559bde8a2a3d76",
@@ -364095,6 +365512,24 @@
    "shortcut": "PROLOGUE"
   },
   {
+   "address": "0xb9ce619b168f325b4eb8c2e8e073501838c7a407",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "tiny-humans-ai",
+   "decimals": 18,
+   "name": "Tiny Humans AI",
+   "shortcut": "TINY"
+  },
+  {
+   "address": "0xb9e75a12de07c55c1496b36dcdac55764440b8c8",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ponsers",
+   "decimals": 18,
+   "name": "Ponsers",
+   "shortcut": "PONSERS"
+  },
+  {
    "address": "0xb9f89a5a075cc280362c5167c5e95723bb2c8cad",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364111,6 +365546,15 @@
    "decimals": 18,
    "name": "Snowflake Inc. • Robinhood Token",
    "shortcut": "SNOW"
+  },
+  {
+   "address": "0xba623c473df0bbc7ebe175fc3ce96dec47ca0125",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "rtx-corporation-robinhood-token",
+   "decimals": 18,
+   "name": "RTX Corporation • Robinhood Token",
+   "shortcut": "RTX"
   },
   {
    "address": "0xbaabcb1800c539a58a46035d3982403a37fd6d5d",
@@ -364176,6 +365620,15 @@
    "shortcut": "ABE"
   },
   {
+   "address": "0xbd335aa5a1693f0121a5c0ef18a080e9958da78b",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "uber-technologies-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Uber Technologies, Inc. • Robinhood Token",
+   "shortcut": "UBER"
+  },
+  {
    "address": "0xbd433ecab074ae6a740959fb5e7bf1d02f6f57f6",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364192,6 +365645,15 @@
    "decimals": 18,
    "name": "Stonk.Fi",
    "shortcut": "STONKFI"
+  },
+  {
+   "address": "0xbd7de9a41f3e40b73d23994f8563869dacd40fc7",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "nintendo-co-ltd-robinhood-token",
+   "decimals": 18,
+   "name": "Nintendo Co., Ltd. • Robinhood Token",
+   "shortcut": "NTDOY"
   },
   {
    "address": "0xbd8e0244791b67547b4ae8cfc9463ab19f6e9c08",
@@ -364293,6 +365755,15 @@
    "shortcut": "STONKS"
   },
   {
+   "address": "0xbf7eb6679d1c833e6a58ac9a122c993c4e691b31",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "auditchain",
+   "decimals": 18,
+   "name": "Auditchain",
+   "shortcut": "AUDT"
+  },
+  {
    "address": "0xbfc3a980b78b007ef0cde9625e52dbb66c51a1a7",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364309,6 +365780,15 @@
    "decimals": 18,
    "name": "Super Micro Computer • Robinhood Token",
    "shortcut": "SMCI"
+  },
+  {
+   "address": "0xc02146a52800d8e5d6a08d410c9f9ccd966b8389",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "unusual-machines-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Unusual Machines, Inc. • Robinhood Token",
+   "shortcut": "UMAC"
   },
   {
    "address": "0xc02f12b9fe9e707079ec0d546f3050d3f6c1f8bd",
@@ -364437,6 +365917,15 @@
    "shortcut": "MOD"
   },
   {
+   "address": "0xc6e8c393d46b685c2fb2177f759f2b16eb7a7d54",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "artificial-neko",
+   "decimals": 18,
+   "name": "Artificial Neko",
+   "shortcut": "NEKO"
+  },
+  {
    "address": "0xc72b96e0e48ecd4dc75e1e45396e26300bc39681",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364518,6 +366007,15 @@
    "shortcut": "EBESS"
   },
   {
+   "address": "0xca3ce24fb1a6e7db0003f9c785405a851e3f1e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "kpop-2",
+   "decimals": 18,
+   "name": "KPOP",
+   "shortcut": "KPOP"
+  },
+  {
    "address": "0xca70d457418b90493e5735de6ec4410c3945498e",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364534,6 +366032,15 @@
    "decimals": 9,
    "name": "NetNet",
    "shortcut": "NET"
+  },
+  {
+   "address": "0xcacb0e9caccee63ec4d82952e561a291c68bcb68",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "golden-goose-2",
+   "decimals": 18,
+   "name": "Golden Goose",
+   "shortcut": "GG"
   },
   {
    "address": "0xcb5566e73bee5390c75df834d4727dcecc65fc87",
@@ -364615,6 +366122,15 @@
    "decimals": 18,
    "name": "BUTTERCOIN",
    "shortcut": "BUTTERCOIN"
+  },
+  {
+   "address": "0xce09140499936f0d3811e27119ecede913441292",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "cache-flow",
+   "decimals": 18,
+   "name": "Cache Flow",
+   "shortcut": "CACHE"
   },
   {
    "address": "0xcebc0cfbc5dd0893a9e3b9d0f75b211ddf5934a0",
@@ -364707,6 +366223,15 @@
    "shortcut": "STELLA"
   },
   {
+   "address": "0xd225d2a1dc20b01a2a36e8905e589f3a337401d9",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "amphenol-corporation-robinhood-token",
+   "decimals": 18,
+   "name": "Amphenol Corporation • Robinhood Token",
+   "shortcut": "APH"
+  },
+  {
    "address": "0xd293291060334d42e5dbea6fb854c231af527777",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364714,6 +366239,15 @@
    "decimals": 18,
    "name": "AUREON",
    "shortcut": "AUREON"
+  },
+  {
+   "address": "0xd2b82c42c1f99da66dd5069cac79a0a62ae4df56",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "first-solar-inc-robinhood-token",
+   "decimals": 18,
+   "name": "First Solar, Inc. • Robinhood Token",
+   "shortcut": "FSLR"
   },
   {
    "address": "0xd356bf0061a129d8b5ac2ba3e947bae054d97777",
@@ -364743,6 +366277,15 @@
    "shortcut": "4663"
   },
   {
+   "address": "0xd4aae326ddd1a2537a92c00e6576e4605e5d1e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "autsm",
+   "decimals": 18,
+   "name": "AUTSM",
+   "shortcut": "AU"
+  },
+  {
    "address": "0xd4dc6b48ad73ec51e71d9b8f65568f88609b92c1",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364750,6 +366293,24 @@
    "decimals": 18,
    "name": "Sherwood",
    "shortcut": "SHERWOOD"
+  },
+  {
+   "address": "0xd51fdf3d83d4c17c802df06040ab51e66a923e95",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "lilly",
+   "decimals": 6,
+   "name": "LILLY",
+   "shortcut": "$LILLY"
+  },
+  {
+   "address": "0xd521d4b02c9044a952b2ea8dbf2fcecee8300f7d",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "amplify-junior-silver-miners-etf-robinhood-token",
+   "decimals": 18,
+   "name": "Amplify Junior Silver Miners ETF • Robinhood Token",
+   "shortcut": "SILJ"
   },
   {
    "address": "0xd554e75f85cb1fcb5b6640b55779d566ac60de9f",
@@ -364768,6 +366329,15 @@
    "decimals": 18,
    "name": "HoodLock",
    "shortcut": "LOCK"
+  },
+  {
+   "address": "0xd5f1afea47b1a9eab414d2ee740cf1d6d039e725",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "microduck",
+   "decimals": 18,
+   "name": "microduck",
+   "shortcut": "MICRODUCK"
   },
   {
    "address": "0xd5f3879160bc7c32ebb4dc785f8a4f505888de68",
@@ -364869,6 +366439,15 @@
    "shortcut": "CRM"
   },
   {
+   "address": "0xd9db30bb0d2b8d2eae3826a1372117e058791e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "memory-cow-moo",
+   "decimals": 18,
+   "name": "Memory cow Moo",
+   "shortcut": "MOO"
+  },
+  {
    "address": "0xda2a4b23459e9ca88183e990802be644aca7c4b0",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364885,6 +366464,15 @@
    "decimals": 18,
    "name": "Core Scientific, Inc. • Robinhood Token",
    "shortcut": "CORZ"
+  },
+  {
+   "address": "0xdaa8f3f54c66e9be2c44c1b6b566cbd07229ced3",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "greenhood",
+   "decimals": 18,
+   "name": "GreenHood",
+   "shortcut": "HOOD"
   },
   {
    "address": "0xdb0c60375be0031b2817fd0c9d178ba3a85b6666",
@@ -364959,6 +366547,15 @@
    "shortcut": "AMKR"
   },
   {
+   "address": "0xdd90bfa4adc7f4401e611abac692d939f9f4cb07",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "openzaps",
+   "decimals": 18,
+   "name": "OpenZaps",
+   "shortcut": "0XZAPS"
+  },
+  {
    "address": "0xddec0170ceb4426ea05f2fbd485dffa4fafa6615",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -364975,6 +366572,24 @@
    "decimals": 18,
    "name": "MongoDB • Robinhood Token",
    "shortcut": "MDB"
+  },
+  {
+   "address": "0xded852de9fe9ba9b6f27f39e8e81cf851a5c79cc",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "robincat",
+   "decimals": 18,
+   "name": "ROBINCAT",
+   "shortcut": "ROBINCAT"
+  },
+  {
+   "address": "0xdee52f2ab639b6942b0d0f0565400b93b7a0fbe5",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "harmonic-agent",
+   "decimals": 18,
+   "name": "Harmonic Agent",
+   "shortcut": "HARMONIC"
   },
   {
    "address": "0xdf0992e440dd0be65bd8439b609d6d4366bf1cb5",
@@ -365022,6 +366637,15 @@
    "shortcut": "CASHDOG"
   },
   {
+   "address": "0xe0eba1b76b73be7bfa7716b6ca96f724930e2263",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "robbie",
+   "decimals": 18,
+   "name": "Robbie",
+   "shortcut": "$ROBBIE"
+  },
+  {
    "address": "0xe15db7c8547a0add11eb26a700246cca08aefce5",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -365047,6 +366671,15 @@
    "decimals": 18,
    "name": "RHPS",
    "shortcut": "RHPS"
+  },
+  {
+   "address": "0xe2dae1c072b9f66bed999873b94798b2152af7e1",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "arbitrage-ape",
+   "decimals": 18,
+   "name": "Arbitrage Ape",
+   "shortcut": "AA"
   },
   {
    "address": "0xe36dc5d02bdbf9601c9aba190411bbc8a6ff425f",
@@ -365148,6 +366781,15 @@
    "shortcut": "DMND"
   },
   {
+   "address": "0xe6c6a33935919dc46278121c0596e828691f8d6c",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "spores",
+   "decimals": 18,
+   "name": "SPORES",
+   "shortcut": "SPORES"
+  },
+  {
    "address": "0xe77d354898a44808ff3999947002785cd727bed5",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -365182,6 +366824,15 @@
    "decimals": 18,
    "name": "Throbbin",
    "shortcut": "THROBBIN"
+  },
+  {
+   "address": "0xe8ffd7e24187f72afb08d75b1bb13088a989a791",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "delta",
+   "decimals": 18,
+   "name": "Delta",
+   "shortcut": "DELTA"
   },
   {
    "address": "0xe93237c50d904957cf27e7b1133b510c669c2e74",
@@ -365256,6 +366907,24 @@
    "shortcut": "HII"
   },
   {
+   "address": "0xebb4ef36d2bc8e47484cdd7794328e02ddc113d0",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "century-aluminum-company-robinhood-token",
+   "decimals": 18,
+   "name": "Century Aluminum Company • Robinhood Token",
+   "shortcut": "CENX"
+  },
+  {
+   "address": "0xebdd6e84cebc34a92b2785bdf65d0b245642d6c1",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "pinterest-inc-robinhood-token",
+   "decimals": 18,
+   "name": "Pinterest, Inc. • Robinhood Token",
+   "shortcut": "PINS"
+  },
+  {
    "address": "0xec262a75e413fafd0df80480274532c79d42da09",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -365272,6 +366941,15 @@
    "decimals": 18,
    "name": "OUTLAW",
    "shortcut": "OUTLAW"
+  },
+  {
+   "address": "0xedaee44320107caa714baaec486261a87f27022d",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "pongo-3",
+   "decimals": 18,
+   "name": "PONGO",
+   "shortcut": "PONGO"
   },
   {
    "address": "0xedc62851ef24928d934024f69bb073a305090663",
@@ -365301,6 +366979,24 @@
    "shortcut": "WORTH"
   },
   {
+   "address": "0xef67e3064bef1a27e81925ec7132f23e533bd5f6",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "greatest-meme-ever",
+   "decimals": 18,
+   "name": "Greatest Meme Ever",
+   "shortcut": "GME"
+  },
+  {
+   "address": "0xefab538cf3c29237a47c6afb145d50ddf204a0a3",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "united-founders-group",
+   "decimals": 18,
+   "name": "United Founders Group",
+   "shortcut": "UFG"
+  },
+  {
    "address": "0xf0568863195770965a6d8abb0aa87f4314b80320",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -365326,6 +367022,15 @@
    "decimals": 18,
    "name": "Roblox • Robinhood Token",
    "shortcut": "RBLX"
+  },
+  {
+   "address": "0xf0dbd85e85bd6704b00eedb7c2590559ca12b871",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "radio",
+   "decimals": 18,
+   "name": "Radio",
+   "shortcut": "RADIO"
   },
   {
    "address": "0xf0e17e54239cd945cd7bea471a3a2ca6a8c7f7a3",
@@ -365398,6 +367103,16 @@
    "decimals": 18,
    "name": "Arrow",
    "shortcut": "ARROW"
+  },
+  {
+   "address": "0xf3081494b87e8d5fb7960f066e931d1d0e6e3d67",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "bittensor",
+   "coingecko_rank": 40,
+   "decimals": 18,
+   "name": "Bittensor",
+   "shortcut": "TAO"
   },
   {
    "address": "0xf314aedeaadcb02f33a13eae471fe06d13aa7777",
@@ -365499,6 +367214,15 @@
    "shortcut": "NAVN"
   },
   {
+   "address": "0xf7d2a651188ea9f52cc802b3d962eb6c88bfaba3",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "hover-2",
+   "decimals": 18,
+   "name": "Hover",
+   "shortcut": "HOVER"
+  },
+  {
    "address": "0xf82119ebd01eb6ab67105c9536a713d61a25cf9f",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -365533,6 +367257,15 @@
    "decimals": 18,
    "name": "Vertiv Holdings Co • Robinhood Token",
    "shortcut": "VRT"
+  },
+  {
+   "address": "0xfa89ed9d12bf74add8253ddfaa426c4d8a0fa603",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "shivolink",
+   "decimals": 18,
+   "name": "Shivolink",
+   "shortcut": "SLINK"
   },
   {
    "address": "0xfaf9cb261b5fcc1f404bb10cd39c5c6c1974e612",
@@ -365625,6 +367358,15 @@
    "shortcut": "RFLX"
   },
   {
+   "address": "0xfd82d8db539b6ace0d50815845133767e24f1e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "asteroid-3",
+   "decimals": 18,
+   "name": "ASTEROID",
+   "shortcut": "ASTEROID"
+  },
+  {
    "address": "0xfde6b5d9bb419b10c23268c74e369abff39c0460",
    "chain": "robinhoodchain",
    "chain_id": 4663,
@@ -365650,6 +367392,24 @@
    "decimals": 18,
    "name": "Obscura",
    "shortcut": "OBS"
+  },
+  {
+   "address": "0xfe2f0fb0c00d19786a8abf98d4b1f1ac8763b167",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "ordofi",
+   "decimals": 18,
+   "name": "OrdoFi",
+   "shortcut": "ORDO"
+  },
+  {
+   "address": "0xfe7e19cbce2f896c6c528bc355baf5a768291e18",
+   "chain": "robinhoodchain",
+   "chain_id": 4663,
+   "coingecko_id": "spacehood",
+   "decimals": 18,
+   "name": "SPACEHOOD",
+   "shortcut": "SPACEHOOD"
   },
   {
    "address": "0xfeacef09be172634bd8cadc2429b92eb4ed73799",
@@ -366124,6 +367884,16 @@
    "shortcut": "TEX"
   },
   {
+   "address": "0x063c1d1ef6e9099ce3e8e9ad5c6173d12c49c086",
+   "chain": "mantle",
+   "chain_id": 5000,
+   "coingecko_id": "global-dollar",
+   "coingecko_rank": 30,
+   "decimals": 6,
+   "name": "Global Dollar",
+   "shortcut": "USDG"
+  },
+  {
    "address": "0x063ee3dfc43993da6920d44b44348e6a283c6bb4",
    "chain": "mantle",
    "chain_id": 5000,
@@ -366371,7 +368141,7 @@
    "chain": "mantle",
    "chain_id": 5000,
    "coingecko_id": "usd1-wlfi",
-   "coingecko_rank": 23,
+   "coingecko_rank": 25,
    "decimals": 18,
    "name": "USD1",
    "shortcut": "USD1"
@@ -366418,6 +368188,7 @@
    "chain_id": 5000,
    "coingecko_id": "equity-residential-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
   },
@@ -367363,6 +369134,7 @@
    "chain_id": 5000,
    "coingecko_id": "webster-financial-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
   },
@@ -367464,6 +369236,7 @@
    "chain_id": 5000,
    "coingecko_id": "electronic-arts-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
@@ -367776,6 +369549,15 @@
    "shortcut": "SMOIHX"
   },
   {
+   "address": "0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "chain": "mantle",
+   "chain_id": 5000,
+   "coingecko_id": "shein-xstock",
+   "decimals": 18,
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
+  },
+  {
    "address": "0x4d396c675ada9f74b9c92276cffd13a83b514093",
    "chain": "mantle",
    "chain_id": 5000,
@@ -368070,7 +369852,7 @@
    "chain": "mantle",
    "chain_id": 5000,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -368209,7 +369991,7 @@
    "chain": "mantle",
    "chain_id": 5000,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -371568,7 +373350,7 @@
    "chain": "mantle",
    "chain_id": 5000,
    "coingecko_id": "mantle",
-   "coingecko_rank": 46,
+   "coingecko_rank": 44,
    "decimals": 18,
    "name": "Mantle",
    "shortcut": "MNT"
@@ -372471,7 +374253,7 @@
    "chain": "mantle",
    "chain_id": 5000,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -372589,7 +374371,7 @@
    "chain": "sseed",
    "chain_id": 5330,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -373254,7 +375036,7 @@
    "chain": "canto",
    "chain_id": 7700,
    "coingecko_id": "cosmos",
-   "coingecko_rank": 81,
+   "coingecko_rank": 80,
    "decimals": 6,
    "name": "Cosmos Hub",
    "shortcut": "ATOM"
@@ -373995,7 +375777,7 @@
    "chain": "kaia-mainnet",
    "chain_id": 8217,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -374812,6 +376594,15 @@
    "shortcut": "DRAW"
   },
   {
+   "address": "0x001aad84c21a5cd4d696c56d44866e9703c43f77",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "cluster-protocol",
+   "decimals": 18,
+   "name": "CLUSTER PROTOCOL",
+   "shortcut": "CP"
+  },
+  {
    "address": "0x0028e1e60167b48a938b785aa5292917e7eaca8b",
    "chain": "base",
    "chain_id": 8453,
@@ -374943,7 +376734,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "internet-computer",
-   "coingecko_rank": 59,
+   "coingecko_rank": 52,
    "decimals": 8,
    "name": "Internet Computer",
    "shortcut": "ICP"
@@ -377145,6 +378936,15 @@
    "shortcut": "PEPEC"
   },
   {
+   "address": "0x119b63b1605be3a8ff4543c7f76f7f1f79eecd1f",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "opal-3",
+   "decimals": 18,
+   "name": "Opal",
+   "shortcut": "OPAL"
+  },
+  {
    "address": "0x11a2021368f518fa390d20308076b25c57292e83",
    "chain": "base",
    "chain_id": 8453,
@@ -378829,6 +380629,15 @@
    "decimals": 18,
    "name": "American Bitcoin (Dinari Tokenized Stock)",
    "shortcut": "ABTC"
+  },
+  {
+   "address": "0x1ea8deb921aa6015f4938010c848140b98108dd2",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "vapi-network",
+   "decimals": 18,
+   "name": "vAPI Network",
+   "shortcut": "VAPI"
   },
   {
    "address": "0x1ee5dd1794c28f559f94d2cc642bae62dc3be5cf",
@@ -380901,7 +382710,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "decimals": 18,
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -386028,7 +387837,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -386274,7 +388083,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "janus-henderson-anemoy-aaa-clo-fund",
-   "coingecko_rank": 85,
+   "coingecko_rank": 90,
    "decimals": 6,
    "name": "Janus Henderson Anemoy AAA CLO Fund",
    "shortcut": "JAAA"
@@ -386580,7 +388389,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -387412,7 +389221,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -388436,7 +390245,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "gho",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "decimals": 18,
    "name": "GHO",
    "shortcut": "GHO"
@@ -389512,7 +391321,6 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "usual-usd",
-   "coingecko_rank": 99,
    "decimals": 18,
    "name": "Usual USD",
    "shortcut": "USD0"
@@ -391766,7 +393574,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -392155,7 +393963,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "janus-henderson-anemoy-treasury-fund",
-   "coingecko_rank": 75,
+   "coingecko_rank": 86,
    "decimals": 6,
    "name": "Janus Henderson Anemoy Treasury Fund",
    "shortcut": "JTRSY"
@@ -392415,6 +394223,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "curve-dao-token",
+   "coingecko_rank": 96,
    "decimals": 18,
    "name": "Curve DAO",
    "shortcut": "CRV"
@@ -394465,7 +396274,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "eutbl",
-   "coingecko_rank": 74,
+   "coingecko_rank": 78,
    "decimals": 5,
    "name": "Spiko EU T-Bills Money Market Fund",
    "shortcut": "EUTBL"
@@ -395180,6 +396989,7 @@
    "chain_id": 8453,
    "coingecko_id": "unite-2",
    "decimals": 18,
+   "deleted": true,
    "name": "Unite",
    "shortcut": "UNITE"
   },
@@ -395650,6 +397460,7 @@
    "chain_id": 8453,
    "coingecko_id": "clones",
    "decimals": 18,
+   "deleted": true,
    "name": "CLONES",
    "shortcut": "CLONES"
   },
@@ -396044,7 +397855,7 @@
    "chain": "base",
    "chain_id": 8453,
    "coingecko_id": "venice-token",
-   "coingecko_rank": 78,
+   "coingecko_rank": 85,
    "decimals": 18,
    "name": "Venice Token",
    "shortcut": "VVV"
@@ -396537,6 +398348,15 @@
    "shortcut": "BASEJUICE"
   },
   {
+   "address": "0xb2000000000000000000000ff4a547c891ab1b01",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "baseunc",
+   "decimals": 18,
+   "name": "BaseUnc",
+   "shortcut": "BASEUNC"
+  },
+  {
    "address": "0xb2000000000000000000001b0d6290f211117201",
    "chain": "base",
    "chain_id": 8453,
@@ -396573,6 +398393,15 @@
    "shortcut": "OWL1"
   },
   {
+   "address": "0xb200000000000000000000451d033a5000cb479e",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "coinbase-wrapped-hype",
+   "decimals": 18,
+   "name": "Coinbase Wrapped HYPE",
+   "shortcut": "CBHYPE"
+  },
+  {
    "address": "0xb2000000000000000000004c27f6523082f41d01",
    "chain": "base",
    "chain_id": 8453,
@@ -396600,6 +398429,15 @@
    "shortcut": "NVDAC"
   },
   {
+   "address": "0xb2000000000000000000008501b13360000cb2ec",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "coinbase-wrapped-zec",
+   "decimals": 8,
+   "name": "Coinbase Wrapped ZEC",
+   "shortcut": "CBZEC"
+  },
+  {
    "address": "0xb2000000000000000000008bc8786b856e61707c",
    "chain": "base",
    "chain_id": 8453,
@@ -396625,6 +398463,15 @@
    "decimals": 8,
    "name": "Apple (Coinbase Tokenized Stock)",
    "shortcut": "AAPLC"
+  },
+  {
+   "address": "0xb200000000000000000000cfbdf64a8706a94a01",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "blue-chip-4",
+   "decimals": 18,
+   "name": "BLUE CHIP",
+   "shortcut": "BLUECHIP"
   },
   {
    "address": "0xb200000000000000000000dfea18f58cd9adbc01",
@@ -400469,6 +402316,15 @@
    "decimals": 18,
    "name": "HELLOWORLD",
    "shortcut": "HELLOWORLD"
+  },
+  {
+   "address": "0xcef8db49e456f872e288e1c042f916e9ced7c781",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "reserve-magnificent-7-dtf",
+   "decimals": 18,
+   "name": "Reserve Magnificent 7 DTF",
+   "shortcut": "MAG7"
   },
   {
    "address": "0xcefa48c12a7a41076771f367cbab4b5fcba82e35",
@@ -404508,6 +406364,17 @@
    "coingecko_id": "bittensor",
    "coingecko_rank": 42,
    "decimals": 18,
+   "deleted": true,
+   "name": "Bittensor",
+   "shortcut": "TAO"
+  },
+  {
+   "address": "0xf3081494b87e8d5fb7960f066e931d1d0e6e3d67",
+   "chain": "base",
+   "chain_id": 8453,
+   "coingecko_id": "bittensor",
+   "coingecko_rank": 40,
+   "decimals": 18,
    "name": "Bittensor",
    "shortcut": "TAO"
   },
@@ -406683,7 +408550,7 @@
    "chain": "evmos",
    "chain_id": 9001,
    "coingecko_id": "cosmos",
-   "coingecko_rank": 81,
+   "coingecko_rank": 80,
    "decimals": 6,
    "name": "Cosmos Hub",
    "shortcut": "ATOM"
@@ -406961,7 +408828,7 @@
    "chain": "plasma",
    "chain_id": 9745,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -407026,7 +408893,7 @@
    "chain": "plasma",
    "chain_id": 9745,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -407147,7 +409014,7 @@
    "chain": "plasma",
    "chain_id": 9745,
    "coingecko_id": "gho",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "decimals": 18,
    "name": "GHO",
    "shortcut": "GHO"
@@ -407650,6 +409517,15 @@
    "deleted": true,
    "name": "Wrapped OAS (DeFiVerse)",
    "shortcut": "WOAS"
+  },
+  {
+   "address": "0x0555e30da8f98308edb960aa94c0db47230d2b9c",
+   "chain": "0g",
+   "chain_id": 16661,
+   "coingecko_id": "0g-wrapped-wbtc-0g",
+   "decimals": 8,
+   "name": "0G Wrapped WBTC (0G)",
+   "shortcut": "WBTC"
   },
   {
    "address": "0x1cd0690ff9a693f5ef2dd976660a8dafc81a109c",
@@ -408258,7 +410134,7 @@
    "chain": "apechain",
    "chain_id": 33139,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -408360,7 +410236,7 @@
    "chain": "mode",
    "chain_id": 34443,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -408443,7 +410319,7 @@
    "chain": "mode",
    "chain_id": 34443,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -408491,7 +410367,7 @@
    "chain": "mode",
    "chain_id": 34443,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -408776,6 +410652,16 @@
    "shortcut": "ELK"
   },
   {
+   "address": "0x76a443768a5e3b8d1aed0105fc250877841deb40",
+   "chain": "adi",
+   "chain_id": 36900,
+   "coingecko_id": "chainlink",
+   "coingecko_rank": 15,
+   "decimals": 18,
+   "name": "Chainlink",
+   "shortcut": "LINK"
+  },
+  {
    "address": "0x093d77d397f8accbaee0820345e9e700b1233cd1",
    "chain": "igra",
    "chain_id": 38833,
@@ -408852,7 +410738,7 @@
    "chain": "nrg",
    "chain_id": 39797,
    "coingecko_id": "nexo",
-   "coingecko_rank": 76,
+   "coingecko_rank": 83,
    "decimals": 18,
    "name": "NEXO",
    "shortcut": "NEXO"
@@ -409193,7 +411079,7 @@
    "chain": "nrg",
    "chain_id": 39797,
    "coingecko_id": "quant-network",
-   "coingecko_rank": 73,
+   "coingecko_rank": 75,
    "decimals": 18,
    "name": "Quant",
    "shortcut": "QNT"
@@ -409277,7 +411163,7 @@
    "chain": "nrg",
    "chain_id": 39797,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -409296,7 +411182,7 @@
    "chain": "nrg",
    "chain_id": 39797,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -409584,7 +411470,7 @@
    "chain": "nrg",
    "chain_id": 39797,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -409779,6 +411665,7 @@
    "chain": "nrg",
    "chain_id": 39797,
    "coingecko_id": "curve-dao-token",
+   "coingecko_rank": 96,
    "decimals": 18,
    "name": "Curve DAO",
    "shortcut": "CRV"
@@ -411647,6 +413534,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "curve-dao-token",
+   "coingecko_rank": 96,
    "decimals": 18,
    "name": "Curve DAO",
    "shortcut": "CRV"
@@ -411767,6 +413655,7 @@
    "chain_id": 42161,
    "coingecko_id": "equity-residential-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
   },
@@ -412651,7 +414540,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "decimals": 18,
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -413489,7 +415378,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "pepe",
-   "coingecko_rank": 53,
+   "coingecko_rank": 58,
    "decimals": 18,
    "name": "Pepe",
    "shortcut": "PEPE"
@@ -414911,7 +416800,6 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "usual-usd",
-   "coingecko_rank": 99,
    "decimals": 18,
    "name": "Usual USD",
    "shortcut": "USD0"
@@ -415283,6 +417171,7 @@
    "chain_id": 42161,
    "coingecko_id": "webster-financial-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
   },
@@ -415690,6 +417579,7 @@
    "chain_id": 42161,
    "coingecko_id": "electronic-arts-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
@@ -416770,6 +418660,15 @@
    "decimals": 18,
    "name": "Equinix (Dinari Tokenized Stock)",
    "shortcut": "EQIX"
+  },
+  {
+   "address": "0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "chain": "arb1",
+   "chain_id": 42161,
+   "coingecko_id": "shein-xstock",
+   "decimals": 18,
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
   },
   {
    "address": "0x4d15a3a2286d883af0aa1b3f21367843fac63e07",
@@ -417860,7 +419759,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -418210,7 +420109,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -420755,7 +422654,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "gho",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "decimals": 18,
    "name": "GHO",
    "shortcut": "GHO"
@@ -422424,7 +424323,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "arbitrum",
-   "coingecko_rank": 93,
+   "coingecko_rank": 68,
    "decimals": 18,
    "name": "Arbitrum",
    "shortcut": "ARB"
@@ -424151,7 +426050,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "blackrock-usd-institutional-digital-liquidity-fund",
-   "coingecko_rank": 33,
+   "coingecko_rank": 35,
    "decimals": 6,
    "name": "BlackRock USD Institutional Digital Liquidity Fund",
    "shortcut": "BUIDL"
@@ -426001,7 +427900,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -427377,7 +429276,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "eutbl",
-   "coingecko_rank": 74,
+   "coingecko_rank": 78,
    "decimals": 5,
    "name": "Spiko EU T-Bills Money Market Fund",
    "shortcut": "EUTBL"
@@ -431488,7 +433387,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -431582,7 +433481,7 @@
    "chain": "arb1",
    "chain_id": 42161,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -432283,7 +434182,7 @@
    "chain": "arb-nova",
    "chain_id": 42170,
    "coingecko_id": "arbitrum",
-   "coingecko_rank": 93,
+   "coingecko_rank": 68,
    "decimals": 18,
    "name": "Arbitrum",
    "shortcut": "ARB"
@@ -432867,6 +434766,7 @@
    "chain": "etlk",
    "chain_id": 42793,
    "coingecko_id": "curve-dao-token",
+   "coingecko_rank": 96,
    "decimals": 18,
    "name": "Curve DAO",
    "shortcut": "CRV"
@@ -432987,7 +434887,7 @@
    "chain": "etlk",
    "chain_id": 42793,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -433025,7 +434925,7 @@
    "chain": "etlk",
    "chain_id": 42793,
    "coingecko_id": "eutbl",
-   "coingecko_rank": 74,
+   "coingecko_rank": 78,
    "decimals": 5,
    "name": "Spiko EU T-Bills Money Market Fund",
    "shortcut": "EUTBL"
@@ -433134,7 +435034,7 @@
    "chain": "hemi",
    "chain_id": 43111,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -436411,7 +438311,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "blackrock-usd-institutional-digital-liquidity-fund",
-   "coingecko_rank": 33,
+   "coingecko_rank": 35,
    "decimals": 6,
    "name": "BlackRock USD Institutional Digital Liquidity Fund",
    "shortcut": "BUIDL"
@@ -436601,7 +438501,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -436611,7 +438511,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "janus-henderson-anemoy-aaa-clo-fund",
-   "coingecko_rank": 85,
+   "coingecko_rank": 90,
    "decimals": 6,
    "name": "Janus Henderson Anemoy AAA CLO Fund",
    "shortcut": "JAAA"
@@ -436649,7 +438549,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -436818,7 +438718,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -437079,7 +438979,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -438869,7 +440769,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -439842,7 +441742,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "janus-henderson-anemoy-treasury-fund",
-   "coingecko_rank": 75,
+   "coingecko_rank": 86,
    "decimals": 6,
    "name": "Janus Henderson Anemoy Treasury Fund",
    "shortcut": "JTRSY"
@@ -439862,7 +441762,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "pepe",
-   "coingecko_rank": 53,
+   "coingecko_rank": 58,
    "decimals": 18,
    "name": "Pepe",
    "shortcut": "PEPE"
@@ -443273,7 +445173,7 @@
    "chain": "avax",
    "chain_id": 43114,
    "coingecko_id": "gho",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "decimals": 18,
    "name": "GHO",
    "shortcut": "GHO"
@@ -443480,7 +445380,7 @@
    "chain": "zircuit-mainnet",
    "chain_id": 48900,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -443499,7 +445399,7 @@
    "chain": "zircuit-mainnet",
    "chain_id": 48900,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -443527,7 +445427,7 @@
    "chain": "zircuit-mainnet",
    "chain_id": 48900,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -444095,6 +445995,7 @@
    "chain_id": 57073,
    "coingecko_id": "equity-residential-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
   },
@@ -444794,6 +446695,15 @@
    "shortcut": "TTWOX"
   },
   {
+   "address": "0x32bcb803f696c99eb263d60a05cafd8689026575",
+   "chain": "ink",
+   "chain_id": 57073,
+   "coingecko_id": "krak-mask",
+   "decimals": 18,
+   "name": "Krak Mask",
+   "shortcut": "KRAKMASK"
+  },
+  {
    "address": "0x3427b17e44f8fca0e91981b7c15b40727fe4ad81",
    "chain": "ink",
    "chain_id": 57073,
@@ -444952,6 +446862,7 @@
    "chain_id": 57073,
    "coingecko_id": "webster-financial-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
   },
@@ -445034,6 +446945,7 @@
    "chain_id": 57073,
    "coingecko_id": "electronic-arts-xstock",
    "decimals": 18,
+   "deleted": true,
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
@@ -445297,6 +447209,15 @@
    "decimals": 18,
    "name": "Smoore International xStock",
    "shortcut": "SMOIHX"
+  },
+  {
+   "address": "0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "chain": "ink",
+   "chain_id": 57073,
+   "coingecko_id": "shein-xstock",
+   "decimals": 18,
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
   },
   {
    "address": "0x4d396c675ada9f74b9c92276cffd13a83b514093",
@@ -446122,7 +448043,7 @@
    "chain": "ink",
    "chain_id": 57073,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -447497,6 +449418,15 @@
    "shortcut": "FANGX"
   },
   {
+   "address": "0xad09cd20e513e4d8cb78036f77ab9afde8555929",
+   "chain": "ink",
+   "chain_id": 57073,
+   "coingecko_id": "kraken-wrapped-hype",
+   "decimals": 18,
+   "name": "Kraken Wrapped HYPE",
+   "shortcut": "KHYPE"
+  },
+  {
    "address": "0xad60f53050e65f8fe76ee9624e4f9e0f2c529d23",
    "chain": "ink",
    "chain_id": 57073,
@@ -448587,6 +450517,15 @@
    "shortcut": "MSX"
   },
   {
+   "address": "0xd95b9a5fa7c2708fd4fe0e07e59bde1ef35b194a",
+   "chain": "ink",
+   "chain_id": 57073,
+   "coingecko_id": "beast",
+   "decimals": 18,
+   "name": "Beast",
+   "shortcut": "BEAST"
+  },
+  {
    "address": "0xd98fb2a0c8ddf4ec072fc0ba3bda4d38363f55c5",
    "chain": "ink",
    "chain_id": 57073,
@@ -448834,7 +450773,7 @@
    "chain": "ink",
    "chain_id": 57073,
    "coingecko_id": "global-dollar",
-   "coingecko_rank": 27,
+   "coingecko_rank": 30,
    "decimals": 6,
    "name": "Global Dollar",
    "shortcut": "USDG"
@@ -449510,7 +451449,7 @@
    "chain": "ink",
    "chain_id": 57073,
    "coingecko_id": "gho",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "decimals": 18,
    "name": "GHO",
    "shortcut": "GHO"
@@ -449642,7 +451581,7 @@
    "chain": "linea",
    "chain_id": 59144,
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "decimals": 18,
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -450099,7 +452038,7 @@
    "chain": "linea",
    "chain_id": 59144,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -450376,7 +452315,7 @@
    "chain": "linea",
    "chain_id": 59144,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -450779,7 +452718,7 @@
    "chain": "nxpc",
    "chain_id": 68414,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -451122,7 +453061,7 @@
    "chain": "berachain",
    "chain_id": 80094,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -451254,7 +453193,7 @@
    "chain": "berachain",
    "chain_id": 80094,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -452320,7 +454259,7 @@
    "chain": "blastmainnet",
    "chain_id": 81457,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -452369,7 +454308,7 @@
    "chain": "blastmainnet",
    "chain_id": 81457,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -452779,7 +454718,7 @@
    "chain": "blastmainnet",
    "chain_id": 81457,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -453650,6 +455589,7 @@
    "chain_id": 83872,
    "coingecko_id": "usd-coin-bridged-zed20",
    "decimals": 18,
+   "deleted": true,
    "name": "ZEDX Bridged USDC (Zedxion)",
    "shortcut": "USDC.Z"
   },
@@ -456683,7 +458623,7 @@
    "chain": "plume-mainnet",
    "chain_id": 98866,
    "coingecko_id": "usd1-wlfi",
-   "coingecko_rank": 23,
+   "coingecko_rank": 25,
    "decimals": 18,
    "name": "USD1",
    "shortcut": "USD1"
@@ -457016,7 +458956,7 @@
    "chain": "plume-mainnet",
    "chain_id": 98866,
    "coingecko_id": "janus-henderson-anemoy-treasury-fund",
-   "coingecko_rank": 75,
+   "coingecko_rank": 86,
    "decimals": 6,
    "name": "Janus Henderson Anemoy Treasury Fund",
    "shortcut": "JTRSY"
@@ -457053,7 +458993,7 @@
    "chain": "plume-mainnet",
    "chain_id": 98866,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -457181,7 +459121,7 @@
    "chain": "plume-mainnet",
    "chain_id": 98866,
    "coingecko_id": "superstate-short-duration-us-government-securities-fund-ustb",
-   "coingecko_rank": 79,
+   "coingecko_rank": 88,
    "decimals": 6,
    "name": "Invesco Short Duration US Government Securities Fund",
    "shortcut": "USTB"
@@ -457349,7 +459289,7 @@
    "chain": "btr",
    "chain_id": 200901,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -457699,7 +459639,7 @@
    "chain": "scr",
    "chain_id": 534352,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -457709,7 +459649,7 @@
    "chain": "scr",
    "chain_id": 534352,
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "decimals": 18,
    "name": "Ethena",
    "shortcut": "ENA"
@@ -457729,7 +459669,7 @@
    "chain": "scr",
    "chain_id": 534352,
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "decimals": 18,
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -458322,7 +460262,7 @@
    "chain": "katana",
    "chain_id": 747474,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -458517,7 +460457,7 @@
    "chain": "corn",
    "chain_id": 21000000,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -459649,7 +461589,7 @@
    "chain": "hmy-s0",
    "chain_id": 1666600000,
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "decimals": 18,
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -460190,7 +462130,7 @@
    "chain": "hmy-s0",
    "chain_id": 1666600000,
    "coingecko_id": "uniswap",
-   "coingecko_rank": 29,
+   "coingecko_rank": 23,
    "decimals": 18,
    "name": "Uniswap",
    "shortcut": "UNI"
@@ -460487,7 +462427,7 @@
    "chain": "hmy-s0",
    "chain_id": 1666600000,
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "decimals": 18,
    "name": "Aave",
    "shortcut": "AAVE"
@@ -460879,13 +462819,6 @@
    "shortcut": "SKL"
   }
  ],
- "metadata": {
-  "commit_hash": "8a57ea6abb93f729e073eceda28589f066c766e7",
-  "datetime": "2026-08-31T12:07:39.966681+00:00",
-  "merkle_root": "6b217682d007f88b85a0ced9882738d73d9ed5cf5a1de1b0685a67738a90192a",
-  "signature": "035f375b86e1c2689c8168f3bd022d20f2f9b5fcb9a757090b004608de4cb95af8aa4e5e6a76781193e0fdc7fbc88e4575dc216475b40f0308d0c3f72ea6d15e0f",
-  "unix_timestamp": 1788178059
- },
  "networks": [
   {
    "chain": "eth",
@@ -461005,7 +462938,7 @@
    "chain_id": 14,
    "coingecko_id": "flare-networks",
    "coingecko_network_id": "flare-network",
-   "coingecko_rank": 96,
+   "coingecko_rank": 98,
    "is_testnet": false,
    "name": "Flare",
    "shortcut": "FLR",
@@ -461102,7 +463035,7 @@
    "chain_id": 25,
    "coingecko_id": "crypto-com-chain",
    "coingecko_network_id": "cronos",
-   "coingecko_rank": 37,
+   "coingecko_rank": 36,
    "is_testnet": false,
    "name": "Cronos",
    "shortcut": "CRO",
@@ -462051,7 +463984,7 @@
    "chain_id": 137,
    "coingecko_id": "polygon-ecosystem-token",
    "coingecko_network_id": "polygon-pos",
-   "coingecko_rank": 70,
+   "coingecko_rank": 71,
    "is_testnet": false,
    "name": "POL (ex-MATIC)",
    "shortcut": "POL",
@@ -462535,7 +464468,7 @@
    "chain_id": 196,
    "coingecko_id": "okb",
    "coingecko_network_id": "x-layer",
-   "coingecko_rank": 41,
+   "coingecko_rank": 42,
    "is_testnet": false,
    "name": "OKB",
    "shortcut": "OKB",
@@ -462802,7 +464735,7 @@
    "chain_id": 232,
    "coingecko_id": "gho",
    "coingecko_network_id": "lens",
-   "coingecko_rank": 87,
+   "coingecko_rank": 91,
    "is_testnet": false,
    "name": "GHO",
    "shortcut": "GHO",
@@ -463260,7 +465193,7 @@
    "chain_id": 314,
    "coingecko_id": "filecoin",
    "coingecko_network_id": "filecoin",
-   "coingecko_rank": 95,
+   "coingecko_rank": 92,
    "is_testnet": false,
    "name": "Filecoin",
    "shortcut": "FIL",
@@ -463287,7 +465220,7 @@
    "chain_id": 321,
    "coingecko_id": "kucoin-shares",
    "coingecko_network_id": "kucoin-community-chain",
-   "coingecko_rank": 71,
+   "coingecko_rank": 72,
    "is_testnet": false,
    "name": "KuCoin",
    "shortcut": "KCS",
@@ -465049,7 +466982,7 @@
    "chain_id": 964,
    "coingecko_id": "bittensor",
    "coingecko_network_id": "bittensor-evm",
-   "coingecko_rank": 42,
+   "coingecko_rank": 40,
    "is_testnet": false,
    "name": "Bittensor",
    "shortcut": "TAO",
@@ -465230,7 +467163,7 @@
    "chain_id": 999,
    "coingecko_id": "hyperliquid",
    "coingecko_network_id": "hyperevm",
-   "coingecko_rank": 9,
+   "coingecko_rank": 10,
    "is_testnet": false,
    "name": "HyperEVM",
    "shortcut": "HYPE",
@@ -466832,6 +468765,7 @@
    "chain_id": 1776,
    "coingecko_id": "injective-protocol",
    "coingecko_network_id": "injective",
+   "coingecko_rank": 99,
    "is_testnet": false,
    "name": "Injective",
    "shortcut": "INJ",
@@ -468360,6 +470294,7 @@
    "chain_id": 2525,
    "coingecko_id": "injective-protocol",
    "coingecko_network_id": "inevm",
+   "coingecko_rank": 99,
    "is_testnet": false,
    "name": "Injective",
    "shortcut": "INJ",
@@ -469675,7 +471610,7 @@
    "chain_id": 4352,
    "coingecko_id": "memecore",
    "coingecko_network_id": "memecore",
-   "coingecko_rank": 38,
+   "coingecko_rank": 39,
    "is_testnet": false,
    "name": "MemeCore",
    "shortcut": "M",
@@ -469925,7 +471860,7 @@
    "chain_id": 5000,
    "coingecko_id": "mantle",
    "coingecko_network_id": "mantle",
-   "coingecko_rank": 46,
+   "coingecko_rank": 44,
    "is_testnet": false,
    "name": "Mantle",
    "shortcut": "MNT",
@@ -470318,7 +472253,7 @@
    "chain_id": 5545,
    "coingecko_id": "the-open-network",
    "coingecko_network_id": "duckchain",
-   "coingecko_rank": 26,
+   "coingecko_rank": 27,
    "is_testnet": false,
    "name": "Gram (prev. Toncoin)",
    "shortcut": "GRAM",
@@ -471090,6 +473025,22 @@
    "slip44": 1
   },
   {
+   "chain": "pckt",
+   "chain_id": 7258,
+   "is_testnet": false,
+   "name": "Pocket Chain",
+   "shortcut": "PCKT",
+   "slip44": 60
+  },
+  {
+   "chain": "pckt-testnet",
+   "chain_id": 7259,
+   "is_testnet": true,
+   "name": "Pocket Chain Testnet",
+   "shortcut": "tPCKT",
+   "slip44": 1
+  },
+  {
    "chain": "XPLAVERSE",
    "chain_id": 7300,
    "is_testnet": false,
@@ -471266,6 +473217,14 @@
    "slip44": 1
   },
   {
+   "chain": "rwachain",
+   "chain_id": 7741,
+   "is_testnet": false,
+   "name": "RWA Chain",
+   "shortcut": "ETH",
+   "slip44": 60
+  },
+  {
    "chain": "phr",
    "chain_id": 7744,
    "is_testnet": true,
@@ -471335,6 +473294,14 @@
    "is_testnet": false,
    "name": "Draw Coin",
    "shortcut": "DRW",
+   "slip44": 60
+  },
+  {
+   "chain": "wcaht",
+   "chain_id": 7789,
+   "is_testnet": false,
+   "name": "WCAHT",
+   "shortcut": "WCAHT",
    "slip44": 60
   },
   {
@@ -472182,6 +474149,14 @@
    "slip44": 1
   },
   {
+   "chain": "litho",
+   "chain_id": 9005,
+   "is_testnet": false,
+   "name": "Lithosphere",
+   "shortcut": "LITHO",
+   "slip44": 60
+  },
+  {
    "chain": "ShidoTestnet",
    "chain_id": 9007,
    "is_testnet": true,
@@ -472766,6 +474741,17 @@
    "is_testnet": false,
    "name": "SJATSH",
    "shortcut": "ETH",
+   "slip44": 60
+  },
+  {
+   "chain": "GateLayer",
+   "chain_id": 10088,
+   "coingecko_id": "gatechain-token",
+   "coingecko_network_id": "gatelayer",
+   "coingecko_rank": 74,
+   "is_testnet": false,
+   "name": "Gate",
+   "shortcut": "GT",
    "slip44": 60
   },
   {
@@ -474185,6 +476171,14 @@
    "slip44": 1
   },
   {
+   "chain": "moli",
+   "chain_id": 20226,
+   "is_testnet": false,
+   "name": "Molibra",
+   "shortcut": "MOLI",
+   "slip44": 60
+  },
+  {
    "chain": "nch",
    "chain_id": 20250,
    "is_testnet": false,
@@ -474319,6 +476313,14 @@
    "name": "DCpay Testnet",
    "shortcut": "tDCP",
    "slip44": 1
+  },
+  {
+   "chain": "shcx",
+   "chain_id": 21320,
+   "is_testnet": false,
+   "name": "SushiiCoin",
+   "shortcut": "SHCX",
+   "slip44": 60
   },
   {
    "chain": "cennz-a",
@@ -475229,9 +477231,10 @@
   {
    "chain": "adi",
    "chain_id": 36900,
-   "coingecko_network_id": "adi-token",
+   "coingecko_id": "adi-token",
+   "coingecko_network_id": "adi-chain",
    "is_testnet": false,
-   "name": "ADI Chain",
+   "name": "ADI",
    "shortcut": "ADI",
    "slip44": 60
   },
@@ -475574,7 +477577,7 @@
    "chain_id": 43114,
    "coingecko_id": "avalanche-2",
    "coingecko_network_id": "avalanche",
-   "coingecko_rank": 30,
+   "coingecko_rank": 29,
    "is_testnet": false,
    "name": "Avalanche",
    "shortcut": "AVAX",
@@ -477048,6 +479051,14 @@
    "slip44": 1
   },
   {
+   "chain": "rwachain-sepolia",
+   "chain_id": 77410,
+   "is_testnet": false,
+   "name": "RWA Chain Sepolia",
+   "shortcut": "ETH",
+   "slip44": 60
+  },
+  {
    "chain": "vscm",
    "chain_id": 77612,
    "is_testnet": false,
@@ -478085,7 +480096,7 @@
    "chain_id": 100009,
    "coingecko_id": "vechain",
    "coingecko_network_id": "vechain",
-   "coingecko_rank": 92,
+   "coingecko_rank": 95,
    "is_testnet": false,
    "name": "VeChain",
    "shortcut": "VET",
@@ -479393,6 +481404,14 @@
    "slip44": 60
   },
   {
+   "chain": "rope-testnet",
+   "chain_id": 271829,
+   "is_testnet": true,
+   "name": "Datachain Rope Testnet",
+   "shortcut": "tFAT",
+   "slip44": 1
+  },
+  {
    "chain": "nxytest",
    "chain_id": 272247,
    "is_testnet": false,
@@ -480472,6 +482491,14 @@
    "name": "NVNM Chain Testnet",
    "shortcut": "tmUSD",
    "slip44": 1
+  },
+  {
+   "chain": "wanna",
+   "chain_id": 787878,
+   "is_testnet": false,
+   "name": "WANNA Chain",
+   "shortcut": "WANNA",
+   "slip44": 60
   },
   {
    "chain": "emed",
@@ -481994,6 +484021,14 @@
    "name": "Corn Testnet",
    "shortcut": "tBTCN",
    "slip44": 1
+  },
+  {
+   "chain": "zagros",
+   "chain_id": 21072026,
+   "is_testnet": false,
+   "name": "Zagros",
+   "shortcut": "ZAGROS",
+   "slip44": 60
   },
   {
    "chain": "xlon",
@@ -485332,7 +487367,7 @@
   },
   {
    "coingecko_id": "global-dollar",
-   "coingecko_rank": 27,
+   "coingecko_rank": 30,
    "mint": "2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH",
    "name": "Global Dollar",
    "shortcut": "USDG"
@@ -485543,7 +487578,6 @@
   },
   {
    "coingecko_id": "pudgy-penguins",
-   "coingecko_rank": 98,
    "mint": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
    "name": "Pudgy Penguins",
    "shortcut": "PENGU"
@@ -487679,6 +489713,12 @@
    "shortcut": "SPAWN"
   },
   {
+   "coingecko_id": "mosaic-3",
+   "mint": "4ChT49V1iazP2XUGtycGkEsS6pRMqvGfUbqvRC9Z91ZT",
+   "name": "Mosaic",
+   "shortcut": "MOS"
+  },
+  {
    "coingecko_id": "amuricah",
    "mint": "4CmYCPDzU22ck8hT6AiPVk2iTHg9SeYtPCXZNuonpump",
    "name": "amuricah",
@@ -487906,6 +489946,12 @@
    "mint": "4KVGATyKJNhm8y8afj5314rNAkB9MZGJVDE5cCKTpump",
    "name": "Key Opinion Lobster",
    "shortcut": "KOL"
+  },
+  {
+   "coingecko_id": "sami-openlife",
+   "mint": "4LHBp4xYs3suKjkCuo1qaNaxufWd4Bdp6QYsBJZNpump",
+   "name": "sami-openlife",
+   "shortcut": "SAMI"
   },
   {
    "coingecko_id": "parcl",
@@ -488719,7 +490765,7 @@
   },
   {
    "coingecko_id": "pancakeswap-token",
-   "coingecko_rank": 90,
+   "coingecko_rank": 84,
    "mint": "4qQeZ5LwSz6HuupUu8jCtgXyW1mYQcNbFAW1sWZp89HL",
    "name": "PancakeSwap",
    "shortcut": "CAKE"
@@ -492200,7 +494246,7 @@
   },
   {
    "coingecko_id": "official-trump",
-   "coingecko_rank": 91,
+   "coingecko_rank": 94,
    "mint": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
    "name": "Official Trump",
    "shortcut": "TRUMP"
@@ -492525,7 +494571,7 @@
   },
   {
    "coingecko_id": "ethena",
-   "coingecko_rank": 56,
+   "coingecko_rank": 51,
    "mint": "72QvBVwpxqmheEPfaCwWSWqEFsUy3rhWt6JhQBMNTwD1",
    "name": "Ethena",
    "shortcut": "ENA"
@@ -492556,7 +494602,7 @@
   },
   {
    "coingecko_id": "usdgo",
-   "coingecko_rank": 64,
+   "coingecko_rank": 61,
    "mint": "72puLt71H93Z9CzHuBRTwFpL4TG3WZUhnoCC7p8gxigu",
    "name": "USDGO",
    "shortcut": "USDGO"
@@ -492695,6 +494741,7 @@
   },
   {
    "coingecko_id": "bouncebit",
+   "deleted": true,
    "mint": "76SYfdi8jT84GqxuTqu7FuyA4GQbrto1pLDGQKsy8K12",
    "name": "BounceBit",
    "shortcut": "BB"
@@ -493115,7 +495162,7 @@
   },
   {
    "coingecko_id": "hashnote-usyc",
-   "coingecko_rank": 35,
+   "coingecko_rank": 38,
    "mint": "7LWanZteUKtvFjv4MHYgKXXdAuCQYFPJysL9pxxdRQGn",
    "name": "Circle USYC",
    "shortcut": "USYC"
@@ -494183,6 +496230,12 @@
    "shortcut": "ARXIV"
   },
   {
+   "coingecko_id": "cog",
+   "mint": "7rSpKgASuXN5hfw3jsKNZN6ysNCR1Eixb2PD2Nd9pump",
+   "name": "Cog",
+   "shortcut": "COG"
+  },
+  {
    "coingecko_id": "solareum-3",
    "mint": "7rhhtc2DTTAsPr9P3ZRqUjYZESRj2B29L6qrEXG4VLkh",
    "name": "SOLAREUM",
@@ -494694,6 +496747,12 @@
    "shortcut": "FURM"
   },
   {
+   "coingecko_id": "memefi-3",
+   "mint": "86JF1S58ZNT7rHhpgjzDuNxcC1PMYkECDuoRQoj5Scy5",
+   "name": "memefi",
+   "shortcut": "MEMEFI"
+  },
+  {
    "coingecko_id": "memes-into-money",
    "mint": "86KR6eG2VuNntLBi23SAYFW1cXkiYcwxGJd746rqcUAG",
    "name": "Memes Into Money",
@@ -495054,6 +497113,12 @@
    "shortcut": "MEDI"
   },
   {
+   "coingecko_id": "saar",
+   "mint": "8H5yfL1GoDETLDaLYZzrgQuZs37eiKJjdfP21b6ypump",
+   "name": "SAAR",
+   "shortcut": "SAAR"
+  },
+  {
    "coingecko_id": "cope",
    "mint": "8HGyAAB1yoM1ttS7pXjHMa3dukTFGQggnFFH3hJZgzQh",
    "name": "Cope",
@@ -495136,6 +497201,12 @@
    "mint": "8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump",
    "name": "Nietzschean Penguin",
    "shortcut": "PENGUIN"
+  },
+  {
+   "coingecko_id": "vida-global-cto",
+   "mint": "8K5X85PAJHAAVSvYaAzgVPPAPsqqHmvx16ZyBiscYF8L",
+   "name": "Vida Global CTO",
+   "shortcut": "CTO"
   },
   {
    "coingecko_id": "meekocoin",
@@ -498025,6 +500096,12 @@
    "shortcut": "WOOF"
   },
   {
+   "coingecko_id": "addog",
+   "mint": "9nR2fjDsbSpQPcWmK8zz1HhKA1hQ7Zj7Gvb5YoEppump",
+   "name": "Addog",
+   "shortcut": "ADDOG"
+  },
+  {
    "coingecko_id": "onkey",
    "mint": "9nXSvn8bUmboPdgA4qnmtzxQdgjXWquK6sYaCFLRgPs1",
    "name": "onkey",
@@ -498221,6 +500298,12 @@
    "mint": "9txCZaqYaQ62nFVcEWhosWx3vTMcJMFP5YYXQ5yhBAGS",
    "name": "Symbient Life",
    "shortcut": "LIFE"
+  },
+  {
+   "coingecko_id": "ansem-fart-dust",
+   "mint": "9uEeSZSdxMm1PaoqQ1VNDwcuDMM9RHqkp2p89Je5pump",
+   "name": "Ansem Fart Dust",
+   "shortcut": "AFD"
   },
   {
    "coingecko_id": "gable",
@@ -498651,7 +500734,7 @@
   },
   {
    "coingecko_id": "janus-henderson-anemoy-aaa-clo-fund",
-   "coingecko_rank": 85,
+   "coingecko_rank": 90,
    "mint": "AAAJXeGjpKu7W3X4QTSU4pm1Wbj4G2LPcdg7A6xJLLyG",
    "name": "Janus Henderson Anemoy AAA CLO Fund",
    "shortcut": "JAAA"
@@ -498805,6 +500888,12 @@
    "mint": "ADVgDMbbn6LZTdo84UDAgCUew2JMMHe6BnH3KNN3qiLb",
    "name": "PlayZap",
    "shortcut": "PZP"
+  },
+  {
+   "coingecko_id": "tapcoin",
+   "mint": "ADcF26nFGKMuRZ7va5361H2PCHCDRi2FmeJBkX3Spump",
+   "name": "Tapcoin",
+   "shortcut": "TAP"
   },
   {
    "coingecko_id": "rekill",
@@ -499017,6 +501106,12 @@
    "shortcut": "MESSENGER"
   },
   {
+   "coingecko_id": "amc-entertainment-backpack-securities",
+   "mint": "AMC1qwR9KhiyrQBRPrxnfo4JfMeMZqEBvt5tgTytNNoc",
+   "name": "AMC Entertainment (Backpack Securities)",
+   "shortcut": "AMC"
+  },
+  {
    "coingecko_id": "advanced-micro-devices-backpack-securities",
    "mint": "AMD8XwJXgQ9WV45Wyj9yFLejxzf2J6VM1PJY8bJEjeES",
    "name": "Advanced Micro Devices (Backpack Securities)",
@@ -499039,6 +501134,12 @@
    "mint": "AMNfeXpjD6kXyyTDB4LMKzNWypqNHwtgJUACHUmuKLD5",
    "name": "Team556",
    "shortcut": "TEAM"
+  },
+  {
+   "coingecko_id": "commons",
+   "mint": "AMUgSjmdFsS8Y3JeL32u7A45Fpt8YF9xKaiwW5uGHdXk",
+   "name": "Commons",
+   "shortcut": "CMNS"
   },
   {
    "coingecko_id": "amazon-backpack-securities",
@@ -499564,7 +501665,7 @@
   },
   {
    "coingecko_id": "aave",
-   "coingecko_rank": 45,
+   "coingecko_rank": 46,
    "mint": "AavE1kKKnesPw4MuRJmJ9jZs9QzEE8CPxQ3ViczUDfc1",
    "name": "Aave",
    "shortcut": "AAVE"
@@ -500099,6 +502200,12 @@
    "shortcut": "TRIO"
   },
   {
+   "coingecko_id": "tytl-fractional-home-equity",
+   "mint": "AsHHh1S8MLgKVCVYaeJvLjGS2dkkvkKtGPkUYa6b2nLd",
+   "name": "TYTL Fractional Home Equity",
+   "shortcut": "TYTL"
+  },
+  {
    "coingecko_id": "ocula",
    "mint": "AsW7CuFBJwKWZKBCBqRJVVAg1QWchhNeSu1nMEmZpump",
    "name": "Ocula",
@@ -500525,6 +502632,12 @@
    "shortcut": "FARTBOY"
   },
   {
+   "coingecko_id": "ansem-tips",
+   "mint": "B5YTUMqSnwzztWHWmzAzHApeRy6cuGEx49Bidt4kuH8w",
+   "name": "ansem.tips",
+   "shortcut": "TIPANSEM"
+  },
+  {
    "coingecko_id": "launch-on-pump",
    "mint": "B5boCskXEFb1RJJ9EqJNV3gt5fjhk85DeD7BgbLcpump",
    "name": "Launch On Pump",
@@ -500649,6 +502762,12 @@
    "mint": "B9QxfiMd6tjSGnJ8nzFK3XbtuQNPKCNkQeehMqgxpump",
    "name": "SuperFruits AI",
    "shortcut": "SUPAI"
+  },
+  {
+   "coingecko_id": "nolus",
+   "mint": "B9Vhg6XrNswZvLdKgpKhZ9Fj9yV7j2RxQKUaq5fmuphv",
+   "name": "Nolus",
+   "shortcut": "NLS"
   },
   {
    "coingecko_id": "emulites",
@@ -501143,7 +503262,7 @@
    "shortcut": "BNSOL"
   },
   {
-   "coingecko_id": "avocadocoin-2",
+   "coingecko_id": "avocadocoin",
    "mint": "BP34pngxUAUGEYyWVQvwWhL7dx211otnegS5WeTQHLFd",
    "name": "AvocadoCoin",
    "shortcut": "AVDO"
@@ -502890,7 +505009,7 @@
   },
   {
    "coingecko_id": "superstate-short-duration-us-government-securities-fund-ustb",
-   "coingecko_rank": 79,
+   "coingecko_rank": 88,
    "mint": "CCz3SGVziFeLYk2xfEstkiqJfYkjaSWb2GCABYsVcjo2",
    "name": "Invesco Short Duration US Government Securities Fund",
    "shortcut": "USTB"
@@ -502996,6 +505115,12 @@
    "mint": "CFB4Ff7W87uN9Gf2DSj63L7prZycJvzQeg1MbGxwBcqC",
    "name": "Blowfish",
    "shortcut": "BLOWFISH"
+  },
+  {
+   "coingecko_id": "raydium-cat",
+   "mint": "CFNRDaxFcvRwRSNnA5cHrCCr6AHhk9dNkHWpRUjNupFL",
+   "name": "Raydium Cat",
+   "shortcut": "RAYCAT"
   },
   {
    "coingecko_id": "kilroy-was-here",
@@ -503640,6 +505765,12 @@
    "shortcut": "MATH"
   },
   {
+   "coingecko_id": "artificial-gooner-intelligence",
+   "mint": "CaWZeUM4FvX9dPkjGc2xHS6tSN3qJfTWyvaG77aM5o7h",
+   "name": "artificial gooner intelligence",
+   "shortcut": "AGI"
+  },
+  {
    "coingecko_id": "theydontloveyoulikeiloveyou",
    "mint": "CbUPTbC4K7zdAEWxfa1nad4468xpX3LpWPhZVnzybhfN",
    "name": "theydontloveyoulikeiloveyou",
@@ -503932,6 +506063,12 @@
    "mint": "CizcDa22HJjXybKLriibqP167GcJjqiDHDPtuiMmpump",
    "name": "ok",
    "shortcut": "OK"
+  },
+  {
+   "coingecko_id": "quantum-cat",
+   "mint": "Cj3upTXz6cYCP1TLbyF5AseKX4hqaWK7eiRqR7uu6npU",
+   "name": "Quantum Cat",
+   "shortcut": "QCAT"
   },
   {
    "coingecko_id": "endless-twap-bid",
@@ -505069,7 +507206,7 @@
   },
   {
    "coingecko_id": "ethena-usde",
-   "coingecko_rank": 24,
+   "coingecko_rank": 22,
    "mint": "DEkqHyPN7GMRJ5cArtQFAWefqbZb33Hyf6s5iCwjEonT",
    "name": "Ethena USDe",
    "shortcut": "USDE"
@@ -505709,6 +507846,12 @@
    "mint": "DZvFAebHx4tGwchGmF2uSDhD21s88uNG1JPGKnrnoRhB",
    "name": "WORLDS OLDEST ANIMAL",
    "shortcut": "JONATHAN"
+  },
+  {
+   "coingecko_id": "sable-network",
+   "mint": "DaPayqzdCXcrmvgz9Wx7MySipXxcSofGPtkMgVdqpump",
+   "name": "Sable Network",
+   "shortcut": "SABL"
   },
   {
    "coingecko_id": "prophecy-2",
@@ -506563,6 +508706,12 @@
    "shortcut": "SLO"
   },
   {
+   "coingecko_id": "buy-the-cat",
+   "mint": "E4Ap4icMLwKot8rkkTbq5JkS5kZxt5XCE3yfxbzYBjHx",
+   "name": "Buy The Cat",
+   "shortcut": "BTC"
+  },
+  {
    "coingecko_id": "ada-the-dog",
    "mint": "E4Q5pLaEiejwEQHcM9GeYSQfMyGy8DJ4bPWgeYthn24v",
    "name": "TOLY'S DOG",
@@ -506863,6 +509012,12 @@
    "shortcut": "REALIS"
   },
   {
+   "coingecko_id": "the-first-crypto-cat",
+   "mint": "EBLUKPgx5FvTUBU6bTJi3aR8XVELSBdC5FiodSWQpump",
+   "name": "The First Crypto Cat",
+   "shortcut": "BITCAT"
+  },
+  {
    "coingecko_id": "snowman-2",
    "mint": "EBUVekfZ1fbqgY6dXXSEE1KoX82mu3qgGBqaQJJLpump",
    "name": "Snowman",
@@ -506924,9 +509079,16 @@
   },
   {
    "coingecko_id": "avocadocoin",
+   "deleted": true,
    "mint": "EE5L8cMU4itTsCSuor7NLK6RZx6JhsBe8GGV3oaAHm3P",
    "name": "AvocadoCoin [OLD]",
    "shortcut": "AVDO"
+  },
+  {
+   "coingecko_id": "justice-for-heehaw",
+   "mint": "EEpng77ZPn9FbgbT4xsRjwuxNCcMBYq3HTwEscyTpump",
+   "name": "Justice for HeeHaw",
+   "shortcut": "HEEHAW"
   },
   {
    "coingecko_id": "ishares-1-3-year-treasury-bond-etf-ondo-tokenized",
@@ -507296,6 +509458,12 @@
    "shortcut": "BTH"
   },
   {
+   "coingecko_id": "midas-fasanara-one-solana",
+   "mint": "ESS9fuAbDiyDXy6y1ZAt9VSaiGPSqG8NwaWVX7dePdR7",
+   "name": "Midas Fasanara ONE Solana",
+   "shortcut": "SOLMFONE"
+  },
+  {
    "coingecko_id": "no1-tiktok-frog-omochi",
    "mint": "ESVRQ6phc55VCw7sWB6JgW3PeTB6N68kvwjfsMPcpump",
    "name": "No1 tiktok frog (Omochi)",
@@ -507518,6 +509686,12 @@
    "shortcut": "STXON"
   },
   {
+   "coingecko_id": "voxie",
+   "mint": "EYBMhikmdqUs6j5p9mv1tfPY3HszsCyYeRpwme6Bpump",
+   "name": "VOXIE",
+   "shortcut": "VOXIE"
+  },
+  {
    "coingecko_id": "uranium-energy-ondo-tokenized",
    "mint": "EYo8D3cLdF1CDeGms5M5VHyU52HJYinkMZ1cqvYondo",
    "name": "Uranium Energy (Ondo Tokenized)",
@@ -507630,6 +509804,12 @@
    "mint": "EcYK2XNG4wWr2vDg2M2Hrts6SrU2QB4NzXLBf888pump",
    "name": "Dogefather",
    "shortcut": "DOGEFATHER"
+  },
+  {
+   "coingecko_id": "stonk-guy",
+   "mint": "EcZMqqYxFdcKSMMEYuacVoaeeRxpc7R7G7zWma9zpump",
+   "name": "Stonk Guy",
+   "shortcut": "STONKGUY"
   },
   {
    "coingecko_id": "flokis",
@@ -508032,6 +510212,12 @@
    "mint": "EqeEBGHQhQy6SqeaJcnqAsNs3qaG19sdF89Xsarpump",
    "name": "Trust The Process",
    "shortcut": "TRUST"
+  },
+  {
+   "coingecko_id": "bonk-s-revenge",
+   "mint": "EqpJRxYKWBMuNHKpo7NCGeFNXYdQLzZx9T88GsHDbonk",
+   "name": "Bonk’s Revenge",
+   "shortcut": "REVENGE"
   },
   {
    "coingecko_id": "furfication",
@@ -509625,6 +511811,12 @@
    "shortcut": "VALORA"
   },
   {
+   "coingecko_id": "gentle-warrior",
+   "mint": "Fczgz91jYK6HEQmRhBhUBtAaBabLnyi8RtujacN3pump",
+   "name": "Gentle Warrior",
+   "shortcut": "GWAR"
+  },
+  {
    "coingecko_id": "degen-3",
    "mint": "Fd8TNp5GhhTk6Uq6utMvK13vfQdLN1yUUHCnapWvpump",
    "name": "Degen",
@@ -510339,6 +512531,12 @@
    "shortcut": "IRLCOIN"
   },
   {
+   "coingecko_id": "krabby",
+   "mint": "Fwq2m6nQox3y85omV8WeVe4pVT98aTRqFnqKt1oepump",
+   "name": "KRABBY",
+   "shortcut": "KRABBY"
+  },
+  {
    "coingecko_id": "utility-coin",
    "mint": "FwrcPjGNdTbBXWBKktRvnNTnAfRNtv9nPDGV3gjgpump",
    "name": "Utility Coin",
@@ -510472,6 +512670,7 @@
   },
   {
    "coingecko_id": "quantu-execution-token",
+   "deleted": true,
    "mint": "G2ygAeUVpYUhpNsmrpvd2BHTWazyDV72kRpsQSEcbonk",
    "name": "Quantu Execution Token",
    "shortcut": "QX"
@@ -510715,6 +512914,12 @@
    "mint": "G8s88jzPhiKdfCmwTKaShErB2VrbrsvDsDBzsXqjpump",
    "name": "Ants Colony",
    "shortcut": "ANTS"
+  },
+  {
+   "coingecko_id": "i-am-human",
+   "mint": "G8uQkJtBLx4Tm8twsiJyVAn5xZu1SBaPRakwKRzHpump",
+   "name": "I Am Human",
+   "shortcut": "HUMAN"
   },
   {
    "coingecko_id": "metakina",
@@ -511215,6 +513420,12 @@
    "shortcut": "FSJAL"
   },
   {
+   "coingecko_id": "gopro-backpack-securities",
+   "mint": "GPRR2u6NS5yBQHWGauoJ9HXgjrTH8dDsrBfTV5zAYvDH",
+   "name": "GoPro (Backpack Securities)",
+   "shortcut": "GPRO"
+  },
+  {
    "coingecko_id": "green-kitten-crew",
    "mint": "GPXY56UALMCnKkbPnWKRdEeG6DWvbFafySsG48MRpump",
    "name": "Green Kitten Crew",
@@ -511629,6 +513840,12 @@
    "shortcut": "TRX"
   },
   {
+   "coingecko_id": "hastra-smb",
+   "mint": "Gbnmn7yywbbzmGjWwvwRD2KBWbNxA35CRyaVk3Faou3C",
+   "name": "Hastra SMB",
+   "shortcut": "SMB"
+  },
+  {
    "coingecko_id": "the-giraffes",
    "mint": "GbqbsRyBHVPHEv7xLEsikXmdpPPiApLTJesDBbL5pump",
    "name": "The Giraffes",
@@ -511819,6 +514036,12 @@
    "mint": "GhFiFrExPY3proVF96oth1gESWA5QPQzdtb8cy8b1YZv",
    "name": "Aries",
    "shortcut": "ARIES"
+  },
+  {
+   "coingecko_id": "froge-4",
+   "mint": "GhuEi5AWtZaWuAda4ysJwMTzU8oMdjiL1bz6eziptT2p",
+   "name": "Froge",
+   "shortcut": "FROGE"
   },
   {
    "coingecko_id": "magnum-2",
@@ -512374,7 +514597,7 @@
   },
   {
    "coingecko_id": "blackrock-usd-institutional-digital-liquidity-fund",
-   "coingecko_rank": 33,
+   "coingecko_rank": 35,
    "mint": "GyWgeqpy5GueU2YbkE8xqUeVEokCMMCEeUrfbtMw6phr",
    "name": "BlackRock USD Institutional Digital Liquidity Fund",
    "shortcut": "BUIDL"
@@ -512660,6 +514883,12 @@
    "mint": "H758qwhw8YHLbDYmJsdN6Jta2ioguZ53PY6Qcisupump",
    "name": "KAFKA ai",
    "shortcut": "KAFKA"
+  },
+  {
+   "coingecko_id": "pumpooor",
+   "mint": "H76u9jTTbMtEF5JGmqXM2wW6xqMXpvTdVyer4RvKpump",
+   "name": "Pumpooor",
+   "shortcut": "PUMPOOOR"
   },
   {
    "coingecko_id": "shrimp-paste",
@@ -512966,6 +515195,12 @@
    "mint": "HFyN8wr8B9AY5VeWgWTaWxSowVjpkXnDjPJ7DJUrpump",
    "name": "Just a Chart Guy",
    "shortcut": "CHARTGUY"
+  },
+  {
+   "coingecko_id": "dig",
+   "mint": "HGE9j5vuTzZWqvjZXjuNb5WxQKDUHY8QFvCXVUKppump",
+   "name": "DIG",
+   "shortcut": "DIG"
   },
   {
    "coingecko_id": "utopian-contributor-coin",
@@ -513562,6 +515797,12 @@
    "shortcut": "MTOS"
   },
   {
+   "coingecko_id": "anonymous-cat",
+   "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+   "name": "Anonymous Cat",
+   "shortcut": "ZCAT"
+  },
+  {
    "coingecko_id": "peace-frog-2",
    "mint": "HcbsqQC3sn2LMwbjVafiEd8nJ2ATZHH2wXH4xqV2pump",
    "name": "Peace Frog",
@@ -513892,6 +516133,12 @@
    "shortcut": "OPIUMBIRD"
   },
   {
+   "coingecko_id": "solcat-3",
+   "mint": "HmJDgky11u77hpBss6D8sjNpYPD5B6fWgSVDj58jpump",
+   "name": "Solcat",
+   "shortcut": "SOLCAT"
+  },
+  {
    "coingecko_id": "superrarebears-rare",
    "mint": "HmLspvjpQtQEnArUyJoBSFGS38gNJwBuxAeqSV9SZ66K",
    "name": "SuperRareBears RARE",
@@ -513944,6 +516191,12 @@
    "mint": "HmjCoarLh5duURfJ333DwfFiPyTCgFT35pRSAoP8pump",
    "name": "TokenOS AI",
    "shortcut": "TOS"
+  },
+  {
+   "coingecko_id": "goldcoin",
+   "mint": "Hn6Kdxs6cJrXDLvArAief8ueTgdZLkRacLPPUZo2pump",
+   "name": "Goldcoin",
+   "shortcut": "GLC"
   },
   {
    "coingecko_id": "zylo-ecosystem",
@@ -514720,6 +516973,12 @@
    "shortcut": "JOEL"
   },
   {
+   "coingecko_id": "monk-2",
+   "mint": "JAuN3RKZR9KSKdmBCH83VXGmTvkbobuLrawZ5G3upump",
+   "name": "MONK",
+   "shortcut": "MONK"
+  },
+  {
    "coingecko_id": "token-metrics-ai-2",
    "mint": "JBH3sZw1MFHunc4ifgLFkUKGecDpB1FwSXkEo8PnCD4Z",
    "name": "Token Metrics AI",
@@ -514835,7 +517094,7 @@
   },
   {
    "coingecko_id": "jupiter-exchange-solana",
-   "coingecko_rank": 86,
+   "coingecko_rank": 82,
    "mint": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
    "name": "Jupiter",
    "shortcut": "JUP"
@@ -515160,7 +517419,7 @@
   },
   {
    "coingecko_id": "chainlink",
-   "coingecko_rank": 17,
+   "coingecko_rank": 15,
    "mint": "LinkhB3afbBKb2EQQu7s7umdZceV3wcvAUJhQAfQ23L",
    "name": "Chainlink",
    "shortcut": "LINK"
@@ -515652,6 +517911,12 @@
    "shortcut": "AICRYNODE"
   },
   {
+   "coingecko_id": "peaq-2",
+   "mint": "PEAQjk7SRS6rXHVFFmpRr7zrC4g5ZuEebpwTxvaLr3b",
+   "name": "peaq",
+   "shortcut": "PEAQ"
+  },
+  {
    "coingecko_id": "perle",
    "mint": "PERLEQKUNUp1dgFZ8EvyXHdN9d6ZQqfGxALDvfs6pDs",
    "name": "Perle",
@@ -515698,6 +517963,12 @@
    "mint": "PRVT6TB7uss3FrUd2D9xs2zqDBsa3GbMJMwCQsgmeta",
    "name": "Umbra",
    "shortcut": "UMBRA"
+  },
+  {
+   "coingecko_id": "palatin-technologies-inc-common-stock-backpack-securities",
+   "mint": "PTNzAfFAB4LvoUQEUUGrFMyUoRLExMYjH6CcfyQfsVP",
+   "name": "Palatin Technologies, Inc. Common Stock (Backpack Securities",
+   "shortcut": "PTN"
   },
   {
    "coingecko_id": "hyperliquid-strategies-backpack-securities",
@@ -515812,6 +518083,12 @@
    "mint": "PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF",
    "name": "OpenAI PreStocks",
    "shortcut": "OPENAI"
+  },
+  {
+   "coingecko_id": "kryvex",
+   "mint": "PrkyDdnE9A99ghintXqgoynRahwz4oevixigZg3pump",
+   "name": "KRYVEX",
+   "shortcut": "KRYVEX"
   },
   {
    "coingecko_id": "pulse-4",
@@ -515944,6 +518221,12 @@
    "mint": "RoARruzbesVGAZgCzSoQCEdyVWytvzLbyNaxXBF7dnF",
    "name": "Russian Oil Asset Reserve",
    "shortcut": "ROAR"
+  },
+  {
+   "coingecko_id": "onlyrose",
+   "mint": "RoSeiVjW5H48ucPAJh1LJGBBzPpqvsokfDGpgHXDtdF",
+   "name": "OnlyRose",
+   "shortcut": "ROSE"
   },
   {
    "coingecko_id": "roam-token",
@@ -516427,7 +518710,7 @@
   },
   {
    "coingecko_id": "usd1-wlfi",
-   "coingecko_rank": 23,
+   "coingecko_rank": 25,
    "mint": "USD1ttGY1N17NEEHLmELoaybftRBUSErhqYiQzvEmuB",
    "name": "USD1",
    "shortcut": "USD1"
@@ -516651,7 +518934,7 @@
   },
   {
    "coingecko_id": "world-liberty-financial",
-   "coingecko_rank": 48,
+   "coingecko_rank": 49,
    "mint": "WLFinEv6ypjkczcS83FZqFpgFZYwQXutRbxGe7oC16g",
    "name": "World Liberty Financial",
    "shortcut": "WLFI"
@@ -517066,6 +519349,7 @@
   },
   {
    "coingecko_id": "equity-residential-xstock",
+   "deleted": true,
    "mint": "Xs4ERnk8jMHVg8urBDqnWCzeBBk9uajwCgK8k9Yeq1s",
    "name": "Equity Residential xStock",
    "shortcut": "EQRX"
@@ -517381,6 +519665,12 @@
    "mint": "Xs8urJdzBSFLaKqxZiMackbXDkyZbwPeAwz7PepQ1eD",
    "name": "T. Rowe Price xStock",
    "shortcut": "TROWX"
+  },
+  {
+   "coingecko_id": "shein-xstock",
+   "mint": "Xs8w8HvDjT1DxYeHzhSkRT8wYUahJB9kRC7Fuiic2Hf",
+   "name": "SHEIN xStock",
+   "shortcut": "SHEINX"
   },
   {
    "coingecko_id": "talen-energy-xstock",
@@ -521104,12 +523394,14 @@
   },
   {
    "coingecko_id": "electronic-arts-xstock",
+   "deleted": true,
    "mint": "Xsy5witQdPJgFWG7N9USB6EhRkAuG49rvCWkTYntRcj",
    "name": "Electronic Arts xStock",
    "shortcut": "EAX"
   },
   {
    "coingecko_id": "webster-financial-xstock",
+   "deleted": true,
    "mint": "Xsy66wss7g59sgVeeCGvC1fDujEZcHgFMQxXPWgaDhF",
    "name": "Webster Financial xStock",
    "shortcut": "WBSX"
@@ -521593,6 +523885,12 @@
    "mint": "aTBfDuLRqYHBiG82bHA7DzwjSDTFre2dRtGH3S5ondo",
    "name": "General Electric (Ondo Tokenized Stock)",
    "shortcut": "GEON"
+  },
+  {
+   "coingecko_id": "safemoon-5",
+   "mint": "aTUfRuPj3tp7FEpzAXLjs4VnQgAFbExD5JHGTyvpump",
+   "name": "SAFEMOON",
+   "shortcut": "SFM"
   },
   {
    "coingecko_id": "meme-season",
@@ -523930,6 +526228,12 @@
    "shortcut": "PEPO"
   },
   {
+   "coingecko_id": "phase-labs-staked-sol",
+   "mint": "phaseZSfPxTDBpiVb96H4XFSD8xHeHxZre5HerehBJG",
+   "name": "Phase Labs Staked SOL",
+   "shortcut": "PHASESOL"
+  },
+  {
    "coingecko_id": "pi-network-dog",
    "mint": "pi1RgmNaLQsNEyEAsrEjgmemojPwitwDAXc3zgseWWF",
    "name": "Pi Network Dog",
@@ -523949,7 +526253,7 @@
   },
   {
    "coingecko_id": "pump-fun",
-   "coingecko_rank": 49,
+   "coingecko_rank": 56,
    "mint": "pumpCmXqMfrsAkQ5r49WcJnRayYRqmXz6ae8H7H9Dfn",
    "name": "Pump.fun",
    "shortcut": "PUMP"
@@ -524100,7 +526404,7 @@
   },
   {
    "coingecko_id": "render-token",
-   "coingecko_rank": 84,
+   "coingecko_rank": 87,
    "mint": "rndrizKT3MK1iimdxRdWabcF7Zg7AR5T4nud4EkHBof",
    "name": "Render",
    "shortcut": "RENDER"

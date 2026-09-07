@@ -391,6 +391,32 @@
     }
    ]
   },
+  "0g-wrapped-wbtc-0g": {
+   "coingecko_id": "0g-wrapped-wbtc-0g",
+   "id": "erc20:0g:0x0555e30da8f98308edb960aa94c0db47230d2b9c",
+   "name": "0G Wrapped WBTC (0G)",
+   "networks": [
+    "0g"
+   ],
+   "shortcut": "WBTC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "0x": {
    "coingecko_id": "0x",
    "id": "erc20:eth:0xe41d2489571d322189246dafa5ebde1f4699f498",
@@ -3784,6 +3810,36 @@
     }
    ]
   },
+  "9to5": {
+   "coingecko_id": "9to5",
+   "id": "erc20:robinhoodchain:0x223e93b1bed7de244445db2dea4c7900e8045acc",
+   "name": "9TO5",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "9TO5",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "_gai16zbrielshai16zpr0": {
    "coingecko_id": "_gai16zbrielshai16zpr0",
    "id": "erc20:base:0x9a1b42f7f6d649b73bdb275972295acc940b153a",
@@ -3991,6 +4047,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "a-meme-coin": {
+   "coingecko_id": "a-meme-coin",
+   "id": "erc20:robinhoodchain:0x385f4f8ae47651ce5f58f5265395a669f8281e18",
+   "name": "A Meme Coin",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AMC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -9466,6 +9552,36 @@
     }
    ]
   },
+  "absolute-cinema": {
+   "coingecko_id": "absolute-cinema",
+   "id": "erc20:robinhoodchain:0x9936403a9cc72cf306063e3496ea387428a3aecd",
+   "name": "ABSOLUTE CINEMA",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CINEMA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "absolute-goat": {
    "coingecko_id": "absolute-goat",
    "id": "erc20:robinhoodchain:0x6e9acbfbdd8b57649ffeacea4d26a81ae1395367",
@@ -10844,6 +10960,36 @@
     }
    ]
   },
+  "addog": {
+   "coingecko_id": "addog",
+   "id": "solana:9nR2fjDsbSpQPcWmK8zz1HhKA1hQ7Zj7Gvb5YoEppump",
+   "name": "Addog",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "ADDOG",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "adecoagro-dinari-tokenized-stock": {
    "coingecko_id": "adecoagro-dinari-tokenized-stock",
    "id": "erc20:eth:0xf70ebb75cb588798b742ba0ff50db8f200e724d9",
@@ -10912,9 +11058,10 @@
   },
   "adi-token": {
    "coingecko_id": "adi-token",
-   "id": "erc20:eth:0x8b1484d57abbe239bb280661377363b03c89caea",
+   "id": "eth:ADI:36900",
    "name": "ADI",
    "networks": [
+    "adi-chain",
     "ethereum"
    ],
    "shortcut": "ADI",
@@ -12403,6 +12550,36 @@
     }
    ]
   },
+  "affirm-holdings-inc-robinhood-token": {
+   "coingecko_id": "affirm-holdings-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x14d89afd8ba9aa33a0c7810b30c3f798a1a7f169",
+   "name": "Affirm Holdings, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AFRM",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "affyn": {
    "coingecko_id": "affyn",
    "id": "erc20:pol:0x3b56a704c01d650147ade2b8cee594066b3f9421",
@@ -13188,6 +13365,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "agent-obs": {
+   "coingecko_id": "agent-obs",
+   "id": "erc20:robinhoodchain:0x47366e0f257ac009e82bd46fb74e2fb50826ce98",
+   "name": "Agent OBS",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AOBS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -14291,6 +14498,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "agi-frog": {
+   "coingecko_id": "agi-frog",
+   "id": "erc20:robinhoodchain:0x5a8625d314fdd298101d87932a784b756a401e18",
+   "name": "AGI Frog",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AGI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -17384,6 +17621,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "airbnb-inc-robinhood-token": {
+   "coingecko_id": "airbnb-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x3fa09cc6b73d4419ab5660743d8a7ded3385fdb4",
+   "name": "Airbnb, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ABNB",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -25174,6 +25441,36 @@
     }
    ]
   },
+  "amc-entertainment-backpack-securities": {
+   "coingecko_id": "amc-entertainment-backpack-securities",
+   "id": "solana:AMC1qwR9KhiyrQBRPrxnfo4JfMeMZqEBvt5tgTytNNoc",
+   "name": "AMC Entertainment (Backpack Securities)",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "AMC",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "amc-entertainment-holdings-dinari-tokenized-stock": {
    "coingecko_id": "amc-entertainment-holdings-dinari-tokenized-stock",
    "id": "erc20:avax:0xb970ed047600e24e2428cbef20e074e5a593ce1b",
@@ -27180,6 +27477,36 @@
     }
    ]
   },
+  "amphenol-corporation-robinhood-token": {
+   "coingecko_id": "amphenol-corporation-robinhood-token",
+   "id": "erc20:robinhoodchain:0xd225d2a1dc20b01a2a36e8905e589f3a337401d9",
+   "name": "Amphenol Corporation \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "APH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "amphenol-dinari-tokenized-stock": {
    "coingecko_id": "amphenol-dinari-tokenized-stock",
    "id": "erc20:eth:0x1de1d8ee8c42ff3231fd89d478efcfb4726540d7",
@@ -27466,6 +27793,36 @@
     "avalanche",
     "base",
     "ethereum"
+   ],
+   "shortcut": "SILJ",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "amplify-junior-silver-miners-etf-robinhood-token": {
+   "coingecko_id": "amplify-junior-silver-miners-etf-robinhood-token",
+   "id": "erc20:robinhoodchain:0xd521d4b02c9044a952b2ea8dbf2fcecee8300f7d",
+   "name": "Amplify Junior Silver Miners ETF \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
    ],
    "shortcut": "SILJ",
    "support": {
@@ -29882,6 +30239,36 @@
     }
    ]
   },
+  "anonymous-cat": {
+   "coingecko_id": "anonymous-cat",
+   "id": "solana:HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+   "name": "Anonymous Cat",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "ZCAT",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "anonymous-coin-2": {
    "coingecko_id": "anonymous-coin-2",
    "id": "solana:FhvBDEr46meW6NHWHNeShDzvbXWabNzyT6uGinEgBAGS",
@@ -30002,6 +30389,36 @@
     }
    ]
   },
+  "ansem-fart-dust": {
+   "coingecko_id": "ansem-fart-dust",
+   "id": "solana:9uEeSZSdxMm1PaoqQ1VNDwcuDMM9RHqkp2p89Je5pump",
+   "name": "Ansem Fart Dust",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "AFD",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "ansem-s-cat": {
    "coingecko_id": "ansem-s-cat",
    "id": "solana:6n7Janary9fqzxKaJVrhL9TG2F61VbAtwUMu1YZscaQS",
@@ -30040,6 +30457,36 @@
     "solana"
    ],
    "shortcut": "ANSEM",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "ansem-tips": {
+   "coingecko_id": "ansem-tips",
+   "id": "solana:B5YTUMqSnwzztWHWmzAzHApeRy6cuGEx49Bidt4kuH8w",
+   "name": "ansem.tips",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "TIPANSEM",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -30955,6 +31402,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "ap": {
+   "coingecko_id": "ap",
+   "id": "erc20:robinhoodchain:0x69c68e4c00c6f6e4ac027300293a879be1e11e18",
+   "name": "ap",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AP",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -33393,6 +33870,36 @@
     }
    ]
   },
+  "aptusd": {
+   "coingecko_id": "aptusd",
+   "id": "erc20:eth:0x093df218d70ea6036afa26704a1c70d12010b908",
+   "name": "aptUSD",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "APTUSD",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "apu": {
    "coingecko_id": "apu",
    "id": "solana:24Kko3VWwMKtkB9CVct2ZAZgJzb2R2iNrYxCpTYFpump",
@@ -34509,6 +35016,36 @@
     }
    ]
   },
+  "arbitrage-ape": {
+   "coingecko_id": "arbitrage-ape",
+   "id": "erc20:robinhoodchain:0xe2dae1c072b9f66bed999873b94798b2152af7e1",
+   "name": "Arbitrage Ape",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "arbitrage-loop": {
    "coingecko_id": "arbitrage-loop",
    "id": "solana:EDcdVtzW4HG7Xtg5yH3RbzMEyfudg63RmZgdXpQFUk3s",
@@ -34815,6 +35352,36 @@
    "name": "ARC",
    "networks": [
     "ethereum"
+   ],
+   "shortcut": "ARC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "arc-finance-2": {
+   "coingecko_id": "arc-finance-2",
+   "id": "erc20:robinhoodchain:0x7ad7b2256ffcf7c6f7c7d95cf238d2ecc2c485e0",
+   "name": "Arc Finance",
+   "networks": [
+    "robinhood"
    ],
    "shortcut": "ARC",
    "support": {
@@ -38113,6 +38680,36 @@
     }
    ]
   },
+  "artificial-gooner-intelligence": {
+   "coingecko_id": "artificial-gooner-intelligence",
+   "id": "solana:CaWZeUM4FvX9dPkjGc2xHS6tSN3qJfTWyvaG77aM5o7h",
+   "name": "artificial gooner intelligence",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "AGI",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "artificial-gooning-intelligence": {
    "coingecko_id": "artificial-gooning-intelligence",
    "id": "solana:7JH1tgtDjze6miPsFV3THUFh1r25JYUHdZsM6q9xGqZ5",
@@ -38230,6 +38827,96 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "artificial-inu-3": {
+   "coingecko_id": "artificial-inu-3",
+   "id": "erc20:robinhoodchain:0x2e8c31162b855a2ffa90f6f8634643ad6f111e18",
+   "name": "Artificial Inu",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "artificial-neko": {
+   "coingecko_id": "artificial-neko",
+   "id": "erc20:robinhoodchain:0xc6e8c393d46b685c2fb2177f759f2b16eb7a7d54",
+   "name": "Artificial Neko",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "NEKO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "artificial-pepe": {
+   "coingecko_id": "artificial-pepe",
+   "id": "erc20:robinhoodchain:0x71dff63057274f5d20330c5f18b5922b97660f9c",
+   "name": "Artificial Pepe",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AP",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -39772,6 +40459,36 @@
     }
    ]
   },
+  "ast-fun": {
+   "coingecko_id": "ast-fun",
+   "id": "erc20:bnb:0x265b3982ea730748100947f52561a4eab54affff",
+   "name": "ast.fun",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "AST",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "ast-spacemobile-bstocks-tokenized-stock": {
    "coingecko_id": "ast-spacemobile-bstocks-tokenized-stock",
    "id": "erc20:bnb:0x58b6f5feeb8436489f5bf4a56619092b1fa8e777",
@@ -40304,6 +41021,36 @@
    "name": "Asteroid",
    "networks": [
     "ethereum"
+   ],
+   "shortcut": "ASTEROID",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "asteroid-3": {
+   "coingecko_id": "asteroid-3",
+   "id": "erc20:robinhoodchain:0xfd82d8db539b6ace0d50815845133767e24f1e18",
+   "name": "ASTEROID",
+   "networks": [
+    "robinhood"
    ],
    "shortcut": "ASTEROID",
    "support": {
@@ -42748,7 +43495,8 @@
    "name": "Auditchain",
    "networks": [
     "ethereum",
-    "polygon-pos"
+    "polygon-pos",
+    "robinhood"
    ],
    "shortcut": "AUDT",
    "support": {
@@ -44348,6 +45096,36 @@
     }
    ]
   },
+  "autsm": {
+   "coingecko_id": "autsm",
+   "id": "erc20:robinhoodchain:0xd4aae326ddd1a2537a92c00e6576e4605e5d1e18",
+   "name": "AUTSM",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "AU",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "autumn": {
    "coingecko_id": "autumn",
    "id": "erc20:eth:0x4c3bae16c79c30eeb1004fb03c878d89695e3a99",
@@ -45482,6 +46260,36 @@
     }
    ]
   },
+  "avis-budget-group-inc-robinhood-token": {
+   "coingecko_id": "avis-budget-group-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x92c3f36749bc625df940ce81282ee2013ab11e71",
+   "name": "Avis Budget Group, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CAR",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "avive": {
    "coingecko_id": "avive",
    "id": "erc20:arb1:0x5117f4ad0bc70dbb3b05bf39a1ec1ee40dd67654",
@@ -45544,36 +46352,6 @@
   },
   "avocadocoin": {
    "coingecko_id": "avocadocoin",
-   "id": "solana:EE5L8cMU4itTsCSuor7NLK6RZx6JhsBe8GGV3oaAHm3P",
-   "name": "AvocadoCoin [OLD]",
-   "networks": [
-    "solana"
-   ],
-   "shortcut": "AVDO",
-   "support": {
-    "T1B1": false,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "Backpack",
-     "url": "https://backpack.app/"
-    },
-    {
-     "name": "NuFi",
-     "url": "https://nu.fi"
-    }
-   ]
-  },
-  "avocadocoin-2": {
-   "coingecko_id": "avocadocoin-2",
    "id": "solana:BP34pngxUAUGEYyWVQvwWhL7dx211otnegS5WeTQHLFd",
    "name": "AvocadoCoin",
    "networks": [
@@ -47635,6 +48413,36 @@
     }
    ]
   },
+  "baby-artificial-inu": {
+   "coingecko_id": "baby-artificial-inu",
+   "id": "erc20:robinhoodchain:0xa9fcd15f315f5ffa918d3a767a980ee3dc019667",
+   "name": "Baby Artificial Inu",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BABYAI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "baby-aster": {
    "coingecko_id": "baby-aster",
    "id": "erc20:bnb:0xd0593df7a9a99ae03b46437c5f20c339bc02fc37",
@@ -47938,6 +48746,36 @@
   "baby-cash-cat": {
    "coingecko_id": "baby-cash-cat",
    "id": "erc20:robinhoodchain:0x57a1ab439e8c24b90ecc6534c05621d6e68ed35a",
+   "name": "Baby Cash Cat",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BABYCASHCAT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "baby-cash-cat-2": {
+   "coingecko_id": "baby-cash-cat-2",
+   "id": "erc20:robinhoodchain:0x183536d2859641a54dd9c0405e7676e476c7c4ca",
    "name": "Baby Cash Cat",
    "networks": [
     "robinhood"
@@ -53669,6 +54507,36 @@
     }
    ]
   },
+  "bankless-coin": {
+   "coingecko_id": "bankless-coin",
+   "id": "erc20:robinhoodchain:0x5e8907a3f45d7b30be6addbab0312e46e5061614",
+   "name": "Bankless Coin",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BANKLESS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "bankless-dao": {
    "coingecko_id": "bankless-dao",
    "id": "erc20:eth:0x2d94aa3e47d9d5024503ca8491fce9a2fb4da198",
@@ -56918,6 +57786,36 @@
     }
    ]
   },
+  "baseunc": {
+   "coingecko_id": "baseunc",
+   "id": "erc20:base:0xb2000000000000000000000ff4a547c891ab1b01",
+   "name": "BaseUnc",
+   "networks": [
+    "base"
+   ],
+   "shortcut": "BASEUNC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "baseusdp": {
    "coingecko_id": "baseusdp",
    "id": "erc20:base:0x7b29e5266634bcba06686e580afd4419a8c84b07",
@@ -58341,6 +59239,32 @@
     }
    ]
   },
+  "beast": {
+   "coingecko_id": "beast",
+   "id": "erc20:ink:0xd95b9a5fa7c2708fd4fe0e07e59bde1ef35b194a",
+   "name": "Beast",
+   "networks": [
+    "ink"
+   ],
+   "shortcut": "BEAST",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "beast-seller": {
    "coingecko_id": "beast-seller",
    "id": "erc20:eth:0x255494b830bd4fe7220b3ec4842cba75600b6c80",
@@ -59147,32 +60071,6 @@
      "name": "Trezor Suite",
      "url": "https://trezor.io/trezor-suite"
     },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "beets": {
-   "coingecko_id": "beets",
-   "id": "erc20:sonic:0x2d0e0814e62d80056181f5cd932274405966e4f0",
-   "name": "Beets",
-   "networks": [
-    "sonic"
-   ],
-   "shortcut": "BEETS",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -66864,6 +67762,36 @@
     }
    ]
   },
+  "biscotti": {
+   "coingecko_id": "biscotti",
+   "id": "erc20:robinhoodchain:0x7cd7073a71eaf5f6e4febfa98460ee66cd97deb1",
+   "name": "Biscotti",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BISCOTTI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "bistroo": {
    "coingecko_id": "bistroo",
    "id": "erc20:eth:0x6e8908cfa881c9f6f2c64d3436e7b80b1bf0093f",
@@ -70323,7 +71251,8 @@
    "name": "Bittensor",
    "networks": [
     "base",
-    "bittensor-evm"
+    "bittensor-evm",
+    "robinhood"
    ],
    "shortcut": "TAO",
    "support": {
@@ -74770,6 +75699,36 @@
     }
    ]
   },
+  "blue-chip-4": {
+   "coingecko_id": "blue-chip-4",
+   "id": "erc20:base:0xb200000000000000000000cfbdf64a8706a94a01",
+   "name": "BLUE CHIP",
+   "networks": [
+    "base"
+   ],
+   "shortcut": "BLUECHIP",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "blue-guy": {
    "coingecko_id": "blue-guy",
    "id": "erc20:base:0x891502ba08132653151f822a3a430198f1844115",
@@ -76097,6 +77056,36 @@
     }
    ]
   },
+  "bnbo": {
+   "coingecko_id": "bnbo",
+   "id": "erc20:bnb:0x7fb4758cb0c617c0bab1baf80525fab958637777",
+   "name": "\u5e01\u6069\u5b9d",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "BNBO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "bnboflegends": {
    "coingecko_id": "bnboflegends",
    "id": "erc20:bnb:0x44444e15232ff6dfed49b550d672707a283b3910",
@@ -77330,6 +78319,36 @@
     }
    ]
   },
+  "bodkin": {
+   "coingecko_id": "bodkin",
+   "id": "erc20:robinhoodchain:0xb06b1e58f5ba2a3df1ab74c01cb2a44c5395b3be",
+   "name": "BODKIN",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BODKIN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "bodoggos-strategy": {
    "coingecko_id": "bodoggos-strategy",
    "id": "solana:DGMARinczhSb64n9ezNxrPLbcfcftYom9xZo94LVK8PN",
@@ -78345,6 +79364,36 @@
     }
    ]
   },
+  "boner-coin": {
+   "coingecko_id": "boner-coin",
+   "id": "erc20:robinhoodchain:0x98096d17e191b3da1d5f99a6d7b3584351b11e18",
+   "name": "Boner Coin",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BONER",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "boneswap": {
    "coingecko_id": "boneswap",
    "id": "erc20:pol:0x80244c2441779361f35803b8c711c6c8fc6054a3",
@@ -78866,6 +79915,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "bonk-s-revenge": {
+   "coingecko_id": "bonk-s-revenge",
+   "id": "solana:EqpJRxYKWBMuNHKpo7NCGeFNXYdQLzZx9T88GsHDbonk",
+   "name": "Bonk\u2019s Revenge",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "REVENGE",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -81336,9 +82415,8 @@
    "id": "eth:BB:6001",
    "name": "BounceBit",
    "networks": [
-    "bouncebit",
-    "ethereum",
-    "solana"
+    "binance-smart-chain",
+    "bouncebit"
    ],
    "shortcut": "BB",
    "support": {
@@ -81352,14 +82430,6 @@
     {
      "name": "Trezor Suite",
      "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "Backpack",
-     "url": "https://backpack.app/"
-    },
-    {
-     "name": "NuFi",
-     "url": "https://nu.fi"
     },
     {
      "name": "MetaMask",
@@ -81826,6 +82896,36 @@
     "ethereum"
    ],
    "shortcut": "BXBT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "boxed-cat": {
+   "coingecko_id": "boxed-cat",
+   "id": "erc20:robinhoodchain:0x76af8d3b40a0d7b5197935d0e84c14f7a3782e87",
+   "name": "Boxed Cat",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BOXED",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -89580,6 +90680,36 @@
     }
    ]
   },
+  "bundle-cat": {
+   "coingecko_id": "bundle-cat",
+   "id": "erc20:robinhoodchain:0x07ebb29a38fbcb41563817e5e19f2cec619c90d2",
+   "name": "Bundle Cat",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BUN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "bundles-2": {
    "coingecko_id": "bundles-2",
    "id": "solana:B3hgxnFwveJNzxah9rrx5HnoiSUdz2b8kmggKyYKmoon",
@@ -91076,6 +92206,36 @@
     }
    ]
   },
+  "buy-the-cat": {
+   "coingecko_id": "buy-the-cat",
+   "id": "solana:E4Ap4icMLwKot8rkkTbq5JkS5kZxt5XCE3yfxbzYBjHx",
+   "name": "Buy The Cat",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "BTC",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "buy-the-forehead": {
    "coingecko_id": "buy-the-forehead",
    "id": "solana:8mejbHqzKhPZvZ6j3vikLrbi4GsggZ3UJrBcYdGvpump",
@@ -92145,6 +93305,36 @@
     }
    ]
   },
+  "cache-flow": {
+   "coingecko_id": "cache-flow",
+   "id": "erc20:robinhoodchain:0xce09140499936f0d3811e27119ecede913441292",
+   "name": "Cache Flow",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CACHE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "cad-coin": {
    "coingecko_id": "cad-coin",
    "id": "erc20:eth:0xcadc0acd4b445166f12d2c07eac6e2544fbe2eef",
@@ -92783,6 +93973,36 @@
     "monad"
    ],
    "shortcut": "ACCJ",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "cameco-corporation-robinhood-token": {
+   "coingecko_id": "cameco-corporation-robinhood-token",
+   "id": "erc20:robinhoodchain:0x242b125567bbc6c24a0b48e3ed0e7184ddcea124",
+   "name": "Cameco Corporation \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CCJ",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -95632,6 +96852,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "cash-cow-2": {
+   "coingecko_id": "cash-cow-2",
+   "id": "erc20:robinhoodchain:0x3207d891ddd0db2981a6976b58b22e27c0699b4b",
+   "name": "cash cow",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CASHCOW",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -99826,6 +101076,36 @@
     }
    ]
   },
+  "century-aluminum-company-robinhood-token": {
+   "coingecko_id": "century-aluminum-company-robinhood-token",
+   "id": "erc20:robinhoodchain:0xebb4ef36d2bc8e47484cdd7794328e02ddc113d0",
+   "name": "Century Aluminum Company \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CENX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "ceramicliberty-com": {
    "coingecko_id": "ceramicliberty-com",
    "id": "erc20:bnb:0x8f452a1fdd388a45e1080992eff051b4dd9048d2",
@@ -101159,6 +102439,7 @@
    "name": "Chainlink",
    "networks": [
     "abstract",
+    "adi-chain",
     "apechain",
     "arbitrum-one",
     "astar",
@@ -103781,6 +105062,36 @@
     }
    ]
   },
+  "chicken-2": {
+   "coingecko_id": "chicken-2",
+   "id": "erc20:robinhoodchain:0x75ce3ea0f536671c404e68f8b4bb8bc5326242ed",
+   "name": "CHICKEN",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CHKN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "chicken-banana": {
    "coingecko_id": "chicken-banana",
    "id": "solana:FZRh6uAar3gEJb53ruHNjHibCPqiGHghfGiSRVeFpump",
@@ -104481,6 +105792,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "chilleez": {
+   "coingecko_id": "chilleez",
+   "id": "erc20:robinhoodchain:0x5b6ef408c4ebb166788c0ca4cb644f12ac757777",
+   "name": "Chilleez",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CHILLZ",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -106700,6 +108041,66 @@
     "ethereum"
    ],
    "shortcut": "CHR",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "chrome-cat": {
+   "coingecko_id": "chrome-cat",
+   "id": "erc20:robinhoodchain:0x9d7d4d0e0c41fa6bc1e30ddf8645d8f83c101e18",
+   "name": "Chrome Cat",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CHROME",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "chrome-dino": {
+   "coingecko_id": "chrome-dino",
+   "id": "erc20:robinhoodchain:0x000b2164a76560323163343431db8be550f164b8",
+   "name": "Chrome Dino",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "DINO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -111573,36 +112974,6 @@
     }
    ]
   },
-  "clones": {
-   "coingecko_id": "clones",
-   "id": "erc20:base:0xaadd98ad4660008c917c6fe7286bc54b2eef894d",
-   "name": "CLONES",
-   "networks": [
-    "base"
-   ],
-   "shortcut": "CLONES",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "clorox-xstock": {
    "coingecko_id": "clorox-xstock",
    "id": "erc20:eth:0x8e38da2ed94e3779da83075d8c73ea98fbf934f4",
@@ -112368,6 +113739,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "cluster-protocol": {
+   "coingecko_id": "cluster-protocol",
+   "id": "erc20:base:0x001aad84c21a5cd4d696c56d44866e9703c43f77",
+   "name": "CLUSTER PROTOCOL",
+   "networks": [
+    "base"
+   ],
+   "shortcut": "CP",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -113674,6 +115075,66 @@
     }
    ]
   },
+  "cofinex-2": {
+   "coingecko_id": "cofinex-2",
+   "id": "erc20:bnb:0xdea0b8ad5806d8be6ea38ba4e5fc36118808eb04",
+   "name": "Cofinex",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "CNX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "cog": {
+   "coingecko_id": "cog",
+   "id": "solana:7rSpKgASuXN5hfw3jsKNZN6ysNCR1Eixb2PD2Nd9pump",
+   "name": "Cog",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "COG",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "cogecoin-2": {
    "coingecko_id": "cogecoin-2",
    "id": "solana:AvecKFxn8ihToR7gwgAVjfqV56N1rWhN7hv8joXQpump",
@@ -114780,6 +116241,36 @@
     }
    ]
   },
+  "coinbase-wrapped-hype": {
+   "coingecko_id": "coinbase-wrapped-hype",
+   "id": "erc20:base:0xb200000000000000000000451d033a5000cb479e",
+   "name": "Coinbase Wrapped HYPE",
+   "networks": [
+    "base"
+   ],
+   "shortcut": "CBHYPE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "coinbase-wrapped-ltc": {
    "coingecko_id": "coinbase-wrapped-ltc",
    "id": "erc20:base:0xcb17c9db87b595717c857a08468793f5bab6445f",
@@ -114882,6 +116373,36 @@
     "base"
    ],
    "shortcut": "CBXRP",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "coinbase-wrapped-zec": {
+   "coingecko_id": "coinbase-wrapped-zec",
+   "id": "erc20:base:0xb2000000000000000000008501b13360000cb2ec",
+   "name": "Coinbase Wrapped ZEC",
+   "networks": [
+    "base"
+   ],
+   "shortcut": "CBZEC",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -116692,6 +118213,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "commons": {
+   "coingecko_id": "commons",
+   "id": "solana:AMUgSjmdFsS8Y3JeL32u7A45Fpt8YF9xKaiwW5uGHdXk",
+   "name": "Commons",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "CMNS",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -119737,6 +121288,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "copperinu": {
+   "coingecko_id": "copperinu",
+   "id": "erc20:robinhoodchain:0x4720eb2277009bdc57c988fa076dd6d79a821e18",
+   "name": "COPPERINU",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "COPPERINU",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -139556,6 +141137,36 @@
     }
    ]
   },
+  "delta": {
+   "coingecko_id": "delta",
+   "id": "erc20:robinhoodchain:0xe8ffd7e24187f72afb08d75b1bb13088a989a791",
+   "name": "Delta",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "DELTA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "delta-air-lines-dinari-tokenized-stock": {
    "coingecko_id": "delta-air-lines-dinari-tokenized-stock",
    "id": "erc20:avax:0xb192ffaa9ce8c141a532ea24aeeb4794dbecddd6",
@@ -139901,6 +141512,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "denar-markets": {
+   "coingecko_id": "denar-markets",
+   "id": "erc20:robinhoodchain:0x3786728a2c49c4617bf4fe5bd82b90b6b0df5508",
+   "name": "Denar Markets",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "DENAR",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -143491,6 +145132,36 @@
     }
    ]
   },
+  "dig": {
+   "coingecko_id": "dig",
+   "id": "solana:HGE9j5vuTzZWqvjZXjuNb5WxQKDUHY8QFvCXVUKppump",
+   "name": "DIG",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "DIG",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "digg": {
    "coingecko_id": "digg",
    "id": "erc20:eth:0x798d1be841a82a273720ce31c822c61a67a601c3",
@@ -144053,6 +145724,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "digitaldon": {
+   "coingecko_id": "digitaldon",
+   "id": "erc20:robinhoodchain:0x0b551573d731090b3f57129c11b0a4a9e4d0a69c",
+   "name": "DigitalDon",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "DON",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -150677,6 +152378,36 @@
     }
    ]
   },
+  "doge-1-3": {
+   "coingecko_id": "doge-1-3",
+   "id": "erc20:robinhoodchain:0x3ec8a8174129d5cbecef67ee2af8621319c34c03",
+   "name": "DOGE-1",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "DOGE-1",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "doge-1-mission-to-the-moon": {
    "coingecko_id": "doge-1-mission-to-the-moon",
    "id": "erc20:bnb:0x08ccac619e9c6e95d48dfd23793d722a994b95b8",
@@ -152300,6 +154031,36 @@
     }
    ]
   },
+  "doggie-mode": {
+   "coingecko_id": "doggie-mode",
+   "id": "erc20:robinhoodchain:0xa9efe2fc94de79734c03051515f48f254ce61e18",
+   "name": "Doggie Mode",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "DOGGIE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "doggo-3": {
    "coingecko_id": "doggo-3",
    "id": "erc20:eth:0x240cd7b53d364a208ed41f8ced4965d11f571b7a",
@@ -153304,6 +155065,36 @@
   "dohrnii": {
    "coingecko_id": "dohrnii",
    "id": "erc20:eth:0x32462ba310e447ef34ff0d15bce8613aa8c4a244",
+   "name": "Dohrnii [OLD]",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "DHN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "dohrnii-2": {
+   "coingecko_id": "dohrnii-2",
+   "id": "erc20:eth:0x3a54e9b53f32fd3441a87e1a95c853e595c8326f",
    "name": "Dohrnii",
    "networks": [
     "ethereum"
@@ -154103,6 +155894,36 @@
     }
    ]
   },
+  "dominion-energy-inc-robinhood-token": {
+   "coingecko_id": "dominion-energy-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x867e4279755008a341591c4805ba59795924ca44",
+   "name": "Dominion Energy, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "D",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "dominion-energy-xstock": {
    "coingecko_id": "dominion-energy-xstock",
    "id": "erc20:eth:0x3ef11a28f69d7134c957bfe31995106d0e5c3255",
@@ -154669,6 +156490,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "DONS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "dont-blink": {
+   "coingecko_id": "dont-blink",
+   "id": "erc20:robinhoodchain:0x7b630f080807df83908b4ade46ba6396ee66b098",
+   "name": "dont blink",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BLINK",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -156215,6 +158066,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "DRA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "draftkings-inc-robinhood-token": {
+   "coingecko_id": "draftkings-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x0ef754390ff70ee1f2326b3be86f3e51bd0e425c",
+   "name": "DraftKings Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "DKNG",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -159785,6 +161666,36 @@
     }
    ]
   },
+  "earn": {
+   "coingecko_id": "earn",
+   "id": "erc20:robinhoodchain:0xa3b6aee90017b72c0812dc1e013de70eb2917ba3",
+   "name": "EARN",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "EARN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "earnausd": {
    "coingecko_id": "earnausd",
    "id": "erc20:mon:0x103222f020e98bba0ad9809a011fdf8e6f067496",
@@ -162949,6 +164860,36 @@
     }
    ]
   },
+  "ekubo-stock-liquidity-token": {
+   "coingecko_id": "ekubo-stock-liquidity-token",
+   "id": "erc20:robinhoodchain:0x570c5aa79c798e7a418412cc8399ae5bcce570c5",
+   "name": "Ekubo Stock Liquidity Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "STONX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "el-dorito": {
    "coingecko_id": "el-dorito",
    "id": "solana:FgWto1nfArQTpg3o74sYkti753caPfHNXHG8CkedDpMg",
@@ -163383,52 +165324,6 @@
     "T3W1": true
    },
    "wallets": [
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "electronic-arts-xstock": {
-   "coingecko_id": "electronic-arts-xstock",
-   "id": "erc20:eth:0x409de3004a6f1bd0c37cddee8efd86b13b058435",
-   "name": "Electronic Arts xStock",
-   "networks": [
-    "arbitrum-one",
-    "binance-smart-chain",
-    "ethereum",
-    "hyperevm",
-    "ink",
-    "mantle",
-    "optimistic-ethereum",
-    "solana",
-    "x-layer"
-   ],
-   "shortcut": "EAX",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "Backpack",
-     "url": "https://backpack.app/"
-    },
-    {
-     "name": "NuFi",
-     "url": "https://nu.fi"
-    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -165277,6 +167172,36 @@
    "name": "Ember",
    "networks": [
     "base"
+   ],
+   "shortcut": "EMBER",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "ember-4": {
+   "coingecko_id": "ember-4",
+   "id": "erc20:robinhoodchain:0x139ea209a647fd1f8bf275b982d3dbad3e4b1a4d",
+   "name": "ember",
+   "networks": [
+    "robinhood"
    ],
    "shortcut": "EMBER",
    "support": {
@@ -168453,52 +170378,6 @@
     "x-layer"
    ],
    "shortcut": "ELSX",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "Backpack",
-     "url": "https://backpack.app/"
-    },
-    {
-     "name": "NuFi",
-     "url": "https://nu.fi"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "equity-residential-xstock": {
-   "coingecko_id": "equity-residential-xstock",
-   "id": "erc20:eth:0x130032f4475e95b68958994c696992ddaaab65c4",
-   "name": "Equity Residential xStock",
-   "networks": [
-    "arbitrum-one",
-    "binance-smart-chain",
-    "ethereum",
-    "hyperevm",
-    "ink",
-    "mantle",
-    "optimistic-ethereum",
-    "solana",
-    "x-layer"
-   ],
-   "shortcut": "EQRX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -177176,6 +179055,36 @@
     }
    ]
   },
+  "farting-unicorn-2": {
+   "coingecko_id": "farting-unicorn-2",
+   "id": "erc20:robinhoodchain:0xa65d0267c8637fcc46ff91e48de766721c750fe3",
+   "name": "Farting Unicorn",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "FUNI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "fartless-coin": {
    "coingecko_id": "fartless-coin",
    "id": "solana:FyrBf5xKg5EwKZ9pHvSpJeLLuCWBicTpm3VvZcsibonk",
@@ -177545,6 +179454,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "fatcoin-2": {
+   "coingecko_id": "fatcoin-2",
+   "id": "erc20:robinhoodchain:0x12d5ee7917ca430073c3a638ee1e6f0648a98a01",
+   "name": "FATCOIN",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "FATCOIN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -179497,6 +181436,36 @@
     "robinhood"
    ],
    "shortcut": "FIDEL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "fidel-catstro": {
+   "coingecko_id": "fidel-catstro",
+   "id": "erc20:robinhoodchain:0x157a752f3446fe891d6e2881006813703fbb3ad9",
+   "name": "Fidel Catstro",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CATSTRO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -181968,6 +183937,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "first-solar-inc-robinhood-token": {
+   "coingecko_id": "first-solar-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0xd2b82c42c1f99da66dd5069cac79a0a62ae4df56",
+   "name": "First Solar, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "FSLR",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -184765,6 +186764,36 @@
    "coingecko_id": "flork-2",
    "id": "erc20:bnb:0x09db6885551ab1d4a9fa484d9b4b9fe899134444",
    "name": "flork",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "FLORK",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "flork-3": {
+   "coingecko_id": "flork-3",
+   "id": "erc20:bnb:0xf40592daacb3e5abf358789f5688c0b4f64d7777",
+   "name": "FLORK",
    "networks": [
     "binance-smart-chain"
    ],
@@ -191751,6 +193780,66 @@
     }
    ]
   },
+  "froge-3": {
+   "coingecko_id": "froge-3",
+   "id": "erc20:robinhoodchain:0x3e2cf3aec80adcffcae3436938934be970894066",
+   "name": "FROGE",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "FROGE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "froge-4": {
+   "coingecko_id": "froge-4",
+   "id": "solana:GhuEi5AWtZaWuAda4ysJwMTzU8oMdjiL1bz6eziptT2p",
+   "name": "Froge",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "FROGE",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "frogevip": {
    "coingecko_id": "frogevip",
    "id": "erc20:eth:0xcab254f1a32343f11ab41fbde90ecb410cde348a",
@@ -197878,10 +199967,11 @@
   },
   "gatechain-token": {
    "coingecko_id": "gatechain-token",
-   "id": "erc20:eth:0xe66747a101bff2dba3697199dcce5b743b454759",
+   "id": "eth:GT:10088",
    "name": "Gate",
    "networks": [
-    "ethereum"
+    "ethereum",
+    "gatelayer"
    ],
    "shortcut": "GT",
    "support": {
@@ -200798,6 +202888,36 @@
     }
    ]
   },
+  "gentle-warrior": {
+   "coingecko_id": "gentle-warrior",
+   "id": "solana:Fczgz91jYK6HEQmRhBhUBtAaBabLnyi8RtujacN3pump",
+   "name": "Gentle Warrior",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "GWAR",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "gently-used-lada": {
    "coingecko_id": "gently-used-lada",
    "id": "solana:25JUPL6ksapY1iCLWkFcSaXaA6Ar3W7JDCdPjeSApump",
@@ -201982,6 +204102,36 @@
     }
    ]
   },
+  "giga-2": {
+   "coingecko_id": "giga-2",
+   "id": "erc20:robinhoodchain:0x5baaec1b70864f01dbdb747358ff59f2e2ccf7d5",
+   "name": "GIGA",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "GIGA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "giga-cat": {
    "coingecko_id": "giga-cat",
    "id": "erc20:base:0xe4fc328ae212232efc5f5dd0e0b1537cd055d715",
@@ -202470,6 +204620,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "MAX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "giggle-max-brother": {
+   "coingecko_id": "giggle-max-brother",
+   "id": "erc20:bnb:0x0f6c3988cd4a3746d6bb72e3111d2c05fc8a7777",
+   "name": "Giggle Max Brother",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "TOM",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -203850,6 +206030,7 @@
    "networks": [
     "ethereum",
     "ink",
+    "mantle",
     "robinhood",
     "solana",
     "x-layer"
@@ -204782,6 +206963,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "global-x-uranium-etf-robinhood-token": {
+   "coingecko_id": "global-x-uranium-etf-robinhood-token",
+   "id": "erc20:robinhoodchain:0x4f964f87c599eb4e4c2b71b1441d9307d1d12aa3",
+   "name": "Global X Uranium ETF \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "URA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -208134,6 +210345,45 @@
     }
    ]
   },
+  "goldcoin": {
+   "coingecko_id": "goldcoin",
+   "id": "erc20:robinhoodchain:0xaf0172ddea4ce60db3ebab05748a00b14fc8e433",
+   "name": "Goldcoin",
+   "networks": [
+    "robinhood",
+    "solana"
+   ],
+   "shortcut": "GLC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "goldcoin-2": {
    "coingecko_id": "goldcoin-2",
    "id": "solana:9QFfgxdSqH5zT7j6rZb1y6SZhw2aFtcQu2r6BuYpump",
@@ -208431,6 +210681,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "golden-goose-2": {
+   "coingecko_id": "golden-goose-2",
+   "id": "erc20:robinhoodchain:0xcacb0e9caccee63ec4d82952e561a291c68bcb68",
+   "name": "Golden Goose",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "GG",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -210245,6 +212525,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "gopro-backpack-securities": {
+   "coingecko_id": "gopro-backpack-securities",
+   "id": "solana:GPRR2u6NS5yBQHWGauoJ9HXgjrTH8dDsrBfTV5zAYvDH",
+   "name": "GoPro (Backpack Securities)",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "GPRO",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -212260,6 +214570,36 @@
     }
    ]
   },
+  "greatest-meme-ever": {
+   "coingecko_id": "greatest-meme-ever",
+   "id": "erc20:robinhoodchain:0xef67e3064bef1a27e81925ec7132f23e533bd5f6",
+   "name": "Greatest Meme Ever",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "GME",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "greatestofavaxtrenches": {
    "coingecko_id": "greatestofavaxtrenches",
    "id": "erc20:avax:0xb9c188bc558a82a1ee9e75ae0857df443f407632",
@@ -212688,6 +215028,36 @@
     "polygon-pos"
    ],
    "shortcut": "$GREENGOLD",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "greenhood": {
+   "coingecko_id": "greenhood",
+   "id": "erc20:robinhoodchain:0xdaa8f3f54c66e9be2c44c1b6b566cbd07229ced3",
+   "name": "GreenHood",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HOOD",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -217930,6 +220300,36 @@
     }
    ]
   },
+  "harmonic-agent": {
+   "coingecko_id": "harmonic-agent",
+   "id": "erc20:robinhoodchain:0xdee52f2ab639b6942b0d0f0565400b93b7a0fbe5",
+   "name": "Harmonic Agent",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HARMONIC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "harmonic-ondo-tokenized": {
    "coingecko_id": "harmonic-ondo-tokenized",
    "id": "erc20:eth:0xa4daa3f53405bea3b1e5701b6db2ddc0efc4c8b2",
@@ -219060,6 +221460,45 @@
     }
    ]
   },
+  "hastra-smb": {
+   "coingecko_id": "hastra-smb",
+   "id": "erc20:eth:0xbd49537cc9105e8c1651ed12b94cd9a3d79bf3d9",
+   "name": "Hastra SMB",
+   "networks": [
+    "ethereum",
+    "solana"
+   ],
+   "shortcut": "SMB",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "hastra-wrapped-ylds": {
    "coingecko_id": "hastra-wrapped-ylds",
    "id": "solana:8fr7WGTVFszfyNWRMXj6fRjZZAnDwmXwEpCrtzmUkdih",
@@ -220003,6 +222442,36 @@
     "ethereum-classic"
    ],
    "shortcut": "HEBE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "hecla-mining-company-robinhood-token": {
+   "coingecko_id": "hecla-mining-company-robinhood-token",
+   "id": "erc20:robinhoodchain:0x5d90f9920add2f55dde36046c845b12d7a7c006c",
+   "name": "Hecla Mining Company \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HL",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -225987,6 +228456,36 @@
     }
    ]
   },
+  "honeywell-international-inc-robinhood-token": {
+   "coingecko_id": "honeywell-international-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0xb3722e8c446dd66a521ad5bf38578ede7782f833",
+   "name": "Honeywell International Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HON",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "honeywell-xstock": {
    "coingecko_id": "honeywell-xstock",
    "id": "erc20:eth:0x62a48560861b0b451654bfffdb5be6e47aa8ff1b",
@@ -226478,7 +228977,7 @@
   },
   "hooddomains": {
    "coingecko_id": "hooddomains",
-   "id": "erc20:robinhoodchain:0x47ee684e52e5d92de0b24d4e00ad45c7af7db9a3",
+   "id": "erc20:robinhoodchain:0x17c35105dab9936f113af60f3bf74783caf08301",
    "name": "HoodDomains",
    "networks": [
     "robinhood"
@@ -226720,6 +229219,36 @@
    "coingecko_id": "hoodrat-4",
    "id": "erc20:robinhoodchain:0x8e62f281f282686fca6dcb39288069a93fc23f1c",
    "name": "Hoodrat",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HOODRAT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "hoodrat-5": {
+   "coingecko_id": "hoodrat-5",
+   "id": "erc20:robinhoodchain:0x275bd09e2dd9ea3da99e9160277d8691e33f47fa",
+   "name": "hoodrat",
    "networks": [
     "robinhood"
    ],
@@ -228112,6 +230641,36 @@
     }
    ]
   },
+  "hotdog-2": {
+   "coingecko_id": "hotdog-2",
+   "id": "erc20:robinhoodchain:0x1c1daef0300551adbfbe403e7d567b6c5aff566f",
+   "name": "hotdog",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HOTDOG",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "hotelium": {
    "coingecko_id": "hotelium",
    "id": "erc20:eth:0x6247c86b016bc4d9ae141849c0a9eb38c004b742",
@@ -228388,6 +230947,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "hover-2": {
+   "coingecko_id": "hover-2",
+   "id": "erc20:robinhoodchain:0xf7d2a651188ea9f52cc802b3d962eb6c88bfaba3",
+   "name": "Hover",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HOVER",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -229997,6 +232586,36 @@
     }
    ]
   },
+  "hut-8-corp-robinhood-token": {
+   "coingecko_id": "hut-8-corp-robinhood-token",
+   "id": "erc20:robinhoodchain:0x05a0b68e36eaa371049c9f711cbc34c0b201af51",
+   "name": "Hut 8 Corp. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HUT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "hut-8-dinari-tokenized-stock": {
    "coingecko_id": "hut-8-dinari-tokenized-stock",
    "id": "erc20:avax:0xff86288a6cfab16f6eab36e816ca72a134ba7ac4",
@@ -231417,6 +234036,36 @@
     }
    ]
   },
+  "hyperhood": {
+   "coingecko_id": "hyperhood",
+   "id": "erc20:robinhoodchain:0x6835dbf2d7d5852f84bf0a80de00cab3864f44b1",
+   "name": "HyperHood",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "HH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "hyperion-2": {
    "coingecko_id": "hyperion-2",
    "id": "erc20:bnb:0xc0c240c870606a5cb3150795e2d0dfff9f1f7456",
@@ -232507,6 +235156,36 @@
     "solana"
    ],
    "shortcut": "HIM",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "i-am-human": {
+   "coingecko_id": "i-am-human",
+   "id": "solana:G8uQkJtBLx4Tm8twsiJyVAn5xZu1SBaPRakwKRzHpump",
+   "name": "I Am Human",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "HUMAN",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -233747,6 +236426,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "icoin-2": {
+   "coingecko_id": "icoin-2",
+   "id": "erc20:robinhoodchain:0x5d6ef090a1461b11c9427ac319260122d1c61e18",
+   "name": "iCoin",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ICOIN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -239345,6 +242054,36 @@
     "avalanche",
     "base",
     "ethereum"
+   ],
+   "shortcut": "IBKR",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "interactive-brokers-group-inc-robinhood-token": {
+   "coingecko_id": "interactive-brokers-group-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x96f57c3cc8928a00fd2dac1a48e83505e599332d",
+   "name": "Interactive Brokers Group, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
    ],
    "shortcut": "IBKR",
    "support": {
@@ -252219,6 +254958,36 @@
     }
    ]
   },
+  "jpmorgan-chase-co-robinhood-token": {
+   "coingecko_id": "jpmorgan-chase-co-robinhood-token",
+   "id": "erc20:robinhoodchain:0x07c44da0848960bff894f17584db8b2f60b2409e",
+   "name": "JPMorgan Chase & Co. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "JPM",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "jpmorgan-chase-dinari-tokenized-stock": {
    "coingecko_id": "jpmorgan-chase-dinari-tokenized-stock",
    "id": "erc20:avax:0x12238085a3e57b2da3d173ed1b0c13e55baf3d76",
@@ -253083,7 +255852,7 @@
   },
   "junior-dola": {
    "coingecko_id": "junior-dola",
-   "id": "erc20:eth:0x633821b8e003344e5223509277f2084ea809a452",
+   "id": "erc20:eth:0x6f80a22a57c7f0257094ea8d426af3f747defbc7",
    "name": "Junior DOLA",
    "networks": [
     "ethereum"
@@ -254472,6 +257241,36 @@
     "solana"
    ],
    "shortcut": "GOSLINGS",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "justice-for-heehaw": {
+   "coingecko_id": "justice-for-heehaw",
+   "id": "solana:EEpng77ZPn9FbgbT4xsRjwuxNCcMBYq3HTwEscyTpump",
+   "name": "Justice for HeeHaw",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "HEEHAW",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -265287,6 +268086,36 @@
     }
    ]
   },
+  "kpop-2": {
+   "coingecko_id": "kpop-2",
+   "id": "erc20:robinhoodchain:0xca3ce24fb1a6e7db0003f9c785405a851e3f1e18",
+   "name": "KPOP",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "KPOP",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "kr8tiv": {
    "coingecko_id": "kr8tiv",
    "id": "solana:U1zc8QpnrQ3HBJUBrWFYWbQTLzNsCpPgZNegWXdBAGS",
@@ -265314,6 +268143,62 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "krabby": {
+   "coingecko_id": "krabby",
+   "id": "solana:Fwq2m6nQox3y85omV8WeVe4pVT98aTRqFnqKt1oepump",
+   "name": "KRABBY",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "KRABBY",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "krak-mask": {
+   "coingecko_id": "krak-mask",
+   "id": "erc20:ink:0x32bcb803f696c99eb263d60a05cafd8689026575",
+   "name": "Krak Mask",
+   "networks": [
+    "ink"
+   ],
+   "shortcut": "KRAKMASK",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -265366,6 +268251,32 @@
      "name": "Trezor Suite",
      "url": "https://trezor.io/trezor-suite"
     },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "kraken-wrapped-hype": {
+   "coingecko_id": "kraken-wrapped-hype",
+   "id": "erc20:ink:0xad09cd20e513e4d8cb78036f77ab9afde8555929",
+   "name": "Kraken Wrapped HYPE",
+   "networks": [
+    "ink"
+   ],
+   "shortcut": "KHYPE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -266063,6 +268974,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "kryvex": {
+   "coingecko_id": "kryvex",
+   "id": "solana:PrkyDdnE9A99ghintXqgoynRahwz4oevixigZg3pump",
+   "name": "KRYVEX",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "KRYVEX",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -267842,6 +270783,36 @@
     }
    ]
   },
+  "lady-exchange": {
+   "coingecko_id": "lady-exchange",
+   "id": "erc20:robinhoodchain:0x62cd5cd9d354a2a50affe9efa21c8918b9640a5b",
+   "name": "LADY Exchange",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "LDX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "lady-marian": {
    "coingecko_id": "lady-marian",
    "id": "erc20:robinhoodchain:0x01637b14b7378b99de75a64d50656d98488d9a4d",
@@ -269478,6 +272449,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "larping-cat": {
+   "coingecko_id": "larping-cat",
+   "id": "erc20:robinhoodchain:0x15ed9ae7f55b832988df1b6745afe209f380b5ff",
+   "name": "Larping Cat",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "LARPY",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -271951,6 +274952,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "legs-fun": {
+   "coingecko_id": "legs-fun",
+   "id": "erc20:robinhoodchain:0x8fcf98e1348d3ddee46cdd15a5c7d9a8d423077d",
+   "name": "legs.fun",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "LEGS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -275359,6 +278390,36 @@
     }
    ]
   },
+  "lil-shrub": {
+   "coingecko_id": "lil-shrub",
+   "id": "erc20:robinhoodchain:0x5d9144d2d017386519a7134fcc7f1e4ba22f920c",
+   "name": "Lil' Shrub",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SHRUB",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "lilai": {
    "coingecko_id": "lilai",
    "id": "erc20:eth:0x85cf7f10683c73359e7b06c082eef5851ff2956d",
@@ -275395,7 +278456,8 @@
    "id": "erc20:hype:0xf2e6a23b1aa09565fdb3a77af7772709de3f4f95",
    "name": "LILLY",
    "networks": [
-    "hyperevm"
+    "hyperevm",
+    "robinhood"
    ],
    "shortcut": "$LILLY",
    "support": {
@@ -278586,6 +281648,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "LRST",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "little-sage": {
+   "coingecko_id": "little-sage",
+   "id": "erc20:bnb:0xbb87378b58894338f0937b9691a5a6dc3a5a7777",
+   "name": "\u5b59\u5c0f\u5723 (Little Sage)",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "\u5b59\u5c0f\u5723",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -285868,6 +288960,36 @@
     }
    ]
   },
+  "macy-s-inc-robinhood-token": {
+   "coingecko_id": "macy-s-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x914337bed5caa75ba1726037207dd88b33926e04",
+   "name": "Macy's, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "M",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "mad-2": {
    "coingecko_id": "mad-2",
    "id": "solana:madHpjRn6bd8t78Rsy7NuSuNwWa2HU8ByPobZprHbHv",
@@ -286650,6 +289772,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "magatard": {
+   "coingecko_id": "magatard",
+   "id": "erc20:robinhoodchain:0xb51d57cbe67152fd163f59d1e0f950c6b647fb07",
+   "name": "Magatard",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "MAGATARD",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -290086,6 +293238,36 @@
     }
    ]
   },
+  "manyways-inference": {
+   "coingecko_id": "manyways-inference",
+   "id": "erc20:robinhoodchain:0xa26992c4268a8a78a4d872fe4bdad2ed03ac287d",
+   "name": "Manyways Inference",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "MANY",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "mao": {
    "coingecko_id": "mao",
    "id": "solana:BsTRFEVZhXbBuy5fhxbttuim8iwzXqMdRCfFftDAkkeu",
@@ -290360,6 +293542,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "marb": {
+   "coingecko_id": "marb",
+   "id": "erc20:eth:0xee53ee4c6532cf81b63ea49be4bbdb0c2ab398be",
+   "name": "mArb",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "MARB",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -290734,6 +293946,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "market-cap-2": {
+   "coingecko_id": "market-cap-2",
+   "id": "erc20:robinhoodchain:0x2f219c706e052dc25372a0c59dcc2afe0cab12f3",
+   "name": "Market Cap",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "CAP",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -292069,6 +295311,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "marvin-3": {
+   "coingecko_id": "marvin-3",
+   "id": "erc20:eth:0x42778037d69350508cdd34d9fa17053970591101",
+   "name": "Marvin",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "MARVIN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -297668,6 +300940,36 @@
     }
    ]
   },
+  "memefi-3": {
+   "coingecko_id": "memefi-3",
+   "id": "solana:86JF1S58ZNT7rHhpgjzDuNxcC1PMYkECDuoRQoj5Scy5",
+   "name": "memefi",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "MEMEFI",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "memegames-ai": {
    "coingecko_id": "memegames-ai",
    "id": "erc20:base:0xd92b53ef83afaf0d0a0167cf7ac5951ad1994824",
@@ -298392,6 +301694,36 @@
     "base"
    ],
    "shortcut": "MEM",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "memory-cow-moo": {
+   "coingecko_id": "memory-cow-moo",
+   "id": "erc20:robinhoodchain:0xd9db30bb0d2b8d2eae3826a1372117e058791e18",
+   "name": "Memory cow Moo",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "MOO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -303353,6 +306685,36 @@
     }
    ]
   },
+  "microduck": {
+   "coingecko_id": "microduck",
+   "id": "erc20:robinhoodchain:0xd5f1afea47b1a9eab414d2ee740cf1d6d039e725",
+   "name": "microduck",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "MICRODUCK",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "micron-technology-astock": {
    "coingecko_id": "micron-technology-astock",
    "id": "erc20:eth:0xc54ce75193a68602bc01ffd2b112da3948eb14a7",
@@ -304088,6 +307450,96 @@
     "robinhood"
    ],
    "shortcut": "MGLO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "midas-fasanara-one-solana": {
+   "coingecko_id": "midas-fasanara-one-solana",
+   "id": "solana:ESS9fuAbDiyDXy6y1ZAt9VSaiGPSqG8NwaWVX7dePdR7",
+   "name": "Midas Fasanara ONE Solana",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "SOLMFONE",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "midas-hyperithm-arbitrage-btc": {
+   "coingecko_id": "midas-hyperithm-arbitrage-btc",
+   "id": "erc20:eth:0xf44bcadd42f1dace4e2e52fe3bda082148bcbfd3",
+   "name": "Midas Hyperithm Arbitrage BTC",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "MARBBTC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "midas-hyperithm-arbitrage-eth": {
+   "coingecko_id": "midas-hyperithm-arbitrage-eth",
+   "id": "erc20:eth:0x6d8a6e97446d858a1d1564bbdb4638429015dbe8",
+   "name": "Midas Hyperithm Arbitrage ETH",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "MARBETH",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -311866,6 +315318,36 @@
     }
    ]
   },
+  "money-dog": {
+   "coingecko_id": "money-dog",
+   "id": "erc20:robinhoodchain:0x8d8f709357203b4933af3ac410cc521c5680611f",
+   "name": "Money Dog",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "MONEYDOG",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "money-god-one": {
    "coingecko_id": "money-god-one",
    "id": "solana:4bvgPRkTMnqRuHxFpCJQ4YpQj6i7cJkYehMjM2qNpump",
@@ -312309,6 +315791,36 @@
     "solana"
    ],
    "shortcut": "MONJI",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "monk-2": {
+   "coingecko_id": "monk-2",
+   "id": "solana:JAuN3RKZR9KSKdmBCH83VXGmTvkbobuLrawZ5G3upump",
+   "name": "MONK",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "MONK",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -314397,6 +317909,36 @@
     }
    ]
   },
+  "mooncat-2": {
+   "coingecko_id": "mooncat-2",
+   "id": "erc20:robinhoodchain:0x862cdccb67c8a22fdb247d09a08b1dad09447777",
+   "name": "mooncat",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "MOON",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "mooncat-vault-nftx": {
    "coingecko_id": "mooncat-vault-nftx",
    "id": "erc20:eth:0x98968f0747e0a261532cacc0be296375f5c08398",
@@ -316420,6 +319962,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "mosaic-3": {
+   "coingecko_id": "mosaic-3",
+   "id": "solana:4ChT49V1iazP2XUGtycGkEsS6pRMqvGfUbqvRC9Z91ZT",
+   "name": "Mosaic",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "MOS",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -319760,6 +323332,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "mushroom-2": {
+   "coingecko_id": "mushroom-2",
+   "id": "erc20:robinhoodchain:0xab093def657f15df31b33922a95e047add645b29",
+   "name": "MUSHROOM",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SHROOM",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -325609,6 +329211,36 @@
     }
    ]
   },
+  "nest-4": {
+   "coingecko_id": "nest-4",
+   "id": "erc20:robinhoodchain:0x8e859dbdfbfd2df6a99870e2871eaa58e8784e05",
+   "name": "Nest",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "NEST",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "nest-alpha-vault": {
    "coingecko_id": "nest-alpha-vault",
    "id": "erc20:eth:0x593ccca4c4bf58b7526a4c164ceef4003c6388db",
@@ -330891,6 +334523,36 @@
     }
    ]
   },
+  "nintendo-co-ltd-robinhood-token": {
+   "coingecko_id": "nintendo-co-ltd-robinhood-token",
+   "id": "erc20:robinhoodchain:0xbd7de9a41f3e40b73d23994f8563869dacd40fc7",
+   "name": "Nintendo Co., Ltd. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "NTDOY",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "nio-dinari-tokenized-stock": {
    "coingecko_id": "nio-dinari-tokenized-stock",
    "id": "erc20:eth:0xcd42a53b950bbf45421c2403f7feb44c57065882",
@@ -332599,7 +336261,8 @@
    "id": "erc20:eth:0xb34e17562e4f1f63a2d4cf684ed8bc124e519771",
    "name": "Nolus",
    "networks": [
-    "ethereum"
+    "ethereum",
+    "solana"
    ],
    "shortcut": "NLS",
    "support": {
@@ -332613,6 +336276,14 @@
     {
      "name": "Trezor Suite",
      "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     },
     {
      "name": "MetaMask",
@@ -335346,6 +339017,36 @@
     "arbitrum-one"
    ],
    "shortcut": "NOX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "noxo": {
+   "coingecko_id": "noxo",
+   "id": "erc20:bnb:0x5191b13fc0e90026942da71d619d64f4289ddc69",
+   "name": "NOXO",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "NOXO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -344372,6 +348073,36 @@
     }
    ]
   },
+  "onlyrose": {
+   "coingecko_id": "onlyrose",
+   "id": "solana:RoSeiVjW5H48ucPAJh1LJGBBzPpqvsokfDGpgHXDtdF",
+   "name": "OnlyRose",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "ROSE",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "onlyup-token": {
    "coingecko_id": "onlyup-token",
    "id": "erc20:base:0x268d46d09d59d555350701a5336dc0d516f80de3",
@@ -345090,6 +348821,7 @@
    "id": "erc20:eth:0x199e2cfaf8b4f2cc5423971ef3749d1c89cf815c",
    "name": "Opal",
    "networks": [
+    "base",
     "ethereum"
    ],
    "shortcut": "OPAL",
@@ -345521,6 +349253,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "openbell": {
+   "coingecko_id": "openbell",
+   "id": "erc20:robinhoodchain:0x218d0dc56476b05f131bd6cc82b80c7b052fa9b1",
+   "name": "Openbell",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "BELL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -346479,6 +350241,36 @@
     "optimistic-ethereum"
    ],
    "shortcut": "OPENX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "openzaps": {
+   "coingecko_id": "openzaps",
+   "id": "erc20:robinhoodchain:0xdd90bfa4adc7f4401e611abac692d939f9f4cb07",
+   "name": "OpenZaps",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "0XZAPS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -347989,6 +351781,36 @@
     }
    ]
   },
+  "orbio-so": {
+   "coingecko_id": "orbio-so",
+   "id": "erc20:robinhoodchain:0xaa07a0e9209e16ac99708c3ec70159c6ef3128a3",
+   "name": "Orbio.so",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ORBIO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "orbit-3": {
    "coingecko_id": "orbit-3",
    "id": "solana:GekTNfm84QfyP2GdAHZ5AgACBRd69aNmgA5FDhZupump",
@@ -348892,6 +352714,36 @@
     }
    ]
   },
+  "ordofi": {
+   "coingecko_id": "ordofi",
+   "id": "erc20:robinhoodchain:0xfe2f0fb0c00d19786a8abf98d4b1f1ac8763b167",
+   "name": "OrdoFi",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ORDO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "ore": {
    "coingecko_id": "ore",
    "id": "solana:oreoU2P8bN6jkk3jbaiVxYnG1dCXcYxwhwyK9jSybcp",
@@ -349743,6 +353595,36 @@
     }
    ]
   },
+  "oscar-health-inc-robinhood-token": {
+   "coingecko_id": "oscar-health-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x2a658404ce167f024bf7c90a18fc4265b1a7667a",
+   "name": "Oscar Health, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "OSCR",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "oscar-health-ondo-tokenized": {
    "coingecko_id": "oscar-health-ondo-tokenized",
    "id": "erc20:eth:0x244efb92f76a57da49b5f71045dce3e546e13106",
@@ -350254,6 +354136,36 @@
     "ethereum"
    ],
    "shortcut": "ORX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "ourolayer": {
+   "coingecko_id": "ourolayer",
+   "id": "erc20:robinhoodchain:0x8ea0eb3505f5b3bd2bbea0febae0ce850cc73ecc",
+   "name": "OuroLayer",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "OURO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -351415,6 +355327,36 @@
     }
    ]
   },
+  "p": {
+   "coingecko_id": "p",
+   "id": "erc20:robinhoodchain:0x4b1c1725fa83d1a3effe48c992c969788cfac32a",
+   "name": "P",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "P",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "p-is-everything": {
    "coingecko_id": "p-is-everything",
    "id": "solana:EbpXudrV5P3ThwkqzmUBXkdt7AL47noptiZXLMpdpump",
@@ -352141,6 +356083,36 @@
     }
    ]
   },
+  "pair": {
+   "coingecko_id": "pair",
+   "id": "erc20:robinhoodchain:0x6b1d42927b1a84ec28fa88d4fc6fa7af404966be",
+   "name": "PAIR",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PAIR",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "pairpunk": {
    "coingecko_id": "pairpunk",
    "id": "solana:6z9XSmYTZffoPUrpuManU7rxjfn7naEbWnDacdAXbonk",
@@ -352526,6 +356498,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "palatin-technologies-inc-common-stock-backpack-securities": {
+   "coingecko_id": "palatin-technologies-inc-common-stock-backpack-securities",
+   "id": "solana:PTNzAfFAB4LvoUQEUUGrFMyUoRLExMYjH6CcfyQfsVP",
+   "name": "Palatin Technologies, Inc. Common Stock (Backpack Securities",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "PTN",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -354349,6 +358351,36 @@
     }
    ]
   },
+  "paramount-skydance-corporation-robinhood-token": {
+   "coingecko_id": "paramount-skydance-corporation-robinhood-token",
+   "id": "erc20:robinhoodchain:0x7dfce6b37a679184e8cd1711bfa871d06851e379",
+   "name": "Paramount Skydance Corporation \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PSKY",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "parasol-finance": {
    "coingecko_id": "parasol-finance",
    "id": "solana:Hmatmu1ktLbobSvim94mfpZmjL5iiyoM1zidtXJRAdLZ",
@@ -354469,6 +358501,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "pare": {
+   "coingecko_id": "pare",
+   "id": "erc20:robinhoodchain:0x15d36b6a28d8327abc7afabf0f106ae2c9af5c4d",
+   "name": "Pare",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PARE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -355895,6 +359957,36 @@
     }
    ]
   },
+  "paypal-holdings-inc-robinhood-token": {
+   "coingecko_id": "paypal-holdings-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0xa45abdc77918f7b9199b022eee400c0bc5712bd2",
+   "name": "PayPal Holdings, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PYPL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "paypal-ondo-tokenized-stock": {
    "coingecko_id": "paypal-ondo-tokenized-stock",
    "id": "erc20:eth:0x4efd92f372898b57f292de69fce377dd7d912bdd",
@@ -356828,7 +360920,8 @@
    "id": "eth:PEAQ:3338",
    "name": "peaq",
    "networks": [
-    "peaq"
+    "peaq",
+    "solana"
    ],
    "shortcut": "PEAQ",
    "support": {
@@ -356839,6 +360932,18 @@
     "T3W1": true
    },
    "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -360939,6 +365044,36 @@
     }
    ]
   },
+  "peptides-3": {
+   "coingecko_id": "peptides-3",
+   "id": "erc20:robinhoodchain:0x52f380a513112428723abf8afed125824e4a1e18",
+   "name": "Peptides",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PEPTIDES",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "peptoma": {
    "coingecko_id": "peptoma",
    "id": "solana:HopMHHPfSV2kWQLghKt6xR1oWbPRLA2UyxnKGoPpump",
@@ -362405,6 +366540,36 @@
     }
    ]
   },
+  "pez": {
+   "coingecko_id": "pez",
+   "id": "erc20:robinhoodchain:0xa3602804e096cb73bd8344afc1ff3f3390b899c5",
+   "name": "PEZ",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PEZ",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "pfizer-dinari-tokenized-stock": {
    "coingecko_id": "pfizer-dinari-tokenized-stock",
    "id": "erc20:eth:0x32e739c725ff09ca5b97ce69f28bc3aec120c736",
@@ -363015,6 +367180,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "phase-labs-staked-sol": {
+   "coingecko_id": "phase-labs-staked-sol",
+   "id": "solana:phaseZSfPxTDBpiVb96H4XFSD8xHeHxZre5HerehBJG",
+   "name": "Phase Labs Staked SOL",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "PHASESOL",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -365474,6 +369669,36 @@
     }
    ]
   },
+  "pinterest-inc-robinhood-token": {
+   "coingecko_id": "pinterest-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0xebdd6e84cebc34a92b2785bdf65d0b245642d6c1",
+   "name": "Pinterest, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PINS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "pinterest-ondo-tokenized": {
    "coingecko_id": "pinterest-ondo-tokenized",
    "id": "erc20:eth:0xc017c622cd05698580e2decd0f97d4a17dab70f9",
@@ -366900,36 +371125,6 @@
     }
    ]
   },
-  "planck": {
-   "coingecko_id": "planck",
-   "id": "erc20:bnb:0x004d50b3fc784b580531d8e8615aa96cf7fbb919",
-   "name": "Planck",
-   "networks": [
-    "binance-smart-chain"
-   ],
-   "shortcut": "PLANCK",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "plandemic": {
    "coingecko_id": "plandemic",
    "id": "solana:HPjpSWqAAK4iq7yEk2e7NKha4aoNgiEBnBnWRGdHpump",
@@ -367946,6 +372141,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "PLAYFUN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "playground-2": {
+   "coingecko_id": "playground-2",
+   "id": "erc20:robinhoodchain:0x0cc8522ca4f423638032d0211a6e823392a1eae1",
+   "name": "Playground",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PBUX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -372555,6 +376780,36 @@
     }
    ]
   },
+  "pongo-3": {
+   "coingecko_id": "pongo-3",
+   "id": "erc20:robinhoodchain:0xedaee44320107caa714baaec486261a87f27022d",
+   "name": "PONGO",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PONGO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "ponk": {
    "coingecko_id": "ponk",
    "id": "solana:HeqCcMjmuV5s25J49YiJyT6bD5qWLkP88YPajBySniaV",
@@ -372684,6 +376939,36 @@
     }
    ]
   },
+  "pons-bot": {
+   "coingecko_id": "pons-bot",
+   "id": "erc20:robinhoodchain:0xb1e9b822b81bbbdab375f7f4d86e44fa04d12b07",
+   "name": "Pons Bot",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PONSBOT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "pons-index": {
    "coingecko_id": "pons-index",
    "id": "erc20:robinhoodchain:0xa0e67be79118704a35e7d4b20c3ec4df36ef6e10",
@@ -372692,6 +376977,66 @@
     "robinhood"
    ],
    "shortcut": "PONSFOLIO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "ponsancoin": {
+   "coingecko_id": "ponsancoin",
+   "id": "erc20:robinhoodchain:0x97216593d3b2769da6f0adeee6fb8e36da4e319f",
+   "name": "Ponsancoin",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PONSAN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "ponsers": {
+   "coingecko_id": "ponsers",
+   "id": "erc20:robinhoodchain:0xb9e75a12de07c55c1496b36dcdac55764440b8c8",
+   "name": "Ponsers",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PONSERS",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -375460,6 +379805,36 @@
     }
    ]
   },
+  "predict-fwa": {
+   "coingecko_id": "predict-fwa",
+   "id": "erc20:robinhoodchain:0xa934ba4f59070149d37a93f8a002af79bae35563",
+   "name": "predict FWA",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PFWA",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "predictasiax": {
    "coingecko_id": "predictasiax",
    "id": "erc20:pol:0x63de49a3c952ca35957d03741ec62e7a19af67a3",
@@ -376530,6 +380905,36 @@
     }
    ]
   },
+  "printer": {
+   "coingecko_id": "printer",
+   "id": "erc20:robinhoodchain:0x85a574f2ff0795685f58d1d7b0d4b51f148ac489",
+   "name": "PRINTER",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PRINTER",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "printrbot-ultra": {
    "coingecko_id": "printrbot-ultra",
    "id": "solana:91ACiGss1ZiszniTvqhGTqJPfk7YBSuLjrTTZcfPU7PH",
@@ -376626,6 +381031,36 @@
    "name": "Prism",
    "networks": [
     "ethereum"
+   ],
+   "shortcut": "PRISM",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "prism-4": {
+   "coingecko_id": "prism-4",
+   "id": "erc20:robinhoodchain:0x0a1e0cc751f77c2c93760fc957cc8e4e779b2bc8",
+   "name": "prism.",
+   "networks": [
+    "robinhood"
    ],
    "shortcut": "PRISM",
    "support": {
@@ -381951,6 +386386,36 @@
     }
    ]
   },
+  "pumpooor": {
+   "coingecko_id": "pumpooor",
+   "id": "solana:H76u9jTTbMtEF5JGmqXM2wW6xqMXpvTdVyer4RvKpump",
+   "name": "Pumpooor",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "PUMPOOOR",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "pumpperps": {
    "coingecko_id": "pumpperps",
    "id": "solana:4sgCNP7ykejUaSvaGDhkq7JYqrLKB6M1Gq2X1rxSpump",
@@ -382736,6 +387201,36 @@
     "polygon-pos"
    ],
    "shortcut": "UFI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "purgy-pengoon": {
+   "coingecko_id": "purgy-pengoon",
+   "id": "erc20:robinhoodchain:0x51e7bf39c6cf1a7f53ddfaa5db346c69994511f2",
+   "name": "Purgy Pengoon",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "GOONER",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -384030,6 +388525,36 @@
     }
    ]
   },
+  "qone": {
+   "coingecko_id": "qone",
+   "id": "erc20:hype:0x4f9e014f620d83b08342c8bdff3043fb2220b727",
+   "name": "qONE",
+   "networks": [
+    "hyperevm"
+   ],
+   "shortcut": "QONE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "qopro": {
    "coingecko_id": "qopro",
    "id": "erc20:eth:0x22514ffb0d7232a56f0c24090e7b68f179faa940",
@@ -385188,36 +389713,6 @@
     }
    ]
   },
-  "quantu-execution-token": {
-   "coingecko_id": "quantu-execution-token",
-   "id": "solana:G2ygAeUVpYUhpNsmrpvd2BHTWazyDV72kRpsQSEcbonk",
-   "name": "Quantu Execution Token",
-   "networks": [
-    "solana"
-   ],
-   "shortcut": "QX",
-   "support": {
-    "T1B1": false,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "Backpack",
-     "url": "https://backpack.app/"
-    },
-    {
-     "name": "NuFi",
-     "url": "https://nu.fi"
-    }
-   ]
-  },
   "quantu-execution-token-2": {
    "coingecko_id": "quantu-execution-token-2",
    "id": "solana:CoLAyH8CRuBLyr2BRDozka3dJ5XH97BSa6WpZL9NAqWL",
@@ -385284,6 +389779,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "quantum-cat": {
+   "coingecko_id": "quantum-cat",
+   "id": "solana:Cj3upTXz6cYCP1TLbyF5AseKX4hqaWK7eiRqR7uu6npU",
+   "name": "Quantum Cat",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "QCAT",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -385504,6 +390029,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "quantums": {
+   "coingecko_id": "quantums",
+   "id": "erc20:robinhoodchain:0x29ffc36bcc7d857f325b435533041c3dd9fa26e5",
+   "name": "Quantums",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "QUANT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -386911,6 +391466,36 @@
     "ethereum"
    ],
    "shortcut": "RAD",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "radio": {
+   "coingecko_id": "radio",
+   "id": "erc20:robinhoodchain:0xf0dbd85e85bd6704b00eedb7c2590559ca12b871",
+   "name": "Radio",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "RADIO",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -388496,7 +393081,8 @@
    "id": "erc20:hype:0x555570a286f15ebdfe42b66ede2f724aa1ab5555",
    "name": "Ramses",
    "networks": [
-    "hyperevm"
+    "hyperevm",
+    "robinhood"
    ],
    "shortcut": "RAM",
    "support": {
@@ -389513,6 +394099,36 @@
     "solana"
    ],
    "shortcut": "RAY",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "raydium-cat": {
+   "coingecko_id": "raydium-cat",
+   "id": "solana:CFNRDaxFcvRwRSNnA5cHrCCr6AHhk9dNkHWpRUjNupFL",
+   "name": "Raydium Cat",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "RAYCAT",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -395749,6 +400365,36 @@
     }
    ]
   },
+  "reserve-magnificent-7-dtf": {
+   "coingecko_id": "reserve-magnificent-7-dtf",
+   "id": "erc20:base:0xcef8db49e456f872e288e1c042f916e9ced7c781",
+   "name": "Reserve Magnificent 7 DTF",
+   "networks": [
+    "base"
+   ],
+   "shortcut": "MAG7",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "reserve-protocol-eth-plus": {
    "coingecko_id": "reserve-protocol-eth-plus",
    "id": "erc20:eth:0xe72b141df173b999ae7c1adcbf60cc9833ce56a8",
@@ -397934,6 +402580,36 @@
     }
    ]
   },
+  "rh-otc": {
+   "coingecko_id": "rh-otc",
+   "id": "erc20:robinhoodchain:0x513e7a4375dd34d4c0a609b7003a1674056c863e",
+   "name": "RH OTC",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "RHOTC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "rhea-2": {
    "coingecko_id": "rhea-2",
    "id": "erc20:bnb:0x4c067de26475e1cefee8b8d1f6e2266b33a2372e",
@@ -398019,6 +402695,36 @@
     "T3W1": true
    },
    "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "rhivian": {
+   "coingecko_id": "rhivian",
+   "id": "erc20:robinhoodchain:0x8b3e3ba1a55b939f93f0a205f94520b9468e17f8",
+   "name": "RHIVIAN",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "RIDE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -401422,6 +406128,36 @@
     }
    ]
   },
+  "robbie": {
+   "coingecko_id": "robbie",
+   "id": "erc20:robinhoodchain:0xe0eba1b76b73be7bfa7716b6ca96f724930e2263",
+   "name": "Robbie",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "$ROBBIE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "robin": {
    "coingecko_id": "robin",
    "id": "erc20:robinhoodchain:0x55796b27aa48444fa2caef2bf902e12e9c280dc9",
@@ -401538,6 +406274,36 @@
     }
    ]
   },
+  "robin-the-frog": {
+   "coingecko_id": "robin-the-frog",
+   "id": "erc20:robinhoodchain:0x11b70d0243baf75e85ce03201a92b5b7c33beb59",
+   "name": "Robin the Frog",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ROBIN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "robin-the-hoodini": {
    "coingecko_id": "robin-the-hoodini",
    "id": "erc20:robinhoodchain:0x0856f71c65268da154da4413d961cb348dc6119d",
@@ -401546,6 +406312,36 @@
     "robinhood"
    ],
    "shortcut": "HOODINI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "robincat": {
+   "coingecko_id": "robincat",
+   "id": "erc20:robinhoodchain:0xded852de9fe9ba9b6f27f39e8e81cf851a5c79cc",
+   "name": "ROBINCAT",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ROBINCAT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -401696,6 +406492,36 @@
     "robinhood"
    ],
    "shortcut": "ROBINHOOD",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "robinhood-asteroid": {
+   "coingecko_id": "robinhood-asteroid",
+   "id": "erc20:robinhoodchain:0x5759a852243a56a48853af1d28fd4e0f33747c9b",
+   "name": "Robinhood Asteroid",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "18932",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -401950,6 +406776,36 @@
     "robinhood"
    ],
    "shortcut": "REPE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "robinhood-pixel-cat": {
+   "coingecko_id": "robinhood-pixel-cat",
+   "id": "erc20:robinhoodchain:0x89314dd83f307d7d9bc19ff261888027fa531658",
+   "name": "Robinhood Pixel Cat",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PIXELCAT",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -402441,6 +407297,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "robodog": {
+   "coingecko_id": "robodog",
+   "id": "erc20:robinhoodchain:0x145ea700b2f8b8414eb8f6dddcd022b6690aa50a",
+   "name": "ROBODOG",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ASTRO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -403349,6 +408235,36 @@
     "unichain"
    ],
    "shortcut": "RETH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "rocket-strategy": {
+   "coingecko_id": "rocket-strategy",
+   "id": "erc20:robinhoodchain:0x8d1612b4b78ebf08cfbf01a04fa270ccbb0509a2",
+   "name": "rocket strategy",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "RKST",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -405399,32 +410315,6 @@
     }
    ]
   },
-  "roxonn": {
-   "coingecko_id": "roxonn",
-   "id": "erc20:xdc:0x2d1c02cf9e7a1659b82185fef243078bfd237b23",
-   "name": "ROXONN",
-   "networks": [
-    "xdc-network"
-   ],
-   "shortcut": "ROXN",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "roxy-frog": {
    "coingecko_id": "roxy-frog",
    "id": "erc20:base:0x10a7a84c91988138f8dbbc82a23b02c8639e2552",
@@ -405849,6 +410739,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "rtx-corporation-robinhood-token": {
+   "coingecko_id": "rtx-corporation-robinhood-token",
+   "id": "erc20:robinhoodchain:0xba623c473df0bbc7ebe175fc3ce96dec47ca0125",
+   "name": "RTX Corporation \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "RTX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -407775,6 +412695,36 @@
     }
    ]
   },
+  "saar": {
+   "coingecko_id": "saar",
+   "id": "solana:8H5yfL1GoDETLDaLYZzrgQuZs37eiKJjdfP21b6ypump",
+   "name": "SAAR",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "SAAR",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "saasgo": {
    "coingecko_id": "saasgo",
    "id": "erc20:eth:0x350e52bb0f874f3b558a3679aac24268ee37a699",
@@ -407923,6 +412873,36 @@
     {
      "name": "Rabby",
      "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "sable-network": {
+   "coingecko_id": "sable-network",
+   "id": "solana:DaPayqzdCXcrmvgz9Wx7MySipXxcSofGPtkMgVdqpump",
+   "name": "Sable Network",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "SABL",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
     }
    ]
   },
@@ -408504,6 +413484,36 @@
     "solana"
    ],
    "shortcut": "SAFEMOON",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "safemoon-5": {
+   "coingecko_id": "safemoon-5",
+   "id": "solana:aTUfRuPj3tp7FEpzAXLjs4VnQgAFbExD5JHGTyvpump",
+   "name": "SAFEMOON",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "SFM",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -409986,6 +414996,36 @@
     "solana"
    ],
    "shortcut": "SAME",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "sami-openlife": {
+   "coingecko_id": "sami-openlife",
+   "id": "solana:4LHBp4xYs3suKjkCuo1qaNaxufWd4Bdp6QYsBJZNpump",
+   "name": "sami-openlife",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "SAMI",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -417370,36 +422410,6 @@
     }
    ]
   },
-  "seur": {
-   "coingecko_id": "seur",
-   "id": "erc20:eth:0xd71ecff9342a5ced620049e616c5035f1db98620",
-   "name": "sEUR",
-   "networks": [
-    "ethereum"
-   ],
-   "shortcut": "SEUR",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "sevilla-fan-token": {
    "coingecko_id": "sevilla-fan-token",
    "id": "erc20:base:0x6720c4b50ad199400b920a741321c31576d84021",
@@ -419065,6 +424075,52 @@
     }
    ]
   },
+  "shein-xstock": {
+   "coingecko_id": "shein-xstock",
+   "id": "erc20:eth:0x4d0ba049c430a7a80a61e7ebdf50b6daac6c3bd6",
+   "name": "SHEIN xStock",
+   "networks": [
+    "arbitrum-one",
+    "binance-smart-chain",
+    "ethereum",
+    "hyperevm",
+    "ink",
+    "mantle",
+    "optimistic-ethereum",
+    "solana",
+    "x-layer"
+   ],
+   "shortcut": "SHEINX",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "sheishei": {
    "coingecko_id": "sheishei",
    "id": "erc20:eth:0xb9d09bc374577dac1ab853de412a903408204ea8",
@@ -419166,6 +424222,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "SHL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "shellr-packs": {
+   "coingecko_id": "shellr-packs",
+   "id": "erc20:robinhoodchain:0x77a719b0f3e7072fc80ed5d67f9aaa580b245462",
+   "name": "Shellr Packs",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SHELLR",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -421848,6 +426934,36 @@
     "ethereum"
    ],
    "shortcut": "SHIV",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "shivolink": {
+   "coingecko_id": "shivolink",
+   "id": "erc20:robinhoodchain:0xfa89ed9d12bf74add8253ddfaa426c4d8a0fa603",
+   "name": "Shivolink",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SLINK",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -425067,6 +430183,36 @@
     }
    ]
   },
+  "sinjoh": {
+   "coingecko_id": "sinjoh",
+   "id": "erc20:robinhoodchain:0x2cc0fac44b8252f6b10208b091aff2c94b4da77d",
+   "name": "Sinjoh",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "INJOH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "sino-2": {
    "coingecko_id": "sino-2",
    "id": "erc20:bnb:0x4581ddc7617a32bf1e97646adb0537f01423868d",
@@ -425504,12 +430650,12 @@
   },
   "sivo-defi": {
    "coingecko_id": "sivo-defi",
-   "id": "erc20:eth:0x35ba0f7c2bebf25869fba6d0c1af6a17998562cc",
+   "id": "erc20:eth:0xda6a067d9435a28549d75dd459c0016911c26e54",
    "name": "Sivo DeFi",
    "networks": [
     "ethereum"
    ],
-   "shortcut": "SIVOUSDX",
+   "shortcut": "SLP",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -425559,6 +430705,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "six-flags-entertainment-corporation-robinhood-token": {
+   "coingecko_id": "six-flags-entertainment-corporation-robinhood-token",
+   "id": "erc20:robinhoodchain:0x0f9783923c3c1b5b573b9105c01a2c88b3f40ffb",
+   "name": "Six Flags Entertainment Corporation \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "FUN",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -425721,6 +430897,36 @@
    "name": "SIZE",
    "networks": [
     "arbitrum-one"
+   ],
+   "shortcut": "SIZE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "size-it": {
+   "coingecko_id": "size-it",
+   "id": "erc20:robinhoodchain:0x0f421d05e67b9e25d754e8e685af91b37bff6cef",
+   "name": "size it",
+   "networks": [
+    "robinhood"
    ],
    "shortcut": "SIZE",
    "support": {
@@ -427973,6 +433179,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "sluice": {
+   "coingecko_id": "sluice",
+   "id": "erc20:robinhoodchain:0xb48d34dd8b53324cb8525461c8e548522db885ec",
+   "name": "Sluice",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SLUICE",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -433580,6 +438816,36 @@
     }
    ]
   },
+  "solcat-3": {
+   "coingecko_id": "solcat-3",
+   "id": "solana:HmJDgky11u77hpBss6D8sjNpYPD5B6fWgSVDj58jpump",
+   "name": "Solcat",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "SOLCAT",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "solcex": {
    "coingecko_id": "solcex",
    "id": "solana:AMjzRn1TBQwQfNAjHFeBb7uGbbqbJB7FzXAnGgdFPk6K",
@@ -437549,6 +442815,36 @@
     }
    ]
   },
+  "sounder-liquidity": {
+   "coingecko_id": "sounder-liquidity",
+   "id": "erc20:robinhoodchain:0x4214e44c97865858d78e37d5d4ee3262acf30406",
+   "name": "Sounder Liquidity",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SOUNDER",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "soundhound-ai-inc-robinhood-token": {
    "coingecko_id": "soundhound-ai-inc-robinhood-token",
    "id": "erc20:robinhoodchain:0x6e3dfd9f7e1649baa14d25cac18c94d62db10a54",
@@ -438863,6 +444159,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "spacehood": {
+   "coingecko_id": "spacehood",
+   "id": "erc20:robinhoodchain:0xfe7e19cbce2f896c6c528bc355baf5a768291e18",
+   "name": "SPACEHOOD",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SPACEHOOD",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -442316,6 +447642,36 @@
     }
    ]
   },
+  "spores": {
+   "coingecko_id": "spores",
+   "id": "erc20:robinhoodchain:0xe6c6a33935919dc46278121c0596e828691f8d6c",
+   "name": "SPORES",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SPORES",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "spores-network": {
    "coingecko_id": "spores-network",
    "id": "erc20:eth:0xcbe771323587ea16dacb6016e269d7f08a7acc4e",
@@ -442577,6 +447933,36 @@
     "avalanche",
     "base",
     "ethereum"
+   ],
+   "shortcut": "SPOT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "spotify-technology-s-a-robinhood-token": {
+   "coingecko_id": "spotify-technology-s-a-robinhood-token",
+   "id": "erc20:robinhoodchain:0x94e1c8e6009f4e4717388c02bed4c08f1fce7407",
+   "name": "Spotify Technology S.A. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
    ],
    "shortcut": "SPOT",
    "support": {
@@ -445147,6 +450533,36 @@
     "ethereum"
    ],
    "shortcut": "STAVAIL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "staked-axis-usd": {
+   "coingecko_id": "staked-axis-usd",
+   "id": "erc20:eth:0xeb892628d1e58bc475a6dcb7f5dbc4f591632aa4",
+   "name": "Staked Axis USD",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "SUSDX",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -448674,6 +454090,36 @@
     }
    ]
   },
+  "statics-protocol": {
+   "coingecko_id": "statics-protocol",
+   "id": "erc20:robinhoodchain:0x2d8d6f4a93acd7a916a5a654ec8b690ba3b3eadd",
+   "name": "Statics Protocol",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "STATICS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "station-this": {
    "coingecko_id": "station-this",
    "id": "solana:AbktLHcNzEoZc9qfVgNaQhJbqDTEmLwsARY7JcTndsPg",
@@ -450557,6 +456003,36 @@
     }
    ]
   },
+  "stockereum-fun": {
+   "coingecko_id": "stockereum-fun",
+   "id": "erc20:eth:0x75e2fc69ff2ac12af65ba7d321bbf4f878c535d2",
+   "name": "Stockereum.fun",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "STOCKER",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "stockpackz": {
    "coingecko_id": "stockpackz",
    "id": "erc20:robinhoodchain:0xaab3d2e25869dd9661e7a886b9a51c02ee6c7777",
@@ -450797,6 +456273,36 @@
     }
    ]
   },
+  "stonk-guy": {
+   "coingecko_id": "stonk-guy",
+   "id": "solana:EcZMqqYxFdcKSMMEYuacVoaeeRxpc7R7G7zWma9zpump",
+   "name": "Stonk Guy",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "STONKGUY",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "stonkbroker": {
    "coingecko_id": "stonkbroker",
    "id": "erc20:robinhoodchain:0xe934e36a439c94017b64a3fece66af12099abf50",
@@ -450983,6 +456489,36 @@
    "name": "Stonks",
    "networks": [
     "robinhood"
+   ],
+   "shortcut": "STONKS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "stonks-9": {
+   "coingecko_id": "stonks-9",
+   "id": "erc20:bnb:0xc9d825e83aada475bd4d38c8ca984ed746277777",
+   "name": "Stonks",
+   "networks": [
+    "binance-smart-chain"
    ],
    "shortcut": "STONKS",
    "support": {
@@ -452516,6 +458052,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "stratton-market": {
+   "coingecko_id": "stratton-market",
+   "id": "erc20:robinhoodchain:0xb7eaecc89d3e2f9fd597d61726ae824900db8360",
+   "name": "Stratton Market",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "STRATTON",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -462187,6 +467753,36 @@
     }
    ]
   },
+  "tapcoin": {
+   "coingecko_id": "tapcoin",
+   "id": "solana:ADcF26nFGKMuRZ7va5361H2PCHCDRi2FmeJBkX3Spump",
+   "name": "Tapcoin",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "TAP",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "tape-2": {
    "coingecko_id": "tape-2",
    "id": "solana:7QXDpKoeEe9hJjiYTw6NmaAyyqX1KyBfvVXq3F24pump",
@@ -465824,6 +471420,36 @@
     }
    ]
   },
+  "terminal-2": {
+   "coingecko_id": "terminal-2",
+   "id": "erc20:hype:0x122b03fbd590826ffcfbed4cf53b251e914520e1",
+   "name": "Terminal",
+   "networks": [
+    "hyperevm"
+   ],
+   "shortcut": "TERMINAL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "terminal-of-fun": {
    "coingecko_id": "terminal-of-fun",
    "id": "solana:9MnKTgwFyXJgnZumHGT9NdHuzm98ACjkNwpLniLhpump",
@@ -467306,6 +472932,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "texas-pacific-land-corporation-robinhood-token": {
+   "coingecko_id": "texas-pacific-land-corporation-robinhood-token",
+   "id": "erc20:robinhoodchain:0x410ca9f26f71adc9cdb44077fa3c86f7196ae1b7",
+   "name": "Texas Pacific Land Corporation \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "TPL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -469168,6 +474824,36 @@
     }
    ]
   },
+  "the-brotherhood": {
+   "coingecko_id": "the-brotherhood",
+   "id": "erc20:robinhoodchain:0x27495511b8a2e163efc75d788706a40dd100bc27",
+   "name": "THE BROTHERHOOD",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PACK",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "the-bubbleheads": {
    "coingecko_id": "the-bubbleheads",
    "id": "solana:3G1yVFfKzZxsvTnAnJMQzZBtyTpfWUTY6G7685nRjups",
@@ -470040,6 +475726,36 @@
     }
    ]
   },
+  "the-dogestar": {
+   "coingecko_id": "the-dogestar",
+   "id": "erc20:robinhoodchain:0x3b4a0048a00787a644932cd648faa043410c163e",
+   "name": "The Dogestar",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "SIRIUS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "the-dub-token": {
    "coingecko_id": "the-dub-token",
    "id": "erc20:base:0x30457a1ab7cd796d6e55e4e5ba12e09f2283e856",
@@ -470446,6 +476162,36 @@
     }
    ]
   },
+  "the-final-form-bull": {
+   "coingecko_id": "the-final-form-bull",
+   "id": "erc20:bnb:0x7a848a5a8169aa6a2f603d056a749f924f504444",
+   "name": "The Final Form Bull",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "CZ",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "the-final-quarter": {
    "coingecko_id": "the-final-quarter",
    "id": "solana:BqndqeBCNSEftBKmbTbLVx1RX5zd5J3AGL9sG55Jpump",
@@ -470454,6 +476200,36 @@
     "solana"
    ],
    "shortcut": "Q4",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "the-first-crypto-cat": {
+   "coingecko_id": "the-first-crypto-cat",
+   "id": "solana:EBLUKPgx5FvTUBU6bTJi3aR8XVELSBdC5FiodSWQpump",
+   "name": "The First Crypto Cat",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "BITCAT",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -470593,6 +476369,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "the-gap-inc-robinhood-token": {
+   "coingecko_id": "the-gap-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x8325b27fc0193411a80c71fc0e45f423a970630f",
+   "name": "The Gap, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "GAP",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -470773,6 +476579,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "the-goldman-sachs-group-inc-robinhood-token": {
+   "coingecko_id": "the-goldman-sachs-group-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x2af847f8b2c9b9ff745c5dc146e16f2a8a44fd02",
+   "name": "The Goldman Sachs Group, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "GS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -472098,6 +477934,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "the-lighter-liger": {
+   "coingecko_id": "the-lighter-liger",
+   "id": "erc20:robinhoodchain:0x420393b70a34d6aef855ef56e87d4d4161f27c27",
+   "name": "The Lighter Liger",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "LIGER",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -475146,6 +481012,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "the-walt-disney-company-robinhood-token": {
+   "coingecko_id": "the-walt-disney-company-robinhood-token",
+   "id": "erc20:robinhoodchain:0x501b1b3b79750313ad2c4cccd08586c4c17d7283",
+   "name": "The Walt Disney Company \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "DIS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -478509,14 +484405,15 @@
   },
   "tiny-humans-ai": {
    "coingecko_id": "tiny-humans-ai",
-   "id": "solana:2AF7CqwieUjUPALL7icuZtL3X7wENdjUjGBMmfV2pump",
+   "id": "erc20:robinhoodchain:0xb9ce619b168f325b4eb8c2e8e073501838c7a407",
    "name": "Tiny Humans AI",
    "networks": [
+    "robinhood",
     "solana"
    ],
    "shortcut": "TINY",
    "support": {
-    "T1B1": false,
+    "T1B1": true,
     "T2B1": true,
     "T2T1": true,
     "T3T1": true,
@@ -478534,6 +484431,14 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -482464,6 +488369,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "touch-grass-2": {
+   "coingecko_id": "touch-grass-2",
+   "id": "erc20:robinhoodchain:0x16391c40e85fb2246a2c8c17bfa2594c5d3ef84b",
+   "name": "Touch Grass",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "GRASS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -487751,6 +493686,36 @@
     }
    ]
   },
+  "trustcat": {
+   "coingecko_id": "trustcat",
+   "id": "erc20:bnb:0x75b364916b65f1e8959fa0210a6922c2ee237777",
+   "name": "TrustCat",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "TRUSTCAT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "trustfi-network-token": {
    "coingecko_id": "trustfi-network-token",
    "id": "erc20:bnb:0x7565ab68d3f9dadff127f864103c8c706cf28235",
@@ -489641,6 +495606,36 @@
     }
    ]
   },
+  "twist-bioscience-corporation-robinhood-token": {
+   "coingecko_id": "twist-bioscience-corporation-robinhood-token",
+   "id": "erc20:robinhoodchain:0x046234ab18e3288df55f4fd6ebc5de581eff8d5e",
+   "name": "Twist Bioscience Corporation \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "TWST",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "twist-bioscience-xstock": {
    "coingecko_id": "twist-bioscience-xstock",
    "id": "erc20:eth:0x04ee5c38ceb66133f7ec01401a7673b6475e950d",
@@ -489676,6 +495671,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "twofold": {
+   "coingecko_id": "twofold",
+   "id": "erc20:robinhoodchain:0x2a4a33a2163d005d8e7f1d9ac08d14c98db288d5",
+   "name": "Twofold",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "TWO",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -489985,6 +496010,36 @@
     }
    ]
   },
+  "tytl-fractional-home-equity": {
+   "coingecko_id": "tytl-fractional-home-equity",
+   "id": "solana:AsHHh1S8MLgKVCVYaeJvLjGS2dkkvkKtGPkUYa6b2nLd",
+   "name": "TYTL Fractional Home Equity",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "TYTL",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "u": {
    "coingecko_id": "u",
    "id": "erc20:bnb:0x6f88dbed8f178f71f6a0c27df10d4f0b8ddf4444",
@@ -490221,6 +496276,36 @@
     }
    ]
   },
+  "uber-technologies-inc-robinhood-token": {
+   "coingecko_id": "uber-technologies-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0xbd335aa5a1693f0121a5c0ef18a080e9958da78b",
+   "name": "Uber Technologies, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "UBER",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "uber-xstock": {
    "coingecko_id": "uber-xstock",
    "id": "erc20:eth:0xdb9783ca04bbd64fe2c6d7b9503a979b3de30729",
@@ -490276,6 +496361,36 @@
     "T3W1": true
    },
    "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "ubik": {
+   "coingecko_id": "ubik",
+   "id": "erc20:robinhoodchain:0x812486eaea648819853f8e372dc9f1516c7868bd",
+   "name": "ubik",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "UBIK",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -493301,6 +499416,36 @@
     }
    ]
   },
+  "unipcs": {
+   "coingecko_id": "unipcs",
+   "id": "erc20:robinhoodchain:0x7df5daaf80e65dfcc7a1435d9b52bcf2b5753fbe",
+   "name": "Unipcs",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "UNIPCS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "unipeg": {
    "coingecko_id": "unipeg",
    "id": "erc20:eth:0x44b28991b167582f18ba0259e0173176ca125505",
@@ -494002,36 +500147,6 @@
     }
    ]
   },
-  "unite-2": {
-   "coingecko_id": "unite-2",
-   "id": "erc20:base:0xa6c6ea2e0140849be02a3a34780cf61b766916c5",
-   "name": "Unite",
-   "networks": [
-    "base"
-   ],
-   "shortcut": "UNITE",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "unite-the-kingdom": {
    "coingecko_id": "unite-the-kingdom",
    "id": "solana:3t1bNt1RoXZvrPDZp8SXEaaQarZRBFf7W6mi9Eb8BAGS",
@@ -494157,6 +500272,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "united-founders-group": {
+   "coingecko_id": "united-founders-group",
+   "id": "erc20:robinhoodchain:0xefab538cf3c29237a47c6afb145d50ddf204a0a3",
+   "name": "United Founders Group",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "UFG",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -494919,6 +501064,36 @@
     "T3W1": true
    },
    "wallets": [
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "unity-software-inc-robinhood-token": {
+   "coingecko_id": "unity-software-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x79fa4d9aabc058f3449f25e373e2f8f0a34f9ae0",
+   "name": "Unity Software Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "U",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
     {
      "name": "MetaMask",
      "url": "https://metamask.io/"
@@ -496052,6 +502227,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "unusual-machines-inc-robinhood-token": {
+   "coingecko_id": "unusual-machines-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0xc02146a52800d8e5d6a08d410c9f9ccd966b8389",
+   "name": "Unusual Machines, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "UMAC",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -498152,37 +504357,6 @@
     "avalanche"
    ],
    "shortcut": "USDC.E",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
-  "usd-coin-bridged-zed20": {
-   "coingecko_id": "usd-coin-bridged-zed20",
-   "id": "erc20:bnb:0x40f85d6040df96ea14cd41142bcd244e14cf76f6",
-   "name": "ZEDX Bridged USDC (Zedxion)",
-   "networks": [
-    "binance-smart-chain",
-    "zedxion"
-   ],
-   "shortcut": "USDC.Z",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -502887,6 +509061,36 @@
     }
    ]
   },
+  "vapi-network": {
+   "coingecko_id": "vapi-network",
+   "id": "erc20:base:0x1ea8deb921aa6015f4938010c848140b98108dd2",
+   "name": "vAPI Network",
+   "networks": [
+    "base"
+   ],
+   "shortcut": "VAPI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "vapor-wallet": {
    "coingecko_id": "vapor-wallet",
    "id": "erc20:bnb:0xb96d0f29a0ac9af4a32835e90ec6531389765089",
@@ -507189,10 +513393,11 @@
   },
   "vibestarter": {
    "coingecko_id": "vibestarter",
-   "id": "erc20:base:0xeffc8815487084a97edfdff968b56ea123421acb",
+   "id": "erc20:robinhoodchain:0x9a73d60b9c8c2d330eb6d885e69fcc1399c33c18",
    "name": "Vibestarter",
    "networks": [
-    "base"
+    "base",
+    "robinhood"
    ],
    "shortcut": "VIBES",
    "support": {
@@ -507729,6 +513934,36 @@
     "solana"
    ],
    "shortcut": "VICPAY",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
+  "vida-global-cto": {
+   "coingecko_id": "vida-global-cto",
+   "id": "solana:8K5X85PAJHAAVSvYaAzgVPPAPsqqHmvx16ZyBiscYF8L",
+   "name": "Vida Global CTO",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "CTO",
    "support": {
     "T1B1": false,
     "T2B1": true,
@@ -508828,6 +515063,36 @@
     }
    ]
   },
+  "visa-inc-robinhood-token": {
+   "coingecko_id": "visa-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x9bff87700337babf5099e99f322f888dafb1d551",
+   "name": "Visa Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "V",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "visa-ondo-tokenized-stock": {
    "coingecko_id": "visa-ondo-tokenized-stock",
    "id": "erc20:eth:0xac37c20c1d0e5285035e056101a64e263ff94a41",
@@ -508899,6 +515164,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "vishay-intertechnology-inc-robinhood-token": {
+   "coingecko_id": "vishay-intertechnology-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x9226bbec110fbd4701817f2db55280f43a08822e",
+   "name": "Vishay Intertechnology, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "VSH",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
     },
     {
      "name": "MetaMask",
@@ -511234,6 +517529,66 @@
     }
    ]
   },
+  "voxelithic-protocol": {
+   "coingecko_id": "voxelithic-protocol",
+   "id": "erc20:robinhoodchain:0xa01bc586cd5f4f253bfab4e44400c52dbc18bc50",
+   "name": "Voxelithic Protocol",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "VOXEL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "voxie": {
+   "coingecko_id": "voxie",
+   "id": "solana:EYBMhikmdqUs6j5p9mv1tfPY3HszsCyYeRpwme6Bpump",
+   "name": "VOXIE",
+   "networks": [
+    "solana"
+   ],
+   "shortcut": "VOXIE",
+   "support": {
+    "T1B1": false,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "Backpack",
+     "url": "https://backpack.app/"
+    },
+    {
+     "name": "NuFi",
+     "url": "https://nu.fi"
+    }
+   ]
+  },
   "voxies": {
    "coingecko_id": "voxies",
    "id": "erc20:pol:0xd0258a3fd00f38aa8090dfee343f10a9d4d30d3f",
@@ -511322,6 +517677,36 @@
     {
      "name": "NuFi",
      "url": "https://nu.fi"
+    }
+   ]
+  },
+  "voyager-technologies-inc-robinhood-token": {
+   "coingecko_id": "voyager-technologies-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x02ee0b6b6b172eeb66d0939aeb63cb44de66aee1",
+   "name": "Voyager Technologies, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "VOYG",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
     }
    ]
   },
@@ -516100,52 +522485,6 @@
     }
    ]
   },
-  "webster-financial-xstock": {
-   "coingecko_id": "webster-financial-xstock",
-   "id": "erc20:eth:0x39a5f238fbafa97261eecb683551db70f8d82888",
-   "name": "Webster Financial xStock",
-   "networks": [
-    "arbitrum-one",
-    "binance-smart-chain",
-    "ethereum",
-    "hyperevm",
-    "ink",
-    "mantle",
-    "optimistic-ethereum",
-    "solana",
-    "x-layer"
-   ],
-   "shortcut": "WBSX",
-   "support": {
-    "T1B1": true,
-    "T2B1": true,
-    "T2T1": true,
-    "T3T1": true,
-    "T3W1": true
-   },
-   "wallets": [
-    {
-     "name": "Trezor Suite",
-     "url": "https://trezor.io/trezor-suite"
-    },
-    {
-     "name": "Backpack",
-     "url": "https://backpack.app/"
-    },
-    {
-     "name": "NuFi",
-     "url": "https://nu.fi"
-    },
-    {
-     "name": "MetaMask",
-     "url": "https://metamask.io/"
-    },
-    {
-     "name": "Rabby",
-     "url": "https://rabby.io/"
-    }
-   ]
-  },
   "webull-corporation-robinhood-token": {
    "coingecko_id": "webull-corporation-robinhood-token",
    "id": "erc20:robinhoodchain:0xcef9027c7d6985b85f0ba431125073529a947a68",
@@ -517350,6 +523689,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "WSI",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "west-pharmaceutical-services-inc-robinhood-token": {
+   "coingecko_id": "west-pharmaceutical-services-inc-robinhood-token",
+   "id": "erc20:robinhoodchain:0x68be8735ec63e0b7b2c2ee1e1323fb25a3fa6ab2",
+   "name": "West Pharmaceutical Services, Inc. \u2022 Robinhood Token",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "WST",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -519709,6 +526078,36 @@
     "binance-smart-chain"
    ],
    "shortcut": "WHY",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "why-bother-looking-elsewhere-binance-has-it-all": {
+   "coingecko_id": "why-bother-looking-elsewhere-binance-has-it-all",
+   "id": "erc20:bnb:0xe9337dde3dd9e97f1f45a56412767ce5098e7777",
+   "name": "\u4f55\u5fc5\u4e1c\u5954\u897f\u8d70 \u5e01\u5b89\u5168\u90e8\u90fd\u6709 (Why bother looking elsewhere? Binance has it ",
+   "networks": [
+    "binance-smart-chain"
+   ],
+   "shortcut": "\u5e01\u6709",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -522593,6 +528992,36 @@
     "base"
    ],
    "shortcut": "WODS",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
+  "wolf-pack": {
+   "coingecko_id": "wolf-pack",
+   "id": "erc20:robinhoodchain:0x0145acbccefbed6f303c420beeaaac72e905430b",
+   "name": "Wolf Pack",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "PACK",
    "support": {
     "T1B1": true,
     "T2B1": true,
@@ -545365,6 +551794,36 @@
     }
    ]
   },
+  "zeal-2": {
+   "coingecko_id": "zeal-2",
+   "id": "erc20:robinhoodchain:0x9fa1c5e90a11294f83a9f135b81ad1b537a5ffdc",
+   "name": "Zeal",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ZEAL",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "zebec-network": {
    "coingecko_id": "zebec-network",
    "id": "solana:ZBCNpuD7YMXzTHB2fhGkGi78MNsHGLRXUhRewNRm9RU",
@@ -550254,6 +556713,36 @@
     }
    ]
   },
+  "zrdao-token": {
+   "coingecko_id": "zrdao-token",
+   "id": "erc20:eth:0x0c862c4aff0c87f3b4e93350ecf2dd6ada0c5400",
+   "name": "ZRDAO Token",
+   "networks": [
+    "ethereum"
+   ],
+   "shortcut": "ZRT",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
+  },
   "zreal-super-coin": {
    "coingecko_id": "zreal-super-coin",
    "id": "solana:GnFMf6JVRhAqPbA9r8yW16xycynKNkXfbaYbusLEpump",
@@ -550789,17 +557278,47 @@
      "url": "https://rabby.io/"
     }
    ]
+  },
+  "zzz-2": {
+   "coingecko_id": "zzz-2",
+   "id": "erc20:robinhoodchain:0x7dbf38976f6d3b9c529e7d9484a71898b409ee6a",
+   "name": "ZZZ",
+   "networks": [
+    "robinhood"
+   ],
+   "shortcut": "ZZZ",
+   "support": {
+    "T1B1": true,
+    "T2B1": true,
+    "T2T1": true,
+    "T3T1": true,
+    "T3W1": true
+   },
+   "wallets": [
+    {
+     "name": "Trezor Suite",
+     "url": "https://trezor.io/trezor-suite"
+    },
+    {
+     "name": "MetaMask",
+     "url": "https://metamask.io/"
+    },
+    {
+     "name": "Rabby",
+     "url": "https://rabby.io/"
+    }
+   ]
   }
  },
  "info": {
   "support_counter": {
-   "T1B1": 12472,
-   "T2B1": 17655,
-   "T2T1": 17662,
-   "T3T1": 17655,
-   "T3W1": 17655
+   "T1B1": 12653,
+   "T2B1": 17872,
+   "T2T1": 17879,
+   "T3T1": 17872,
+   "T3W1": 17872
   },
-  "updated_at": 1788544822,
-  "updated_at_readable": "Fri Sep  4 20:00:22 2026"
+  "updated_at": 1788767177,
+  "updated_at_readable": "Mon Sep  7 09:46:17 2026"
  }
 }
