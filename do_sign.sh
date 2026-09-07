@@ -31,6 +31,9 @@ git branch --force signed HEAD
 
 python cli.py generate --version "$VERSION"
 
+# verify the freshly generated definitions against production keys
+python cli.py validate --version "$VERSION"
+
 echo "Don't forget to push main & signed branches:"
 echo "  git push origin main"
 echo "  git push origin signed"

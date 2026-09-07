@@ -11,7 +11,7 @@ from definitions.common import (
 )
 from definitions.download import download
 from definitions.ethereum.builtin_defs import check_builtin
-from definitions.generate import generate_definitions
+from definitions.generate import generate_definitions, validate_generated_definitions
 from definitions.serialize import get_merkle_root, regenerate_metadata
 from definitions.sign import sign_definitions
 
@@ -24,6 +24,7 @@ def cli() -> None:
 cli.add_command(download)
 cli.add_command(check_builtin)
 cli.add_command(generate_definitions)
+cli.add_command(validate_generated_definitions)
 cli.add_command(sign_definitions)
 
 
