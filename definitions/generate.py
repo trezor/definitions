@@ -11,6 +11,8 @@ from pathlib import Path
 
 import click
 from cryptography.exceptions import InvalidSignature
+from trezorlib import definitions as trezorlib_definitions
+from trezorlib import merkle_tree
 from trezorlib.merkle_tree import MerkleTree
 
 from . import crypto
@@ -264,3 +266,108 @@ def generate_definitions(
                 continue
 
     create_deploy_tar(outdir, outdir / tar_filename)
+
+
+def validate_generated_dir(outdir: Path, version: int, dev: bool = False) -> int:
+    """Parse and verify every generated definition; return their count.
+
+    Uses trezorlib's own `Definition` parser and verifier, so format drift
+    between this repo's encoders and the trezorlib decoders fails loudly here
+    instead of on client devices.
+
+    Every definition is parsed and its Merkle proof evaluated against the
+    single shared root of the whole directory. Signatures are verified once
+    per unique value — pure-python ed25519 verification is too slow to repeat
+    per definition.
+    """
+    paths = sorted(outdir.rglob("*.dat"))
+    if not paths:
+        raise click.ClickException(
+            f"No definitions found in {outdir}. Run `generate --version {version}` first."
+        )
+    expected_version = str(version).encode("ascii")
+    # all definitions of one generate run share a single Merkle root
+    expected_root: bytes | None = None
+    expected_root_path: Path | None = None
+    # signature -> (parsed definition, first path seen with it); signatures
+    # are verified once per unique value after the loop (pure-python ed25519
+    # verification is too slow to repeat per definition)
+    unique_sigs: dict[bytes, tuple[t.Any, Path]] = {}
+    with click.progressbar(paths, label="Validating definitions") as bar:
+        for path in bar:
+            try:
+                definition = trezorlib_definitions.Definition.parse(path.read_bytes())
+            except Exception as e:
+                raise click.ClickException(f"Failed to parse {path}: {e}")
+            if definition.payload.version != expected_version:
+                raise click.ClickException(
+                    f"{path}: payload version {definition.payload.version!r}, "
+                    f"expected {expected_version!r}."
+                )
+            root = merkle_tree.evaluate_proof(
+                definition.payload.build(), definition.proof
+            )
+            if expected_root is None:
+                expected_root, expected_root_path = root, path
+            elif root != expected_root:
+                raise click.ClickException(
+                    f"{path} evaluates to a different Merkle root than "
+                    f"{expected_root_path}. The directory mixes definitions "
+                    "from different generate runs."
+                )
+            signature = bytes([definition.sigmask]) + definition.signature
+            unique_sigs.setdefault(signature, (definition, path))
+
+    assert expected_root is not None  # paths is non-empty
+    for signature, (definition, path) in unique_sigs.items():
+        try:
+            if dev:
+                # trezorlib's dev verification expects a single dev key
+                # (sigmask 0b001) while this repo dev-signs with all three
+                # dev keys (sigmask 0b111), so verify dev signatures with
+                # the repo's own crypto instead.
+                crypto.verify_signature(signature, expected_root, version, dev=True)
+            else:
+                definition.verify()
+        except Exception as e:
+            raise click.ClickException(f"Invalid signature in {path}: {e}")
+    return len(paths)
+
+
+@click.command(name="validate")
+@click.option(
+    "-d",
+    "--dev",
+    is_flag=True,
+    help="Verify against dev keys instead of production keys.",
+)
+@click.option(
+    "--version",
+    type=int,
+    default=None,
+    help="Definitions format version. Defaults to the sole active version.",
+)
+@click.option("-v", "--verbose", is_flag=True, help="Display more info.")
+def validate_generated_definitions(
+    dev: bool,
+    version: int | None,
+    verbose: bool,
+) -> None:
+    """Verify generated binary definitions against trezorlib's parser and keys.
+
+    Parses every definition under definitions-latest-v<version>/ and verifies
+    its payload version and CoSi signature (production keys, or dev keys with
+    --dev).
+    """
+    setup_logging(verbose)
+    if version is None:
+        version = resolve_default_version()
+    validate_version(version)
+    outdir = generated_definitions_dir(version)
+    if not outdir.is_dir():
+        raise click.ClickException(
+            f"Directory {outdir} does not exist. Run `generate --version {version}` first."
+        )
+    count = validate_generated_dir(outdir, version, dev=dev)
+    keys = "dev" if dev else "production"
+    click.echo(f"Validated {count} definitions in {outdir} against {keys} keys.")
