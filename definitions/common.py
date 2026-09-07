@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import dataclasses
 import datetime
+import inspect
 import io
 import json
 import logging
@@ -22,6 +23,21 @@ from pathlib import Path
 
 import click
 from trezorlib import definitions, protobuf
+
+# A trezorlib that predates the split magic/version DefinitionPayload
+# (trezor-firmware main, not yet released as trezor >= 0.21) imports fine but
+# would otherwise fail with a cryptic TypeError in encode_payload below.
+# Fail fast with guidance, same pattern as definitions/ethereum/serialize.py.
+if (
+    "version"
+    not in inspect.signature(definitions.DefinitionPayload.__init__).parameters
+):
+    raise SystemExit(
+        "Your trezorlib is outdated — DefinitionPayload has no 'version' field.\n"
+        "The split magic/version payload format needs the updated trezorlib. Run:\n"
+        "  uv pip install -e ../trezor-firmware/python\n"
+        "  uv run --no-sync ./do_update.sh"
+    )
 
 from .ethereum.types import ERC20DisplayFormat, ERC20Token, Network
 from .solana.types import SolanaToken
