@@ -7,6 +7,7 @@ only orchestrates the pipeline (and merges CoinGecko metadata across coins).
 
 from __future__ import annotations
 
+import datetime
 import json
 import logging
 import sys
@@ -354,8 +355,14 @@ def download(
         erc20_display_formats=display_formats,
     )
 
+    # compute metadata for all active versions (sharing one timestamp)
+    now = datetime.datetime.now(datetime.timezone.utc)
+    metadatas = [
+        make_metadata(definitions_data, version, now=now)
+        for version in ACTIVE_VERSIONS
+    ]
+
     # save results: coin sections once, per-version metadata for all active versions
     store_definitions_data(definitions_data)
-    for version in ACTIVE_VERSIONS:
-        metadata = make_metadata(definitions_data, version)
+    for metadata in metadatas:
         store_metadata(metadata)
