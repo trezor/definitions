@@ -2,11 +2,17 @@ from __future__ import annotations
 
 import click
 
-from definitions.common import load_definitions_data, resolve_default_version
+from definitions import common
+from definitions.common import (
+    DefinitionsData,
+    load_definitions_data,
+    load_json_file,
+    resolve_default_version,
+)
 from definitions.download import download
 from definitions.ethereum.builtin_defs import check_builtin
 from definitions.generate import generate_definitions
-from definitions.serialize import get_merkle_root
+from definitions.serialize import get_merkle_root, regenerate_metadata
 from definitions.sign import sign_definitions
 
 
@@ -67,6 +73,32 @@ def computed_merkle_root(version: int | None):
             err=True,
         )
     print(computed)
+
+
+@cli.command(name="metadata")
+def regenerate_metadata_cmd() -> None:
+    """Regenerate per-version metadata files from definitions-latest.json.
+
+    I.e. rebuilds definitions-latest-metadata-v<version>.json for
+    all active versions from the existing definitions data, without
+    downloading anything.
+    """
+    if not common.DEFINITIONS_PATH.is_file():
+        raise click.ClickException(
+            f'File "{common.DEFINITIONS_PATH}" with prepared definitions does not exist.'
+        )
+    try:
+        definitions_data = DefinitionsData.from_dict(
+            load_json_file(common.DEFINITIONS_PATH)
+        )
+    except KeyError:
+        raise click.ClickException(
+            "File with prepared definitions is not complete. "
+            '"networks", "erc20_tokens", "solana_tokens" and "erc20_display_formats" sections may be missing.'
+        )
+    regenerate_metadata(definitions_data)
+    versions = ", ".join(str(v) for v in common.ACTIVE_VERSIONS)
+    click.echo(f"Regenerated metadata for versions: {versions}")
 
 
 if __name__ == "__main__":
