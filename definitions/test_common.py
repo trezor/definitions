@@ -163,3 +163,56 @@ def test_payload_header_contains_magic_and_version(version):
     serialized = serialize_token(token, 1234567890, version)
     assert serialized[:4] == b"trzd"
     assert serialized[4:5] == str(version).encode("ascii")
+
+
+# ====== metadata regeneration ======
+
+
+def test_regenerate_metadata(tmp_root, definitions_data):
+    from .serialize import regenerate_metadata
+
+    regenerate_metadata(definitions_data)
+
+    for version in common.ACTIVE_VERSIONS:
+        stored = json.loads(metadata_path(version).read_text())
+        assert stored["version"] == version
+        assert len(stored["merkle_root"]) == 64
+        # all versions share one timestamp
+        assert stored["unix_timestamp"] == json.loads(
+            metadata_path(common.ACTIVE_VERSIONS[0]).read_text()
+        )["unix_timestamp"]
+
+
+def test_regenerate_metadata_matches_computed_root(tmp_root, definitions_data):
+    from .serialize import get_merkle_root, regenerate_metadata
+
+    regenerate_metadata(definitions_data)
+
+    for version in common.ACTIVE_VERSIONS:
+        stored = json.loads(metadata_path(version).read_text())
+        computed = get_merkle_root(
+            definitions_data, stored["unix_timestamp"], version
+        )
+        assert stored["merkle_root"] == computed
+
+
+def test_metadata_cli_command(tmp_root, definitions_data):
+    from click.testing import CliRunner
+
+    from cli import cli as cli_group
+
+    store_definitions_data(definitions_data)
+    result = CliRunner().invoke(cli_group, ["metadata"])
+    assert result.exit_code == 0, result.output
+    for version in common.ACTIVE_VERSIONS:
+        assert metadata_path(version).is_file()
+
+
+def test_metadata_cli_command_missing_definitions(tmp_root):
+    from click.testing import CliRunner
+
+    from cli import cli as cli_group
+
+    result = CliRunner().invoke(cli_group, ["metadata"])
+    assert result.exit_code != 0
+    assert "does not exist" in result.output

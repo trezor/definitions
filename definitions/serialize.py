@@ -11,7 +11,13 @@ import typing as t
 
 from trezorlib.merkle_tree import MerkleTree
 
-from .common import DefinitionsData, DefinitionsFileMetadata, get_git_commit_hash
+from .common import (
+    ACTIVE_VERSIONS,
+    DefinitionsData,
+    DefinitionsFileMetadata,
+    get_git_commit_hash,
+    store_metadata,
+)
 from .ethereum import serialize as ethereum_serialize
 from .ethereum.types import ERC20DisplayFormat, ERC20Token, Network
 from .solana import serialize as solana_serialize
@@ -80,3 +86,14 @@ def make_metadata(
         commit_hash=get_git_commit_hash(),
         version=version,
     )
+
+
+def regenerate_metadata(definitions_data: DefinitionsData) -> None:
+    """Recompute and store metadata for all active versions at one timestamp.
+
+    Recovery helper: rebuilds `definitions-latest-metadata-v<version>.json`
+    files from existing definitions data, without downloading anything.
+    """
+    now = datetime.datetime.now(datetime.timezone.utc)
+    for version in ACTIVE_VERSIONS:
+        store_metadata(make_metadata(definitions_data, version, now=now))
