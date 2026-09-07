@@ -32,3 +32,9 @@ profile = "black"
 package = false
 exclude-newer = "30 days"
 exclude-newer-package = { urllib3 = "2026-05-08" }
+
+# Use trezorlib from trezor-firmware main instead of the PyPI release
+# needed for the DefinitionPayload magic/version split for the v2 defs.
+# TODO: remove once trezor >= 0.20.3 ships
+[tool.uv.sources]
+trezor = { git = "https://github.com/trezor/trezor-firmware.git", subdirectory = "python", rev = "1bf3c5e4c956eb5d1095a2889f4f95d6c030b2f2" }
