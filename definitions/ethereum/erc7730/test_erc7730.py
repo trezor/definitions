@@ -714,6 +714,21 @@ def test_const_token_address_serializes_to_proto():
     assert info.const_token_address == bytes.fromhex("ab" * 20)
 
 
+def test_threshold_message_serializes_to_proto():
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "Amt",
+            "formatter": "FORMATTER_TOKEN_AMOUNT",
+            "threshold": "ff",
+            "threshold_message": "Unlimited",
+        }
+    )
+    assert info.threshold_message == "Unlimited"
+
+
 def test_const_value_path_serializes_to_proto():
     from ..serialize import _build_erc7730_path
 
@@ -904,6 +919,43 @@ def test_tokenamount_negative_threshold_skips_file():
     with pytest.raises(UnsupportedFeature):
         build_display_formats(_threshold_desc(-1), unsupported=unsupported)
     assert {feat for _src, feat, _det in unsupported} == {"invalid-threshold"}
+
+
+def _threshold_message_desc(threshold, message):
+    params: dict = {"tokenPath": "token"}
+    if threshold is not None:
+        params["threshold"] = threshold
+    if message is not None:
+        params["message"] = message
+    return _descriptor(
+        formats={
+            "f(uint256 amount, address token)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": params,
+                    }
+                ]
+            }
+        }
+    )
+
+
+def test_tokenamount_message_is_kept_alongside_threshold():
+    [rec] = build_display_formats(_threshold_message_desc("0xff", "Unlimited"))
+    assert rec["field_definitions"][0]["threshold_message"] == "Unlimited"
+
+
+def test_tokenamount_message_without_threshold_is_dropped():
+    [rec] = build_display_formats(_threshold_message_desc(None, "Unlimited"))
+    assert "threshold_message" not in rec["field_definitions"][0]
+
+
+def test_tokenamount_threshold_without_message_omits_key():
+    [rec] = build_display_formats(_threshold_message_desc("0xff", None))
+    assert "threshold_message" not in rec["field_definitions"][0]
 
 
 def test_unit_valid_decimals_is_kept():

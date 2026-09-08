@@ -61,6 +61,10 @@ if not hasattr(EthereumERC7730FieldFormatterType, "FORMATTER_ENUM"):
 if not any(f.name == "enum_values" for f in EthereumERC7730FieldInfo.FIELDS.values()):
     _missing_proto.append("EthereumERC7730FieldInfo.enum_values")
 if not any(
+    f.name == "threshold_message" for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.threshold_message")
+if not any(
     f.name == "provider_name" for f in EthereumDisplayFormatInfo.FIELDS.values()
 ):
     _missing_proto.append("EthereumDisplayFormatInfo.provider_name")
@@ -153,6 +157,7 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
             _build_erc7730_path(d["token_path"]) if "token_path" in d else None
         ),
         threshold=bytes.fromhex(d["threshold"]) if "threshold" in d else None,
+        threshold_message=d.get("threshold_message"),
         decimals=d.get("decimals"),
         base=d.get("base"),
         prefix=d.get("prefix"),
