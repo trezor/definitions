@@ -139,7 +139,7 @@ def create_deploy_tar(src_dir: Path, out_file: Path) -> None:
 
         with (
             click.progressbar(
-                length=total_items + eth_items + 2, label="deploy.tar.xz"
+                length=total_items + eth_items + 2, label=out_file.name
             ) as bar,
             tarfile.open(out_file, "w:xz") as f,
         ):
@@ -232,10 +232,12 @@ def generate_definitions(
         # Signing the Merkle tree root hash with dev keys
         print("Signing the Merkle tree root hash with dev keys...")
         signature_bytes = crypto.sign_with_dev_keys(root_hash)
+        tar_filename = f"deploy_dev_v{version}_{timestamp}.tar.xz"
     elif "signature" in metadata:
         # Use the signature from the loaded definitions
         print("Using signature stored in metadata...")
         signature_bytes = bytes.fromhex(metadata["signature"])
+        tar_filename = f"deploy_prod_v{version}_{timestamp}.tar.xz"
     else:
         raise click.ClickException(
             "No signature available. Either use --dev-sign or ensure metadata contains a signature."
@@ -261,4 +263,4 @@ def generate_definitions(
                 print(f"serialization longer than 1024 bytes - {item}")
                 continue
 
-    create_deploy_tar(outdir, outdir / f"deploy_{version}_{timestamp}.tar.xz")
+    create_deploy_tar(outdir, outdir / tar_filename)
