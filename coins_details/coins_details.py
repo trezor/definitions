@@ -24,7 +24,7 @@ class WalletInfo(t.TypedDict):
     url: str
 
 
-SupportEntry = t.Dict[str, bool]
+SupportEntry = dict[str, bool]
 
 
 @dataclass
@@ -308,7 +308,7 @@ def main(verbose: int):
     with open(COINS_LIST, "w") as f:
         f.write(f"Updated at: {info['updated_at_readable']}\n")
         for cg_id, coin in cg_json.items():
-            f.write(f'{cg_id} {coin["name"]} ({coin["shortcut"]})\n')
+            f.write(f"{cg_id} {coin['name']} ({coin['shortcut']})\n")
 
 
 if __name__ == "__main__":
