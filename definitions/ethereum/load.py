@@ -82,7 +82,7 @@ NATIVE_CURRENCY_SENTINEL = "0x" + "ee" * 20
 
 
 class NetworkOverride(NamedTuple):
-    """A network we define ourselves, plus what its chain file cannot tell us. """
+    """A network we define ourselves, plus what its chain file cannot tell us."""
 
     network: Network
     native_decimals: int

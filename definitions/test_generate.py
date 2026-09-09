@@ -49,9 +49,7 @@ def test_validate_dev_signed(tmp_path, definitions_data):
     assert count > 0
 
 
-def test_validate_dev_signed_fails_against_production_keys(
-    tmp_path, definitions_data
-):
+def test_validate_dev_signed_fails_against_production_keys(tmp_path, definitions_data):
     _write_dev_signed_dir(tmp_path, definitions_data)
     with pytest.raises(click.ClickException, match="Invalid signature"):
         validate_generated_dir(tmp_path, 1, dev=False)

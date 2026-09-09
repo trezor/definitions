@@ -79,7 +79,7 @@ def sign_definitions(
     signature_bytes = bytes.fromhex(signature)
     if len(signature_bytes) != 65:
         raise click.ClickException(
-            "Provided `--signature` value is not valid. " "It should be 65 bytes long."
+            "Provided `--signature` value is not valid. It should be 65 bytes long."
         )
 
     # Verify signature
