@@ -27,8 +27,8 @@ from .common import (
 from .downloader import Downloader
 from .ethereum.builtin_defs import check_builtin_defs
 from .ethereum.load import (
-    TOKENS_PATH,
     ADDITIONAL_TOKENS,
+    TOKENS_PATH,
     force_networks_fields_sizes_t1,
     force_tokens_fields_sizes_t1,
     load_display_formats_from_repo,
