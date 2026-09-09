@@ -18,6 +18,24 @@ Repository storing external token/network definitions belonging to `Trezor`. It 
 
 When adding definitions for another coin, add a new `definitions/<coin>/` subpackage with its types, serialization and data loading, and wire it into `serialize.py` / `download.py`.
 
+## Development setup
+
+The development environment is provided by Nix (flake), Python dependencies by `uv`:
+
+```sh
+nix develop          # or `nix-shell` if flakes are not enabled
+uv sync              # create/update the Python environment in .venv
+```
+
+Then the usual targets are available:
+
+```sh
+make test           # run the tests
+make style          # apply code style (ruff check --fix + ruff format)
+make style_check    # check code style
+make check          # run flake8
+```
+
 ## Update procedure
 
 `./do_update.sh` makes sure to update all definitions to their latest version. It is using data from multiple sources, e.g. `ethereum-lists` repository and `coingecko` API.
