@@ -66,6 +66,11 @@ if not any(
 ):
     _missing_proto.append("EthereumERC7730FieldInfo.threshold_message")
 if not any(
+    f.name == "native_currency_address"
+    for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.native_currency_address")
+if not any(
     f.name == "provider_name" for f in EthereumDisplayFormatInfo.FIELDS.values()
 ):
     _missing_proto.append("EthereumDisplayFormatInfo.provider_name")
@@ -165,6 +170,11 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
         const_token_address=(
             bytes.fromhex(d["const_token_address"])
             if "const_token_address" in d
+            else None
+        ),
+        native_currency_address=(
+            [bytes.fromhex(a) for a in d["native_currency_address"]]
+            if "native_currency_address" in d
             else None
         ),
         callee_path=(
