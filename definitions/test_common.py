@@ -178,9 +178,12 @@ def test_regenerate_metadata(tmp_root, definitions_data):
         assert stored["version"] == version
         assert len(stored["merkle_root"]) == 64
         # all versions share one timestamp
-        assert stored["unix_timestamp"] == json.loads(
-            metadata_path(common.ACTIVE_VERSIONS[0]).read_text()
-        )["unix_timestamp"]
+        assert (
+            stored["unix_timestamp"]
+            == json.loads(metadata_path(common.ACTIVE_VERSIONS[0]).read_text())[
+                "unix_timestamp"
+            ]
+        )
 
 
 def test_regenerate_metadata_matches_computed_root(tmp_root, definitions_data):
@@ -190,9 +193,7 @@ def test_regenerate_metadata_matches_computed_root(tmp_root, definitions_data):
 
     for version in common.ACTIVE_VERSIONS:
         stored = json.loads(metadata_path(version).read_text())
-        computed = get_merkle_root(
-            definitions_data, stored["unix_timestamp"], version
-        )
+        computed = get_merkle_root(definitions_data, stored["unix_timestamp"], version)
         assert stored["merkle_root"] == computed
 
 

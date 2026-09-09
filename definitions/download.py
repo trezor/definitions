@@ -28,8 +28,8 @@ from .common import (
 from .downloader import Downloader
 from .ethereum.builtin_defs import check_builtin_defs
 from .ethereum.load import (
-    TOKENS_PATH,
     ADDITIONAL_TOKENS,
+    TOKENS_PATH,
     build_native_currency_tokens,
     force_networks_fields_sizes_t1,
     force_tokens_fields_sizes_t1,
@@ -365,8 +365,7 @@ def download(
     # compute metadata for all active versions (sharing one timestamp)
     now = datetime.datetime.now(datetime.timezone.utc)
     metadatas = [
-        make_metadata(definitions_data, version, now=now)
-        for version in ACTIVE_VERSIONS
+        make_metadata(definitions_data, version, now=now) for version in ACTIVE_VERSIONS
     ]
 
     # save results: coin sections once, per-version metadata for all active versions

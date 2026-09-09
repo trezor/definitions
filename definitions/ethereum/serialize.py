@@ -29,9 +29,7 @@ try:
     )
 except ImportError as e:
     raise SystemExit(
-        f"Import error: {e}\n\n"
-        "Your trezorlib is outdated. Run:\n"
-        "  uv sync"
+        f"Import error: {e}\n\nYour trezorlib is outdated. Run:\n  uv sync"
     ) from None
 
 
