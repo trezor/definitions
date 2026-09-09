@@ -1015,7 +1015,7 @@ def _build_path_field(
     }
     params = field_def.get("params") or {}
     if fmt == "tokenAmount":
-        apply_token_amount_params(out, params, path_str, label, ctx)
+        apply_token_amount_params(out, params, label, ctx)
     elif fmt == "unit":
         apply_unit_params(out, params, label, ctx)
     elif fmt == "date":
