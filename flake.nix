@@ -33,6 +33,8 @@
             pkgs.python312
             pkgs.ruff
             pkgs.uv
+          ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
+            pkgs.libiconv
           ];
 
           # Wheels like cryptography may need these at runtime
@@ -40,11 +42,16 @@
             pkgs.libffi
             pkgs.openssl
           ];
+          DYLD_LIBRARY_PATH = "${pkgs.libffi}/lib:${pkgs.openssl.out}/lib";
 
           NIX_ENFORCE_PURITY = 0;
 
           # Fix bdist-wheel problem by setting source date epoch to a more recent date
           SOURCE_DATE_EPOCH = 1600000000;
+
+          # don't try to use stack protector for Apple Silicon binaries
+          # it's broken at the moment
+          hardeningDisable = pkgs.lib.optionals (pkgs.stdenv.isDarwin && pkgs.stdenv.isAarch64) [ "stackprotector" ];
 
           # Force uv to use the nix-provided Python instead of its own managed
           # builds. Without this, uv defaults to python-preference=managed +
