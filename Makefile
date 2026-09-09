@@ -8,16 +8,15 @@ test:
 	pytest --random-order .
 
 style_check:
-	isort --version | awk '/VERSION/{print $$2}'
-	black --version
-	isort --check-only $(PY_SRC)
-	black --check $(PY_SRC)
+	ruff --version
+	@echo [RUFF]
+	@ruff check $(PY_SRC)
+	@ruff format --check $(PY_SRC)
 
 style:
-	@echo [ISORT]
-	@isort $(PY_SRC)
-	@echo [BLACK]
-	@black $(PY_SRC)
+	@echo [RUFF]
+	@ruff check --fix $(PY_SRC)
+	@ruff format $(PY_SRC)
 
 check:
 	# Ignore:
