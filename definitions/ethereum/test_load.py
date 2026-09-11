@@ -7,6 +7,8 @@ import pytest
 from ..test_data import erc20_tokens, networks
 from . import load as dl
 from .load import (
+    NATIVE_CURRENCY_SENTINEL,
+    build_native_currency_tokens,
     dedup_display_formats,
     force_networks_fields_sizes_t1,
     force_tokens_fields_sizes_t1,
@@ -179,6 +181,87 @@ def test_force_networks_fields_sizes_t1_shortcut_over_limit():
     assert all_networks[0]["shortcut"] == "b" * 256
     assert len(all_networks) == len(networks)
     assert all_networks[1:] == networks[1:]
+
+
+# ====== native-currency sentinel tokens ======
+
+
+def _write_chain(tmp_path, chain_id, decimals=None):
+    native_currency = {"name": "Coin", "symbol": "CO"}
+    if decimals is not None:
+        native_currency["decimals"] = decimals
+    (tmp_path / f"eip155-{chain_id}.json").write_text(
+        json.dumps({"chainId": chain_id, "nativeCurrency": native_currency})
+    )
+
+
+def test_native_currency_tokens_mirror_their_network(tmp_path, monkeypatch):
+    monkeypatch.setattr(dl, "NETWORKS_PATH", tmp_path)
+    for network in networks:
+        _write_chain(tmp_path, network["chain_id"], decimals=18)
+
+    tokens = build_native_currency_tokens(networks)
+
+    assert len(tokens) == len(networks)
+    for token, network in zip(tokens, networks):
+        assert token["address"] == NATIVE_CURRENCY_SENTINEL
+        assert token["chain"] == network["chain"]
+        assert token["chain_id"] == network["chain_id"]
+        assert token["name"] == network["name"]
+        assert token["shortcut"] == network["shortcut"]
+        assert token.get("coingecko_id") == network.get("coingecko_id")
+
+
+def test_native_currency_tokens_take_decimals_from_the_chain(tmp_path, monkeypatch):
+    monkeypatch.setattr(dl, "NETWORKS_PATH", tmp_path)
+    _write_chain(tmp_path, 1, decimals=6)
+
+    (token,) = build_native_currency_tokens(networks[:1])
+    assert token["decimals"] == 6
+
+
+@pytest.mark.parametrize("decimals", [None, "not-a-number", -1, True])
+def test_native_currency_tokens_skip_unusable_decimals(tmp_path, monkeypatch, decimals):
+    # Guessing an exponent misprices the amount on screen, so no token at all.
+    monkeypatch.setattr(dl, "NETWORKS_PATH", tmp_path)
+    _write_chain(tmp_path, 1, decimals=decimals)
+
+    assert build_native_currency_tokens(networks[:1]) == []
+
+
+def test_native_currency_tokens_skip_network_without_chain_file(tmp_path, monkeypatch):
+    monkeypatch.setattr(dl, "NETWORKS_PATH", tmp_path)
+
+    assert build_native_currency_tokens(networks[:1]) == []
+
+
+def test_native_currency_tokens_skip_the_unknown_but_keep_the_rest(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setattr(dl, "NETWORKS_PATH", tmp_path)
+    _write_chain(tmp_path, networks[1]["chain_id"], decimals=18)
+
+    tokens = build_native_currency_tokens(networks[:2])
+
+    assert [t["chain_id"] for t in tokens] == [networks[1]["chain_id"]]
+
+
+def test_native_currency_tokens_ignore_chain_file_of_overridden_network(
+    tmp_path, monkeypatch
+):
+    # The ethereum-lists file under an overridden chain_id describes another
+    # chain, so its decimals must not leak into our token - only the value
+    # curated alongside the override counts.
+    monkeypatch.setattr(dl, "NETWORKS_PATH", tmp_path)
+    monkeypatch.setattr(
+        dl,
+        "NETWORK_OVERRIDES",
+        {1: dl.NetworkOverride(network=networks[0], native_decimals=8)},
+    )
+    _write_chain(tmp_path, 1, decimals=6)
+
+    (token,) = build_native_currency_tokens(networks[:1])
+    assert token["decimals"] == 8
 
 
 # ====== erc7730-only refresh ======
