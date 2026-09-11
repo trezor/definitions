@@ -27,6 +27,7 @@ from .ethereum.builtin_defs import check_builtin_defs
 from .ethereum.load import (
     TOKENS_PATH,
     ADDITIONAL_TOKENS,
+    build_native_currency_tokens,
     force_networks_fields_sizes_t1,
     force_tokens_fields_sizes_t1,
     load_display_formats_from_repo,
@@ -273,6 +274,12 @@ def download(
         if (network := native_coin_to_network.get(cg_coin["id"])) is not None:
             network["name"] = cg_coin["name"]
             network["shortcut"] = cg_coin["symbol"].upper()
+
+    native_currency_tokens = build_native_currency_tokens(networks)
+    sentinel_keys = {(t["chain_id"], t["address"]) for t in native_currency_tokens}
+    erc20_tokens = [
+        t for t in erc20_tokens if (t["chain_id"], t["address"]) not in sentinel_keys
+    ] + native_currency_tokens
 
     # get top 100 ids
     cg_top100_ids = {d["id"]: d for d in cg_top100}
