@@ -12,7 +12,7 @@ import logging
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Any
+from typing import Any, NamedTuple
 
 import click
 
@@ -77,23 +77,41 @@ def _get_testnet_status(*strings: str) -> bool:
     return False
 
 
+# https://eip.tools/eip/7528
+NATIVE_CURRENCY_SENTINEL = "0x" + "ee" * 20
+
+
+class NetworkOverride(NamedTuple):
+    """A network we define ourselves, plus what its chain file cannot tell us. """
+
+    network: Network
+    native_decimals: int
+
+
 # Overrides for networks whose ethereum-lists definition we do not want to
 # use. Keyed by chain_id.
-NETWORK_OVERRIDES: dict[int, Network] = {
+NETWORK_OVERRIDES: dict[int, NetworkOverride] = {
     # Chain id 999 is "Wanchain Testnet" in ethereum-lists, but HyperEVM
     # (Hyperliquid) uses the same chain id and has far more usage, so we
     # define it instead. HyperEVM is not present in ethereum-lists at all.
-    999: Network(
-        chain="hype",
-        chain_id=999,
-        is_testnet=False,
-        name="HyperEVM",
-        shortcut="HYPE",
-        slip44=60,
-        coingecko_id="hyperliquid",
-        coingecko_network_id="hyperevm",
+    999: NetworkOverride(
+        network=Network(
+            chain="hype",
+            chain_id=999,
+            is_testnet=False,
+            name="HyperEVM",
+            shortcut="HYPE",
+            slip44=60,
+            coingecko_id="hyperliquid",
+            coingecko_network_id="hyperevm",
+        ),
+        # "HyperEVM Testnet" in ethereum-lists says 18, and so does WHYPE,
+        # which mints one unit per native wei:
+        # https://hyperevmscan.io/token/0x5555555555555555555555555555555555555555#readContract#F3
+        native_decimals=18,
     ),
 }
+
 
 ADDITIONAL_TOKENS: list[ERC20Token] = [
     {
@@ -132,14 +150,17 @@ def load_ethereum_networks_from_repo() -> list[Network]:
         if "mainnet" in name.lower():
             name = re.sub(r" mainnet.*$", "", name, flags=re.IGNORECASE)
 
-        coin = NETWORK_OVERRIDES.get(chain_data["chainId"]) or Network(
-            chain=chain_data["shortName"],
-            chain_id=chain_data["chainId"],
-            is_testnet=is_testnet,
-            name=name,
-            shortcut=shortcut,
-            slip44=slip44,
-        )
+        if (override := NETWORK_OVERRIDES.get(chain_data["chainId"])) is not None:
+            coin = override.network
+        else:
+            coin = Network(
+                chain=chain_data["shortName"],
+                chain_id=chain_data["chainId"],
+                is_testnet=is_testnet,
+                name=name,
+                shortcut=shortcut,
+                slip44=slip44,
+            )
         networks.append(coin)
 
     return networks
@@ -198,6 +219,68 @@ def load_erc20_tokens_from_repo(networks: list[Network]) -> list[ERC20Token]:
             t = _build_token(token, network["chain_id"], network["chain"])
             if t is not None:
                 tokens.append(t)
+
+    return tokens
+
+
+def _native_currency_decimals(network: Network) -> int | None:
+    """Decimals of a network's native currency, or None if we cannot tell.
+
+    Networks we define ourselves carry their own curated value (see
+    `NETWORK_OVERRIDES`). For the rest, every ethereum-lists chain file states
+    `nativeCurrency.decimals`, so a miss means a malformed file - not worth
+    guessing at, as the exponent decides what number the user reads off the
+    screen.
+    """
+    chain_id = network["chain_id"]
+    if (override := NETWORK_OVERRIDES.get(chain_id)) is not None:
+        return override.native_decimals
+
+    path = NETWORKS_PATH / f"eip155-{chain_id}.json"
+    if not path.exists():
+        return None
+
+    decimals = load_json_file(path).get("nativeCurrency", {}).get("decimals")
+    if not isinstance(decimals, int) or isinstance(decimals, bool) or decimals < 0:
+        return None
+    return decimals
+
+
+def build_native_currency_tokens(networks: list[Network]) -> list[ERC20Token]:
+    """A `NATIVE_CURRENCY_SENTINEL` token per network, mainnet included.
+
+    The token mirrors the network: its symbol, name and native decimals. That
+    way an amount pointing at the sentinel renders as the chain's own coin
+    (`1.5 ETH`) instead of an unknown token. Networks whose native decimals we
+    cannot establish are skipped rather than guessed at.
+
+    Must run after networks are enriched from CoinGecko, so that the token and
+    its network cannot disagree about the name and symbol.
+    """
+    tokens: list[ERC20Token] = []
+    for network in networks:
+        decimals = _native_currency_decimals(network)
+        if decimals is None:
+            # Not enough network info. No native currency token.
+            logging.warning(
+                f"\nWARNING: unknown native decimals for chain "
+                f"{network['chain_id']} ({network['name']}) "
+                f"- no native-currency token."
+            )
+            continue
+
+        token = ERC20Token(
+            address=NATIVE_CURRENCY_SENTINEL,
+            chain=network["chain"],
+            chain_id=network["chain_id"],
+            decimals=decimals,
+            name=network["name"],
+            shortcut=network["shortcut"],
+        )
+        # The sentinel *is* the native coin, so it shares the network's id.
+        if (coingecko_id := network.get("coingecko_id")) is not None:
+            token["coingecko_id"] = coingecko_id
+        tokens.append(token)
 
     return tokens
 
