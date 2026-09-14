@@ -87,7 +87,11 @@ class ERC7730Field(t.TypedDict):
     # TokenAmountFormatter params
     token_path: t.NotRequired[ERC7730Path]
     threshold: t.NotRequired[str]  # hex (no 0x prefix)
+    threshold_message: t.NotRequired[str]
     const_token_address: t.NotRequired[str]  # hex (no 0x prefix), 20 bytes
+    native_currency_address: t.NotRequired[
+        list[str]
+    ]  # hex (no 0x prefix), 20 bytes each
 
     # UnitFormatter params
     decimals: t.NotRequired[int]

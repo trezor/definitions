@@ -644,8 +644,10 @@ def test_tokenamount_unresolvable_constant_token_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"invalid-const-token"}
 
 
-def test_tokenamount_literal_zero_token_with_native_is_amount():
-    # A literal zero token is the null/native token: native AMOUNT when declared.
+def test_tokenamount_literal_zero_token_with_native_is_native_currency_address():
+    # A literal zero token declared native: stays FORMATTER_TOKEN_AMOUNT with
+    # const_token_address zero — native_currency_address tells the firmware
+    # to render it as a native amount at runtime.
     desc = _descriptor(
         formats={
             "f(uint256 amount)": {
@@ -665,8 +667,9 @@ def test_tokenamount_literal_zero_token_with_native_is_amount():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["formatter"] == "FORMATTER_AMOUNT"
-    assert "const_token_address" not in field
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["const_token_address"] == "0" * 40
+    assert field["native_currency_address"] == ["0" * 40]
 
 
 def test_tokenamount_literal_zero_token_without_native_skips_file():
@@ -714,6 +717,39 @@ def test_const_token_address_serializes_to_proto():
     assert info.const_token_address == bytes.fromhex("ab" * 20)
 
 
+def test_native_currency_address_serializes_to_proto():
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "Amt",
+            "formatter": "FORMATTER_TOKEN_AMOUNT",
+            "const_token_address": "0" * 40,
+            "native_currency_address": ["0" * 40, "ee" * 20],
+        }
+    )
+    assert info.native_currency_address == [
+        bytes.fromhex("0" * 40),
+        bytes.fromhex("ee" * 20),
+    ]
+
+
+def test_threshold_message_serializes_to_proto():
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "Amt",
+            "formatter": "FORMATTER_TOKEN_AMOUNT",
+            "threshold": "ff",
+            "threshold_message": "Unlimited",
+        }
+    )
+    assert info.threshold_message == "Unlimited"
+
+
 def test_const_value_path_serializes_to_proto():
     from ..serialize import _build_erc7730_path
 
@@ -757,26 +793,32 @@ def _tokenamount_native_desc(native_addresses, constants=None):
     )
 
 
-def test_tokenamount_no_token_with_null_native_is_amount():
-    # No tokenPath: the token defaults to the null address. nativeCurrencyAddress
-    # lists the zero address, so this is a native amount -> AMOUNT formatter, no
-    # token_path (e.g. lifi ...ToNative "Minimum to receive"). FORMATTER_TOKEN_AMOUNT
-    # without a token is meaningless and unconstructable on-device.
+def test_tokenamount_no_token_with_null_native_sets_const_token_address():
+    # No tokenPath/token: the token defaults to the null address.
+    # nativeCurrencyAddress lists the zero address, so const_token_address is
+    # set to zero and native_currency_address tells the firmware to render it
+    # as a native amount at runtime (e.g. lifi ...ToNative "Minimum to
+    # receive"). FORMATTER_TOKEN_AMOUNT is unconstructable without a token
+    # address, hence the explicit zero.
     desc = _tokenamount_native_desc(["0x" + "ee" * 20, "0x" + "00" * 20])
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["formatter"] == "FORMATTER_AMOUNT"
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["const_token_address"] == "0" * 40
+    assert field["native_currency_address"] == ["ee" * 20, "0" * 40]
     assert "token_path" not in field
 
 
-def test_tokenamount_no_token_via_constant_null_is_amount():
+def test_tokenamount_no_token_via_constant_null_sets_const_token_address():
     # The zero-address sentinel may be a $.metadata.constants.* reference.
     desc = _tokenamount_native_desc(
         ["$.metadata.constants.addressAsNull"],
         constants={"addressAsNull": "0x" + "00" * 20},
     )
     [rec] = build_display_formats(desc)
-    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_AMOUNT"
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["const_token_address"] == "0" * 40
 
 
 def test_tokenamount_no_token_without_null_native_skips_file():
@@ -789,9 +831,22 @@ def test_tokenamount_no_token_without_null_native_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
 
 
-def test_container_value_token_amount_native_is_amount():
+def test_tokenamount_invalid_native_currency_address_skips_file():
+    # An unresolvable nativeCurrencyAddress entry is a descriptor error, not
+    # silently ignorable -> skip the file.
+    desc = _tokenamount_native_desc(["not-an-address"])
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {
+        "invalid-native-currency-address"
+    }
+
+
+def test_container_value_token_amount_native_sets_const_token_address():
     # @.value is numeric (kind-compatible with tokenAmount). With no token but the
-    # zero address declared native, it resolves to a native AMOUNT on the VALUE path.
+    # zero address declared native, it resolves to const_token_address zero on
+    # the VALUE path, with native_currency_address for the firmware to key off.
     desc = _descriptor(
         formats={
             "f()": {
@@ -809,7 +864,8 @@ def test_container_value_token_amount_native_is_amount():
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
     assert field["path"] == {"container_path": "VALUE"}
-    assert field["formatter"] == "FORMATTER_AMOUNT"
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["const_token_address"] == "0" * 40
 
 
 def test_container_value_rejects_address_name():
@@ -904,6 +960,43 @@ def test_tokenamount_negative_threshold_skips_file():
     with pytest.raises(UnsupportedFeature):
         build_display_formats(_threshold_desc(-1), unsupported=unsupported)
     assert {feat for _src, feat, _det in unsupported} == {"invalid-threshold"}
+
+
+def _threshold_message_desc(threshold, message):
+    params: dict = {"tokenPath": "token"}
+    if threshold is not None:
+        params["threshold"] = threshold
+    if message is not None:
+        params["message"] = message
+    return _descriptor(
+        formats={
+            "f(uint256 amount, address token)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amt",
+                        "format": "tokenAmount",
+                        "params": params,
+                    }
+                ]
+            }
+        }
+    )
+
+
+def test_tokenamount_message_is_kept_alongside_threshold():
+    [rec] = build_display_formats(_threshold_message_desc("0xff", "Unlimited"))
+    assert rec["field_definitions"][0]["threshold_message"] == "Unlimited"
+
+
+def test_tokenamount_message_without_threshold_is_dropped():
+    [rec] = build_display_formats(_threshold_message_desc(None, "Unlimited"))
+    assert "threshold_message" not in rec["field_definitions"][0]
+
+
+def test_tokenamount_threshold_without_message_omits_key():
+    [rec] = build_display_formats(_threshold_message_desc("0xff", None))
+    assert "threshold_message" not in rec["field_definitions"][0]
 
 
 def test_unit_valid_decimals_is_kept():

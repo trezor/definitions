@@ -50,38 +50,33 @@ def _resolve_address_ref(value: Any, constants: dict[str, Any]) -> str | None:
     return s
 
 
-def _native_currency_includes_zero(
-    params: dict[str, Any], constants: dict[str, Any]
-) -> bool:
-    """Whether `nativeCurrencyAddress` lists the zero address.
+def _resolve_native_currency_addresses(
+    params: dict[str, Any], label: str, constants: dict[str, Any]
+) -> list[str]:
+    """Resolve `nativeCurrencyAddress` entries to normalized 20-byte hex.
 
-    A `tokenAmount` with no `tokenPath`/`token` has a null (zero-address)
-    token. When the descriptor declares the zero address as a native-currency
-    sentinel, that null token *is* the chain's native currency, so the amount
-    is native. Entries may be literals or `$.metadata.constants.*` references.
+    Entries may be literals or `$.metadata.constants.*` references. The
+    result is passed through as `out["native_currency_address"]` — the
+    firmware compares the resolved token address (const or calldata-walked)
+    against it at render time and renders a match as plain AMOUNT.
     """
     raw = params.get("nativeCurrencyAddress")
     if raw is None:
-        return False
+        return []
+    addresses = []
     for entry in raw if isinstance(raw, list) else [raw]:
-        s = str(entry)
-        if s.startswith("$"):
-            resolved = _resolve_constant(s, constants)
-            if resolved is None:
-                continue
-            s = str(resolved)
-        try:
-            if int(_normalize_hex(s), 16) == 0:
-                return True
-        except ValueError:
-            continue
-    return False
+        resolved = _resolve_address_ref(entry, constants)
+        if resolved is None:
+            raise UnsupportedFeature(
+                "invalid-native-currency-address", f"{entry!r} (field {label!r})"
+            )
+        addresses.append(resolved)
+    return addresses
 
 
 def apply_token_amount_params(
     out: ERC7730Field,
     params: dict[str, Any],
-    path_str: str,
     label: str,
     ctx: _FormatContext,
 ) -> None:
@@ -94,13 +89,48 @@ def apply_token_amount_params(
          proto `token_path` the firmware walks.
       2. `token`      — a hardcoded address (or constants reference);
          emitted as `const_token_address`.
-      3. neither      — the token is the null (zero) address. If the
-         descriptor declares the zero address a native-currency sentinel,
-         the value is a native amount: FORMATTER_TOKEN_AMOUNT is
-         unconstructable without a token, so emit plain AMOUNT instead
-         (adjustment). Otherwise it's an "unknown token" we can't render
-         faithfully: DROP.
+      3. neither      — the token is the null (zero) address, valid only if
+         the descriptor declares the zero address a native-currency sentinel;
+         emitted as `const_token_address` (all-zero). Otherwise it's an
+         "unknown token" we can't render faithfully: DROP.
     """
+
+    def _apply_threshold() -> None:
+        """Normalize a `threshold` param to hex bytes; reject the unserializable."""
+        threshold = params.get("threshold")
+        if threshold is None:
+            return
+        if isinstance(threshold, str) and threshold.startswith("$."):
+            resolved = _resolve_constant(threshold, ctx.constants)
+            if resolved is None:
+                raise UnsupportedFeature(
+                    "unresolvable-threshold", f"{threshold} (field {label!r})"
+                )
+            threshold = resolved
+        if isinstance(threshold, str):
+            normalized = _normalize_hex(threshold)
+            # `_normalize_hex` doesn't validate: a non-hex value would slip
+            # through and crash `bytes.fromhex` at serialization time.
+            if set(normalized) - _HEX_DIGITS:
+                raise UnsupportedFeature(
+                    "invalid-threshold", f"{threshold!r} (field {label!r})"
+                )
+            out["threshold"] = normalized
+        elif isinstance(threshold, int):
+            # A negative threshold has no byte encoding (`hex(-n)` yields a
+            # `-0x…` string that also breaks `bytes.fromhex`).
+            if threshold < 0:
+                raise UnsupportedFeature(
+                    "invalid-threshold", f"{threshold} (field {label!r})"
+                )
+            out["threshold"] = _normalize_hex(hex(threshold))
+
+        message = params.get("message")
+        if message is not None:
+            out["threshold_message"] = str(message)
+
+    native_addresses = _resolve_native_currency_addresses(params, label, ctx.constants)
+
     if params.get("tokenPath"):
         token_path_str = str(params["tokenPath"])
         try:
@@ -144,70 +174,31 @@ def apply_token_amount_params(
             raise UnsupportedFeature(
                 "invalid-const-token", f"{params['token']!r} (field {label!r})"
             )
-        if int(const_addr, 16) == 0:
-            # A literal zero address is the null/native token, not an ERC-20:
-            # same treatment as the no-token case below.
-            if not _native_currency_includes_zero(params, ctx.constants):
-                raise UnsupportedFeature(
-                    "tokenamount-unknown-token",
-                    f"tokenAmount with null token (field {label!r})",
-                )
-            out["formatter"] = _FORMATTER_MAP["amount"]
-            ctx.adjust(
-                "tokenamount-native-as-amount",
-                f"{path_str}: tokenAmount with zero-address token declared "
-                f"native — emitted as AMOUNT (field {label!r})",
+        # A literal zero address is the null/native token, not an ERC-20:
+        # only valid if the descriptor declares it a native-currency sentinel
+        # (same requirement as the no-token case below).
+        if int(const_addr, 16) == 0 and const_addr not in native_addresses:
+            raise UnsupportedFeature(
+                "tokenamount-unknown-token",
+                f"tokenAmount with null token (field {label!r})",
             )
-        else:
-            out["const_token_address"] = const_addr
-    elif _native_currency_includes_zero(params, ctx.constants):
-        out["formatter"] = _FORMATTER_MAP["amount"]
-        ctx.adjust(
-            "tokenamount-native-as-amount",
-            f"{path_str}: tokenAmount with no token and a zero-address native "
-            f"sentinel — emitted as AMOUNT (field {label!r})",
-        )
+        out["const_token_address"] = const_addr
+    elif "0" * 40 in native_addresses:
+        # No token reference at all: the null token is native only if the
+        # zero address is declared a native-currency sentinel.
+        out["const_token_address"] = "0" * 40
     else:
         raise UnsupportedFeature(
             "tokenamount-unknown-token",
             f"tokenAmount with no token reference (field {label!r})",
         )
 
-    # `threshold` ("unlimited above this") applies only to a real token amount
-    # (calldata- or constant-addressed); the AMOUNT fallback ignores it.
+    if native_addresses:
+        out["native_currency_address"] = native_addresses
+
+    # `threshold` ("unlimited above this") is meaningless without a token.
     if "token_path" in out or "const_token_address" in out:
-        _apply_threshold(out, params, label, ctx.constants)
-
-
-def _apply_threshold(
-    out: ERC7730Field, params: dict[str, Any], label: str, constants: dict[str, Any]
-) -> None:
-    """Normalize a `threshold` param to hex bytes; reject the unserializable."""
-    threshold = params.get("threshold")
-    if isinstance(threshold, str) and threshold.startswith("$."):
-        resolved = _resolve_constant(threshold, constants)
-        if resolved is None:
-            raise UnsupportedFeature(
-                "unresolvable-threshold", f"{threshold} (field {label!r})"
-            )
-        threshold = resolved
-    if isinstance(threshold, str):
-        normalized = _normalize_hex(threshold)
-        # `_normalize_hex` doesn't validate: a non-hex value would slip through
-        # and crash `bytes.fromhex` at serialization time. Reject it here.
-        if set(normalized) - _HEX_DIGITS:
-            raise UnsupportedFeature(
-                "invalid-threshold", f"{threshold!r} (field {label!r})"
-            )
-        out["threshold"] = normalized
-    elif isinstance(threshold, int):
-        # A negative threshold has no byte encoding (`hex(-n)` yields a
-        # `-0x…` string that also breaks `bytes.fromhex`).
-        if threshold < 0:
-            raise UnsupportedFeature(
-                "invalid-threshold", f"{threshold} (field {label!r})"
-            )
-        out["threshold"] = _normalize_hex(hex(threshold))
+        _apply_threshold()
 
 
 def apply_unit_params(
