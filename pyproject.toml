@@ -32,3 +32,6 @@ profile = "black"
 package = false
 exclude-newer = "30 days"
 exclude-newer-package = { urllib3 = "2026-05-08" }
+
+[tool.uv.sources]
+trezor = { git = "https://github.com/trezor/trezor-firmware.git", subdirectory = "python", rev = "187c7b9d15ca5805ba46a7df85d1798271cd6214" }
