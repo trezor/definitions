@@ -184,6 +184,8 @@ def _apply_threshold(
 ) -> None:
     """Normalize a `threshold` param to hex bytes; reject the unserializable."""
     threshold = params.get("threshold")
+    if threshold is None:
+        return
     if isinstance(threshold, str) and threshold.startswith("$."):
         resolved = _resolve_constant(threshold, constants)
         if resolved is None:
@@ -208,6 +210,10 @@ def _apply_threshold(
                 "invalid-threshold", f"{threshold} (field {label!r})"
             )
         out["threshold"] = _normalize_hex(hex(threshold))
+
+    message = params.get("message")
+    if message is not None:
+        out["threshold_message"] = str(message)
 
 
 def apply_unit_params(
