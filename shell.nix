@@ -1,17 +1,15 @@
 # Compatibility shim for `nix-shell` users without flakes enabled.
 # Loads the default devShell from flake.nix via flake-compat
 # (version pinned in flake.lock).
-(import (fetchTarball {
-  url =
-    let
-      lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-      node = lock.nodes.${lock.nodes.root.inputs.flake-compat}.locked;
-    in
-    "https://github.com/${node.owner}/${node.repo}/archive/${node.rev}.tar.gz";
-  sha256 =
-    let
-      lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-      node = lock.nodes.${lock.nodes.root.inputs.flake-compat}.locked;
-    in
-    node.narHash;
-}) { src = ./.; }).shellNix
+(import (
+  let
+    lock = builtins.fromJSON (builtins.readFile ./flake.lock);
+    nodeName = lock.nodes.root.inputs.flake-compat;
+  in
+  fetchTarball {
+    url =
+      lock.nodes.${nodeName}.locked.url
+        or "https://github.com/NixOS/flake-compat/archive/${lock.nodes.${nodeName}.locked.rev}.tar.gz";
+    sha256 = lock.nodes.${nodeName}.locked.narHash;
+  }
+) { src = ./.; }).shellNix
