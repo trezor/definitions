@@ -87,7 +87,16 @@ class UnsupportedFeature(Exception):
 # EthereumABIValueInfo proto: {"atomic": <enum>}, {"dynamic": <enum>},
 # {"tuple": {...}} or {"array": <ABIValue>} nested per array dimension.
 # The firmware walks this tree to decode raw calldata.
+#
+# The tree may be arbitrarily nested; the firmware's decoder recurses over
+# whatever shape it is handed and bounds it with two counters rather than with
+# shape rules, so this section mirrors those two counters and nothing else.
 # =====================================================================
+
+
+# Mirror core/src/apps/ethereum/clear_signing.py. 
+_MAX_ABI_NESTING = 8  # total tree depth, the root parameter sitting at 0
+_MAX_NESTED_ARRAYS = 2  # array levels on any one root-to-leaf path
 
 
 _ABI_TYPE_MAP: dict[str, tuple[bool, str]] = {
@@ -143,80 +152,64 @@ def _split_array_suffix(type_str: str) -> tuple[str, int]:
     return type_str, depth
 
 
-def _component_is_dynamic(c: Component) -> bool:
-    base, depth = _split_array_suffix(c.type)
-    if depth != 0:
+def _abi_value_is_dynamic(v: ABIValue) -> bool:
+    if "array" in v or "dynamic" in v:
         return True
-    if base == "tuple":
-        return any(_component_is_dynamic(sub) for sub in (c.components or []))
-    return _ABI_TYPE_MAP.get(base, (False, ""))[0]
+    if "tuple" in v:
+        return any(_abi_value_is_dynamic(f) for f in v["tuple"]["fields"])
+    return False
 
 
-def build_abi_value(c: Component) -> ABIValue:
+def build_abi_value(c: Component, depth: int = 0, arrays: int = 0) -> ABIValue:
     """Turn one signature parameter into its ABIValue tree.
 
-    The shape restrictions below all mirror hard limits of the firmware's
-    decoder (`ABIValue.from_proto` / `_get_leaf_parser` in clear_signing.py);
-    emitting a shape the firmware would reject or, worse, mis-decode is a DROP.
+
+    One `Component` can be several proto nodes: `uint256[][]` is
+    array -> array -> atomic. So the base node sits `array_depth` levels below
+    this component and carries that many more array levels. Both counters only
+    ever grow along that chain and an `Array` always recurses into its element,
+    so checking the base node alone covers every node the component adds.
     """
     base_type, array_depth = _split_array_suffix(c.type)
 
+    # Ahead of the caps, so that a type the firmware's `_get_parser` grew and
+    # `_ABI_TYPE_MAP` did not still surfaces as `unrepresentable-params` — the
+    # signal that the two have drifted — rather than being masked by a cap.
+    if base_type != "tuple" and base_type not in _ABI_TYPE_MAP:
+        raise ValueError(f"unknown ABI type: {c.type}")
+
+    inner_depth = depth + array_depth
+    inner_arrays = arrays + array_depth
+    if inner_arrays > _MAX_NESTED_ARRAYS:
+        raise UnsupportedFeature(
+            "array-nesting-too-deep",
+            f"{c.type} (at most {_MAX_NESTED_ARRAYS} array levels on one path)",
+        )
+    if inner_depth > _MAX_ABI_NESTING:
+        raise UnsupportedFeature(
+            "abi-nesting-too-deep",
+            f"{c.type} (ABI tree deeper than {_MAX_ABI_NESTING})",
+        )
+
     base: ABIValue
     if base_type == "tuple":
-        # The firmware models a tuple nested in at most ONE array layer;
-        # `tuple[][]` raises `InvalidFormatDefinition` on-device.
-        if array_depth >= 2:
-            raise UnsupportedFeature(
-                "tuple-in-nested-array",
-                f"{c.type} (a tuple may be nested in at most one array)",
-            )
         sub_components = c.components or []
-        # The firmware decodes every tuple field as an atomic/dynamic *leaf*,
-        # so a tuple field that is itself a tuple or an array can't be
-        # represented. A leaf never starts with `tuple` nor ends with `]`.
-        non_leaf = next(
-            (
-                sub.type
-                for sub in sub_components
-                if sub.type.startswith("tuple") or sub.type.endswith("]")
-            ),
-            None,
-        )
-        if non_leaf is not None:
-            raise UnsupportedFeature(
-                "non-leaf-tuple-field",
-                f"{c.type} (tuple field of type {non_leaf!r}; tuple fields must be "
-                f"atomic or dynamic leaves)",
-            )
-        tuple_is_dynamic = any(_component_is_dynamic(sub) for sub in sub_components)
-        if array_depth and not tuple_is_dynamic:
-            # The firmware decodes an array's tuple elements via an offset
-            # table, which is how *dynamic* tuples are ABI-encoded. A static
-            # tuple inside an array is encoded inline with a fixed stride and
-            # no offsets, so the firmware would misread it — refuse to emit
-            # rather than ship a wrong decode.
-            raise UnsupportedFeature(
-                "static-tuple-in-array",
-                f"{c.type} (static tuples inside arrays are not supported)",
-            )
-        # In an array, the array layer carries the dynamism and the firmware
-        # always parses the in-array tuple as static; only a top-level tuple
-        # carries its own dynamism flag.
+        if not sub_components:
+            # The firmware rejects a zero-field tuple, and for a reason worth
+            # keeping: a static tuple whose head_size is 0 sitting inside an
+            # array defeats the `array_length * head_size` bounds pre-check,
+            # letting an attacker-controlled length word drive the parse loop.
+            raise UnsupportedFeature("empty-tuple", f"{c.type} (tuple with no fields)")
+        fields = [
+            build_abi_value(sub, inner_depth + 1, inner_arrays)
+            for sub in sub_components
+        ]
         tup: ABITuple = {
-            "fields": [build_abi_value(sub) for sub in sub_components],
-            "is_dynamic": tuple_is_dynamic and not array_depth,
+            "fields": fields,
+            "is_dynamic": any(_abi_value_is_dynamic(f) for f in fields),
         }
         base = {"tuple": tup}
     else:
-        if base_type not in _ABI_TYPE_MAP:
-            raise ValueError(f"unknown ABI type: {c.type}")
-        # The firmware models an atomic/dynamic leaf nested in at most TWO
-        # array layers; `T[][][]` raises `InvalidFormatDefinition` on-device.
-        if array_depth >= 3:
-            raise UnsupportedFeature(
-                "array-nesting-too-deep",
-                f"{c.type} (arrays may be nested at most two deep)",
-            )
         is_dynamic, enum_name = _ABI_TYPE_MAP[base_type]
         base = {"dynamic": enum_name} if is_dynamic else {"atomic": enum_name}
 
