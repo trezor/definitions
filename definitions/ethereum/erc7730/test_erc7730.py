@@ -2265,7 +2265,6 @@ def test_hidden_field_with_bad_path_does_not_skip_file():
     # unrepresentable, array-iterating) paths must not be validated at all.
     desc = _descriptor(
         formats={
-            # tuple has a dynamic `bytes d` field so it's valid inside an array.
             "f(address to, (address t, bytes d) [] swaps)": {
                 "fields": [
                     {"path": "to", "label": "To", "format": "addressName"},
@@ -2466,33 +2465,30 @@ def test_addressname_on_int160_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
-def test_build_abi_value_top_level_tuple_carries_dynamism():
-    # A top-level tuple with a dynamic field is itself dynamic.
+def test_build_abi_value_tuple_dynamism_is_truthful():
+    # A tuple with a dynamic field is itself dynamic.
     v = build_abi_value(_component("f((address a, bytes data) t)"))
     assert v["tuple"]["is_dynamic"] is True
-    # An all-static top-level tuple is static.
+    # An all-static tuple is static.
     v = build_abi_value(_component("f((address a, uint256 n) t)"))
     assert v["tuple"]["is_dynamic"] is False
-
-
-def test_build_abi_value_dynamic_tuple_in_array_is_kept_static():
-    # In-array tuples are always emitted as static (the array layer carries the
-    # dynamism; the firmware ignores this flag for in-array tuples).
+    # Including inside an array. We used to emit `False` here to match a
+    # firmware that parsed in-array tuples as static; neither firmware ever
+    # read the flag in that position (the old one recomputed it from the
+    # fields, the new one ignores it everywhere), so emit the truth.
     v = build_abi_value(_component("f((address a, bytes data)[] xs)"))
     assert v == {
         "array": {
             "tuple": {
                 "fields": [{"atomic": "ABI_ADDRESS"}, {"dynamic": "ABI_BYTES"}],
-                "is_dynamic": False,
+                "is_dynamic": True,
             }
         }
     }
-
-
-def test_build_abi_value_static_tuple_in_array_is_unsupported():
-    with pytest.raises(UnsupportedFeature) as exc:
-        build_abi_value(_component("f((uint256 a, uint256 b)[] xs)"))
-    assert exc.value.feature == "static-tuple-in-array"
+    # Dynamism propagates up through nesting: a tuple holding a static tuple
+    # that holds a `bytes` is dynamic all the way out.
+    v = build_abi_value(_component("f((uint256 n, (address a, bytes d) inner) t)"))
+    assert v["tuple"]["is_dynamic"] is True
 
 
 def test_build_abi_value_fixed_size_array_is_unsupported():
@@ -2500,9 +2496,52 @@ def test_build_abi_value_fixed_size_array_is_unsupported():
         build_abi_value(_component("f(uint256[2] xs)"))
     assert exc.value.feature == "fixed-size-array"
 
+    # Also inside a tuple. This used to report `non-leaf-tuple-field`, because
+    # the non-leaf scan tested `endswith("]")` and caught it first.
+    with pytest.raises(UnsupportedFeature) as exc:
+        build_abi_value(_component("f((uint256[2] xs, address a) t)"))
+    assert exc.value.feature == "fixed-size-array"
 
-def test_build_abi_value_atomic_two_deep_array_is_kept():
-    # The firmware models up to two array layers over an atomic/dynamic leaf.
+
+def test_build_abi_value_empty_tuple_is_unsupported():
+    # Solidity has no zero-field struct, but the signature parser will produce
+    # one. The firmware rejects it: a static tuple with head_size 0 inside an
+    # array defeats the `array_length * head_size` bounds pre-check.
+    with pytest.raises(UnsupportedFeature) as exc:
+        build_abi_value(_component("f(() t)"))
+    assert exc.value.feature == "empty-tuple"
+
+
+def test_build_abi_value_unknown_type_raises_value_error():
+    # Not an UnsupportedFeature: a type the firmware's `_get_parser` grew and
+    # `_ABI_TYPE_MAP` did not is our bug, logged as `unrepresentable-params`.
+    # The caps must not mask it, so the check runs first.
+    with pytest.raises(ValueError, match="unknown ABI type"):
+        build_abi_value(_component("f(int256[][][] x)"))
+
+
+# ---------------------------------------------------------------------
+# Nesting caps
+#
+# Two caps mirrored from the firmware's `ABIValue.from_proto`, bounding two
+# different resources. `_MAX_NESTED_ARRAYS` (2) bounds parse *work*: a tuple
+# parses each field once so it adds, an array parses its element subtree once
+# per element so it multiplies, and the element count is attacker-supplied.
+# `_MAX_ABI_NESTING` (8) bounds the recursion itself. The firmware side of
+# these is pinned by `test_depth_cap_boundary` and
+# `test_three_nested_arrays_rejected`; keep the two sets in step.
+# ---------------------------------------------------------------------
+
+
+def _nest_tuples(n: int, inner: Component | None = None) -> Component:
+    """`n` tuples wrapped around `inner` (a `uint256` leaf by default)."""
+    c = inner or Component(name="leaf", type="uint256")
+    for i in range(n):
+        c = Component(name=f"t{i}", type="tuple", components=[c])
+    return c
+
+
+def test_build_abi_value_two_deep_array_is_kept():
     assert build_abi_value(_component("f(uint256[][] x)")) == {
         "array": {"array": {"atomic": "ABI_UINT256"}}
     }
@@ -2514,27 +2553,267 @@ def test_build_abi_value_three_deep_array_is_unsupported():
     assert exc.value.feature == "array-nesting-too-deep"
 
 
-def test_build_abi_value_tuple_in_nested_array_is_unsupported():
-    # A (dynamic) tuple is fine in one array layer but not two.
+def test_build_abi_value_arrays_through_a_tuple_still_accumulate():
+    # The array counter follows the root-to-leaf path, not the top level:
+    # burying three array levels under a tuple does not launder them past the
+    # cap. Mirrors the firmware's test_three_nested_arrays_through_tuple_rejected.
     with pytest.raises(UnsupportedFeature) as exc:
-        build_abi_value(_component("f((address a, bytes d)[][] xs)"))
-    assert exc.value.feature == "tuple-in-nested-array"
+        build_abi_value(_component("f((uint256[][][] x) t)"))
+    assert exc.value.feature == "array-nesting-too-deep"
 
 
-def test_build_abi_value_nested_tuple_is_unsupported():
-    # The firmware decodes tuple fields as atomic/dynamic leaves only, so a
-    # tuple field that is itself a tuple or an array is rejected.
+def test_build_abi_value_sibling_arrays_do_not_accumulate():
+    # Two arrays in one tuple sit on separate paths, so each carries one array
+    # level, not two between them. Sibling arrays add work; only nesting
+    # multiplies it.
+    assert build_abi_value(_component("f((uint256[] a, uint256[] b) t)")) == {
+        "tuple": {
+            "fields": [
+                {"array": {"atomic": "ABI_UINT256"}},
+                {"array": {"atomic": "ABI_UINT256"}},
+            ],
+            "is_dynamic": True,
+        }
+    }
+
+
+def test_build_abi_value_depth_cap_boundary():
+    # The check is `depth > 8` with the root at depth 0, so 8 wrapping tuples
+    # (leaf at depth 8) is the deepest accepted and 9 is one too many. Pure
+    # tuple nesting costs no parse work at all, which is why the array cap
+    # cannot stand in for this one.
+    assert build_abi_value(_nest_tuples(8)) is not None
+
     with pytest.raises(UnsupportedFeature) as exc:
-        build_abi_value(_component("f((address a, (uint256 b) inner) t)"))
-    assert exc.value.feature == "non-leaf-tuple-field"
+        build_abi_value(_nest_tuples(9))
+    assert exc.value.feature == "abi-nesting-too-deep"
 
 
-def test_build_abi_value_array_valued_tuple_field_is_unsupported():
+def test_build_abi_value_depth_and_array_caps_interact():
+    # The two counters advance independently, so a tree can sit on both caps at
+    # once: 6 tuples plus `uint256[][]` puts the leaf at depth 8, arrays 2.
+    arrays = Component(name="x", type="uint256[][]")
+    assert build_abi_value(_nest_tuples(6, arrays)) is not None
+
+    # One more tuple and it is the depth cap, not the array cap, that fires.
     with pytest.raises(UnsupportedFeature) as exc:
-        build_abi_value(_component("f((uint256[] amounts, address to) t)"))
-    assert exc.value.feature == "non-leaf-tuple-field"
+        build_abi_value(_nest_tuples(7, arrays))
+    assert exc.value.feature == "abi-nesting-too-deep"
 
-    # also rejected when the tuple itself sits in an array
+
+# ---------------------------------------------------------------------
+# Shapes from the registry
+#
+# The real ERC-7730 descriptor shapes the recursion exists to unblock, named
+# for the contract each came from so a regression names its victim. Each has a
+# twin in the firmware's own suite (core/tests/test_apps.ethereum.clear_signing.py,
+# "shapes from the registry") which asserts the same shape decodes; these
+# assert the parser will actually emit it.
+# ---------------------------------------------------------------------
+
+
+def test_build_abi_value_serenita_leaf_array_inside_struct():
+    # serenita / p2p `updateState`: a struct with a `bytes32[]` member. Every
+    # field of that descriptor is `visible: never` — it was dropped purely
+    # because the parameter could not be typed.
+    assert build_abi_value(
+        _component(
+            "f((bytes32 rewardsRoot, int160 reward, uint160 unlockedMevReward,"
+            " bytes32[] proof) harvestParams)"
+        )
+    ) == {
+        "tuple": {
+            "fields": [
+                {"atomic": "ABI_BYTES32"},
+                {"atomic": "ABI_INT160"},
+                {"atomic": "ABI_UINT160"},
+                {"array": {"atomic": "ABI_BYTES32"}},
+            ],
+            "is_dynamic": True,
+        }
+    }
+
+
+def test_build_abi_value_kyberswap_struct_in_struct():
+    # kyberswap `swap` reads *through* nesting: its visible fields are
+    # `execution.desc.amount` / `.minReturnAmount` / `.dstReceiver`, with
+    # tokenPath `execution.desc.srcToken`. Assert the type tree and the index
+    # paths together — the firmware test hardcodes exactly these tuples.
+    sig = (
+        "swap((address callTarget, address approveTarget, bytes targetData,"
+        " (address srcToken, address dstToken, address[] srcReceivers,"
+        " uint256[] srcAmounts, address[] feeReceivers, uint256[] feeAmounts,"
+        " address dstReceiver, uint256 amount, uint256 minReturnAmount,"
+        " uint256 flags, bytes permit) desc, bytes clientData) execution)"
+    )
+    v = build_abi_value(_component(sig))
+    desc = v["tuple"]["fields"][3]
+    assert desc["tuple"]["fields"][0] == {"atomic": "ABI_ADDRESS"}  # srcToken
+    assert desc["tuple"]["fields"][2] == {"array": {"atomic": "ABI_ADDRESS"}}
+    assert desc["tuple"]["fields"][7] == {"atomic": "ABI_UINT256"}  # amount
+
+    inputs = _inputs(sig)
+    assert path_to_dict("execution.desc.amount", inputs) == (
+        {"path": [0, 3, 7]},
+        KIND_NUMERIC,
+    )
+    assert path_to_dict("execution.desc.srcToken", inputs) == (
+        {"path": [0, 3, 0]},
+        KIND_ADDRESS,
+    )
+    assert path_to_dict("execution.desc.dstReceiver", inputs) == (
+        {"path": [0, 3, 6]},
+        KIND_ADDRESS,
+    )
+
+
+def test_build_abi_value_okx_dag_swap_sits_on_the_array_cap():
+    # okx `dagSwapByOrderId`s `paths`: two array levels — the outer array plus
+    # the arrays inside the element struct — so it is exactly on the cap.
+    assert build_abi_value(
+        _component(
+            "f((address[] mixAdapters, address[] assetTo, uint256[] rawData,"
+            " bytes[] extraData, uint256 fromToken)[] paths)"
+        )
+    ) == {
+        "array": {
+            "tuple": {
+                "fields": [
+                    {"array": {"atomic": "ABI_ADDRESS"}},
+                    {"array": {"atomic": "ABI_ADDRESS"}},
+                    {"array": {"atomic": "ABI_UINT256"}},
+                    {"array": {"dynamic": "ABI_BYTES"}},
+                    {"atomic": "ABI_UINT256"},
+                ],
+                "is_dynamic": True,
+            }
+        }
+    }
+
+
+def test_build_abi_value_okx_smart_swap_is_over_the_array_cap():
+    # okx `smartSwapByOrderId`s `batches` is the same element under one more
+    # array: three levels, so the whole display format is dropped. This is the
+    # deferred case — no field ever reads the parameter, so it would come back
+    # if unreferenced parameters were pruned.
     with pytest.raises(UnsupportedFeature) as exc:
-        build_abi_value(_component("f((address a, bytes[] ds)[] xs)"))
-    assert exc.value.feature == "non-leaf-tuple-field"
+        build_abi_value(
+            _component(
+                "f((address[] mixAdapters, address[] assetTo, uint256[] rawData,"
+                " bytes[] extraData, uint256 fromToken)[][] batches)"
+            )
+        )
+    assert exc.value.feature == "array-nesting-too-deep"
+
+
+def test_build_abi_value_paraswap_mega_swap_is_over_the_array_cap():
+    # paraswap `megaSwap` / `multiSwap`: `path` -> `adapters` -> `route` is
+    # three nested arrays of structs, so it stays dropped.
+    with pytest.raises(UnsupportedFeature) as exc:
+        build_abi_value(
+            _component(
+                "f((address fromToken, uint256 fromAmount, uint256 toAmount,"
+                " uint256 expectedAmount, address beneficiary,"
+                " (uint256 fromAmountPercent, (address to, uint256 totalNetworkFee,"
+                " (address adapter, uint256 percent, uint256 networkFee,"
+                " (uint256 index, address targetExchange, uint256 percent,"
+                " bytes payload, uint256 networkFee)[] route)[] adapters)[] path)[]"
+                " path, address partner, uint256 feePercent, bytes permit,"
+                " uint256 deadline, bytes16 uuid) data)"
+            )
+        )
+    assert exc.value.feature == "array-nesting-too-deep"
+
+
+def test_build_abi_value_flare_nested_static_struct_in_array():
+    # flare `initialiseWeightBasedClaims`: a struct holding both a leaf array
+    # and a nested *static* struct. The static struct occupies four words
+    # inline, which is the shape the firmware's old fixed one-word field stride
+    # got wrong.
+    sig = (
+        "f((bytes32[] merkleProof, (uint24 rewardEpochId, bytes20 beneficiary,"
+        " uint120 amount, uint8 claimType) body)[] proofs)"
+    )
+    body = {
+        "tuple": {
+            "fields": [
+                {"atomic": "ABI_UINT24"},
+                {"atomic": "ABI_BYTES20"},
+                {"atomic": "ABI_UINT120"},
+                {"atomic": "ABI_UINT8"},
+            ],
+            "is_dynamic": False,
+        }
+    }
+    assert build_abi_value(_component(sig)) == {
+        "array": {
+            "tuple": {
+                "fields": [{"array": {"atomic": "ABI_BYTES32"}}, body],
+                "is_dynamic": True,
+            }
+        }
+    }
+    # The index path reaches the grandchild leaf, matching the firmware's
+    # decoded `[([proof_leaf], (7, beneficiary, 99, 1))]`.
+    assert path_to_dict("proofs.[0].body.amount", _inputs(sig)) == (
+        {"path": [0, 0, 1, 2]},
+        KIND_NUMERIC,
+    )
+
+
+def test_build_abi_value_flyingtulip_static_tuple_in_array():
+    # flyingtulip `createSession`s `limits`. An all-static element struct is
+    # encoded in place at a 64-byte stride, with no offset table; we used to
+    # refuse to emit it for fear the firmware would misread it.
+    assert build_abi_value(
+        _component("f((address token, uint256 limit)[] limits)")
+    ) == {
+        "array": {
+            "tuple": {
+                "fields": [{"atomic": "ABI_ADDRESS"}, {"atomic": "ABI_UINT256"}],
+                "is_dynamic": False,
+            }
+        }
+    }
+
+
+def test_build_abi_value_struct_field_may_be_an_array_of_structs():
+    # No supported descriptor has this shape, but the recursion admits it and
+    # the static element struct gives the array a 64-byte stride.
+    assert build_abi_value(
+        _component("f((uint256 a, (address b, uint256 c)[] xs) t)")
+    ) == {
+        "tuple": {
+            "fields": [
+                {"atomic": "ABI_UINT256"},
+                {
+                    "array": {
+                        "tuple": {
+                            "fields": [
+                                {"atomic": "ABI_ADDRESS"},
+                                {"atomic": "ABI_UINT256"},
+                            ],
+                            "is_dynamic": False,
+                        }
+                    }
+                },
+            ],
+            "is_dynamic": True,
+        }
+    }
+
+
+def test_build_abi_value_leaf_only_tuple_in_two_arrays():
+    # `tuple[][]` is fine as long as the element struct holds no array of its
+    # own: the two array levels are all there are. It was rejected outright
+    # before, when a tuple was allowed in at most one array.
+    assert build_abi_value(_component("f((address a, bytes d)[][] xs)")) == {
+        "array": {
+            "array": {
+                "tuple": {
+                    "fields": [{"atomic": "ABI_ADDRESS"}, {"dynamic": "ABI_BYTES"}],
+                    "is_dynamic": True,
+                }
+            }
+        }
+    }
