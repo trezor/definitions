@@ -1,0 +1,73 @@
+name: "[Deploy] dev firmware definitions"
+
+permissions:
+  id-token: write # for fetching the OIDC token
+  contents: read # for actions/checkout
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-dev-definitions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AWS_REGION: "eu-central-1"
+      S3_BUCKET: "s3://dev.firmware.sldev.cz"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6
+        with:
+          role-to-assume: arn:aws:iam::538326561891:role/gh_actions_deploy_dev_firmware_data
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install nix
+        uses: cachix/install-nix-action@8aa03977d8d733052d78f4e008a241fd1dbf36b3 # v31.10.6
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate and sign definitions with dev keys
+        run: |
+          nix develop --command bash -euo pipefail -s <<'EOF'
+          uv sync
+          VERSIONS=$(uv run python -c "from definitions.common import ACTIVE_VERSIONS; print(' '.join(map(str, ACTIVE_VERSIONS)))")
+          echo "ACTIVE_VERSIONS=$VERSIONS" >> "$GITHUB_ENV"
+          for VERSION in $VERSIONS; do
+            uv run python cli.py generate --dev-sign --version "$VERSION"
+            uv run python cli.py validate --dev --version "$VERSION"
+          done
+          EOF
+
+      - name: Unpack deploy archives
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for VERSION in $ACTIVE_VERSIONS; do
+            DEST="deploy/v${VERSION}"
+            mkdir -p "$DEST"
+            tars=("definitions-latest-v${VERSION}"/deploy_dev_v"${VERSION}"_*.tar.xz)
+            if [ "${#tars[@]}" -ne 1 ]; then
+              echo "Expected exactly one deploy tar for v${VERSION}, found ${#tars[@]}"
+              exit 1
+            fi
+            tar -xJf "${tars[0]}" -C "$DEST"
+          done
+
+      - name: Upload definitions to dev.firmware.sldev.cz
+        run: |
+          set -euo pipefail
+          for VERSION in $ACTIVE_VERSIONS; do
+            aws s3 sync --delete \
+              "deploy/v${VERSION}/definitions/" \
+              "${S3_BUCKET}/definitions/v${VERSION}/"
+            aws s3 sync --delete \
+              "deploy/v${VERSION}/eth-definitions/" \
+              "${S3_BUCKET}/eth-definitions/v${VERSION}/"
+          done
