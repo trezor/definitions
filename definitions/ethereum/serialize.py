@@ -38,7 +38,12 @@ except ImportError as e:
 # cryptic KeyError deep inside serialization. Fail fast with the same guidance.
 _missing_proto = [
     f"EthereumERC7730FieldFormatterType.{name}"
-    for name in ("FORMATTER_RAW", "FORMATTER_DATE")
+    for name in (
+        "FORMATTER_RAW",
+        "FORMATTER_DATE",
+        "FORMATTER_CALLDATA",
+        "FORMATTER_ENUM",
+    )
     if not hasattr(EthereumERC7730FieldFormatterType, name)
 ]
 if not any(
@@ -49,14 +54,14 @@ if not any(f.name == "const_value" for f in EthereumERC7730Path.FIELDS.values())
     _missing_proto.append("EthereumERC7730Path.const_value")
 if not any(f.name == "slice_start" for f in EthereumERC7730Path.FIELDS.values()):
     _missing_proto.append("EthereumERC7730Path.slice_start")
-if not hasattr(EthereumERC7730FieldFormatterType, "FORMATTER_CALLDATA"):
-    _missing_proto.append("EthereumERC7730FieldFormatterType.FORMATTER_CALLDATA")
 if not any(f.name == "callee_path" for f in EthereumERC7730FieldInfo.FIELDS.values()):
     _missing_proto.append("EthereumERC7730FieldInfo.callee_path")
-if not hasattr(EthereumERC7730FieldFormatterType, "FORMATTER_ENUM"):
-    _missing_proto.append("EthereumERC7730FieldFormatterType.FORMATTER_ENUM")
 if not any(f.name == "enum_values" for f in EthereumERC7730FieldInfo.FIELDS.values()):
     _missing_proto.append("EthereumERC7730FieldInfo.enum_values")
+if not any(
+    f.name == "threshold_message" for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.threshold_message")
 if not any(
     f.name == "provider_name" for f in EthereumDisplayFormatInfo.FIELDS.values()
 ):
@@ -149,6 +154,7 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
             _build_erc7730_path(d["token_path"]) if "token_path" in d else None
         ),
         threshold=bytes.fromhex(d["threshold"]) if "threshold" in d else None,
+        threshold_message=d.get("threshold_message"),
         decimals=d.get("decimals"),
         base=d.get("base"),
         prefix=d.get("prefix"),
