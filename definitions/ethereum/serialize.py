@@ -41,6 +41,7 @@ _missing_proto = [
     for name in (
         "FORMATTER_RAW",
         "FORMATTER_DATE",
+        "FORMATTER_DURATION",
         "FORMATTER_CALLDATA",
         "FORMATTER_ENUM",
     )
