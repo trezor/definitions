@@ -48,22 +48,62 @@ TESTNET_WORDS = ("testnet", "devnet")
 ENABLED_PROVIDERS = frozenset(
     {
         "1inch",
+        # "HyperDiscipline", 712 only
         "aave",
+        "bedrock",
         "benqi",
+        # "bureaucrawl", NFT game
+        "celo",
+        "circle",
         "consensus-specs",
         "corestake",
+        "degate",
+        # "ekubo",
         "ethena",
+        # "feral-file", NFT
+        "figment",
+        "flare",
+        # "flyingtulip", NFT
         "hyperliquid",
         "kiln",
+        "kyberswap",
+        "layerswap",
+        # "ledgerquest",
+        "lens",
         "lido",
         "lifi",
         "lombard",
+        "midas",
+        "morpho", # Multicall. Not supported in FW yet. TODO
+        # "okx", deeply nested arguments. TBD
+        "ondo-finance",
         "opencover",
+        # "opensea", NFT
         "p2p",
+        # "paraswap", Deeply nested arguments.
+        "permit",
+        # "poap", Discontinued.
+        "porto",
+        "quickswap",
+        # "rarible", NFT
+        # "safe", Unsupported. TODO.
         "sei",
+        "serenita", # Multicall. Not supported in FW yet. TODO
+        "sky",
+        "smartcredit",
+        "starkgate",
+        "swell",
+        "swissborg",
+        "tally",
+        "teraswap",
+        "tesseract",
         "tether",
+        "threshold",
+        # "uniswap",
+        "walletconnect",
         "weth",
         "yieldxyz",
+        # "zama", FHEVM support
     }
 )
 
