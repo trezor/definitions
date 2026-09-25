@@ -556,6 +556,7 @@ _FORMATTER_MAP = {
     "unit": "FORMATTER_UNIT",
     "raw": "FORMATTER_RAW",
     "date": "FORMATTER_DATE",
+    "duration": "FORMATTER_DURATION",
     "calldata": "FORMATTER_CALLDATA",
     "enum": "FORMATTER_ENUM",
 }
@@ -570,6 +571,7 @@ _FORMATTER_VALUE_KIND = {
     # `raw` renders any scalar leaf; only whole arrays / tuples are rejected.
     "raw": frozenset({KIND_ADDRESS, KIND_NUMERIC, KIND_BYTES}),
     "date": frozenset({KIND_NUMERIC}),
+    "duration": frozenset({KIND_NUMERIC}),
     "calldata": frozenset({KIND_BYTES}),
     # enum keys are small uints; KIND_BYTES admits the bool case
     # (True/False keys over a bool value, mapped to 1/0).
@@ -819,15 +821,15 @@ def _check_kind_or_reinterpret(
       * on a bytes-like leaf, the field passes through unchanged — the
         firmware's AddressNameFormatter accepts bytes/str and renders hex.
 
-    One exact (non-adjustment) allowance: `date` over a byte slice
-    (`goodUntil.[-4:]`) — the firmware's DateFormatter converts the sliced
-    big-endian bytes to the integer timestamp.
+    One exact (non-adjustment) allowance: `date`/`duration` over a byte slice
+    (`goodUntil.[-4:]`) — the firmware's DateFormatter/DurationFormatter convert
+    the sliced big-endian bytes to the integer timestamp/seconds.
     """
     if kind in _FORMATTER_VALUE_KIND[fmt]:
         return
 
     if (
-        fmt == "date"
+        fmt in ("date", "duration")
         and kind == KIND_BYTES
         and ("slice_start" in path or "slice_end" in path)
     ):
