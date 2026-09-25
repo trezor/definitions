@@ -1207,6 +1207,23 @@ def test_date_on_non_numeric_skips_file():
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc, unsupported=unsupported)
+
+
+def test_duration_is_duration_formatter():
+    desc = _single_field_desc(
+        "f(uint256 t)", {"path": "t", "label": "Lock time", "format": "duration"}
+    )
+    [rec] = build_display_formats(desc)
+    assert rec["field_definitions"][0]["formatter"] == "FORMATTER_DURATION"
+
+
+def test_duration_on_non_numeric_skips_file():
+    desc = _single_field_desc(
+        "f(address x)", {"path": "x", "label": "L", "format": "duration"}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
     assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
@@ -1556,6 +1573,41 @@ def test_date_on_unsliced_bytes_still_skips_file():
     desc = _descriptor(
         formats={
             "f(bytes32 x)": {"fields": [{"path": "x", "label": "T", "format": "date"}]}
+        }
+    )
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc)
+
+
+def test_duration_on_sliced_word_is_kept():
+    # `lockedFor.[-4:]`: the firmware's DurationFormatter converts the sliced
+    # big-endian bytes to the integer number of seconds.
+    desc = _descriptor(
+        formats={
+            "f(uint256 lockedFor)": {
+                "fields": [
+                    {
+                        "path": "lockedFor.[-4:]",
+                        "label": "Lock time",
+                        "format": "duration",
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == {"path": [0], "slice_start": -4}
+    assert field["formatter"] == "FORMATTER_DURATION"
+
+
+def test_duration_on_unsliced_bytes_still_skips_file():
+    # The bytes allowance is slice-only; duration over plain bytes stays a drop.
+    desc = _descriptor(
+        formats={
+            "f(bytes32 x)": {
+                "fields": [{"path": "x", "label": "T", "format": "duration"}]
+            }
         }
     )
     with pytest.raises(UnsupportedFeature):
