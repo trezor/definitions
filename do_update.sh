@@ -8,10 +8,12 @@ function are_there_git_changes {
 
 ERC7730_ONLY=""
 SHOW_ADDED=""
+CACHED=""
 for arg in "$@"; do
     case "$arg" in
         --erc7730-only) ERC7730_ONLY="1" ;;
         --show-added) SHOW_ADDED="--show-added" ;;
+        --cached) CACHED="1" ;;
     esac
 done
 
@@ -40,8 +42,15 @@ git submodule update --init --recursive --remote
 # Keep the pinned submodule at its fixed commit
 git submodule update -- "ethereum/clear-signing-erc7730-registry"
 
-# Download definitions
-python cli.py download -v --sleep-duration 2.5 $SHOW_ADDED
+# Download definitions. --cached reuses the previous run's CoinGecko/DeFiLlama
+# responses (definitions/definitions-cache.json) instead of re-crawling them,
+# for when CoinGecko starts answering 403.
+if [[ -n "$CACHED" ]]; then
+    DOWNLOAD_OPTS="--no-refresh"
+else
+    DOWNLOAD_OPTS="--sleep-duration 2.5"
+fi
+python cli.py download -v $DOWNLOAD_OPTS $SHOW_ADDED
 
 # Sign them with dev private keys (per format version)
 for VERSION in "${ACTIVE_VERSIONS[@]}"; do
