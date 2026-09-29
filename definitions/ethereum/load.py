@@ -69,7 +69,7 @@ ENABLED_PROVIDERS = frozenset(
         "kyberswap",
         "layerswap",
         # "ledgerquest",
-        "lens",
+        # "lens", 712 only
         "lido",
         "lifi",
         "lombard",
@@ -81,20 +81,19 @@ ENABLED_PROVIDERS = frozenset(
         # "opensea", NFT
         "p2p",
         # "paraswap", Deeply nested arguments.
-        "permit",
+        # "permit", 712 only
         # "poap", Discontinued.
-        "porto",
-        "quickswap",
+        # "porto", 712 only.
+        # "quickswap", No activity on the prescribed address.
         # "rarible", NFT
         # "safe", Unsupported. TODO.
-        "sei",
-        "serenita", # Multicall. Not supported in FW yet. TODO
+        # "serenita", # Multicall. Not supported in FW yet. TODO
         "sky",
-        "smartcredit",
+        # "smartcredit", 712 only
         "starkgate",
         "swell",
         "swissborg",
-        "tally",
+        # "tally", 712 only
         "teraswap",
         "tesseract",
         "tether",
