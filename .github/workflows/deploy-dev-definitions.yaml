@@ -14,7 +14,7 @@ concurrency:
 jobs:
   deploy-dev-definitions:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     env:
       AWS_REGION: "eu-central-1"
       S3_BUCKET: "s3://dev.firmware.sldev.cz"
@@ -63,11 +63,23 @@ jobs:
       - name: Upload definitions to dev.firmware.sldev.cz
         run: |
           set -euo pipefail
+          aws configure set default.s3.max_concurrent_requests 64
+          aws configure set default.s3.max_queue_size 10000
+          aws configure set default.s3.preferred_transfer_client crt
+
+          pids=()
           for VERSION in $ACTIVE_VERSIONS; do
-            aws s3 sync --delete \
+            aws s3 sync --delete --only-show-errors \
               "deploy/v${VERSION}/definitions/" \
-              "${S3_BUCKET}/definitions/v${VERSION}/"
-            aws s3 sync --delete \
+              "${S3_BUCKET}/definitions/v${VERSION}/" &
+            pids+=($!)
+            aws s3 sync --delete --only-show-errors \
               "deploy/v${VERSION}/eth-definitions/" \
-              "${S3_BUCKET}/eth-definitions/v${VERSION}/"
+              "${S3_BUCKET}/eth-definitions/v${VERSION}/" &
+            pids+=($!)
           done
+          status=0
+          for pid in "${pids[@]}"; do
+            wait "$pid" || status=1
+          done
+          exit "$status"
