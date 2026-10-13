@@ -1,0 +1,43 @@
+name: "[Deploy] production firmware definitions"
+
+permissions:
+  id-token: write # for fetching the OIDC token
+  contents: read # for actions/checkout
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_branch:
+        description: "Release branch created when the definitions were signed (for example release/26.10)"
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-production-definitions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+
+      - name: Build and upload definitions
+        uses: ./.github/actions/deploy-definitions
+        with:
+          ref: ${{ inputs.release_branch }}
+          dev-sign: false
+          role-to-assume: arn:aws:iam::538326561891:role/gh_actions_deploy_firmware_definitions
+          s3-bucket: s3://data.trezor.io
+          layout: production
+          key-prefix: firmware
+          cache-control: public, max-age=3600
+
+      - name: Invalidate data.trezor.io
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E1ERY5K2OTKKI1 \
+            --paths "/firmware/definitions/*" "/firmware/eth-definitions/*"

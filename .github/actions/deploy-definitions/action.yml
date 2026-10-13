@@ -1,0 +1,157 @@
+name: Deploy definitions
+description: >
+  Generate definitions from the caller checkout and upload the unpacked archives
+  to S3. Pass ref to build a different commit. versioned layout publishes every
+  format version at <prefix>/vN/definitions (eth, solana, ...). production
+  layout publishes the v1 definitions tree at <prefix>/definitions, the v1
+  legacy eth-definitions tree at <prefix>/eth-definitions, and later versions
+  at <prefix>/definitions/vN.
+
+inputs:
+  ref:
+    description: Git ref to build instead of the commit the caller already checked out.
+    required: false
+    default: ""
+  dev-sign:
+    description: Sign with development keys. Otherwise use the signatures stored in metadata.
+    required: false
+    default: "false"
+  role-to-assume:
+    description: IAM role ARN for the S3 upload.
+    required: true
+  aws-region:
+    description: AWS region.
+    required: false
+    default: eu-central-1
+  s3-bucket:
+    description: Destination bucket URI, for example s3://dev.firmware.sldev.cz.
+    required: true
+  layout:
+    description: versioned or production.
+    required: true
+  key-prefix:
+    description: >
+      First key segment. versioned uses it as the signing mode (unsigned, signed),
+      publishing <prefix>/vN/definitions. production uses it as the site prefix
+      (firmware).
+    required: true
+  cache-control:
+    description: Cache-Control applied to uploaded objects. Leave empty to omit the header.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout release ref
+      if: inputs.ref != ''
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      with:
+        ref: ${{ inputs.ref }}
+
+    - name: Configure aws credentials
+      uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6
+      with:
+        role-to-assume: ${{ inputs.role-to-assume }}
+        aws-region: ${{ inputs.aws-region }}
+
+    - name: Install nix
+      uses: cachix/install-nix-action@8aa03977d8d733052d78f4e008a241fd1dbf36b3 # v31.10.6
+      with:
+        github_access_token: ${{ github.token }}
+
+    - name: Generate definitions
+      shell: bash
+      env:
+        DEV_SIGN: ${{ inputs.dev-sign }}
+      run: |
+        set -euo pipefail
+        if [ "$DEV_SIGN" = "true" ]; then
+          echo "TAR_PREFIX=deploy_dev" >> "$GITHUB_ENV"
+        else
+          echo "TAR_PREFIX=deploy_prod" >> "$GITHUB_ENV"
+        fi
+        nix develop --command bash -euo pipefail -s <<'EOF'
+        uv sync
+        VERSIONS=$(uv run python -c "from definitions.common import ACTIVE_VERSIONS; print(' '.join(map(str, ACTIVE_VERSIONS)))")
+        echo "ACTIVE_VERSIONS=$VERSIONS" >> "$GITHUB_ENV"
+        if [ "$DEV_SIGN" = "true" ]; then
+          GEN_ARGS=(--dev-sign)
+          VAL_ARGS=(--dev)
+        else
+          GEN_ARGS=()
+          VAL_ARGS=()
+        fi
+        for VERSION in $VERSIONS; do
+          uv run python cli.py generate "${GEN_ARGS[@]}" --version "$VERSION"
+          uv run python cli.py validate "${VAL_ARGS[@]}" --version "$VERSION"
+        done
+        EOF
+
+    - name: Unpack deploy archives
+      shell: bash
+      run: |
+        set -euo pipefail
+        shopt -s nullglob
+        for VERSION in $ACTIVE_VERSIONS; do
+          DEST="deploy/v${VERSION}"
+          mkdir -p "$DEST"
+          tars=("definitions-latest-v${VERSION}/${TAR_PREFIX}_v${VERSION}_"*.tar.xz)
+          if [ "${#tars[@]}" -ne 1 ]; then
+            echo "Expected exactly one deploy tar for v${VERSION}, found ${#tars[@]}"
+            exit 1
+          fi
+          tar -xJf "${tars[0]}" -C "$DEST"
+        done
+
+    - name: Upload definitions
+      shell: bash
+      env:
+        S3_BUCKET: ${{ inputs.s3-bucket }}
+        LAYOUT: ${{ inputs.layout }}
+        KEY_PREFIX: ${{ inputs.key-prefix }}
+        CACHE_CONTROL: ${{ inputs.cache-control }}
+      run: |
+        set -euo pipefail
+        case "$LAYOUT" in
+          versioned|production) ;;
+          *)
+            echo "layout must be versioned or production, got: $LAYOUT"
+            exit 1
+            ;;
+        esac
+
+        aws configure set default.s3.max_concurrent_requests 64
+        aws configure set default.s3.max_queue_size 10000
+
+        base=(aws s3 sync --delete --only-show-errors)
+        if [ -n "$CACHE_CONTROL" ]; then
+          base+=(--cache-control "$CACHE_CONTROL")
+        fi
+        pids=()
+        start_sync() {
+          "${base[@]}" "$@" &
+          pids+=($!)
+        }
+
+        for VERSION in $ACTIVE_VERSIONS; do
+          defs="deploy/v${VERSION}/definitions/"
+          eth="deploy/v${VERSION}/eth-definitions/"
+          if [ "$LAYOUT" = "versioned" ]; then
+            start_sync "$defs" "${S3_BUCKET}/${KEY_PREFIX}/v${VERSION}/definitions/"
+          elif [ "$VERSION" = "1" ]; then
+            # Version 1 is the unversioned path clients already use. Later
+            # versions live under definitions/vN, so this sync must not delete them.
+            # eth-definitions is the legacy v1 tree and is not versioned.
+            start_sync --exclude "v*/*" "$defs" "${S3_BUCKET}/${KEY_PREFIX}/definitions/"
+            start_sync "$eth" "${S3_BUCKET}/${KEY_PREFIX}/eth-definitions/"
+          else
+            start_sync "$defs" "${S3_BUCKET}/${KEY_PREFIX}/definitions/v${VERSION}/"
+          fi
+        done
+
+        status=0
+        for pid in "${pids[@]}"; do
+          wait "$pid" || status=1
+        done
+        exit "$status"
