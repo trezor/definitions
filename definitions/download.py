@@ -37,6 +37,7 @@ from .ethereum.load import (
     load_erc20_tokens_from_coingecko,
     load_erc20_tokens_from_repo,
     load_ethereum_networks_from_repo,
+    load_morpho_vault_tokens,
     update_display_formats_only,
 )
 from .ethereum.onchain import OnchainDecimalsResolver
@@ -188,8 +189,12 @@ def download(
 
     # get tokens
     cg_tokens = load_erc20_tokens_from_coingecko(downloader, networks)
+    morpho_tokens = load_morpho_vault_tokens(downloader, networks)
     repo_tokens = load_erc20_tokens_from_repo(networks)
-    solana_tokens = load_solana_tokens_from_coingecko(downloader)
+
+    # Later entries win on duplicates. Morpho goes before CoinGecko so it only
+    # fills gaps: vaults CoinGecko already knows keep CoinGecko's name/symbol.
+    all_ethereum_tokens = repo_tokens + morpho_tokens + cg_tokens + ADDITIONAL_TOKENS
 
     # get ERC-7730 display formats from the registry submodule
     display_formats = load_display_formats_from_repo(networks)
@@ -200,12 +205,11 @@ def download(
     cg_coin_list = downloader.get_coingecko_coins_list()
     # get top 100 coins
     cg_top100 = downloader.get_coingecko_top100()
-    # save cache
-    downloader.save_cache()
 
-    # merge tokens - CoinGecko have precedence, so starting with Ethereum repo first
+    # merge tokens - CoinGecko has precedence over Morpho, which has precedence
+    # over the Ethereum repo (see the ordering of `all_ethereum_tokens`)
     token_deduplicator: dict[tuple[int, str], ERC20Token] = {}
-    for token in repo_tokens + cg_tokens + ADDITIONAL_TOKENS:
+    for token in all_ethereum_tokens:
         token_deduplicator[(token["chain_id"], token["address"])] = token
     erc20_tokens = list(token_deduplicator.values())
 
@@ -215,6 +219,7 @@ def download(
 
         repo_match = next((t for t in repo_tokens if t["address"] == addr), None)
         cg_match = next((t for t in cg_tokens if t["address"] == addr), None)
+        morpho_match = next((t for t in morpho_tokens if t["address"] == addr), None)
 
         if repo_match:
             for network in networks:
@@ -241,12 +246,21 @@ def download(
                     print(f"  [COINGECKO] Data: {cg_match}")
                     break
 
-        if not repo_match and not cg_match:
+        if morpho_match:
+            print(f"  [MORPHO] Data: {morpho_match}")
+
+        if not repo_match and not cg_match and not morpho_match:
             print("  NOT FOUND in any source.")
         else:
-            winner_source = "COINGECKO" if cg_match is not None else "REPO"
+            if cg_match is not None:
+                winner_source = "COINGECKO"
+            elif morpho_match is not None:
+                winner_source = "MORPHO"
+            else:
+                winner_source = "REPO"
             print(
-                f"\n  >>> FINAL SOURCE: {winner_source} (CoinGecko overrides repo when both present)"
+                f"\n  >>> FINAL SOURCE: {winner_source} "
+                "(CoinGecko overrides Morpho, which overrides repo, when several are present)"
             )
 
         print("=== END TRACE ===\n")
@@ -265,6 +279,12 @@ def download(
     tokens_by_chain_id_and_address = {
         (t["chain_id"], t["address"]): t for t in erc20_tokens
     }
+
+    solana_tokens = load_solana_tokens_from_coingecko(downloader)
+
+    # save cache
+    downloader.save_cache()
+
     solana_tokens_by_mint = {(t["mint"]): t for t in solana_tokens}
     for cg_coin in cg_coin_list:
         for platform_name, address in cg_coin.get("platforms", {}).items():
