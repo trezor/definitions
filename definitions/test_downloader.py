@@ -6,7 +6,7 @@ from . import downloader as dl
 
 # Mixed case on purpose. Real cursors are case-sensitive base64url, and the
 # test must fail if something lower-cases it on the way out (as `_download_json`
-# does with `url_params`): an all-lowercase cursor would survive that unchanged.
+# used to do with its params): an all-lowercase cursor would survive that unchanged.
 CURSOR = "eyJ2IjoxLCJzIjoiTWl4ZWRDYXNl"
 
 
@@ -31,6 +31,8 @@ class _FakeSession:
         self.requests = []
 
     def get(self, url, params=None, timeout=None):
+        if params:  # `requests` appends them to the URL
+            url = f"{url}?{params}"
         self.requests.append(url)
         parsed = urlparse(url)
         endpoint = parsed.path.rsplit("/", 1)[-1]
@@ -93,3 +95,18 @@ def test_morpho_vaults_stop_on_an_empty_page_even_if_a_cursor_comes_back(downloa
 
     assert len(downloader.get_morpho_vaults()) == 1
     assert len(downloader.session.requests) == 3
+
+
+def test_coingecko_cache_keys_are_stable(downloader):
+    # These keys are what `definitions-cache.json` already holds, so they must not
+    # change: `--no-refresh` replays that file and fails on any key it lacks.
+    downloader.session = _FakeSession({"list": [[]], "markets": [[]]})
+
+    downloader.get_coingecko_coins_list()
+    downloader.get_coingecko_top100()
+
+    assert set(downloader.cache) == {
+        "https://api.coingecko.com/api/v3/coins/list?include_platform=true",
+        "https://api.coingecko.com/api/v3/coins/markets"
+        "?order=market_cap_desc&page=1&per_page=100&sparkline=false&vs_currency=usd",
+    }
