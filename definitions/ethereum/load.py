@@ -2,7 +2,7 @@
 
 Sources: the `ethereum-lists` submodule (networks, ERC-20 tokens), the
 `clear-signing-erc7730-registry` submodule (ERC-7730 display formats) and the
-CoinGecko API (ERC-20 tokens).
+CoinGecko and Morpho APIs (ERC-20 tokens).
 """
 
 from __future__ import annotations
@@ -153,6 +153,9 @@ NETWORK_OVERRIDES: dict[int, NetworkOverride] = {
 }
 
 
+# Verified with Morpho. Safe to use this constant.
+MORPHO_VAULT_DECIMALS = 18
+
 ADDITIONAL_TOKENS: list[ERC20Token] = [
     {
         "address": "0x3600000000000000000000000000000000000000",
@@ -226,6 +229,45 @@ def _build_token(
         name=complex_token["name"],
         shortcut=complex_token["symbol"],
     )
+
+
+def load_morpho_vault_tokens(
+    downloader: Downloader, networks: list[Network]
+) -> list[ERC20Token]:
+    """Load Morpho vault shares (v1 and v2) as ERC-20 tokens.
+
+    The Morpho API lists vaults but not their decimals, so every vault gets
+    `MORPHO_VAULT_DECIMALS`. Vaults on chains we have no network for are skipped.
+    """
+    networks_by_chain_id = {n["chain_id"]: n for n in networks}
+    tokens: list[ERC20Token] = []
+    skipped_chain_ids: set[int] = set()
+
+    for vault in downloader.get_morpho_vaults():
+        network = networks_by_chain_id.get(vault["chain_id"])
+        if network is None:
+            skipped_chain_ids.add(vault["chain_id"])
+            continue
+
+        t = _build_token(
+            {
+                "address": vault["vault_address"],
+                "name": vault["name"],
+                "symbol": vault["symbol"],
+                "decimals": MORPHO_VAULT_DECIMALS,
+            },
+            network["chain_id"],
+            network["chain"],
+        )
+        if t is not None:
+            tokens.append(t)
+
+    if skipped_chain_ids:
+        logging.info(
+            f"Skipped Morpho vaults on unknown chain ids: {sorted(skipped_chain_ids)}"
+        )
+
+    return tokens
 
 
 def load_erc20_tokens_from_coingecko(

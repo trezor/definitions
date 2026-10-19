@@ -322,3 +322,73 @@ def test_update_display_formats_only_requires_existing_file(tmp_path, monkeypatc
         dl.update_display_formats_only(
             networks=[], change_strategy=None, show_all=False, show_added=False
         )
+
+
+# ====== Morpho vault tokens ======
+
+
+class _FakeMorphoDownloader:
+    def __init__(self, vaults):
+        self.vaults = vaults
+
+    def get_morpho_vaults(self):
+        return self.vaults
+
+
+def _vault(
+    chain_id=1, address="0xAbCdEf" + "0" * 34, name="Keyrock USDC", symbol="kUSDC"
+):
+    return {
+        "chain_id": chain_id,
+        "vault_address": address,
+        "name": name,
+        "symbol": symbol,
+    }
+
+
+def _network(chain_id, chain):
+    return {"chain_id": chain_id, "chain": chain}
+
+
+def test_morpho_vaults_become_18_decimals_tokens():
+    tokens = dl.load_morpho_vault_tokens(
+        _FakeMorphoDownloader([_vault()]), [_network(1, "eth")]
+    )
+    assert tokens == [
+        {
+            "address": "0xabcdef" + "0" * 34,  # lower-cased
+            "chain": "eth",
+            "chain_id": 1,
+            "decimals": 18,
+            "name": "Keyrock USDC",
+            "shortcut": "kUSDC",
+        }
+    ]
+
+
+def test_morpho_vaults_are_assigned_to_their_chain():
+    vaults = [
+        _vault(chain_id=1, address="0x" + "11" * 20),
+        _vault(chain_id=8453, address="0x" + "22" * 20),
+    ]
+    tokens = dl.load_morpho_vault_tokens(
+        _FakeMorphoDownloader(vaults), [_network(1, "eth"), _network(8453, "base")]
+    )
+    assert [(t["chain"], t["chain_id"]) for t in tokens] == [("eth", 1), ("base", 8453)]
+
+
+def test_morpho_vaults_on_unknown_chains_are_skipped(caplog):
+    vaults = [_vault(chain_id=1), _vault(chain_id=424242), _vault(chain_id=424242)]
+    tokens = dl.load_morpho_vault_tokens(
+        _FakeMorphoDownloader(vaults), [_network(1, "eth")]
+    )
+    assert [t["chain_id"] for t in tokens] == [1]
+    assert "[424242]" in caplog.text
+
+
+def test_morpho_vault_with_malformed_address_is_dropped():
+    tokens = dl.load_morpho_vault_tokens(
+        _FakeMorphoDownloader([_vault(address="not-an-address")]),
+        [_network(1, "eth")],
+    )
+    assert tokens == []

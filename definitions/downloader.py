@@ -17,6 +17,9 @@ HERE = Path(__file__).parent
 
 CACHE_PATH = HERE / "definitions-cache.json"
 
+MORPHO_API_URL = "https://api.morpho.org/v0"
+MORPHO_PAGE_SIZE = 1000  # the largest `limit` the Morpho API accepts
+
 
 class CacheableError(Exception):
     def __init__(self, error_code: int):
@@ -160,3 +163,28 @@ class Downloader:
             page=1,
             sparkline=False,
         )
+
+    def _get_morpho_vaults_from(self, endpoint: str) -> list[dict[str, Any]]:
+        vaults: list[dict[str, Any]] = []
+        cursor: str | None = None
+        while True:
+            params = {"limit": MORPHO_PAGE_SIZE}
+            if cursor is not None:
+                params["cursor"] = cursor
+            # The query string is built here rather than passed as `url_params`,
+            # because `_download_json` lower-cases param values and the cursor
+            # is case-sensitive (a lower-cased one is rejected as invalid).
+            page = self._download_json(
+                f"{MORPHO_API_URL}/{endpoint}?{urlencode(params)}"
+            )
+            vaults.extend(page["data"])
+            cursor = page.get("cursor")
+            if not cursor or not page["data"]:
+                return vaults
+
+    def get_morpho_vaults(self) -> list[dict[str, Any]]:
+        """All Morpho vaults (v1 and v2), across every chain the API covers."""
+        return [
+            *self._get_morpho_vaults_from("vaults-v1"),
+            *self._get_morpho_vaults_from("vaults-v2"),
+        ]
