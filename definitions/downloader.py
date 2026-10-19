@@ -184,3 +184,8 @@ class Downloader:
             *self._get_morpho_vaults_from("vaults-v1"),
             *self._get_morpho_vaults_from("vaults-v2"),
         ]
+
+    def get_morpho_token(self, chain_id: int, address: str) -> dict[str, Any]:
+        """Token metadata (name, symbol, decimals, ...) known to the Morpho API."""
+        response = self._download_json(f"{MORPHO_API_URL}/tokens/{chain_id}:{address}")
+        return response["data"]
