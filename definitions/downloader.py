@@ -17,6 +17,8 @@ HERE = Path(__file__).parent
 
 CACHE_PATH = HERE / "definitions-cache.json"
 
+# https://docs.morpho.org/api/vaults-v1/list-v1-vaults
+# https://docs.morpho.org/api/vaults-v2/list-v2-vaults
 MORPHO_API_URL = "https://api.morpho.org/v0"
 MORPHO_PAGE_SIZE = 1000  # the largest `limit` the Morpho API accepts
 
@@ -84,16 +86,15 @@ class Downloader:
     def save_cache(self):
         self.cache.save()
 
-    def _download_json(self, url: str, **url_params: Any) -> Any:
-        params = None
+    def _download_json(self, url: str, **url_params: str) -> Any:
         encoded_params = None
         key = url
 
-        # convert params to lower-case strings (especially for boolean values
-        # because for CoinGecko API "True" != "true")
+        # Param values are sent exactly as given, so callers must stringify them:
+        # some are case-sensitive (e.g. cursors), and for CoinGecko API
+        # "True" != "true", so booleans have to be passed as "true"/"false".
         if url_params:
-            params = {key: str(value).lower() for key, value in url_params.items()}
-            encoded_params = urlencode(sorted(params.items()))
+            encoded_params = urlencode(sorted(url_params.items()))
             key += "?" + encoded_params
 
         if self.refresh is False and key not in self.cache:
@@ -151,7 +152,7 @@ class Downloader:
 
     def get_coingecko_coins_list(self) -> Any:
         url = "https://api.coingecko.com/api/v3/coins/list"
-        return self._download_json(url, include_platform=True)
+        return self._download_json(url, include_platform="true")
 
     def get_coingecko_top100(self) -> Any:
         url = "https://api.coingecko.com/api/v3/coins/markets"
@@ -159,24 +160,19 @@ class Downloader:
             url,
             vs_currency="usd",
             order="market_cap_desc",
-            per_page=100,
-            page=1,
-            sparkline=False,
+            per_page="100",
+            page="1",
+            sparkline="false",
         )
 
     def _get_morpho_vaults_from(self, endpoint: str) -> list[dict[str, Any]]:
         vaults: list[dict[str, Any]] = []
         cursor: str | None = None
         while True:
-            params = {"limit": MORPHO_PAGE_SIZE}
+            params = {"limit": str(MORPHO_PAGE_SIZE)}
             if cursor is not None:
                 params["cursor"] = cursor
-            # The query string is built here rather than passed as `url_params`,
-            # because `_download_json` lower-cases param values and the cursor
-            # is case-sensitive (a lower-cased one is rejected as invalid).
-            page = self._download_json(
-                f"{MORPHO_API_URL}/{endpoint}?{urlencode(params)}"
-            )
+            page = self._download_json(f"{MORPHO_API_URL}/{endpoint}", **params)
             vaults.extend(page["data"])
             cursor = page.get("cursor")
             if not cursor or not page["data"]:
