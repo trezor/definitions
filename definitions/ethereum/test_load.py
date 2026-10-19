@@ -328,11 +328,18 @@ def test_update_display_formats_only_requires_existing_file(tmp_path, monkeypatc
 
 
 class _FakeMorphoDownloader:
-    def __init__(self, vaults):
+    def __init__(self, vaults, decimals_by_address=None):
         self.vaults = vaults
+        # what the tokens endpoint answers per vault address; 18 if not listed
+        self.decimals_by_address = decimals_by_address or {}
+        self.token_lookups = []
 
     def get_morpho_vaults(self):
         return self.vaults
+
+    def get_morpho_token(self, chain_id, address):
+        self.token_lookups.append((chain_id, address))
+        return {"decimals": self.decimals_by_address.get(address, 18)}
 
 
 def _vault(
@@ -350,7 +357,7 @@ def _network(chain_id, chain):
     return {"chain_id": chain_id, "chain": chain}
 
 
-def test_morpho_vaults_become_18_decimals_tokens():
+def test_morpho_vaults_become_tokens():
     tokens = dl.load_morpho_vault_tokens(
         _FakeMorphoDownloader([_vault()]), [_network(1, "eth")]
     )
@@ -366,6 +373,16 @@ def test_morpho_vaults_become_18_decimals_tokens():
     ]
 
 
+def test_morpho_vault_decimals_come_from_the_tokens_endpoint():
+    vault = _vault(address="0x" + "11" * 20)
+    downloader = _FakeMorphoDownloader(
+        [vault], decimals_by_address={vault["vault_address"]: 20}
+    )
+    [token] = dl.load_morpho_vault_tokens(downloader, [_network(1, "eth")])
+    assert token["decimals"] == 20
+    assert downloader.token_lookups == [(1, vault["vault_address"])]
+
+
 def test_morpho_vaults_are_assigned_to_their_chain():
     vaults = [
         _vault(chain_id=1, address="0x" + "11" * 20),
@@ -378,12 +395,17 @@ def test_morpho_vaults_are_assigned_to_their_chain():
 
 
 def test_morpho_vaults_on_unknown_chains_are_skipped(caplog):
-    vaults = [_vault(chain_id=1), _vault(chain_id=424242), _vault(chain_id=424242)]
-    tokens = dl.load_morpho_vault_tokens(
-        _FakeMorphoDownloader(vaults), [_network(1, "eth")]
-    )
+    vaults = [
+        _vault(chain_id=1),
+        _vault(chain_id=424242, address="0x" + "22" * 20),
+        _vault(chain_id=424242, address="0x" + "33" * 20),
+    ]
+    downloader = _FakeMorphoDownloader(vaults)
+    tokens = dl.load_morpho_vault_tokens(downloader, [_network(1, "eth")])
     assert [t["chain_id"] for t in tokens] == [1]
     assert "[424242]" in caplog.text
+    # no point looking up the decimals of vaults we are going to drop
+    assert [chain_id for chain_id, _ in downloader.token_lookups] == [1]
 
 
 def test_morpho_vault_with_malformed_address_is_dropped():

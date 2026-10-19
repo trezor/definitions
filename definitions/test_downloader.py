@@ -110,3 +110,11 @@ def test_coingecko_cache_keys_are_stable(downloader):
         "https://api.coingecko.com/api/v3/coins/markets"
         "?order=market_cap_desc&page=1&per_page=100&sparkline=false&vs_currency=usd",
     }
+
+
+def test_morpho_token_is_looked_up_by_chain_and_address(downloader):
+    token = {"chain_id": 1, "address": "0xAbC", "decimals": 18}
+    downloader.session = _FakeSession({"1:0xAbC": [{"data": token}]})
+
+    assert downloader.get_morpho_token(1, "0xAbC") == token
+    assert downloader.session.requests == ["https://api.morpho.org/v0/tokens/1:0xAbC"]

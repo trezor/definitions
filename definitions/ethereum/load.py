@@ -153,9 +153,6 @@ NETWORK_OVERRIDES: dict[int, NetworkOverride] = {
 }
 
 
-# Verified with Morpho. Safe to use this constant.
-MORPHO_VAULT_DECIMALS = 18
-
 ADDITIONAL_TOKENS: list[ERC20Token] = [
     {
         "address": "0x3600000000000000000000000000000000000000",
@@ -236,8 +233,9 @@ def load_morpho_vault_tokens(
 ) -> list[ERC20Token]:
     """Load Morpho vault shares (v1 and v2) as ERC-20 tokens.
 
-    The Morpho API lists vaults but not their decimals, so every vault gets
-    `MORPHO_VAULT_DECIMALS`. Vaults on chains we have no network for are skipped.
+    The vault list gives each vault's name and symbol but not its decimals, which
+    are looked up per vault from the Morpho tokens endpoint. Vaults on chains we
+    have no network for are skipped (and not looked up).
     """
     networks_by_chain_id = {n["chain_id"]: n for n in networks}
     tokens: list[ERC20Token] = []
@@ -249,12 +247,15 @@ def load_morpho_vault_tokens(
             skipped_chain_ids.add(vault["chain_id"])
             continue
 
+        token_info = downloader.get_morpho_token(
+            vault["chain_id"], vault["vault_address"]
+        )
         t = _build_token(
             {
                 "address": vault["vault_address"],
                 "name": vault["name"],
                 "symbol": vault["symbol"],
-                "decimals": MORPHO_VAULT_DECIMALS,
+                "decimals": token_info["decimals"],
             },
             network["chain_id"],
             network["chain"],
