@@ -64,6 +64,8 @@ from ..types import ABITuple, ABIValue, ERC20DisplayFormat, ERC7730Field, ERC773
 
 LOG = logging.getLogger(__name__)
 
+ERC20_APPROVE_SELECTOR = "0x095ea7b3"
+
 
 class UnsupportedFeature(Exception):
     """A *displayed* field uses a feature we can't faithfully represent.
@@ -1115,6 +1117,11 @@ def _build_one_format(
     # The selector is our own 4-byte computation; guard the invariant.
     if len(func_sig_hex) != 10 or not _is_hex(func_sig_hex[2:]):
         LOG.warning("%s: skipping %s — bad selector %r", source, sig_key, func_sig_hex)
+        return None, issues, []
+    if func_sig_hex == ERC20_APPROVE_SELECTOR:
+        # Can be removed after https://github.com/trezor/trezor-firmware/issues/8089 is fixed.
+        # Formatter already exists inside Firmware so no regression.
+        LOG.info("%s: skipping %s — ERC-20 approve", source, sig_key)
         return None, issues, []
     inputs = list(parsed.inputs or [])
 
