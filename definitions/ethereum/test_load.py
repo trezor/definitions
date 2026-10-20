@@ -1,9 +1,11 @@
 import json
 from copy import deepcopy
+from typing import Any
 
 import click
 import pytest
 
+from ..downloader import Downloader
 from ..test_data import erc20_tokens, networks
 from . import load as dl
 from .load import (
@@ -14,6 +16,7 @@ from .load import (
     force_tokens_fields_sizes_t1,
     write_display_formats_log,
 )
+from .types import Network
 
 
 def _rec(chain_id=1, address="0x" + "11" * 20, func_sig="0xdeadbeef", intent="Swap"):
@@ -327,24 +330,32 @@ def test_update_display_formats_only_requires_existing_file(tmp_path, monkeypatc
 # ====== Morpho vault tokens ======
 
 
-class _FakeMorphoDownloader:
-    def __init__(self, vaults, decimals_by_address=None):
+class _FakeMorphoDownloader(Downloader):
+    def __init__(
+        self,
+        vaults: list[dict[str, Any]],
+        decimals_by_address: dict[str, int] | None = None,
+    ) -> None:
+        # deliberately not calling `Downloader.__init__` (cache file, HTTP session)
         self.vaults = vaults
         # what the tokens endpoint answers per vault address; 18 if not listed
         self.decimals_by_address = decimals_by_address or {}
-        self.token_lookups = []
+        self.token_lookups: list[tuple[int, str]] = []
 
-    def get_morpho_vaults(self):
+    def get_morpho_vaults(self) -> list[dict[str, Any]]:
         return self.vaults
 
-    def get_morpho_token(self, chain_id, address):
+    def get_morpho_token(self, chain_id: int, address: str) -> dict[str, Any]:
         self.token_lookups.append((chain_id, address))
         return {"decimals": self.decimals_by_address.get(address, 18)}
 
 
 def _vault(
-    chain_id=1, address="0xAbCdEf" + "0" * 34, name="Keyrock USDC", symbol="kUSDC"
-):
+    chain_id: int = 1,
+    address: str = "0xAbCdEf" + "0" * 34,
+    name: str = "Keyrock USDC",
+    symbol: str = "kUSDC",
+) -> dict[str, Any]:
     return {
         "chain_id": chain_id,
         "vault_address": address,
@@ -353,11 +364,18 @@ def _vault(
     }
 
 
-def _network(chain_id, chain):
-    return {"chain_id": chain_id, "chain": chain}
+def _network(chain_id: int, chain: str) -> Network:
+    return Network(
+        chain=chain,
+        chain_id=chain_id,
+        is_testnet=False,
+        name=chain,
+        shortcut=chain.upper(),
+        slip44=60,
+    )
 
 
-def test_morpho_vaults_become_tokens():
+def test_morpho_vaults_become_tokens() -> None:
     tokens = dl.load_morpho_vault_tokens(
         _FakeMorphoDownloader([_vault()]), [_network(1, "eth")]
     )
@@ -373,7 +391,7 @@ def test_morpho_vaults_become_tokens():
     ]
 
 
-def test_morpho_vault_decimals_come_from_the_tokens_endpoint():
+def test_morpho_vault_decimals_come_from_the_tokens_endpoint() -> None:
     vault = _vault(address="0x" + "11" * 20)
     downloader = _FakeMorphoDownloader(
         [vault], decimals_by_address={vault["vault_address"]: 20}
@@ -383,7 +401,7 @@ def test_morpho_vault_decimals_come_from_the_tokens_endpoint():
     assert downloader.token_lookups == [(1, vault["vault_address"])]
 
 
-def test_morpho_vaults_are_assigned_to_their_chain():
+def test_morpho_vaults_are_assigned_to_their_chain() -> None:
     vaults = [
         _vault(chain_id=1, address="0x" + "11" * 20),
         _vault(chain_id=8453, address="0x" + "22" * 20),
@@ -394,7 +412,9 @@ def test_morpho_vaults_are_assigned_to_their_chain():
     assert [(t["chain"], t["chain_id"]) for t in tokens] == [("eth", 1), ("base", 8453)]
 
 
-def test_morpho_vaults_on_unknown_chains_are_skipped(caplog):
+def test_morpho_vaults_on_unknown_chains_are_skipped(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
     vaults = [
         _vault(chain_id=1),
         _vault(chain_id=424242, address="0x" + "22" * 20),
@@ -408,7 +428,7 @@ def test_morpho_vaults_on_unknown_chains_are_skipped(caplog):
     assert [chain_id for chain_id, _ in downloader.token_lookups] == [1]
 
 
-def test_morpho_vault_with_malformed_address_is_dropped():
+def test_morpho_vault_with_malformed_address_is_dropped() -> None:
     tokens = dl.load_morpho_vault_tokens(
         _FakeMorphoDownloader([_vault(address="not-an-address")]),
         [_network(1, "eth")],
