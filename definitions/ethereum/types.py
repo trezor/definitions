@@ -105,6 +105,11 @@ class ERC7730Field(t.TypedDict):
     # enum fields: key->display mapping looked up on-device
     enum_values: t.NotRequired[list[ERC7730EnumValue]]
 
+    # AddressNameFormatter params
+    # True when the descriptor's `types` include `contract` or `token`: the
+    # device asks the host for a known name for the address.
+    lookup_address: t.NotRequired[bool]
+
 
 class ERC20DisplayFormat(t.TypedDict):
     chain_id: int

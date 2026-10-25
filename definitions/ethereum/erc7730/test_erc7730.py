@@ -382,6 +382,61 @@ def test_addressname_on_address_is_kept():
     assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
 
 
+def _addressname_desc(params):
+    field = {"path": "x", "label": "L", "format": "addressName"}
+    if params is not None:
+        field["params"] = params
+    return _descriptor(formats={"f(address x)": {"fields": [field]}})
+
+
+@pytest.mark.parametrize(
+    "types",
+    [
+        ["contract"],
+        ["token"],
+        ["wallet", "eoa", "contract"],
+        ["eoa", "token"],
+    ],
+)
+def test_addressname_contract_or_token_types_set_lookup_address(types):
+    [rec] = build_display_formats(
+        _addressname_desc({"types": types, "sources": ["local", "ens"]})
+    )
+    assert rec["field_definitions"][0]["lookup_address"] is True
+
+
+@pytest.mark.parametrize(
+    "params",
+    [None, {}, {"types": []}, {"types": ["eoa"]}, {"types": ["wallet", "collection"]}],
+)
+def test_addressname_other_types_omit_lookup_address(params):
+    [rec] = build_display_formats(_addressname_desc(params))
+    assert "lookup_address" not in rec["field_definitions"][0]
+
+
+def test_addressname_invalid_types_skips_file():
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(
+            _addressname_desc({"types": "contract"}), unsupported=unsupported
+        )
+    assert {feat for _src, feat, _det in unsupported} == {"invalid-address-types"}
+
+
+def test_lookup_address_serializes_to_proto():
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "To",
+            "formatter": "FORMATTER_ADDRESS_NAME",
+            "lookup_address": True,
+        }
+    )
+    assert info.lookup_address is True
+
+
 def test_addressname_on_uint_retypes_leaf_to_address():
     # An address packed into a uint (1inch pools, maker order receivers): the
     # field is kept, the ABI leaf is retyped so the firmware decodes an address,

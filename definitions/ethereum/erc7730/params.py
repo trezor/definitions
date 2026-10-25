@@ -201,6 +201,28 @@ def apply_token_amount_params(
         _apply_threshold()
 
 
+def apply_address_name_params(
+    out: ERC7730Field, params: dict[str, Any], label: str, ctx: _FormatContext
+) -> None:
+    """Flag addressName fields whose `types` ask for a contract/token name.
+
+    The device only needs one bit: when `types` includes `contract` or
+    `token` it asks the host for a known name for the address; otherwise it
+    shows the plain address. `sources` (`local`, `ens`) and the other types
+    (`eoa`, `wallet`, `collection`) have no on-device counterpart, so they are
+    ignored. The flag is only emitted when true (the proto default is false).
+    """
+    types = params.get("types")
+    if types is None:
+        return
+    if not isinstance(types, list) or not all(isinstance(t, str) for t in types):
+        raise UnsupportedFeature(
+            "invalid-address-types", f"{types!r} (field {label!r})"
+        )
+    if any(t in ("contract", "token") for t in types):
+        out["lookup_address"] = True
+
+
 def apply_unit_params(
     out: ERC7730Field, params: dict[str, Any], label: str, ctx: _FormatContext
 ) -> None:
