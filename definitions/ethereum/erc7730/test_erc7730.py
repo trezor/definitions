@@ -2080,6 +2080,32 @@ def test_provider_name_from_owner():
     assert rec["provider_name"] == "Kiln"
 
 
+def test_provider_name_from_owner_and_contract_name():
+    desc = _descriptor(formats=_ADDR_FIELD)
+    desc["metadata"]["owner"] = "Lido DAO"
+    desc["metadata"]["contractName"] = "wstETH"
+    [rec] = build_display_formats(desc, source="lido/calldata-wstETH.json")
+    assert rec["provider_name"] == "Lido DAO: wstETH"
+
+
+@pytest.mark.parametrize(
+    "owner, contract, expected",
+    [
+        ("WETH", "WETH", "WETH"),
+        ("Celo", "Celo Governance", "Celo Governance"),
+        ("Bedrock", "bedrock uniBTC Vault", "bedrock uniBTC Vault"),
+        # Not a whole-word prefix: keep both.
+        ("Sky", "Skyline", "Sky: Skyline"),
+    ],
+)
+def test_provider_name_drops_owner_repeated_in_contract_name(owner, contract, expected):
+    desc = _descriptor(formats=_ADDR_FIELD)
+    desc["metadata"]["owner"] = owner
+    desc["metadata"]["contractName"] = contract
+    [rec] = build_display_formats(desc, source="x/calldata-X.json")
+    assert rec["provider_name"] == expected
+
+
 def test_provider_name_falls_back_to_subdir_and_contract_name():
     # 1inch-style: no owner, but a contractName and the registry subdirectory.
     desc = _descriptor(formats=_ADDR_FIELD)

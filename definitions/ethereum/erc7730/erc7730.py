@@ -96,7 +96,7 @@ class UnsupportedFeature(Exception):
 # =====================================================================
 
 
-# Mirror core/src/apps/ethereum/clear_signing.py. 
+# Mirror core/src/apps/ethereum/clear_signing.py.
 _MAX_ABI_NESTING = 8  # total tree depth, the root parameter sitting at 0
 _MAX_NESTED_ARRAYS = 2  # array levels on any one root-to-leaf path
 
@@ -1061,20 +1061,28 @@ def _get_intent(display_format: dict[str, Any]) -> str:
 def _provider_name(descriptor: dict[str, Any], source: str) -> str | None:
     """Provider name shown on-device alongside the call.
 
-    `metadata.owner` is authoritative. Ownerless descriptors (1inch, safe, …)
-    fall back to the registry subdirectory plus `metadata.contractName`
-    ("1inch: AggregationRouterV6"), or just the subdirectory. Returns None
-    when nothing is known (the proto field stays unset).
+    Track https://github.com/ethereum/clear-signing-erc7730-registry/issues/2671
+    for potential changes to schema and an authoritative name.
     """
     metadata = descriptor.get("metadata") or {}
     owner = str(metadata.get("owner") or "").strip()
-    if owner:
-        return owner
-    subdir = source.split("/", 1)[0] if "/" in source else ""
+    if not owner and "/" in source:
+        owner = source.split("/", 1)[0]
     contract = str(metadata.get("contractName") or "").strip()
-    if subdir and contract:
-        return f"{subdir}: {contract}"
-    return subdir or contract or None
+    if owner and contract:
+        return _join_owner_and_contract(owner, contract)
+    return owner or contract or None
+
+
+def _join_owner_and_contract(owner: str, contract: str) -> str:
+    """ "{owner}: {contract}", unless the contract name already leads with the
+    owner as a whole word ("WETH", "Celo Governance"), then just the contract.
+    """
+    if contract.lower() == owner.lower() or contract.lower().startswith(
+        owner.lower() + " "
+    ):
+        return contract
+    return f"{owner}: {contract}"
 
 
 # One display format ready for deployment expansion:
