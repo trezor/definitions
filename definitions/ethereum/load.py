@@ -470,7 +470,7 @@ def load_display_formats_from_repo(
         rel = str(path.relative_to(ROOT_DIR))
         # `*/calldata-*.json` glob → the provider is the file's parent directory.
         gated = path.parent.name in ENABLED_PROVIDERS
-        loaded.append((rel, gated, records))
+        loaded.append((rel, gated, records + contract_name_formats(records)))
 
     display_formats, conflicts = dedup_display_formats(loaded, known_chain_ids)
     for key_str, overridden, kept in conflicts:
@@ -489,6 +489,36 @@ def load_display_formats_from_repo(
             "clear-signing-erc7730-registry submodule initialized?"
         )
     return display_formats
+
+
+def contract_name_formats(
+    records: list[ERC20DisplayFormat],
+) -> list[ERC20DisplayFormat]:
+    """One provider-only record per `(chain_id, address)` in `records`.
+
+    Keyed on the reserved 8-byte selector `0x0000000000000000` (it can't collide
+    with a real 4-byte one) and carrying nothing but the provider name (required
+    fields left empty), so the device can name the provider of a known contract
+    even for calls it can't clear-sign.
+    """
+    out: dict[tuple[int, str], ERC20DisplayFormat] = {}
+    for r in records:
+        provider_name = r.get("provider_name")
+        if provider_name is None:
+            continue
+        out.setdefault(
+            (r["chain_id"], r["address"]),
+            {
+                "chain_id": r["chain_id"],
+                "address": r["address"],
+                "func_sig": "0x0000000000000000",
+                "intent": "",
+                "parameter_definitions": [],
+                "field_definitions": [],
+                "provider_name": provider_name,
+            },
+        )
+    return list(out.values())
 
 
 def dedup_display_formats(

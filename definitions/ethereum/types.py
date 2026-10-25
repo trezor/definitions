@@ -109,7 +109,7 @@ class ERC7730Field(t.TypedDict):
 class ERC20DisplayFormat(t.TypedDict):
     chain_id: int
     address: str  # 0x-prefixed lowercase hex (20 bytes)
-    func_sig: str  # 0x-prefixed lowercase hex (4 bytes)
+    func_sig: str  # 0x-prefixed lowercase hex (4 bytes, 8 for name-only records)
     intent: str
     parameter_definitions: list[ABIValue]
     field_definitions: list[ERC7730Field]

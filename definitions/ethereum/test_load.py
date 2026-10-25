@@ -11,6 +11,7 @@ from . import load as dl
 from .load import (
     NATIVE_CURRENCY_SENTINEL,
     build_native_currency_tokens,
+    contract_name_formats,
     dedup_display_formats,
     force_networks_fields_sizes_t1,
     force_tokens_fields_sizes_t1,
@@ -28,6 +29,29 @@ def _rec(chain_id=1, address="0x" + "11" * 20, func_sig="0xdeadbeef", intent="Sw
         "parameter_definitions": [],
         "field_definitions": [],
     }
+
+
+# ====== provider-only display formats ======
+
+
+def test_provider_only_formats_one_per_deployment():
+    a = {**_rec(func_sig="0xdeadbeef"), "provider_name": "Acme"}
+    b = {**_rec(func_sig="0xcafebabe"), "provider_name": "Acme"}
+    c = {**_rec(chain_id=10), "provider_name": "Acme"}
+    assert contract_name_formats([a, b, c]) == [
+        {
+            **_rec(func_sig="0x0000000000000000", intent=""),
+            "provider_name": "Acme",
+        },
+        {
+            **_rec(chain_id=10, func_sig="0x0000000000000000", intent=""),
+            "provider_name": "Acme",
+        },
+    ]
+
+
+def test_provider_only_formats_skips_nameless():
+    assert contract_name_formats([_rec()]) == []
 
 
 # ====== display-format dedup / override-conflict detection ======
