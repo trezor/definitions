@@ -60,6 +60,10 @@ if not any(f.name == "callee_path" for f in EthereumERC7730FieldInfo.FIELDS.valu
 if not any(f.name == "enum_values" for f in EthereumERC7730FieldInfo.FIELDS.values()):
     _missing_proto.append("EthereumERC7730FieldInfo.enum_values")
 if not any(
+    f.name == "lookup_address" for f in EthereumERC7730FieldInfo.FIELDS.values()
+):
+    _missing_proto.append("EthereumERC7730FieldInfo.lookup_address")
+if not any(
     f.name == "threshold_message" for f in EthereumERC7730FieldInfo.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730FieldInfo.threshold_message")
@@ -186,6 +190,7 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
             if "enum_values" in d
             else None
         ),
+        lookup_address=d.get("lookup_address"),
     )
 
 

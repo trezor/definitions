@@ -552,7 +552,7 @@ def _resolve_ref(
 
 
 _FORMATTER_MAP = {
-    "addressName": "FORMATTER_ADDRESS_NAME",  # TODO: Support `local` and `contract`. requires FW changes.
+    "addressName": "FORMATTER_ADDRESS_NAME",
     "amount": "FORMATTER_AMOUNT",
     "tokenAmount": "FORMATTER_TOKEN_AMOUNT",
     "unit": "FORMATTER_UNIT",
@@ -969,6 +969,7 @@ def _build_path_field(
     # `_FORMATTER_MAP`, ...), so importing it at module level would be
     # circular. By call time both modules are fully loaded.
     from .params import (
+        apply_address_name_params,
         apply_calldata_params,
         apply_date_params,
         apply_enum_params,
@@ -1011,7 +1012,9 @@ def _build_path_field(
         "formatter": _FORMATTER_MAP[fmt],
     }
     params = field_def.get("params") or {}
-    if fmt == "tokenAmount":
+    if fmt == "addressName":
+        apply_address_name_params(out, params, label, ctx)
+    elif fmt == "tokenAmount":
         apply_token_amount_params(out, params, label, ctx)
     elif fmt == "unit":
         apply_unit_params(out, params, label, ctx)
