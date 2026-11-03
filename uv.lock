@@ -259,7 +259,7 @@ dependencies = [
 requires-dist = [
     { name = "click", specifier = ">=8.1.3,<9" },
     { name = "cryptography", specifier = ">=47" },
-    { name = "erc7730", specifier = ">=1.0,<2" },
+    { name = "erc7730", git = "https://github.com/sourcifyeth/python-erc7730.git" },
     { name = "flake8", specifier = ">=7" },
     { name = "flake8-requirements", specifier = ">=2.1.0" },
     { name = "pytest", specifier = ">=7" },
@@ -285,8 +285,8 @@ wheels = [
 
 [[package]]
 name = "erc7730"
-version = "1.0.6"
-source = { registry = "https://pypi.org/simple" }
+version = "1.0.12.dev36+gccd51ad"
+source = { git = "https://github.com/sourcifyeth/python-erc7730.git#ccd51ad544e6625d89564a79258fa4e8d0846cce" }
 dependencies = [
     { name = "case-switcher" },
     { name = "eip712-clearsign" },
@@ -305,10 +305,6 @@ dependencies = [
     { name = "rich" },
     { name = "typer" },
     { name = "xdg-base-dirs" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a2/f3/b7501f546cb610558e5bd24de255fe970d231da6fce3e5427a2aa4fb912c/erc7730-1.0.6.tar.gz", hash = "sha256:2cdd81c1768a50b9ce7fc4826ec80c39396d4a7d5d9de3e1c23141ad0ff5239a", size = 7130103, upload-time = "2026-03-26T15:46:18.189Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/1a/7999012624641c0aefaae1aa7bd9a50490572e6ba840b998f0fe0e46eb1d/erc7730-1.0.6-py3-none-any.whl", hash = "sha256:6d327299712489f4b71c1730b2d93a401c4e02a37c449a330dfb4adfd9e06bca", size = 174760, upload-time = "2026-03-26T15:46:16.112Z" },
 ]
 
 [[package]]

@@ -55,3 +55,6 @@ exclude-newer-package = { urllib3 = "2026-05-08" }
 # TODO: remove once trezor >= 0.20.3 ships
 [tool.uv.sources]
 trezor = { git = "https://github.com/trezor/trezor-firmware.git", subdirectory = "python", rev = "7867262d7e1bfaec2bd8f4321b84b4ba1770bc9b" }
+# Sourcify's fork of LedgerHQ/python-erc7730, the one the clear-signing
+# registry's CI lints with.
+erc7730 = { git = "https://github.com/sourcifyeth/python-erc7730.git" }
