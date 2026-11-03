@@ -545,9 +545,16 @@ def test_addressname_on_tuple_still_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
-def test_tokenamount_no_token_skips_file():
+def _assert_unknown_token(field):
+    """A tokenAmount emitted with no token reference: firmware's unknown token."""
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert "token_path" not in field
+    assert "const_token_address" not in field
+
+
+def test_tokenamount_no_token_is_unknown_token():
     # tokenAmount on a numeric value with no token reference at all: the token is
-    # unknown and FORMATTER_TOKEN_AMOUNT is unconstructable on-device, so skip.
+    # unknown. Emitted with no token reference.
     desc = _descriptor(
         formats={
             "f(uint256 x)": {
@@ -555,10 +562,43 @@ def test_tokenamount_no_token_skips_file():
             }
         }
     )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    _assert_unknown_token(field)
+    assert "native_currency_address" not in field
+    assert [kind for _src, kind, _det in adjustments] == ["tokenamount-unknown-token"]
+
+
+@pytest.mark.parametrize(
+    "params, feature",
+    [
+        ({"tokenPath": ""}, "unresolvable-token-path"),
+        ({"token": ""}, "invalid-const-token"),
+        ({"token": 0}, "invalid-const-token"),
+    ],
+)
+def test_tokenamount_empty_token_reference_skips_file(params, feature):
+    # A present-but-empty tokenPath/token is a descriptor error, not "no token":
+    # it must not slip through as an unknown token.
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {
+                "fields": [
+                    {
+                        "path": "x",
+                        "label": "L",
+                        "format": "tokenAmount",
+                        "params": params,
+                    }
+                ]
+            }
+        }
+    )
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
+    assert {feat for _src, feat, _det in unsupported} == {feature}
 
 
 def test_tokenamount_on_bytes_skips_file():
@@ -727,13 +767,19 @@ def test_tokenamount_literal_zero_token_with_native_is_native_currency_address()
     assert field["native_currency_address"] == ["0" * 40]
 
 
-def test_tokenamount_literal_zero_token_without_native_skips_file():
-    unsupported: list = []
-    with pytest.raises(UnsupportedFeature):
-        build_display_formats(
-            _const_token_desc("0x" + "00" * 20), unsupported=unsupported
-        )
-    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
+def test_tokenamount_literal_zero_token_without_native_is_kept_and_logged():
+    # A literal zero token NOT declared native: the firmware finds no such
+    # token and shows an unknown token — faithful, so emitted, but flagged
+    # since it's likely a descriptor slip.
+    adjustments: list = []
+    [rec] = build_display_formats(
+        _const_token_desc("0x" + "00" * 20), adjustments=adjustments
+    )
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
+    assert field["const_token_address"] == "0" * 40
+    assert "native_currency_address" not in field
+    assert [kind for _src, kind, _det in adjustments] == ["null-token-not-native"]
 
 
 def test_tokenamount_const_token_keeps_threshold():
@@ -848,42 +894,109 @@ def _tokenamount_native_desc(native_addresses, constants=None):
     )
 
 
-def test_tokenamount_no_token_with_null_native_sets_const_token_address():
-    # No tokenPath/token: the token defaults to the null address.
-    # nativeCurrencyAddress lists the zero address, so const_token_address is
-    # set to zero and native_currency_address tells the firmware to render it
-    # as a native amount at runtime (e.g. lifi ...ToNative "Minimum to
-    # receive"). FORMATTER_TOKEN_AMOUNT is unconstructable without a token
-    # address, hence the explicit zero.
+def test_tokenamount_no_token_with_null_native_is_unknown_token():
+    # No tokenPath/token: there's no token address for nativeCurrencyAddress
+    # to match, so its zero entry doesn't apply and the token is unknown.
     desc = _tokenamount_native_desc(["0x" + "ee" * 20, "0x" + "00" * 20])
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
-    assert field["const_token_address"] == "0" * 40
+    _assert_unknown_token(field)
+    # Carried along but inert: there's no token address for it to match.
     assert field["native_currency_address"] == ["ee" * 20, "0" * 40]
-    assert "token_path" not in field
 
 
-def test_tokenamount_no_token_via_constant_null_sets_const_token_address():
-    # The zero-address sentinel may be a $.metadata.constants.* reference.
+def test_tokenamount_no_token_via_constant_null_is_unknown_token():
+    # Same with the zero-address sentinel as a $.metadata.constants.* reference.
     desc = _tokenamount_native_desc(
         ["$.metadata.constants.addressAsNull"],
         constants={"addressAsNull": "0x" + "00" * 20},
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
+    _assert_unknown_token(field)
+
+
+def test_tokenamount_shared_definition_null_native_needs_own_token_path():
+    # 1inch AggregationRouterV6 shape: a shared `minReceiveAmount` definition
+    # carries nativeCurrencyAddress [0xEeee…, 0x0]. `swap` adds a tokenPath
+    # when it refs it; `unoswap` refs it bare, because its output token is not
+    # in calldata. For `swap` the list applies to whatever `dstToken` holds
+    # (0x0 → native). For `unoswap` there's no token address for it to match,
+    # so it must come out as an unknown token, not as native.
+    native = ["$.metadata.constants.addressAsEth", "$.metadata.constants.addressAsNull"]
+    desc = _descriptor(
+        definitions={
+            "minReceiveAmount": {
+                "label": "Minimum to Receive",
+                "format": "tokenAmount",
+                "params": {"nativeCurrencyAddress": native},
+            }
+        },
+        constants={
+            "addressAsEth": "0x" + "ee" * 20,
+            "addressAsNull": "0x" + "00" * 20,
+        },
+        formats={
+            "swap(address dstToken, uint256 minReturn)": {
+                "fields": [
+                    {
+                        "path": "minReturn",
+                        "$ref": "$.display.definitions.minReceiveAmount",
+                        "params": {"tokenPath": "dstToken"},
+                        "visible": "always",
+                    }
+                ]
+            },
+            "unoswap(uint256 minReturn, uint256 dex)": {
+                "fields": [
+                    {
+                        "path": "minReturn",
+                        "$ref": "$.display.definitions.minReceiveAmount",
+                        "visible": "always",
+                    }
+                ]
+            },
+        },
+    )
+    swap, unoswap = build_display_formats(desc)
+    assert swap["func_sig"] == "0xd004f0f7"  # swap(address,uint256)
+    [field] = swap["field_definitions"]
     assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
-    assert field["const_token_address"] == "0" * 40
+    assert field["token_path"] == {"path": [0]}
+    assert field["native_currency_address"] == ["ee" * 20, "0" * 40]
+    assert "const_token_address" not in field
+    [field] = unoswap["field_definitions"]
+    _assert_unknown_token(field)
 
 
-def test_tokenamount_no_token_without_null_native_skips_file():
-    # No tokenPath and no zero-address sentinel -> the null token isn't declared
-    # native, so it's an unknown token we can't represent -> skip.
+def test_tokenamount_no_token_without_null_native_is_unknown_token():
     desc = _tokenamount_native_desc(["0x" + "ee" * 20])
-    unsupported: list = []
-    with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"tokenamount-unknown-token"}
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    _assert_unknown_token(field)
+
+
+def test_tokenamount_no_token_keeps_threshold():
+    # `threshold` compares the raw amount, so it needs no token to apply.
+    desc = _descriptor(
+        formats={
+            "f(uint256 x)": {
+                "fields": [
+                    {
+                        "path": "x",
+                        "label": "L",
+                        "format": "tokenAmount",
+                        "params": {"threshold": "0xff", "message": "Unlimited"},
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    _assert_unknown_token(field)
+    assert field["threshold"] == "ff"
+    assert field["threshold_message"] == "Unlimited"
 
 
 def test_tokenamount_invalid_native_currency_address_skips_file():
@@ -898,10 +1011,11 @@ def test_tokenamount_invalid_native_currency_address_skips_file():
     }
 
 
-def test_container_value_token_amount_native_sets_const_token_address():
-    # @.value is numeric (kind-compatible with tokenAmount). With no token but the
-    # zero address declared native, it resolves to const_token_address zero on
-    # the VALUE path, with native_currency_address for the firmware to key off.
+def test_container_value_token_amount_without_token_is_unknown_token():
+    # @.value is numeric (kind-compatible with tokenAmount). With no token
+    # reference there's no address for the zero native sentinel to match, so
+    # it's an unknown token on the VALUE path too. A native value is the
+    # `amount` format.
     desc = _descriptor(
         formats={
             "f()": {
@@ -919,8 +1033,7 @@ def test_container_value_token_amount_native_sets_const_token_address():
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
     assert field["path"] == {"container_path": "VALUE"}
-    assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
-    assert field["const_token_address"] == "0" * 40
+    _assert_unknown_token(field)
 
 
 def test_container_value_rejects_address_name():

@@ -82,17 +82,13 @@ def apply_token_amount_params(
 ) -> None:
     """Fill in FORMATTER_TOKEN_AMOUNT's token reference and threshold.
 
-    A token amount must know WHICH token it denominates. A descriptor names
-    the token one of three ways, tried in order:
+    A descriptor names the token one of three ways, tried in order:
 
       1. `tokenPath`  — the token's address is in calldata; emitted as a
          proto `token_path` the firmware walks.
       2. `token`      — a hardcoded address (or constants reference);
          emitted as `const_token_address`.
-      3. neither      — the token is the null (zero) address, valid only if
-         the descriptor declares the zero address a native-currency sentinel;
-         emitted as `const_token_address` (all-zero). Otherwise it's an
-         "unknown token" we can't render faithfully: DROP.
+      3. neither      — an unknown token: emitted with NO token reference.
     """
 
     def _apply_threshold() -> None:
@@ -131,7 +127,7 @@ def apply_token_amount_params(
 
     native_addresses = _resolve_native_currency_addresses(params, label, ctx.constants)
 
-    if params.get("tokenPath"):
+    if params.get("tokenPath") is not None:
         token_path_str = str(params["tokenPath"])
         try:
             tp_path, tp_kind = path_to_dict(token_path_str, ctx.inputs)
@@ -168,37 +164,30 @@ def apply_token_amount_params(
                 "unresolvable-token-path",
                 f"{token_path_str} is {tp_kind}, not an address (field {label!r})",
             )
-    elif params.get("token"):
+    elif params.get("token") is not None:
         const_addr = _resolve_address_ref(params["token"], ctx.constants)
         if const_addr is None:
             raise UnsupportedFeature(
                 "invalid-const-token", f"{params['token']!r} (field {label!r})"
             )
-        # A literal zero address is the null/native token, not an ERC-20:
-        # only valid if the descriptor declares it a native-currency sentinel
-        # (same requirement as the no-token case below).
         if int(const_addr, 16) == 0 and const_addr not in native_addresses:
-            raise UnsupportedFeature(
-                "tokenamount-unknown-token",
-                f"tokenAmount with null token (field {label!r})",
+            # Bad descriptor but spec allows. Good to log.
+            ctx.adjust(
+                "null-token-not-native",
+                f"token is the zero address but not in nativeCurrencyAddress "
+                f"— renders as an unknown token (field {label!r})",
             )
         out["const_token_address"] = const_addr
-    elif "0" * 40 in native_addresses:
-        # No token reference at all: the null token is native only if the
-        # zero address is declared a native-currency sentinel.
-        out["const_token_address"] = "0" * 40
     else:
-        raise UnsupportedFeature(
+        ctx.adjust(
             "tokenamount-unknown-token",
-            f"tokenAmount with no token reference (field {label!r})",
+            f"no tokenPath/token — renders as an unknown token (field {label!r})",
         )
 
     if native_addresses:
         out["native_currency_address"] = native_addresses
 
-    # `threshold` ("unlimited above this") is meaningless without a token.
-    if "token_path" in out or "const_token_address" in out:
-        _apply_threshold()
+    _apply_threshold()
 
 
 def apply_address_name_params(
