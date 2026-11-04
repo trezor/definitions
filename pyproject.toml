@@ -54,4 +54,4 @@ exclude-newer-package = { urllib3 = "2026-05-08" }
 # needed for the DefinitionPayload magic/version split for the v2 defs.
 # TODO: remove once trezor >= 0.20.3 ships
 [tool.uv.sources]
-trezor = { git = "https://github.com/trezor/trezor-firmware.git", subdirectory = "python", rev = "7867262d7e1bfaec2bd8f4321b84b4ba1770bc9b" }
+trezor = { git = "https://github.com/trezor/trezor-firmware.git", subdirectory = "python", rev = "5e7c07bad697b2328d219f1f9ad2803475f04c52" }
