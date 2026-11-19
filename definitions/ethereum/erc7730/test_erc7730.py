@@ -437,6 +437,69 @@ def test_lookup_address_serializes_to_proto():
     assert info.lookup_address is True
 
 
+# --- tokenTicker: rendered as addressName + lookup_address (adjustment) ---
+
+
+def test_token_ticker_becomes_address_name_with_lookup():
+    desc = _single_field_desc(
+        "f(address token)", {"path": "token", "label": "Token", "format": "tokenTicker"}
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert rec["field_definitions"] == [
+        {
+            "path": {"path": [0]},
+            "label": "Token",
+            "formatter": "FORMATTER_ADDRESS_NAME",
+            "lookup_address": True,
+        }
+    ]
+    assert [kind for _src, kind, _det in adjustments] == [
+        "token-ticker-as-address-name"
+    ]
+
+
+def test_token_ticker_on_uint_retypes_leaf_like_address_name():
+    desc = _single_field_desc(
+        "f(uint256 token)", {"path": "token", "label": "Token", "format": "tokenTicker"}
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert rec["parameter_definitions"] == [{"atomic": "ABI_ADDRESS"}]
+    assert rec["field_definitions"][0]["lookup_address"] is True
+    assert [kind for _src, kind, _det in adjustments] == [
+        "address-in-numeric",
+        "token-ticker-as-address-name",
+    ]
+
+
+def test_token_ticker_over_array_iteration():
+    desc = _single_field_desc(
+        "f(address[] tokens)",
+        {"path": "tokens.[]", "label": "Tokens", "format": "tokenTicker"},
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
+    assert field["lookup_address"] is True
+
+
+def test_token_ticker_cross_chain_skips_file():
+    desc = _single_field_desc(
+        "f(address token)",
+        {
+            "path": "token",
+            "label": "Token",
+            "format": "tokenTicker",
+            "params": {"chainId": 10},
+        },
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"cross-chain-token"}
+
+
 def test_addressname_on_uint_retypes_leaf_to_address():
     # An address packed into a uint (1inch pools, maker order receivers): the
     # field is kept, the ABI leaf is retyped so the firmware decodes an address,

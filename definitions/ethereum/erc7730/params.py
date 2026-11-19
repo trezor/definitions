@@ -212,6 +212,34 @@ def apply_address_name_params(
         out["lookup_address"] = True
 
 
+def apply_token_ticker_params(
+    out: ERC7730Field,
+    params: dict[str, Any],
+    path_str: str,
+    label: str,
+    ctx: _FormatContext,
+) -> None:
+    """Render a `tokenTicker` field as addressName with a name lookup.
+
+    The spec's only param, `chainId`, names the chain the token lives on
+    (cross-chain swaps). The device resolves names on the transaction's chain,
+    so it could show the wrong token — DROP rather than mislabel.
+    TODO: when the device supports cross-chain token lookups, remove this
+    check and emit the `chainId` in the proto.
+    """
+    if params.get("chainId") is not None:
+        raise UnsupportedFeature(
+            "cross-chain-token",
+            f"tokenTicker chainId={params['chainId']!r} (field {label!r})",
+        )
+    out["lookup_address"] = True
+    ctx.adjust(
+        "token-ticker-as-address-name",
+        f"{path_str}: tokenTicker rendered as addressName with name lookup "
+        f"(field {label!r})",
+    )
+
+
 def apply_unit_params(
     out: ERC7730Field, params: dict[str, Any], label: str, ctx: _FormatContext
 ) -> None:
