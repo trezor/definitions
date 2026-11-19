@@ -52,6 +52,14 @@ def _descriptor(
 # =====================================================================
 
 
+def test_path_to_dict_chain_id_container():
+    # Not parsed by the `erc7730` library yet; mapped verbatim.
+    assert path_to_dict("@.chainId", _inputs("f(address recipient)")) == (
+        {"container_path": "CHAIN_ID"},
+        KIND_NUMERIC,
+    )
+
+
 def test_path_to_dict_address():
     assert path_to_dict("recipient", _inputs("f(address recipient)")) == (
         {"path": [0]},
@@ -484,20 +492,26 @@ def test_token_ticker_over_array_iteration():
     assert field["lookup_address"] is True
 
 
-def test_token_ticker_cross_chain_skips_file():
+@pytest.mark.parametrize(
+    "params, expected",
+    [
+        ({"chainId": 10}, {"const_chain_id": 10}),
+        ({"chainIdPath": "dstChain"}, {"chain_id_path": {"path": [1]}}),
+    ],
+    ids=["chainId", "chainIdPath"],
+)
+def test_token_ticker_cross_chain_emits_chain_id(params, expected):
+    # Cross-chain tickers look the name up on the token's own chain.
     desc = _single_field_desc(
-        "f(address token)",
-        {
-            "path": "token",
-            "label": "Token",
-            "format": "tokenTicker",
-            "params": {"chainId": 10},
-        },
+        "f(address token, uint256 dstChain)",
+        {"path": "token", "label": "Token", "format": "tokenTicker", "params": params},
     )
-    unsupported: list = []
-    with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"cross-chain-token"}
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
+    assert field["lookup_address"] is True
+    assert {k: field[k] for k in expected} == expected
+    assert not {"const_chain_id", "chain_id_path"} - expected.keys() & field.keys()
 
 
 def test_addressname_on_uint_retypes_leaf_to_address():
@@ -2096,18 +2110,18 @@ def test_calldata_without_callee_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"calldata-missing-callee"}
 
 
-def test_calldata_extra_params_ignored_and_logged():
-    # amountPath/spenderPath have no proto representation; the nested call
+def test_calldata_unknown_params_ignored_and_logged():
+    # Params outside the spec have no proto representation; the nested call
     # still renders fully via the callee's display format.
     desc = _descriptor(
         formats={
-            "execute(address target, bytes data, uint256 amount)": {
+            "execute(address target, bytes data)": {
                 "fields": [
                     {
                         "path": "data",
                         "label": "Call",
                         "format": "calldata",
-                        "params": {"calleePath": "target", "amountPath": "amount"},
+                        "params": {"calleePath": "target", "bogus": 1},
                     }
                 ]
             }
@@ -2116,7 +2130,7 @@ def test_calldata_extra_params_ignored_and_logged():
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
     assert [kind for _src, kind, _det in adjustments] == ["calldata-params-ignored"]
-    assert "amountPath" in adjustments[0][2]
+    assert "bogus" in adjustments[0][2]
 
 
 def test_calldata_callee_in_packed_uint_is_retyped():
@@ -2176,6 +2190,389 @@ def test_calldata_serializes_to_proto():
     )
     assert list(info.callee_path.path) == [0]
     assert info.selector == bytes.fromhex("12345678")
+
+
+_CALLDATA_SIG = (
+    "execute(address target, bytes data, uint256 amount, address safe, "
+    "uint256 packed, string name, bytes4 sel, bytes32 word)"
+)
+
+
+def _calldata_desc(params, constants=None):
+    return _descriptor(
+        formats={
+            _CALLDATA_SIG: {
+                "fields": [
+                    {
+                        "path": "data",
+                        "label": "Call",
+                        "format": "calldata",
+                        "params": params,
+                    }
+                ]
+            }
+        },
+        constants=constants,
+    )
+
+
+@pytest.mark.parametrize(
+    "params, constants, expected",
+    [
+        (
+            {"callee": "0x" + "AB" * 20},
+            None,
+            {"const_callee": "ab" * 20},
+        ),
+        (
+            {"callee": "$.metadata.constants.router"},
+            {"router": "0x" + "cd" * 20},
+            {"const_callee": "cd" * 20},
+        ),
+        (
+            {"calleePath": "target", "amountPath": "amount"},
+            None,
+            {"callee_path": {"path": [0]}, "amount_path": {"path": [2]}},
+        ),
+        (
+            {"calleePath": "target", "amountPath": "@.value"},
+            None,
+            {"callee_path": {"path": [0]}, "amount_path": {"container_path": "VALUE"}},
+        ),
+        (
+            {"calleePath": "target", "spenderPath": "safe"},
+            None,
+            {"callee_path": {"path": [0]}, "spender_path": {"path": [3]}},
+        ),
+        (
+            {"calleePath": "target", "spenderPath": "@.from"},
+            None,
+            {"callee_path": {"path": [0]}, "spender_path": {"container_path": "FROM"}},
+        ),
+        (
+            {"calleePath": "target", "spender": "0x" + "ef" * 20},
+            None,
+            {"callee_path": {"path": [0]}, "const_spender": "ef" * 20},
+        ),
+        (
+            {"calleePath": "target", "amount": 10**18},
+            None,
+            {"callee_path": {"path": [0]}, "const_amount": "0de0b6b3a7640000"},
+        ),
+        (
+            {"calleePath": "target", "amount": 0},
+            None,
+            {"callee_path": {"path": [0]}, "const_amount": "00"},
+        ),
+        (
+            {"calleePath": "target", "amount": 2**256 - 1},
+            None,
+            {"callee_path": {"path": [0]}, "const_amount": "ff" * 32},
+        ),
+        (
+            {"calleePath": "target", "amount": "$.metadata.constants.fee"},
+            {"fee": "0x100"},
+            {"callee_path": {"path": [0]}, "const_amount": "0100"},
+        ),
+        (
+            {"calleePath": "target", "selectorPath": "sel"},
+            None,
+            {"callee_path": {"path": [0]}, "selector_path": {"path": [6]}},
+        ),
+        (
+            {"calleePath": "target", "selectorPath": "word.[0:4]"},
+            None,
+            {
+                "callee_path": {"path": [0]},
+                "selector_path": {"path": [7], "slice_start": 0, "slice_end": 4},
+            },
+        ),
+        (
+            {"calleePath": "target", "selectorPath": "data.[:4]"},
+            None,
+            {
+                "callee_path": {"path": [0]},
+                "selector_path": {"path": [1], "slice_end": 4},
+            },
+        ),
+    ],
+    ids=[
+        "const-callee",
+        "const-callee-ref",
+        "amountPath",
+        "amountPath-container",
+        "spenderPath",
+        "spenderPath-container",
+        "const-spender",
+        "const-amount",
+        "const-amount-zero",
+        "const-amount-uint256-max",
+        "const-amount-ref",
+        "selectorPath-bytes4",
+        "selectorPath-word-slice",
+        "selectorPath-blob-slice",
+    ],
+)
+def test_calldata_params_emitted(params, constants, expected):
+    adjustments: list = []
+    [rec] = build_display_formats(
+        _calldata_desc(params, constants), adjustments=adjustments
+    )
+    [field] = rec["field_definitions"]
+    emitted = {
+        k: field[k]
+        for k in (
+            "callee_path",
+            "const_callee",
+            "selector",
+            "selector_path",
+            "amount_path",
+            "const_amount",
+            "spender_path",
+            "const_spender",
+        )
+        if k in field
+    }
+    assert emitted == expected
+    assert adjustments == []
+
+
+def test_calldata_spender_in_packed_uint_is_retyped():
+    adjustments: list = []
+    [rec] = build_display_formats(
+        _calldata_desc({"calleePath": "target", "spenderPath": "packed"}),
+        adjustments=adjustments,
+    )
+    assert rec["field_definitions"][0]["spender_path"] == {"path": [4]}
+    assert rec["parameter_definitions"][4] == {"atomic": "ABI_ADDRESS"}
+    assert [kind for _src, kind, _det in adjustments] == ["spender-address-in-numeric"]
+
+
+@pytest.mark.parametrize(
+    "params, feature",
+    [
+        ({"callee": "0x" + "ab" * 20, "calleePath": "target"}, "conflicting-params"),
+        (
+            {"calleePath": "target", "amount": 1, "amountPath": "amount"},
+            "conflicting-params",
+        ),
+        (
+            {
+                "calleePath": "target",
+                "spender": "0x" + "ab" * 20,
+                "spenderPath": "safe",
+            },
+            "conflicting-params",
+        ),
+        (
+            {"calleePath": "target", "selector": "0x12345678", "selectorPath": "name"},
+            "conflicting-params",
+        ),
+        ({"callee": "0x1234"}, "invalid-const-callee"),
+        (
+            {"callee": {"$ref": "$.metadata.maps.x", "keyPath": "@.chainId"}},
+            "invalid-const-callee",
+        ),
+        (
+            {"calleePath": "target", "selectorPath": "name"},
+            "unresolvable-selector-path",
+        ),
+        (
+            {"calleePath": "target", "selectorPath": "word"},
+            "unresolvable-selector-path",
+        ),
+        (
+            {"calleePath": "target", "selectorPath": "word.[0:8]"},
+            "unresolvable-selector-path",
+        ),
+        (
+            {"calleePath": "target", "selectorPath": "nope"},
+            "unresolvable-selector-path",
+        ),
+        ({"calleePath": "target", "amount": -1}, "invalid-amount"),
+        ({"calleePath": "target", "amount": 2**256}, "invalid-amount"),
+        ({"calleePath": "target", "amount": True}, "invalid-amount"),
+        (
+            {"calleePath": "target", "amount": "$.metadata.constants.missing"},
+            "unresolvable-amount",
+        ),
+        ({"calleePath": "target", "amountPath": "safe"}, "unresolvable-amount-path"),
+        ({"calleePath": "target", "amountPath": "nope"}, "unresolvable-amount-path"),
+        ({"calleePath": "target", "spenderPath": "name"}, "unresolvable-spender-path"),
+        ({"calleePath": "target", "spender": "nope"}, "invalid-const-spender"),
+    ],
+    ids=[
+        "callee-both",
+        "amount-both",
+        "spender-both",
+        "selector-both",
+        "bad-const-callee",
+        "callee-map-ref",
+        "selectorPath-string",
+        "selectorPath-bytes32",
+        "selectorPath-8-byte-slice",
+        "selectorPath-unknown",
+        "amount-negative",
+        "amount-over-uint256",
+        "amount-bool",
+        "amount-missing-constant",
+        "amountPath-address",
+        "amountPath-unknown",
+        "spenderPath-string",
+        "bad-const-spender",
+    ],
+)
+def test_calldata_bad_params_skip_file(params, feature):
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(_calldata_desc(params), unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {feature}
+
+
+def test_calldata_new_params_serialize_to_proto():
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [1]},
+            "label": "Call",
+            "formatter": "FORMATTER_CALLDATA",
+            "const_callee": "ab" * 20,
+            "selector_path": {"path": [6]},
+            "const_amount": "0de0b6b3a7640000",
+            "amount_path": {"container_path": "VALUE"},
+            "spender_path": {"path": [3]},
+            "const_spender": "cd" * 20,
+        }
+    )
+    assert info.callee_path is None
+    assert info.const_callee == bytes.fromhex("ab" * 20)
+    assert list(info.selector_path.path) == [6]
+    assert info.selector is None
+    assert int.from_bytes(info.const_amount, "big") == 10**18
+    assert info.amount_path.container_path == 2  # VALUE
+    assert list(info.spender_path.path) == [3]
+    assert info.const_spender == bytes.fromhex("cd" * 20)
+
+
+# =====================================================================
+#                       token chain id (tokenAmount)
+# =====================================================================
+
+
+def _token_chain_desc(params, constants=None):
+    return _descriptor(
+        formats={
+            "swap(address token, uint256 amount, uint64 dstChain, address to)": {
+                "fields": [
+                    {
+                        "path": "amount",
+                        "label": "Amount",
+                        "format": "tokenAmount",
+                        "params": {"tokenPath": "token", **params},
+                    }
+                ]
+            }
+        },
+        constants=constants,
+    )
+
+
+@pytest.mark.parametrize(
+    "params, constants, expected",
+    [
+        ({"chainId": 42161}, None, {"const_chain_id": 42161}),
+        ({"chainId": "0xa"}, None, {"const_chain_id": 10}),
+        ({"chainId": 2**64 - 1}, None, {"const_chain_id": 2**64 - 1}),
+        (
+            {"chainId": "$.metadata.constants.dst"},
+            {"dst": 8453},
+            {"const_chain_id": 8453},
+        ),
+        ({"chainIdPath": "dstChain"}, None, {"chain_id_path": {"path": [2]}}),
+        (
+            {"chainIdPath": "@.chainId"},
+            None,
+            {"chain_id_path": {"container_path": "CHAIN_ID"}},
+        ),
+    ],
+    ids=["int", "hex-str", "uint64-max", "constant-ref", "path", "container"],
+)
+def test_token_amount_chain_id_emitted(params, constants, expected):
+    [rec] = build_display_formats(_token_chain_desc(params, constants))
+    [field] = rec["field_definitions"]
+    assert field["token_path"] == {"path": [0]}
+    emitted = {k: field[k] for k in ("const_chain_id", "chain_id_path") if k in field}
+    assert emitted == expected
+
+
+@pytest.mark.parametrize(
+    "params, feature",
+    [
+        ({"chainId": 1, "chainIdPath": "dstChain"}, "conflicting-params"),
+        ({"chainId": 0}, "invalid-chain-id"),
+        ({"chainId": -1}, "invalid-chain-id"),
+        ({"chainId": 2**64}, "invalid-chain-id"),
+        ({"chainId": "mainnet"}, "invalid-chain-id"),
+        ({"chainId": True}, "invalid-chain-id"),
+        ({"chainId": "$.metadata.constants.missing"}, "unresolvable-chain-id"),
+        (
+            {"chainId": {"$ref": "$.metadata.maps.dst", "keyPath": "@.chainId"}},
+            "invalid-chain-id",
+        ),
+        ({"chainIdPath": "to"}, "unresolvable-chain-id-path"),
+        ({"chainIdPath": "@.from"}, "unresolvable-chain-id-path"),
+        ({"chainIdPath": "nope"}, "unresolvable-chain-id-path"),
+        ({"token": "0x" + "ab" * 20}, "conflicting-params"),  # + tokenPath
+    ],
+    ids=[
+        "both",
+        "zero",
+        "negative",
+        "over-uint64",
+        "non-numeric",
+        "bool",
+        "missing-constant",
+        "map-ref",
+        "path-address",
+        "path-container-address",
+        "path-unknown",
+        "token-and-tokenPath",
+    ],
+)
+def test_token_amount_bad_chain_id_skips_file(params, feature):
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(_token_chain_desc(params), unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {feature}
+
+
+def test_chain_id_serializes_to_proto():
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [1]},
+            "label": "Amount",
+            "formatter": "FORMATTER_TOKEN_AMOUNT",
+            "token_path": {"path": [0]},
+            "chain_id_path": {"container_path": "CHAIN_ID"},
+        }
+    )
+    assert info.chain_id_path.container_path == 4  # CHAIN_ID
+    assert info.const_chain_id is None
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [1]},
+            "label": "Amount",
+            "formatter": "FORMATTER_TOKEN_AMOUNT",
+            "const_token_address": "ab" * 20,
+            "const_chain_id": 2**64 - 1,
+        }
+    )
+    assert info.const_chain_id == 2**64 - 1
+    assert info.chain_id_path is None
 
 
 # =====================================================================
