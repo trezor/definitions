@@ -12,18 +12,21 @@ from __future__ import annotations
 
 from typing import Any
 
-from ..types import ERC7730Field
+from ..types import ERC7730Field, ERC7730Path
 from .erc7730 import (
     _FORMATTER_MAP,
     KIND_ADDRESS,
     KIND_BYTES,
     KIND_NUMERIC,
     UnsupportedFeature,
+    _abi_leaf_at,
     _descriptor_path_parts,
     _FormatContext,
     _is_hex,
     _narrow_word_slice_to_address,
+    _nominal_slice_length,
     _normalize_hex,
+    _parse_int,
     _resolve_constant,
     _retype_uint_leaf_as_address,
     path_to_dict,
@@ -74,6 +77,165 @@ def _resolve_native_currency_addresses(
     return addresses
 
 
+def _reject_conflicting(
+    params: dict[str, Any], const_key: str, path_key: str, label: str
+) -> None:
+    """DROP a field setting both a constant param and its `*Path` twin.
+
+    The spec makes every such pair mutually exclusive (`not required: [a, b]`),
+    and picking one silently would render something the author didn't write.
+    """
+    if params.get(const_key) is not None and params.get(path_key) is not None:
+        raise UnsupportedFeature(
+            "conflicting-params", f"both {const_key} and {path_key} (field {label!r})"
+        )
+
+
+def _resolve_const_address(
+    value: Any, param: str, label: str, ctx: _FormatContext
+) -> str:
+    """Resolve a constant address param (`token`, `callee`, `spender`)."""
+    resolved = _resolve_address_ref(value, ctx.constants)
+    if resolved is None:
+        raise UnsupportedFeature(
+            f"invalid-const-{param}", f"{value!r} (field {label!r})"
+        )
+    return resolved
+
+
+def _resolve_address_path(
+    path_str: str, what: str, label: str, ctx: _FormatContext
+) -> ERC7730Path:
+    """Resolve a `*Path` param that must point at an address.
+
+    Shared by `tokenPath`, `calleePath` and `spenderPath`. Besides a plain
+    address leaf, two packed-address patterns are accepted (and logged):
+    a uint leaf retyped to address (section 4b, e.g. 1inch
+    `order.takerAsset`), and a 32-byte word slice narrowed to its low 20
+    bytes (paraswap `#.data.[292:324]`).
+    """
+    try:
+        path, kind = path_to_dict(path_str, ctx.inputs)
+    except UnsupportedFeature as e:
+        raise UnsupportedFeature(
+            f"unresolvable-{what}-path",
+            f"{path_str}: [{e.feature}] {e.detail} (field {label!r})",
+        ) from None
+    if kind == KIND_ADDRESS:
+        return path
+    if (
+        kind == KIND_NUMERIC
+        and "path" in path
+        and _retype_uint_leaf_as_address(ctx.parameter_definitions, path["path"])
+    ):
+        ctx.adjust(
+            f"{what}-address-in-numeric",
+            f"{path_str} is numeric but used as {what} address — "
+            f"ABI leaf retyped to address (field {label!r})",
+        )
+        return path
+    if kind == KIND_BYTES and _narrow_word_slice_to_address(path):
+        ctx.adjust(
+            "address-in-word-slice",
+            f"{path_str} slices a 32-byte word — narrowed to its low "
+            f"20 bytes (field {label!r})",
+        )
+        return path
+    raise UnsupportedFeature(
+        f"unresolvable-{what}-path",
+        f"{path_str} is {kind}, not an address (field {label!r})",
+    )
+
+
+def _resolve_numeric_path(
+    path_str: str, what: str, label: str, ctx: _FormatContext
+) -> ERC7730Path:
+    """Resolve a `*Path` param that must point at an integer (or `@.value` /
+    `@.chainId`). Shared by `chainIdPath` and `amountPath`."""
+    try:
+        path, kind = path_to_dict(path_str, ctx.inputs)
+    except UnsupportedFeature as e:
+        raise UnsupportedFeature(
+            f"unresolvable-{what}-path",
+            f"{path_str}: [{e.feature}] {e.detail} (field {label!r})",
+        ) from None
+    if kind != KIND_NUMERIC:
+        raise UnsupportedFeature(
+            f"unresolvable-{what}-path",
+            f"{path_str} is {kind}, not numeric (field {label!r})",
+        )
+    return path
+
+
+def _resolve_const_int(
+    raw: Any, what: str, label: str, ctx: _FormatContext, lo: int, hi: int
+) -> int:
+    """Resolve a constant integer param (`chainId`, `amount`) into [lo, hi).
+
+    `raw` is a JSON integer, a decimal / `0x`-hex string, or a
+    `$.metadata.constants.*` reference to one.
+    """
+    value = raw
+    if isinstance(raw, str) and raw.startswith("$."):
+        value = _resolve_constant(raw, ctx.constants)
+        if value is None:
+            raise UnsupportedFeature(f"unresolvable-{what}", f"{raw} (field {label!r})")
+    n = None if isinstance(value, bool) else _parse_int(value)
+    if n is None or not lo <= n < hi:
+        raise UnsupportedFeature(f"invalid-{what}", f"{raw!r} (field {label!r})")
+    return n
+
+
+def _resolve_selector_path(
+    path_str: str, label: str, ctx: _FormatContext
+) -> ERC7730Path:
+    """Resolve `selectorPath`: a `bytes4` leaf, or any slice of exactly 4 bytes."""
+    try:
+        path, _kind = path_to_dict(path_str, ctx.inputs)
+    except UnsupportedFeature as e:
+        raise UnsupportedFeature(
+            "unresolvable-selector-path",
+            f"{path_str}: [{e.feature}] {e.detail} (field {label!r})",
+        ) from None
+    if "path" in path:
+        if "slice_start" in path or "slice_end" in path:
+            n = _nominal_slice_length(path.get("slice_start"), path.get("slice_end"))
+            if n == 4:
+                return path
+        else:
+            node = _abi_leaf_at(ctx.parameter_definitions, list(path["path"]))
+            if (node or {}).get("atomic") == "ABI_BYTES4":
+                return path
+    raise UnsupportedFeature(
+        "unresolvable-selector-path",
+        f"{path_str} is not a 4-byte selector (field {label!r})",
+    )
+
+
+def _apply_chain_id(
+    out: ERC7730Field, params: dict[str, Any], label: str, ctx: _FormatContext
+) -> None:
+    """Fill in the token's chain from `chainId` / `chainIdPath`.
+
+    Used by `tokenAmount` and `tokenTicker` for cross-chain swaps, where the
+    token lives on a chain other than the transaction's. `chainIdPath` becomes
+    `chain_id_path` (a numeric calldata leaf, or `@.chainId`); `chainId` — a
+    literal or `$.metadata.constants.*` reference — becomes `const_chain_id`
+    (proto uint64, so 1..2**64-1). Absent both, the firmware uses the
+    transaction's chain.
+    """
+    _reject_conflicting(params, "chainId", "chainIdPath", label)
+    if params.get("chainIdPath") is not None:
+        out["chain_id_path"] = _resolve_numeric_path(
+            str(params["chainIdPath"]), "chain-id", label, ctx
+        )
+        return
+    if params.get("chainId") is not None:
+        out["const_chain_id"] = _resolve_const_int(
+            params["chainId"], "chain-id", label, ctx, 1, 2**64
+        )
+
+
 def apply_token_amount_params(
     out: ERC7730Field,
     params: dict[str, Any],
@@ -89,6 +251,8 @@ def apply_token_amount_params(
       2. `token`      — a hardcoded address (or constants reference);
          emitted as `const_token_address`.
       3. neither      — an unknown token: emitted with NO token reference.
+
+    `chainId` / `chainIdPath` name the token's chain (see `_apply_chain_id`).
     """
 
     def _apply_threshold() -> None:
@@ -125,51 +289,15 @@ def apply_token_amount_params(
         if message is not None:
             out["threshold_message"] = str(message)
 
+    _reject_conflicting(params, "token", "tokenPath", label)
     native_addresses = _resolve_native_currency_addresses(params, label, ctx.constants)
 
     if params.get("tokenPath") is not None:
-        token_path_str = str(params["tokenPath"])
-        try:
-            tp_path, tp_kind = path_to_dict(token_path_str, ctx.inputs)
-        except UnsupportedFeature as e:
-            raise UnsupportedFeature(
-                "unresolvable-token-path",
-                f"{token_path_str}: [{e.feature}] {e.detail} (field {label!r})",
-            ) from None
-        if tp_kind == KIND_ADDRESS:
-            out["token_path"] = tp_path
-        elif (
-            tp_kind == KIND_NUMERIC
-            and "path" in tp_path
-            and _retype_uint_leaf_as_address(ctx.parameter_definitions, tp_path["path"])
-        ):
-            # Packed-address pattern (section 4b), e.g. 1inch `order.takerAsset`.
-            out["token_path"] = tp_path
-            ctx.adjust(
-                "token-address-in-numeric",
-                f"{token_path_str} is numeric but used as token address — "
-                f"ABI leaf retyped to address (field {label!r})",
-            )
-        elif tp_kind == KIND_BYTES and _narrow_word_slice_to_address(tp_path):
-            # A 32-byte word slice (paraswap `#.data.[292:324]`): the token
-            # address is the word's low 20 bytes.
-            out["token_path"] = tp_path
-            ctx.adjust(
-                "address-in-word-slice",
-                f"{token_path_str} slices a 32-byte word — narrowed to its "
-                f"low 20 bytes (field {label!r})",
-            )
-        else:
-            raise UnsupportedFeature(
-                "unresolvable-token-path",
-                f"{token_path_str} is {tp_kind}, not an address (field {label!r})",
-            )
+        out["token_path"] = _resolve_address_path(
+            str(params["tokenPath"]), "token", label, ctx
+        )
     elif params.get("token") is not None:
-        const_addr = _resolve_address_ref(params["token"], ctx.constants)
-        if const_addr is None:
-            raise UnsupportedFeature(
-                "invalid-const-token", f"{params['token']!r} (field {label!r})"
-            )
+        const_addr = _resolve_const_address(params["token"], "token", label, ctx)
         if int(const_addr, 16) == 0 and const_addr not in native_addresses:
             # Bad descriptor but spec allows. Good to log.
             ctx.adjust(
@@ -187,6 +315,7 @@ def apply_token_amount_params(
     if native_addresses:
         out["native_currency_address"] = native_addresses
 
+    _apply_chain_id(out, params, label, ctx)
     _apply_threshold()
 
 
@@ -221,17 +350,11 @@ def apply_token_ticker_params(
 ) -> None:
     """Render a `tokenTicker` field as addressName with a name lookup.
 
-    The spec's only param, `chainId`, names the chain the token lives on
-    (cross-chain swaps). The device resolves names on the transaction's chain,
-    so it could show the wrong token — DROP rather than mislabel.
-    TODO: when the device supports cross-chain token lookups, remove this
-    check and emit the `chainId` in the proto.
+    The spec's only params, `chainId` / `chainIdPath`, name the chain the
+    token lives on (cross-chain swaps); they ride on the field as
+    `const_chain_id` / `chain_id_path` so the name is looked up on that chain.
     """
-    if params.get("chainId") is not None:
-        raise UnsupportedFeature(
-            "cross-chain-token",
-            f"tokenTicker chainId={params['chainId']!r} (field {label!r})",
-        )
+    _apply_chain_id(out, params, label, ctx)
     out["lookup_address"] = True
     ctx.adjust(
         "token-ticker-as-address-name",
@@ -294,6 +417,20 @@ def apply_date_params(
         )
 
 
+_CALLDATA_PARAMS = frozenset(
+    {
+        "callee",
+        "calleePath",
+        "selector",
+        "selectorPath",
+        "amount",
+        "amountPath",
+        "spender",
+        "spenderPath",
+    }
+)
+
+
 def apply_calldata_params(
     out: ERC7730Field,
     params: dict[str, Any],
@@ -301,59 +438,41 @@ def apply_calldata_params(
     label: str,
     ctx: _FormatContext,
 ) -> None:
-    """Fill in FORMATTER_CALLDATA's callee path and selector.
+    """Fill in FORMATTER_CALLDATA's callee, selector and inner container values.
 
     The embedded calldata is rendered with the *called contract's* display
-    format, so the firmware must know the callee address: `calleePath` is
-    required (the firmware raises without it). When the embedded blob is
-    args-only, `selector` names the nested function's 4-byte selector.
+    format, so the callee is required: `calleePath` -> `callee_path`, or a
+    constant `callee` -> `const_callee`. When the embedded blob is args-only,
+    the nested function's 4-byte selector comes from `selector` (constant)
+    or `selectorPath` -> `selector_path` (a `bytes4` leaf or 4-byte slice).
 
-    Params beyond those two (`amountPath`, `spenderPath`, …) have no proto
-    representation; the nested call still renders in full via the callee's
-    display format, so they are dropped and logged as an adjustment rather
-    than dropping the field.
+    The inner call's container values: `amountPath` -> `amount_path` / constant
+    `amount` -> `const_amount` (inner `@.value`; minimal big-endian uint256,
+    like `threshold`), `spenderPath` -> `spender_path` / constant `spender` ->
+    `const_spender` (inner `@.from`).
     """
-    callee_str = params.get("calleePath")
-    if not callee_str:
-        raise UnsupportedFeature(
-            "calldata-missing-callee", f"{path_str} (field {label!r})"
+    for const_key in ("callee", "selector", "amount", "spender"):
+        _reject_conflicting(params, const_key, f"{const_key}Path", label)
+
+    if params.get("calleePath"):
+        out["callee_path"] = _resolve_address_path(
+            str(params["calleePath"]), "callee", label, ctx
         )
-    try:
-        cp_path, cp_kind = path_to_dict(str(callee_str), ctx.inputs)
-    except UnsupportedFeature as e:
-        raise UnsupportedFeature(
-            "unresolvable-callee-path",
-            f"{callee_str}: [{e.feature}] {e.detail} (field {label!r})",
-        ) from None
-    if cp_kind == KIND_ADDRESS:
-        out["callee_path"] = cp_path
-    elif (
-        cp_kind == KIND_NUMERIC
-        and "path" in cp_path
-        and _retype_uint_leaf_as_address(ctx.parameter_definitions, cp_path["path"])
-    ):
-        # Packed-address pattern (section 4b), same as tokenPath.
-        out["callee_path"] = cp_path
-        ctx.adjust(
-            "callee-address-in-numeric",
-            f"{callee_str} is numeric but used as callee address — "
-            f"ABI leaf retyped to address (field {label!r})",
-        )
-    elif cp_kind == KIND_BYTES and _narrow_word_slice_to_address(cp_path):
-        out["callee_path"] = cp_path
-        ctx.adjust(
-            "address-in-word-slice",
-            f"{callee_str} slices a 32-byte word — narrowed to its low "
-            f"20 bytes (field {label!r})",
+    elif params.get("callee") is not None:
+        out["const_callee"] = _resolve_const_address(
+            params["callee"], "callee", label, ctx
         )
     else:
         raise UnsupportedFeature(
-            "unresolvable-callee-path",
-            f"{callee_str} is {cp_kind}, not an address (field {label!r})",
+            "calldata-missing-callee", f"{path_str} (field {label!r})"
         )
 
     selector = params.get("selector")
-    if selector is not None:
+    if params.get("selectorPath") is not None:
+        out["selector_path"] = _resolve_selector_path(
+            str(params["selectorPath"]), label, ctx
+        )
+    elif selector is not None:
         normalized = _normalize_hex(str(selector))
         if len(normalized) != 8 or not _is_hex(normalized):
             raise UnsupportedFeature(
@@ -361,7 +480,24 @@ def apply_calldata_params(
             )
         out["selector"] = normalized
 
-    ignored = sorted(set(params) - {"calleePath", "selector"})
+    if params.get("amountPath") is not None:
+        out["amount_path"] = _resolve_numeric_path(
+            str(params["amountPath"]), "amount", label, ctx
+        )
+    elif params.get("amount") is not None:
+        amount = _resolve_const_int(params["amount"], "amount", label, ctx, 0, 2**256)
+        out["const_amount"] = _normalize_hex(hex(amount))
+
+    if params.get("spenderPath") is not None:
+        out["spender_path"] = _resolve_address_path(
+            str(params["spenderPath"]), "spender", label, ctx
+        )
+    elif params.get("spender") is not None:
+        out["const_spender"] = _resolve_const_address(
+            params["spender"], "spender", label, ctx
+        )
+
+    ignored = sorted(set(params) - _CALLDATA_PARAMS)
     if ignored:
         ctx.adjust(
             "calldata-params-ignored",

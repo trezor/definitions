@@ -57,7 +57,7 @@ ABIValue = _AtomicABI | _DynamicABI | _TupleABI | _ArrayABI
 
 
 class _ContainerPath(t.TypedDict):
-    container_path: str  # "FROM" | "VALUE" | "TO"
+    container_path: str  # "FROM" | "VALUE" | "TO" | "CHAIN_ID"
 
 
 class _DataPath(t.TypedDict):
@@ -93,6 +93,11 @@ class ERC7730Field(t.TypedDict):
         list[str]
     ]  # hex (no 0x prefix), 20 bytes each
 
+    # Chain the token lives on (tokenAmount / tokenTicker), mirroring
+    # token_path / const_token_address. Absent: the transaction's chain.
+    chain_id_path: t.NotRequired[ERC7730Path]
+    const_chain_id: t.NotRequired[int]  # uint64
+
     # UnitFormatter params
     decimals: t.NotRequired[int]
     base: t.NotRequired[str]
@@ -100,7 +105,14 @@ class ERC7730Field(t.TypedDict):
 
     # CalldataFormatter params
     callee_path: t.NotRequired[ERC7730Path]
+    const_callee: t.NotRequired[str]  # hex (no 0x prefix), 20 bytes
     selector: t.NotRequired[str]  # hex (no 0x prefix), 4 bytes
+    selector_path: t.NotRequired[ERC7730Path]  # bytes4 leaf or 4-byte slice
+    amount_path: t.NotRequired[ERC7730Path]  # the inner call's @.value
+    # the inner call's @.value: hex (no 0x prefix), minimal big-endian uint256
+    const_amount: t.NotRequired[str]
+    spender_path: t.NotRequired[ERC7730Path]  # the inner call's @.from
+    const_spender: t.NotRequired[str]  # hex (no 0x prefix), 20 bytes
 
     # enum fields: key->display mapping looked up on-device
     enum_values: t.NotRequired[list[ERC7730EnumValue]]

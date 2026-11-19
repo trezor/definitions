@@ -52,8 +52,6 @@ from erc7730.model.paths import (
     Array,
     ArrayElement,
     ArraySlice,
-    ContainerField,
-    ContainerPath,
     DataPath,
     DescriptorPath,
 )
@@ -247,17 +245,22 @@ def build_abi_value(c: Component, depth: int = 0, arrays: int = 0) -> ABIValue:
 # =====================================================================
 
 
-_CONTAINER_MAP = {
-    ContainerField.VALUE: "VALUE",
-    ContainerField.FROM: "FROM",
-    ContainerField.TO: "TO",
-}
-
 # Leaf-value kinds used for formatter <-> type compatibility checks.
 KIND_ADDRESS = "address"
 KIND_NUMERIC = "numeric"  # any uint* / int* — decodes to an int on-device
 KIND_BYTES = "bytes"  # bool / bytesN / bytes / string — only `raw` renders these
 KIND_OTHER = "other"  # un-indexed array, tuple, or unknown — not one field's value
+
+# Container paths are always exactly `@.<field>`, so they're matched here
+# verbatim rather than via `to_path`: the `erc7730` library's grammar only
+# knows from/to/value and rejects the spec's `@.chainId`.
+# Value: (proto EthereumERC7730ContainerPath, leaf kind).
+_CONTAINER_MAP = {
+    "@.value": ("VALUE", KIND_NUMERIC),  # native amount (wei)
+    "@.from": ("FROM", KIND_ADDRESS),
+    "@.to": ("TO", KIND_ADDRESS),
+    "@.chainId": ("CHAIN_ID", KIND_NUMERIC),
+}
 
 
 def _classify_kind(base_type: str, array_depth: int) -> str:
@@ -322,31 +325,24 @@ def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, s
       * `unknown-path-segment` — a name not present in the ABI signature
       * `unparseable-path` — the path string didn't parse at all
       * `unsupported-container-path` — anything under `@.` other than
-        `value` / `from` / `to` (transaction-level, security-relevant fields)
+        `value` / `from` / `to` / `chainId` (transaction-level,
+        security-relevant fields)
       * `fixed-size-array` (via `_split_array_suffix`)
     """
+    stripped = path_str.strip()
+    if stripped.startswith("@"):
+        if stripped not in _CONTAINER_MAP:
+            raise UnsupportedFeature(
+                "unsupported-container-path",
+                f"{path_str} (only {' / '.join(_CONTAINER_MAP)} are supported)",
+            )
+        container, kind = _CONTAINER_MAP[stripped]
+        return {"container_path": container}, kind
+
     try:
         parsed = to_path(path_str)
     except Exception as e:
-        if path_str.strip().startswith("@"):
-            raise UnsupportedFeature(
-                "unsupported-container-path",
-                f"{path_str} (only @.value / @.from / @.to are supported)",
-            ) from e
         raise UnsupportedFeature("unparseable-path", f"{path_str}: {e}") from e
-
-    if isinstance(parsed, ContainerPath):
-        mapped = _CONTAINER_MAP.get(parsed.field)
-        if mapped is None:
-            # Unreachable today (ContainerField is value/from/to), but guards
-            # against a future library adding a container field we don't map.
-            raise UnsupportedFeature(
-                "unsupported-container-path",
-                f"{path_str} (unmapped container field {parsed.field!r})",
-            )
-        # `@.value` is the native amount (wei); `@.from` / `@.to` are addresses.
-        kind = KIND_NUMERIC if mapped == "VALUE" else KIND_ADDRESS
-        return {"container_path": mapped}, kind
 
     if isinstance(parsed, DescriptorPath):
         raise UnsupportedFeature("descriptor-path", path_str)
