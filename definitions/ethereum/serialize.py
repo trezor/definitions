@@ -72,6 +72,9 @@ if not any(
     for f in EthereumERC7730FieldInfo.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730FieldInfo.native_currency_address")
+for _name in ("if_not_in", "must_match"):
+    if not any(f.name == _name for f in EthereumERC7730FieldInfo.FIELDS.values()):
+        _missing_proto.append(f"EthereumERC7730FieldInfo.{_name}")
 if not any(
     f.name == "provider_name" for f in EthereumDisplayFormatInfo.FIELDS.values()
 ):
@@ -191,6 +194,12 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
             else None
         ),
         lookup_address=d.get("lookup_address"),
+        if_not_in=(
+            [bytes.fromhex(v) for v in d["if_not_in"]] if "if_not_in" in d else None
+        ),
+        must_match=(
+            [bytes.fromhex(v) for v in d["must_match"]] if "must_match" in d else None
+        ),
     )
 
 
