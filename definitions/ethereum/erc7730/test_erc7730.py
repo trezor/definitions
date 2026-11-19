@@ -3902,3 +3902,70 @@ def test_build_abi_value_leaf_only_tuple_in_two_arrays():
             }
         }
     }
+
+
+# =====================================================================
+#                 metadata.maps — whole file skipped
+# =====================================================================
+
+
+def _with_maps(desc: dict[str, Any], maps: Any) -> dict[str, Any]:
+    desc["metadata"]["maps"] = maps
+    return desc
+
+
+def test_metadata_maps_skips_whole_file_and_logs():
+    # The ERC-7730 spec's own maps example; the clean `good` format is dropped
+    # too — the file is skipped whole, whether the maps are used or not.
+    desc = _with_maps(
+        _descriptor(
+            formats={
+                "good(address x)": {
+                    "fields": [{"path": "x", "label": "X", "format": "addressName"}]
+                },
+                "deposit(uint256 amount)": {
+                    "fields": [
+                        {
+                            "path": "#.amount",
+                            "label": "Deposit Amount",
+                            "format": "tokenAmount",
+                            "params": {
+                                "token": {
+                                    "map": "$.metadata.maps.underlyingToken",
+                                    "keyPath": "@.chainId",
+                                }
+                            },
+                        }
+                    ]
+                },
+            }
+        ),
+        {
+            "underlyingToken": {
+                "$keyType": "Chain ID",
+                "values": {"1": "0x" + "aa" * 20, "17000": "0x" + "bb" * 20},
+            }
+        },
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, source="x.json", unsupported=unsupported)
+    assert unsupported == [
+        ("x.json", "metadata-maps", "x.json: declares metadata.maps (underlyingToken)")
+    ]
+    # Without a collector the file is still skipped; the reason rides in the
+    # exception.
+    with pytest.raises(UnsupportedFeature, match="declares metadata.maps"):
+        build_display_formats(desc, source="x.json")
+
+
+def test_empty_metadata_maps_is_ignored():
+    formats = {
+        "f(uint256 a)": {"fields": [{"path": "a", "label": "A", "format": "amount"}]}
+    }
+    unsupported: list = []
+    recs = build_display_formats(
+        _with_maps(_descriptor(formats), {}), unsupported=unsupported
+    )
+    assert recs == build_display_formats(_descriptor(formats))
+    assert unsupported == []
