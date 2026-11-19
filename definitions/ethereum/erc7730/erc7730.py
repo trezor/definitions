@@ -1441,6 +1441,16 @@ def build_display_formats(
     metadata = descriptor.get("metadata") or {}
     constants = metadata.get("constants") or {}
     enums = metadata.get("enums") or {}
+    # File level drop. Not supported yet. No registry entries so far.
+    maps = metadata.get("maps")
+    if maps:
+        detail = f"{source}: declares metadata.maps"
+        if isinstance(maps, dict):
+            detail += f" ({', '.join(sorted(maps))})"
+        LOG.info("%s: unsupported metadata-maps: %s", source, detail)
+        if unsupported is not None:
+            unsupported.append((source, "metadata-maps", detail))
+        raise UnsupportedFeature("descriptor-skipped", detail)
     if not deployments:
         LOG.info("%s: no deployments, skipping", source)
         return []
