@@ -2776,6 +2776,8 @@ def _device_bytes(v: Any) -> bytes:
         # (descriptor value, the Python value the firmware holds after walking)
         ("f(uint8 x)", "x", "255", 255),
         ("f(int160 x)", "x", -2, -2),
+        ("f(int24 x)", "x", -(2**23), -(2**23)),
+        ("f(int256 x)", "x", 2**255 - 1, 2**255 - 1),
         ("f(bool b)", "b", False, False),
         ("f(bool b)", "b", 1, True),
         ("f(address a)", "a", "0x" + "AB" * 20, bytes.fromhex("ab" * 20)),
@@ -2896,6 +2898,8 @@ def test_if_not_in_without_format_stays_hidden():
         ("f(uint8 x)", "x", {"ifNotIn": [256]}, "invalid-visibility-value"),
         ("f(int160 x)", "x", {"ifNotIn": [2**159]}, "invalid-visibility-value"),
         ("f(int160 x)", "x", {"ifNotIn": [-(2**159) - 1]}, "invalid-visibility-value"),
+        ("f(int24 x)", "x", {"ifNotIn": [2**23]}, "invalid-visibility-value"),
+        ("f(int256 x)", "x", {"ifNotIn": [-(2**255) - 1]}, "invalid-visibility-value"),
         ("f()", "@.value", {"ifNotIn": [-1]}, "invalid-visibility-value"),
         ("f(uint256 x)", "x", {"ifNotIn": ["abc"]}, "invalid-visibility-value"),
         ("f(address a)", "a", {"ifNotIn": ["0x1234"]}, "invalid-visibility-value"),
@@ -3501,6 +3505,20 @@ def test_build_abi_value_bytes20_and_int160():
     assert build_abi_value(_component("f(int160 x)")) == {"atomic": "ABI_INT160"}
 
 
+@pytest.mark.parametrize("bits", [24, 32, 64, 128, 160, 256])
+def test_build_abi_value_signed_ints(bits):
+    # Every signed width the firmware's `_get_parser` decodes.
+    sig = f"f(int{bits} x)"
+    assert build_abi_value(_component(sig)) == {"atomic": f"ABI_INT{bits}"}
+    assert path_to_dict("x", _inputs(sig))[1] == KIND_NUMERIC
+
+
+def test_build_abi_value_unsupported_signed_int():
+    # A width the firmware doesn't decode stays unrepresentable.
+    with pytest.raises(ValueError, match="unknown ABI type"):
+        build_abi_value(_component("f(int8 x)"))
+
+
 def test_bytes20_and_int160_kinds():
     # bytes20 is a bytes-like scalar (raw/addressName render it); int160
     # decodes to an int on-device, so it's numeric.
@@ -3594,7 +3612,7 @@ def test_build_abi_value_unknown_type_raises_value_error():
     # `_ABI_TYPE_MAP` did not is our bug, logged as `unrepresentable-params`.
     # The caps must not mask it, so the check runs first.
     with pytest.raises(ValueError, match="unknown ABI type"):
-        build_abi_value(_component("f(int256[][][] x)"))
+        build_abi_value(_component("f(int8[][][] x)"))
 
 
 # ---------------------------------------------------------------------
