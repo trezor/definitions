@@ -1190,6 +1190,7 @@ def _build_path_field(
         apply_date_params,
         apply_enum_params,
         apply_token_amount_params,
+        apply_token_ticker_params,
         apply_unit_params,
     )
 
@@ -1204,6 +1205,12 @@ def _build_path_field(
     # requires a label, but mustMatch fields may omit one (never shown), so
     # fall back to the path for the firmware's mismatch error.
     fmt = "raw" if must_match else field_def["format"]
+    # `tokenTicker` is on its way out of the spec. It is rendered as the
+    # token's full name instead (addressName + lookup), which reads better
+    # anyway — see `apply_token_ticker_params`.
+    token_ticker = fmt == "tokenTicker"
+    if token_ticker:
+        fmt = "addressName"
     label = field_def.get("label") or (path_str if must_match else "")
     if not label:
         raise UnsupportedFeature(
@@ -1245,7 +1252,10 @@ def _build_path_field(
             )
         return out
     params = field_def.get("params") or {}
-    if fmt == "addressName":
+    if token_ticker:
+        # TODO: Can be merged with addressName once we start supporting cross-chain lookups.
+        apply_token_ticker_params(out, params, path_str, label, ctx)
+    elif fmt == "addressName":
         apply_address_name_params(out, params, label, ctx)
     elif fmt == "tokenAmount":
         apply_token_amount_params(out, params, label, ctx)
