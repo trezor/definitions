@@ -47,23 +47,34 @@ TESTNET_WORDS = ("testnet", "devnet")
 # providers would cost us, but only these feed the emitted records.
 ENABLED_PROVIDERS = frozenset(
     {
+        "10102",
         "1inch",
         # "HyperDiscipline", 712 only
         "aave",
+        "across",
+        "base",
         "bedrock",
         "benqi",
+        "blast",
         # "bureaucrawl", NFT game
         "celo",
+        "chainlink",
         "circle",
         "consensus-specs",
         "corestake",
+        "cow-protocol",
         "degate",
+        "disperse",
         # "ekubo",
+        "ens",
         "ethena",
+        # "ethos",
         # "feral-file", NFT
         "figment",
         "flare",
         # "flyingtulip", NFT
+        "gondi",
+        "harbor",
         "hyperliquid",
         "kiln",
         "kyberswap",
@@ -72,36 +83,50 @@ ENABLED_PROVIDERS = frozenset(
         "lens",
         "lido",
         "lifi",
+        "livepeer",
+        "llamapay",
         "lombard",
         "midas",
         "morpho", # Multicall. Not supported in FW yet. TODO
-        # "okx", deeply nested arguments. TBD
+        "ocarina-trade",
+        "okx",
         "ondo-finance",
         "opencover",
         # "opensea", NFT
         "p2p",
-        # "paraswap", Deeply nested arguments.
+        "paraswap",
+        "pendle",
         "permit",
         # "poap", Discontinued.
         "porto",
         "quickswap",
+        "railnet",
         # "rarible", NFT
+        "relay",
+        "rocketpool",
         # "safe", Unsupported. TODO.
         "sei",
         "serenita", # Multicall. Not supported in FW yet. TODO
         "sky",
+        "slice",
         "smartcredit",
+        "stakedotlink",
         "starkgate",
-        "swell",
+        "surge",
+        "sushi",
+        # "swell", Discontinued.
+        "swft",
         "swissborg",
         "tally",
         "teraswap",
         "tesseract",
         "tether",
+        "thorchain",
         "threshold",
-        # "uniswap",
+        "uniswap",
         "walletconnect",
         "weth",
+        "wormhole",
         "yieldxyz",
         # "zama", FHEVM support
     }
