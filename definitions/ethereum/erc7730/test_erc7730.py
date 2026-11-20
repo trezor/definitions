@@ -2664,28 +2664,766 @@ def test_optional_visibility_with_bad_path_does_not_skip_file():
     assert len(rec["field_definitions"]) == 1
 
 
-def test_visibility_rule_object_skips_file():
-    # ifNotIn / mustMatch rule objects are true conditionals (mustMatch even
-    # implies a validation duty) — the firmware cannot honor them either way.
-    desc = _descriptor(
-        formats={
-            "f(address to, uint256 fee)": {
-                "fields": [
-                    {"path": "to", "label": "To", "format": "addressName"},
-                    {
-                        "path": "fee",
-                        "label": "Fee",
-                        "format": "amount",
-                        "visible": {"mustMatch": [0]},
-                    },
-                ]
+def _w(n: int) -> str:
+    """`n` as a 32-byte ABI word (hex), how integer/bool rule values encode."""
+    return (n % 2**256).to_bytes(32, "big").hex()
+
+
+def _rule_field(sig: str, field: dict[str, Any], **kw: Any) -> dict[str, Any]:
+    """Build a one-format descriptor and return its single emitted field."""
+    [rec] = build_display_formats(_descriptor(formats={sig: {"fields": [field]}}, **kw))
+    [out] = rec["field_definitions"]
+    return out
+
+
+def test_if_not_in_is_emitted_with_encoded_values():
+    # The paraswap / DAI-permit shape: hide an expiry of 0. Numeric values
+    # (number, decimal or hex string) encode as minimal sign-preserving
+    # two's complement, and duplicates collapse.
+    adjustments: list = []
+    [rec] = build_display_formats(
+        _descriptor(
+            formats={
+                "f(uint256 expiry)": {
+                    "fields": [
+                        {
+                            "path": "expiry",
+                            "label": "Valid until",
+                            "format": "date",
+                            "params": {"encoding": "timestamp"},
+                            "visible": {"ifNotIn": [0, "0", "0x100"]},
+                        }
+                    ]
+                }
             }
-        }
+        ),
+        adjustments=adjustments,
     )
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_DATE"
+    assert field["if_not_in"] == [_w(0), _w(256)]  # 0x100 = 256
+    assert "must_match" not in field
+    # tests logs:
+    assert ("conditional-visibility") in {k for _s, k, _d in adjustments}
+
+
+@pytest.mark.parametrize(
+    "sig, path, values, expected",
+    [
+        (
+            "f(address a)",
+            "a",
+            ["0x" + "AB" * 20, 0],
+            ["ab" * 20, "00" * 20],
+        ),
+        ("f(bool b)", "b", [True, "false", 1], [_w(1), _w(0)]),
+        ("f(bytes4 s)", "s", ["0xdeadbeef", 0], ["deadbeef", "00000000"]),
+        ("f(bytes d)", "d", ["0x", "0x01"], ["", "01"]),
+        ("f(string s)", "s", ["", "hi"], ["", "6869"]),
+        ("f(uint256 x)", "x.[-4:]", [0], ["00000000"]),
+        ("f(uint256 x)", "x.[-20:]", ["0x" + "cd" * 20], ["cd" * 20]),
+        ("f(uint256[] xs)", "xs.[]", [7], [_w(7)]),
+        # the 32-byte ABI word; two's complement for negatives
+        (
+            "f(uint8 x)",
+            "x",
+            [0, 255],
+            ["00" * 32, "00" * 31 + "ff"],
+        ),
+        (
+            "f(uint256 x)",
+            "x",
+            [2**256 - 1],
+            ["ff" * 32],
+        ),
+        (
+            "f(int160 x)",
+            "x",
+            [5, -1, -2, "-2"],
+            ["00" * 31 + "05", "ff" * 32, "ff" * 31 + "fe"],
+        ),
+        (
+            "f(int160 x)",
+            "x",
+            [-(2**159), 2**159 - 1],
+            ["ff" * 12 + "80" + "00" * 19, "00" * 12 + "7f" + "ff" * 19],
+        ),
+        ("f()", "@.value", [0], [_w(0)]),
+        ("f()", "@.to", ["0x" + "11" * 20], ["11" * 20]),
+    ],
+)
+def test_rule_values_encode_by_leaf_type(sig, path, values, expected):
+    field = _rule_field(
+        sig,
+        {"path": path, "label": "L", "format": "raw", "visible": {"ifNotIn": values}},
+    )
+    assert field["if_not_in"] == expected
+
+
+def _device_bytes(v: Any) -> bytes:
+    """The firmware side of the contract (proposed for clear_signing.py):
+    the walked field value as bytes, checked for membership in the entries."""
+    if isinstance(v, str):
+        return v.encode()
+    if isinstance(v, int):  # uint, int, bool, @.value
+        return (v % (1 << 256)).to_bytes(32, "big")
+    return v
+
+
+@pytest.mark.parametrize(
+    "sig, path, value, on_device",
+    [
+        # (descriptor value, the Python value the firmware holds after walking)
+        ("f(uint8 x)", "x", "255", 255),
+        ("f(int160 x)", "x", -2, -2),
+        ("f(bool b)", "b", False, False),
+        ("f(bool b)", "b", 1, True),
+        ("f(address a)", "a", "0x" + "AB" * 20, bytes.fromhex("ab" * 20)),
+        ("f(bytes4 s)", "s", "0xdeadbeef", bytes.fromhex("deadbeef")),
+        ("f(bytes d)", "d", "0x", b""),
+        ("f(string s)", "s", "erc20", "erc20"),
+        ("f(uint256 x)", "x.[-4:]", 0, b"\x00" * 4),
+        ("f()", "@.value", "0x10", 16),
+    ],
+)
+def test_rule_entries_match_device_bytes_view(sig, path, value, on_device):
+    field = _rule_field(
+        sig,
+        {"path": path, "label": "L", "format": "raw", "visible": {"ifNotIn": [value]}},
+    )
+    assert [bytes.fromhex(e) for e in field["if_not_in"]] == [_device_bytes(on_device)]
+
+
+def test_rule_values_follow_address_retype():
+    # addressName over a uint retypes the leaf to address — rule values must
+    # then encode as 20-byte addresses, not minimal integers.
+    field = _rule_field(
+        "f(uint256 x)",
+        {
+            "path": "x",
+            "label": "L",
+            "format": "addressName",
+            "visible": {"ifNotIn": [0]},
+        },
+    )
+    assert field["if_not_in"] == ["00" * 20]
+
+
+def test_rule_values_resolve_constants():
+    field = _rule_field(
+        "f(address a)",
+        {
+            "path": "a",
+            "label": "L",
+            "format": "addressName",
+            "visible": {"ifNotIn": ["$.metadata.constants.zero"]},
+        },
+        constants={"zero": "0x" + "00" * 20},
+    )
+    assert field["if_not_in"] == ["00" * 20]
+
+
+def test_must_match_is_emitted_as_raw_even_without_format():
+    # mustMatch fields are never shown, but the firmware must check them:
+    # emitted as RAW (params dropped), label falling back to the path.
+    adjustments: list = []
+    [rec] = build_display_formats(
+        _descriptor(
+            formats={
+                "f(address to, address token, uint256 v)": {
+                    "fields": [
+                        {"path": "to", "label": "To", "format": "addressName"},
+                        {"path": "token", "visible": {"mustMatch": ["0x" + "22" * 20]}},
+                        {
+                            "path": "v",
+                            "label": "V",
+                            "format": "tokenAmount",
+                            "params": {"tokenPath": "token"},
+                            "visible": {"mustMatch": [1, 2]},
+                        },
+                    ]
+                }
+            }
+        ),
+        adjustments=adjustments,
+    )
+    to, token, v = rec["field_definitions"]
+    assert "must_match" not in to
+    assert token == {
+        "path": {"path": [1]},
+        "label": "token",
+        "formatter": "FORMATTER_RAW",
+        "must_match": ["22" * 20],
+    }
+    assert v["formatter"] == "FORMATTER_RAW"
+    assert v["must_match"] == [_w(1), _w(2)]
+    assert "token_path" not in v
+    assert "must-match-as-raw" in {k for _s, k, _d in adjustments}
+
+
+def test_if_not_in_without_format_stays_hidden():
+    [rec] = build_display_formats(
+        _descriptor(
+            formats={
+                "f(address to, uint256 x)": {
+                    "fields": [
+                        {"path": "to", "label": "To", "format": "addressName"},
+                        {"path": "x", "label": "X", "visible": {"ifNotIn": [0]}},
+                    ]
+                }
+            }
+        )
+    )
+    assert [f["label"] for f in rec["field_definitions"]] == ["To"]
+
+
+@pytest.mark.parametrize(
+    "sig, path, visible, feature",
+    [
+        # malformed rule objects
+        (
+            "f(uint256 x)",
+            "x",
+            {"ifNotIn": [0], "mustMatch": [0]},
+            "conditional-visibility",
+        ),
+        ("f(uint256 x)", "x", {"ifNotIn": []}, "conditional-visibility"),
+        ("f(uint256 x)", "x", {"ifNotIn": 0}, "conditional-visibility"),
+        ("f(uint256 x)", "x", {"showIf": [0]}, "conditional-visibility"),
+        # values that have no encoding for the leaf
+        ("f(uint256 x)", "x", {"ifNotIn": [None]}, "invalid-visibility-value"),
+        ("f(uint256 x)", "x", {"ifNotIn": [-1]}, "invalid-visibility-value"),
+        ("f(uint8 x)", "x", {"ifNotIn": [256]}, "invalid-visibility-value"),
+        ("f(int160 x)", "x", {"ifNotIn": [2**159]}, "invalid-visibility-value"),
+        ("f(int160 x)", "x", {"ifNotIn": [-(2**159) - 1]}, "invalid-visibility-value"),
+        ("f()", "@.value", {"ifNotIn": [-1]}, "invalid-visibility-value"),
+        ("f(uint256 x)", "x", {"ifNotIn": ["abc"]}, "invalid-visibility-value"),
+        ("f(address a)", "a", {"ifNotIn": ["0x1234"]}, "invalid-visibility-value"),
+        ("f(bool b)", "b", {"ifNotIn": [2]}, "invalid-visibility-value"),
+        ("f(bytes4 s)", "s", {"ifNotIn": ["0xdead"]}, "invalid-visibility-value"),
+        ("f(string s)", "s", {"ifNotIn": [0]}, "invalid-visibility-value"),
+        (
+            "f(uint256 x)",
+            "x",
+            {"ifNotIn": ["$.metadata.constants.nope"]},
+            "unresolvable-visibility-value",
+        ),
+    ],
+)
+def test_bad_visibility_rule_drops_format(sig, path, visible, feature):
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc, unsupported=unsupported)
+        build_display_formats(
+            _descriptor(
+                formats={
+                    sig: {
+                        "fields": [
+                            {
+                                "path": path,
+                                "label": "L",
+                                "format": "raw",
+                                "visible": visible,
+                            }
+                        ]
+                    }
+                }
+            ),
+            unsupported=unsupported,
+        )
+    assert {feat for _src, feat, _det in unsupported} == {feature}
+
+
+def test_visibility_rule_on_constant_field_drops_format():
+    # A constant's value is static; a rule on it is not folded away.
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(
+            _descriptor(
+                formats={
+                    "f(address to)": {
+                        "fields": [
+                            {"path": "to", "label": "To", "format": "addressName"},
+                            {
+                                "label": "C",
+                                "format": "raw",
+                                "value": "x",
+                                "visible": {"ifNotIn": ["y"]},
+                            },
+                        ]
+                    }
+                }
+            ),
+            unsupported=unsupported,
+        )
     assert {feat for _src, feat, _det in unsupported} == {"conditional-visibility"}
+
+
+def test_visibility_rule_on_group_still_drops_format():
+    # A group's "value" is a whole tuple — no single leaf to compare.
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(
+            _descriptor(
+                formats={
+                    "f((address a, uint256 b) p)": {
+                        "fields": [
+                            {
+                                "path": "p",
+                                "visible": {"ifNotIn": [0]},
+                                "fields": [
+                                    {"path": "a", "label": "A", "format": "raw"}
+                                ],
+                            }
+                        ]
+                    }
+                }
+            ),
+            unsupported=unsupported,
+        )
+    assert {feat for _src, feat, _det in unsupported} == {"conditional-visibility"}
+
+
+# ---------------------------------------------------------------------
+# Registry shapes: one case per distinct kind of rule found in the
+# registry (leaf type x rule x how the values are spelled). Signatures are
+# trimmed to the parameters that matter; EIP-712 shapes are recast as
+# calldata, the parser's only input.
+# ---------------------------------------------------------------------
+
+_ZERO_ADDR = "0x" + "00" * 20
+_ZERO_WORD = "0x" + "00" * 32
+
+
+@pytest.mark.parametrize(
+    "sig, field, rule, expected",
+    [
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/10102/calldata-TimeLockRouter.json#L14
+        pytest.param(
+            "f()",
+            {
+                "path": "@.value",
+                "label": "ETH",
+                "format": "amount",
+                "visible": {"ifNotIn": [0]},
+            },
+            "if_not_in",
+            [_w(0)],
+            id="value-ifNotIn-int",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/morpho/calldata-BlueBundlesV1.json#L62
+        pytest.param(
+            "f()",
+            {
+                "path": "@.value",
+                "label": "ETH",
+                "format": "amount",
+                "visible": {"ifNotIn": ["0"]},
+            },
+            "if_not_in",
+            [_w(0)],
+            id="value-ifNotIn-decimal-string",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/sushi/calldata-RedSnwapper.json#L28
+        pytest.param(
+            "f()",
+            {
+                "path": "@.value",
+                "label": "ETH Sent",
+                "format": "amount",
+                "visible": {"mustMatch": [0]},
+            },
+            "must_match",
+            [_w(0)],
+            id="value-mustMatch",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/10102/calldata-TimeLockRouter.json#L20
+        pytest.param(
+            "f((address storageToken, uint256 amountOutMin) s)",
+            {
+                "path": "s.storageToken",
+                "label": "Token",
+                "format": "addressName",
+                "params": {"types": ["token"]},
+                "visible": {"ifNotIn": [_ZERO_ADDR]},
+            },
+            "if_not_in",
+            ["00" * 20],
+            id="address-ifNotIn-zero",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/ocarina-trade/calldata-OTCRegistry.json#L141
+        pytest.param(
+            "f(((address offerer, address zone) components) reg)",
+            {
+                "path": "#.reg.components.zone",
+                "label": "Registry",
+                "format": "raw",
+                "visible": {
+                    "mustMatch": [
+                        "0x07C0000007b4B558e2fCd47F47A573413B0Caf7C",
+                        "0xfc9E05BF732FB5Aeee7e270928F349Ed3FA3cc0D",
+                    ]
+                },
+            },
+            "must_match",
+            [
+                "07c0000007b4b558e2fcd47f47a573413b0caf7c",
+                "fc9e05bf732fb5aeee7e270928f349ed3fa3cc0d",
+            ],
+            id="address-mustMatch-checksummed",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/base/calldata-OptimismPortal2.json#L19
+        pytest.param(
+            "depositTransaction(address _to,uint256 _value,uint64 _gasLimit,"
+            "bool _isCreation,bytes _data)",
+            {
+                "path": "_isCreation",
+                "label": "Contract Creation",
+                "format": "raw",
+                "visible": {"mustMatch": [False]},
+            },
+            "must_match",
+            [_w(0)],
+            id="bool-mustMatch-false",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/across/calldata-Ethereum_SpokePool.json#L91
+        pytest.param(
+            "f(address recipient, bytes message)",
+            {
+                "path": "message",
+                "label": "Message",
+                "format": "raw",
+                "visible": {"mustMatch": ["0x"]},
+            },
+            "must_match",
+            [""],
+            id="bytes-mustMatch-empty",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/lifi/calldata-LIFIDiamond.json#L635
+        pytest.param(
+            "f((bytes nonEVMReceiver, bytes32 solanaATA) _ecoData)",
+            {
+                "path": "_ecoData.solanaATA",
+                "label": "Solana Token Account",
+                "format": "raw",
+                "visible": {"ifNotIn": [0]},
+            },
+            "if_not_in",
+            ["00" * 32],
+            id="bytes32-ifNotIn-int",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/ocarina-trade/calldata-OTCRegistry.json#L154
+        pytest.param(
+            "f(((bytes32 conduitKey, uint256 salt) components) reg)",
+            {
+                "path": "#.reg.components.conduitKey",
+                "label": "Conduit key",
+                "format": "raw",
+                "visible": {"mustMatch": [_ZERO_WORD]},
+            },
+            "must_match",
+            ["00" * 32],
+            id="bytes32-mustMatch-hex",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/ocarina-trade/calldata-OTCRegistry.json#L135
+        pytest.param(
+            "f((uint256 id, string memo) reg)",
+            {
+                "path": "#.reg.memo",
+                "label": "Memo",
+                "format": "raw",
+                "visible": {"ifNotIn": [""]},
+            },
+            "if_not_in",
+            [""],
+            id="string-ifNotIn-empty",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/ophis/eip712-Ophis-GPv2Settlement.json#L48 (EIP-712)
+        pytest.param(
+            "f(string sellTokenBalance)",
+            {
+                "path": "sellTokenBalance",
+                "label": "Sell: Balancer Vault",
+                "format": "raw",
+                "visible": {"ifNotIn": ["erc20", "internal"]},
+            },
+            "if_not_in",
+            ["erc20".encode().hex(), "internal".encode().hex()],
+            id="string-ifNotIn-text",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/ophis/calldata-Ophis-CoWSwapEthFlow.json#L45
+        pytest.param(
+            "f((uint256 sellAmount, uint256 feeAmount) order)",
+            {
+                "path": "order.feeAmount",
+                "label": "Order max fee",
+                "format": "amount",
+                "visible": {"ifNotIn": [0, "0"]},
+            },
+            "if_not_in",
+            [_w(0)],
+            id="uint-ifNotIn-int-and-string",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/paraswap/eip712-paraswap.json#L27 (EIP-712)
+        pytest.param(
+            "f(uint128 expiry)",
+            {
+                "path": "expiry",
+                "label": "Expiration time",
+                "format": "date",
+                "params": {"encoding": "timestamp"},
+                "visible": {"ifNotIn": [0, "0"]},
+            },
+            "if_not_in",
+            [_w(0)],
+            id="uint128-date-ifNotIn",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/morpho/calldata-BlueBundlesV1.json#L144
+        pytest.param(
+            "f((address authorizer, uint256 deadline) signedAuthorization)",
+            {
+                "path": "#.signedAuthorization.deadline",
+                "label": "Deadline",
+                "format": "date",
+                "params": {"encoding": "timestamp"},
+                "visible": {"ifNotIn": ["0"]},
+            },
+            "if_not_in",
+            [_w(0)],
+            id="uint-date-ifNotIn-string",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/10102/calldata-TransferEOALegacyRouter.json#L46
+        pytest.param(
+            "f((uint256 delayLayer2, uint256 delayLayer3) extraConfig_)",
+            {
+                "path": "extraConfig_.delayLayer2",
+                "label": "Backup delay",
+                "format": "duration",
+                "visible": {"ifNotIn": [0]},
+            },
+            "if_not_in",
+            [_w(0)],
+            id="uint-duration-ifNotIn",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/morpho/calldata-BlueBundlesV1.json#L89
+        pytest.param(
+            "f(address token, uint256 collateralAssets)",
+            {
+                "path": "#.collateralAssets",
+                "label": "Collateral",
+                "format": "tokenAmount",
+                "params": {"tokenPath": "token"},
+                "visible": {"ifNotIn": ["0"]},
+            },
+            "if_not_in",
+            [_w(0)],
+            id="uint-tokenAmount-ifNotIn",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/morpho/calldata-BlueBundlesV1.json#L123
+        pytest.param(
+            "f(uint256 maxLtv)",
+            {
+                "path": "#.maxLtv",
+                "label": "Max LTV",
+                "format": "unit",
+                "params": {"base": "%", "decimals": 16},
+                "visible": {"ifNotIn": [str(2**256 - 1)]},
+            },
+            "if_not_in",
+            [_w(2**256 - 1)],
+            id="uint-unit-ifNotIn-max",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/morpho/calldata-BlueBundlesV1.json#L189
+        pytest.param(
+            "f(uint256 repayShares)",
+            {
+                "path": "#.repayShares",
+                "label": "Repay shares",
+                "format": "raw",
+                "visible": {"ifNotIn": ["0"]},
+            },
+            "if_not_in",
+            [_w(0)],
+            id="uint-raw-ifNotIn",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/uniswap/calldata-UniswapV3Router02.json#L46
+        pytest.param(
+            "f((address tokenIn, uint160 sqrtPriceLimitX96) params)",
+            {
+                "path": "params.sqrtPriceLimitX96",
+                "label": "Price limit",
+                "format": "raw",
+                "visible": {"mustMatch": [0]},
+            },
+            "must_match",
+            [_w(0)],
+            id="uint160-mustMatch",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/tether/calldata-usdt0-OFT-Flare.json#L52
+        pytest.param(
+            "f((uint256 nativeFee, uint256 lzTokenFee) _fee)",
+            {
+                "label": "LZ token fee",
+                "path": "#._fee.lzTokenFee",
+                "visible": {"mustMatch": [0]},
+                "format": "raw",
+            },
+            "must_match",
+            [_w(0)],
+            id="uint-mustMatch-int",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/flare/calldata-FXRP-OFT-Flare.json#L52
+        pytest.param(
+            "f((uint256 nativeFee, uint256 lzTokenFee) _fee)",
+            {
+                "label": "LZ token fee",
+                "path": "#._fee.lzTokenFee",
+                "visible": {"mustMatch": ["0"]},
+                "format": "raw",
+            },
+            "must_match",
+            [_w(0)],
+            id="uint-mustMatch-string",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/ocarina-trade/calldata-OTCRegistry.json#L126
+        pytest.param(
+            "f(((uint8 orderType, uint256 startTime) components) reg)",
+            {
+                "path": "#.reg.components.orderType",
+                "label": "Order type",
+                "format": "raw",
+                "visible": {"mustMatch": ["2"]},
+            },
+            "must_match",
+            [_w(2)],
+            id="uint8-mustMatch-string",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/enso/calldata-EnsoRouter.json#L22
+        pytest.param(
+            "f((uint8 tokenType, bytes data) tokenIn)",
+            {
+                "path": "#.tokenIn.tokenType",
+                "label": "Token type",
+                "format": "raw",
+                "visible": {"mustMatch": [1]},
+            },
+            "must_match",
+            [_w(1)],
+            id="uint8-mustMatch-int",
+        ),
+    ],
+)
+def test_registry_rule_shapes(sig, field, rule, expected):
+    out = _rule_field(sig, field)
+    assert out[rule] == expected
+
+
+def test_registry_rule_on_enum():
+    # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/across/calldata-Ethereum_SpokePool.json#L65
+    out = _rule_field(
+        "f(uint256 destinationChainId)",
+        {
+            "path": "destinationChainId",
+            "label": "Destination Chain",
+            "format": "enum",
+            "params": {"$ref": "$.metadata.enums.destinationChainOverride"},
+            "visible": {"ifNotIn": [1, 10, 56, 137, 324, 8453, 42161]},
+        },
+        enums={"destinationChainOverride": {"130": "Unichain"}},
+    )
+    assert out["formatter"] == "FORMATTER_ENUM"
+    assert out["if_not_in"] == [_w(n) for n in (1, 10, 56, 137, 324, 8453, 42161)]
+
+
+def test_registry_rule_override_on_ref():
+    # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/ophis/calldata-Ophis-CoWSwapEthFlow.json#L32
+    # The rule sits on the referencing field and overrides the definition.
+    [rec] = build_display_formats(
+        _descriptor(
+            formats={
+                "f((uint256 sellAmount, uint256 feeAmount) order)": {
+                    "fields": [
+                        {
+                            "path": "order.feeAmount",
+                            "$ref": "$.display.definitions.feeAmount",
+                            "visible": {"ifNotIn": [0, "0"]},
+                        }
+                    ]
+                }
+            },
+            definitions={"feeAmount": {"label": "Fee", "format": "amount"}},
+        )
+    )
+    [out] = rec["field_definitions"]
+    assert (out["label"], out["if_not_in"]) == ("Fee", [_w(0)])
+
+
+@pytest.mark.parametrize(
+    "sig, field, feature",
+    [
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/lifi/calldata-LIFIDiamond.json#L560
+        # `0` on dynamic bytes: empty, or zeroes of some length? Undecided.
+        pytest.param(
+            "f((bytes nonEVMReceiver, uint32 dstToken) _chainflipData)",
+            {
+                "path": "_chainflipData.nonEVMReceiver",
+                "label": "Non-EVM Recipient",
+                "format": "raw",
+                "visible": {"ifNotIn": [0]},
+            },
+            "invalid-visibility-value",
+            id="dynamic-bytes-ifNotIn-int",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/pendle/calldata-PendleRouterV4.json#L1625
+        # Drops on its per-element path, before the rule is looked at.
+        pytest.param(
+            "f((address target, bool allowFailure, bytes callData)[] calls)",
+            {
+                "path": "calls.[].allowFailure",
+                "label": "Allow failure",
+                "format": "raw",
+                "visible": {"mustMatch": [False]},
+            },
+            "per-element-field-path",
+            id="per-element-path",
+        ),
+        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/across/calldata-Ethereum_SpokePool.json#L43
+        # `chainId` has no formatter here, rule or not.
+        pytest.param(
+            "f(uint256 destinationChainId)",
+            {
+                "path": "destinationChainId",
+                "label": "Destination Chain",
+                "format": "chainId",
+                "visible": {"ifNotIn": [130, 143]},
+            },
+            "unsupported-formatter",
+            id="chainId-format",
+        ),
+    ],
+)
+def test_registry_rule_shapes_that_drop(sig, field, feature):
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(
+            _descriptor(formats={sig: {"fields": [field]}}), unsupported=unsupported
+        )
+    assert {feat for _src, feat, _det in unsupported} == {feature}
+
+
+def test_visibility_rules_serialize_to_proto():
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "L",
+            "formatter": "FORMATTER_RAW",
+            "if_not_in": ["00", "0100"],
+            "must_match": ["ab" * 20],
+        }
+    )
+    assert info.if_not_in == [b"\x00", b"\x01\x00"]
+    assert info.must_match == [bytes.fromhex("ab" * 20)]
 
 
 def test_hidden_field_with_format_but_visible_never_is_skipped():

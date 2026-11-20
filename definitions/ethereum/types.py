@@ -110,6 +110,13 @@ class ERC7730Field(t.TypedDict):
     # device asks the host for a known name for the address.
     lookup_address: t.NotRequired[bool]
 
+    # Conditional visibility: hex (no 0x prefix) encodings of the listed
+    # values, typed by the field's leaf (see erc7730.py section 4c).
+    # if_not_in: show the field only when its value is not listed.
+    # must_match: cancel signing; the value must be one of those listed.
+    if_not_in: t.NotRequired[list[str]]
+    must_match: t.NotRequired[list[str]]
+
 
 class ERC20DisplayFormat(t.TypedDict):
     chain_id: int
