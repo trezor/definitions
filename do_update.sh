@@ -39,6 +39,7 @@ fi
 git submodule update --init --recursive --remote
 # Keep the pinned submodule at its fixed commit
 git submodule update -- "ethereum/clear-signing-erc7730-registry"
+git submodule foreach --quiet 'git submodule update --init --recursive'
 
 # Download definitions
 python cli.py download -v --sleep-duration 2.5 $SHOW_ADDED
