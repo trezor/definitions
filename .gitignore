@@ -6,3 +6,4 @@ definitions-latest
 definitions-latest-v*
 *.log
 definitions.tar.xz
+.env

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import time
 from pathlib import Path
 from typing import Any
@@ -16,11 +17,34 @@ from urllib3.util.retry import Retry
 HERE = Path(__file__).parent
 
 CACHE_PATH = HERE / "definitions-cache.json"
+ENV_PATH = HERE.parent / ".env"
 
 # https://docs.morpho.org/api/vaults-v1/list-v1-vaults
 # https://docs.morpho.org/api/vaults-v2/list-v2-vaults
 MORPHO_API_URL = "https://api.morpho.org/v0"
 MORPHO_PAGE_SIZE = 1000  # the largest `limit` the Morpho API accepts
+# Vendor-issued key for Trezor: higher rate limits, and lets Morpho trace our
+# traffic. It is a shared secret, so it is read from the environment / `.env`.
+MORPHO_API_KEY_VAR = "MORPHO_API_KEY"
+
+
+def _read_dotenv(path: Path) -> dict[str, str]:
+    """Minimal `.env` reader: `KEY=VALUE` lines, `#` comments, optional quotes."""
+    if not path.exists():
+        return {}
+    values: dict[str, str] = {}
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, value = line.split("=", 1)
+        values[name.strip()] = value.strip().strip("'\"")
+    return values
+
+
+def _get_secret(name: str) -> str | None:
+    """`name` from the environment, else from `.env`; None if unset or empty."""
+    return os.environ.get(name) or _read_dotenv(ENV_PATH).get(name) or None
 
 
 class CacheableError(Exception):
@@ -81,13 +105,19 @@ class Downloader:
         self.refresh = refresh
         if refresh is None and not self.cache.is_valid():
             self.refresh = True
+        morpho_api_key = _get_secret(MORPHO_API_KEY_VAR)
+        self.morpho_headers = {"x-api-key": morpho_api_key} if morpho_api_key else None
         self._init_requests_session()
 
     def save_cache(self):
         self.cache.save()
 
-    def _download_json(self, url: str, **url_params: str) -> Any:
+    def _download_json(
+        self, url: str, headers: dict[str, str] | None = None, **url_params: str
+    ) -> Any:
         encoded_params = None
+        # headers (e.g. API keys) never go into the cache key: they don't change
+        # the response, and the cache file must not leak them
         key = url
 
         # Param values are sent exactly as given, so callers must stringify them:
@@ -111,7 +141,7 @@ class Downloader:
 
         logging.info(f"Fetching data from {url}")
 
-        r = self.session.get(url, params=encoded_params, timeout=60)
+        r = self.session.get(url, params=encoded_params, headers=headers, timeout=60)
         if r.status_code == requests.codes.forbidden:
             self.cache[key] = {"error": r.status_code}
             raise CacheableError(r.status_code)
@@ -172,7 +202,9 @@ class Downloader:
             params = {"limit": str(MORPHO_PAGE_SIZE)}
             if cursor is not None:
                 params["cursor"] = cursor
-            page = self._download_json(f"{MORPHO_API_URL}/{endpoint}", **params)
+            page = self._download_json(
+                f"{MORPHO_API_URL}/{endpoint}", headers=self.morpho_headers, **params
+            )
             vaults.extend(page["data"])
             cursor = page.get("cursor")
             if not cursor or not page["data"]:
@@ -187,5 +219,8 @@ class Downloader:
 
     def get_morpho_token(self, chain_id: int, address: str) -> dict[str, Any]:
         """Token metadata (name, symbol, decimals, ...) known to the Morpho API."""
-        response = self._download_json(f"{MORPHO_API_URL}/tokens/{chain_id}:{address}")
+        response = self._download_json(
+            f"{MORPHO_API_URL}/tokens/{chain_id}:{address}",
+            headers=self.morpho_headers,
+        )
         return response["data"]
