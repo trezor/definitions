@@ -506,6 +506,10 @@ def apply_calldata_params(
         )
 
 
+# EthereumERC7730EnumEntry.key value reserved for "the real key is in wide_key"
+_ENUM_WIDE_KEY = 0xFFFFFFFF
+
+
 def apply_enum_params(
     out: ERC7730Field,
     params: dict[str, Any],
@@ -516,10 +520,21 @@ def apply_enum_params(
     """Resolve an enum field's `$.metadata.enums.*` reference into enum_values.
 
     The descriptor maps calldata keys to display strings, e.g.
-    `{"0": "Stable", "1": "Variable"}`. Keys must fit uint32; the JSON-boolean
-    variant (`True`/`False` keys over a bool calldata value) maps to 1/0 and
-    is logged as an adjustment. Every accepted enum field is logged too, so
-    the feature's use is visible while firmware support is fresh.
+    `{"0": "Stable", "1": "Variable"}`. The JSON-boolean variant
+    (`True`/`False` keys over a bool calldata value) maps to 1/0 and is logged
+    as an adjustment. Every accepted enum field is logged too, so the
+    feature's use is visible while firmware support is fresh.
+
+    Keys below 0xFFFFFFFF ride in the proto's uint32 `key`. Wider keys
+    (0xFFFFFFFF included, up to 32 bytes) set `key` to the reserved
+    0xFFFFFFFF and carry the real value in `wide_key` (minimal big-endian).
+    
+    NOTE: An enum with any wide key also gets one trailing guard entry
+    `{key: 0xFFFFFFFF, value: ""}`. The duplication blocks older firmware from
+    misinterpreting the "key" if 0xFFFFFFFF was a valid value, as it rejects
+    enums with duplicate keys.
+    TODO: key will be deprecated in favour of wide_key later
+    https://github.com/trezor/trezor-firmware/issues/8337
     """
     ref = params.get("$ref")
     if not ref:
@@ -532,7 +547,9 @@ def apply_enum_params(
         raise UnsupportedFeature("unresolvable-enum-ref", f"{ref!r} (field {label!r})")
 
     values: list[dict[str, Any]] = []
+    seen: dict[int, Any] = {}
     bool_keys = False
+    wide_count = 0
     for k, v in entries.items():
         ks = str(k)
         if ks in ("True", "true", "False", "false"):
@@ -545,21 +562,47 @@ def apply_enum_params(
                 raise UnsupportedFeature(
                     "invalid-enum-entry", f"key {k!r} in {ref!r} (field {label!r})"
                 ) from None
-        # keys ride in a proto uint32
-        if not 0 <= key <= 0xFFFFFFFF:
+        if key < 0:
+            # No good reason to have negative keys. Impossible with byte indexing now.
             raise UnsupportedFeature(
                 "invalid-enum-entry",
-                f"key {k!r} out of uint32 range in {ref!r} (field {label!r})",
+                f"negative key {k!r} in {ref!r} (field {label!r})",
             )
-        values.append({"key": key, "value": str(v)})
+        if key in seen:
+            raise UnsupportedFeature(
+                "invalid-enum-entry",
+                f"keys {seen[key]!r} and {k!r} are the same value in {ref!r} "
+                f"(field {label!r})",
+            )
+        seen[key] = k
+        if key < _ENUM_WIDE_KEY:
+            values.append({"key": key, "value": str(v)})
+            continue
+        wide = key.to_bytes((key.bit_length() + 7) // 8, "big")
+        if len(wide) > 32:
+            raise UnsupportedFeature(
+                "invalid-enum-entry",
+                f"key {k!r} wider than 32 bytes in {ref!r} (field {label!r})",
+            )
+        values.append({"key": _ENUM_WIDE_KEY, "wide_key": wide.hex(), "value": str(v)})
+        wide_count += 1
 
     if bool_keys:
         ctx.adjust(
             "enum-bool-keys",
             f"{ref!r}: True/False keys mapped to 1/0 (field {label!r})",
         )
+    if wide_count:
+        ctx.adjust(
+            "enum-wide-keys",
+            f"{ref!r}: {wide_count} key(s) >= 0xFFFFFFFF carried in wide_key, "
+            f"guard entry appended (field {label!r})",
+        )
     ctx.adjust(
         "enum-field",
         f"{path_str}: {len(values)} value(s) from {ref!r} (field {label!r})",
     )
+    if wide_count:
+        # see the docstring: old firmware must see a duplicate 0xFFFFFFFF key
+        values.append({"key": _ENUM_WIDE_KEY, "value": ""})
     out["enum_values"] = values
