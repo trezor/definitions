@@ -72,6 +72,18 @@ if not any(
     for f in EthereumERC7730FieldInfo.FIELDS.values()
 ):
     _missing_proto.append("EthereumERC7730FieldInfo.native_currency_address")
+_missing_proto += [
+    f"EthereumABIType.{name}"
+    for name in (
+        "ABI_INT24",
+        "ABI_INT32",
+        "ABI_INT64",
+        "ABI_INT128",
+        "ABI_INT160",
+        "ABI_INT256",
+    )
+    if not hasattr(EthereumABIType, name)
+]
 for _name in ("if_not_in", "must_match"):
     if not any(f.name == _name for f in EthereumERC7730FieldInfo.FIELDS.values()):
         _missing_proto.append(f"EthereumERC7730FieldInfo.{_name}")
