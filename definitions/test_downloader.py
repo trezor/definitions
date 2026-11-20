@@ -32,13 +32,19 @@ class _FakeSession:
     def __init__(self, pages: dict[str, list[Any]]) -> None:
         self.pages = pages  # {endpoint: [page, page, ...]}
         self.requests: list[str] = []
+        self.headers: dict[str, dict[str, str] | None] = {}  # {url: headers}
 
     def get(
-        self, url: str, params: str | None = None, timeout: float | None = None
+        self,
+        url: str,
+        params: str | None = None,
+        headers: dict[str, str] | None = None,
+        timeout: float | None = None,
     ) -> _FakeResponse:
         if params:  # `requests` appends them to the URL
             url = f"{url}?{params}"
         self.requests.append(url)
+        self.headers[url] = headers
         parsed = urlparse(url)
         endpoint = parsed.path.rsplit("/", 1)[-1]
         query = parse_qs(parsed.query)
@@ -54,9 +60,16 @@ def _serve(downloader: dl.Downloader, pages: dict[str, list[Any]]) -> _FakeSessi
     return session
 
 
-@pytest.fixture
-def downloader(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> dl.Downloader:
+@pytest.fixture(autouse=True)
+def _isolated(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(dl, "CACHE_PATH", tmp_path / "cache.json")
+    # isolate from the developer's real key (environment or repo `.env`)
+    monkeypatch.setattr(dl, "ENV_PATH", tmp_path / ".env")
+    monkeypatch.delenv(dl.MORPHO_API_KEY_VAR, raising=False)
+
+
+@pytest.fixture
+def downloader() -> dl.Downloader:
     return dl.Downloader(refresh=True)
 
 
@@ -136,3 +149,57 @@ def test_morpho_token_is_looked_up_by_chain_and_address(
 
     assert downloader.get_morpho_token(1, "0xAbC") == token
     assert session.requests == ["https://api.morpho.org/v0/tokens/1:0xAbC"]
+
+
+def _serve_morpho(downloader: dl.Downloader) -> _FakeSession:
+    return _serve(
+        downloader,
+        {
+            "vaults-v1": [{"data": []}],
+            "vaults-v2": [{"data": []}],
+            "1:0xAbC": [{"data": {}}],
+        },
+    )
+
+
+def _morpho_headers_sent(downloader: dl.Downloader) -> list[Any]:
+    session = _serve_morpho(downloader)
+    downloader.get_morpho_vaults()
+    downloader.get_morpho_token(1, "0xAbC")
+    assert len(session.headers) == 3
+    return list(session.headers.values())
+
+
+def test_morpho_api_key_is_read_from_dotenv(tmp_path: Path) -> None:
+    (tmp_path / ".env").write_text("# comment\nMORPHO_API_KEY='from-dotenv'\n")
+    downloader = dl.Downloader(refresh=True)
+
+    assert _morpho_headers_sent(downloader) == [{"x-api-key": "from-dotenv"}] * 3
+    # the key must not end up in the (committed) cache file
+    assert not any("from-dotenv" in key for key in downloader.cache)
+
+
+def test_morpho_api_key_from_environment_wins_over_dotenv(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / ".env").write_text("MORPHO_API_KEY=from-dotenv\n")
+    monkeypatch.setenv(dl.MORPHO_API_KEY_VAR, "from-env")
+    downloader = dl.Downloader(refresh=True)
+
+    assert _morpho_headers_sent(downloader) == [{"x-api-key": "from-env"}] * 3
+
+
+def test_no_morpho_api_key_means_no_header(downloader: dl.Downloader) -> None:
+    assert _morpho_headers_sent(downloader) == [None] * 3
+
+
+def test_non_morpho_requests_carry_no_api_key(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv(dl.MORPHO_API_KEY_VAR, "from-env")
+    downloader = dl.Downloader(refresh=True)
+    session = _serve(downloader, {"list": [[]]})
+
+    downloader.get_coingecko_coins_list()
+
+    assert list(session.headers.values()) == [None]
