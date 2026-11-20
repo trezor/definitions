@@ -59,6 +59,8 @@ if not any(f.name == "callee_path" for f in EthereumERC7730FieldInfo.FIELDS.valu
     _missing_proto.append("EthereumERC7730FieldInfo.callee_path")
 if not any(f.name == "enum_values" for f in EthereumERC7730FieldInfo.FIELDS.values()):
     _missing_proto.append("EthereumERC7730FieldInfo.enum_values")
+if not any(f.name == "wide_key" for f in EthereumERC7730EnumEntry.FIELDS.values()):
+    _missing_proto.append("EthereumERC7730EnumEntry.wide_key")
 if not any(
     f.name == "lookup_address" for f in EthereumERC7730FieldInfo.FIELDS.values()
 ):
@@ -234,7 +236,13 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
         ),
         enum_values=(
             [
-                EthereumERC7730EnumEntry(key=e["key"], value=e["value"])
+                EthereumERC7730EnumEntry(
+                    key=e["key"],
+                    value=e["value"],
+                    wide_key=(
+                        bytes.fromhex(e["wide_key"]) if "wide_key" in e else None
+                    ),
+                )
                 for e in d["enum_values"]
             ]
             if "enum_values" in d
