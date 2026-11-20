@@ -84,9 +84,22 @@ _missing_proto += [
     )
     if not hasattr(EthereumABIType, name)
 ]
-for _name in ("if_not_in", "must_match"):
+for _name in (
+    "if_not_in",
+    "must_match",
+    "chain_id_path",
+    "const_chain_id",
+    "selector_path",
+    "amount_path",
+    "const_amount",
+    "spender_path",
+    "const_callee",
+    "const_spender",
+):
     if not any(f.name == _name for f in EthereumERC7730FieldInfo.FIELDS.values()):
         _missing_proto.append(f"EthereumERC7730FieldInfo.{_name}")
+if not hasattr(EthereumERC7730ContainerPath, "CHAIN_ID"):
+    _missing_proto.append("EthereumERC7730ContainerPath.CHAIN_ID")
 if not any(
     f.name == "provider_name" for f in EthereumDisplayFormatInfo.FIELDS.values()
 ):
@@ -193,10 +206,32 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
             if "native_currency_address" in d
             else None
         ),
+        chain_id_path=(
+            _build_erc7730_path(d["chain_id_path"]) if "chain_id_path" in d else None
+        ),
+        const_chain_id=d.get("const_chain_id"),
         callee_path=(
             _build_erc7730_path(d["callee_path"]) if "callee_path" in d else None
         ),
+        const_callee=(
+            bytes.fromhex(d["const_callee"]) if "const_callee" in d else None
+        ),
         selector=bytes.fromhex(d["selector"]) if "selector" in d else None,
+        selector_path=(
+            _build_erc7730_path(d["selector_path"]) if "selector_path" in d else None
+        ),
+        amount_path=(
+            _build_erc7730_path(d["amount_path"]) if "amount_path" in d else None
+        ),
+        const_amount=(
+            bytes.fromhex(d["const_amount"]) if "const_amount" in d else None
+        ),
+        spender_path=(
+            _build_erc7730_path(d["spender_path"]) if "spender_path" in d else None
+        ),
+        const_spender=(
+            bytes.fromhex(d["const_spender"]) if "const_spender" in d else None
+        ),
         enum_values=(
             [
                 EthereumERC7730EnumEntry(key=e["key"], value=e["value"])
