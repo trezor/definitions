@@ -75,8 +75,12 @@ ERC7730Path = _ContainerPath | _DataPath | _ConstValuePath
 
 
 class ERC7730EnumValue(t.TypedDict):
-    key: int  # the decoded calldata value (uint32)
+    # the decoded calldata value (uint32); 0xFFFFFFFF is reserved for
+    # "see wide_key"
+    key: int
     value: str  # what the user sees for it
+    # hex (no 0x prefix), minimal big-endian, at most 32 bytes: keys >= 0xFFFFFFFF
+    wide_key: t.NotRequired[str]
 
 
 class ERC7730Field(t.TypedDict):
