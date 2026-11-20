@@ -254,11 +254,6 @@ def main(verbose: int):
         cdet = CoinDetail.from_coin(coin, support_info)
         cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
 
-    for coin in coin_info_defs.nem:
-        cdet = CoinDetail.from_coin(coin, support_info)
-        cdet.networks = {"nem"}
-        cg_ids_unfiltered.setdefault(cdet.coingecko_id, cdet).merge(cdet)
-
     # Update ETH things from our own definitions
     eth_networks: list[Network] = [
         d for d in DEFINITIONS_LATEST["networks"] if not d.get("deleted")
