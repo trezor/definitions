@@ -603,12 +603,35 @@ class _FormatContext:
         self.adjustments.append((kind, detail))
 
 
+_VISIBILITY_RULES = ("ifNotIn", "mustMatch")
+
+
+def _visibility_rule(field_def: dict[str, Any]) -> tuple[str, list[Any]] | None:
+    """Return the field's `(rule, values)` visibility rule object, if any.
+
+    ERC-7730 rule objects carry exactly one of `ifNotIn` (show the field only
+    when its value is NOT listed) or `mustMatch` (reject signing if the value is not listed).
+    A malformed object raises.
+    """
+    visible = field_def.get("visible")
+    if not isinstance(visible, dict):
+        return None
+    if len(visible) == 1:
+        ((rule, values),) = visible.items()
+        if rule in _VISIBILITY_RULES and isinstance(values, list) and values:
+            return rule, values
+    raise UnsupportedFeature(
+        "conditional-visibility",
+        f"malformed rule visible={visible!r} (label {field_def.get('label')!r})",
+    )
+
+
 def _field_is_displayed(
     field_def: dict[str, Any], ctx: _FormatContext | None = None
 ) -> bool:
-    """Whether a field is meant to be shown to the user.
+    """Whether a field must be emitted into the display format.
 
-    Not-displayed fields carry no display information, so we skip them without
+    Not-emitted fields carry no display information, so we skip them without
     validating their path/formatter/type — they are never "missing fields".
     A field is hidden when it has no `format`, or `visible` is `never`/`false`.
 
@@ -616,12 +639,18 @@ def _field_is_displayed(
     sensible" (ERC-7730) — hiding it is spec-compliant, so it is skipped like
     `never`, logged as an adjustment.
 
-    The *rule objects* (`ifNotIn`, `mustMatch`) are true conditionals the
-    firmware cannot honor either way — `mustMatch` even carries a validation
-    duty — so any such value raises and drops the display format.
+    The rule objects are emitted and evaluated on-device (`if_not_in` /
+    `must_match`, see `_apply_visibility_rule`). A `mustMatch` field is
+    emitted even without a `format`: it is never shown, but the firmware must
+    still check its value.
     """
+    rule = _visibility_rule(field_def)
+    if rule is not None and rule[0] == "mustMatch":
+        return True
     if field_def.get("format") is None:
         return False
+    if rule is not None:
+        return True  # ifNotIn
     visible = field_def.get("visible")
     if visible in (False, "never"):
         return False
@@ -723,6 +752,7 @@ def _build_non_path_field(
     """
     if not _field_is_displayed(field_def, ctx):
         return None
+    _reject_rule_on_constant(field_def)
     if "value" not in field_def:
         raise UnsupportedFeature(
             "non-path-field",
@@ -957,7 +987,188 @@ def _retype_uint_leaf_as_address(
 
 
 # ---------------------------------------------------------------------
-# 4c. Calldata-bound fields (per-formatter `params` handling: params.py)
+# 4c. Conditional visibility (`visible: {ifNotIn | mustMatch: [...]}`)
+#
+# The listed values ride in the proto as `if_not_in` / `must_match`, each
+# entry the byte encoding of one value, typed by the leaf the field's path
+# points at. Entries are never decoded on-device: the firmware turns the
+# field's walked value into bytes once and checks membership —
+#
+#   str -> v.encode();  int/bool -> (v % 2**256).to_bytes(32, "big");
+#   bytes -> as is
+#
+# — so each entry is encoded to equal exactly that:
+#
+#   uintN / intN / @.value / bool    -> the 32-byte ABI word (two's
+#                                       complement for negatives; bool is
+#                                       0 / 1). Range-checked against the
+#                                       leaf (negatives only on intN).
+#   address (and 20-byte slices)     -> 20 bytes
+#   bytesN / bytes / other slices    -> the raw bytes (length checked when
+#                                       statically known); a numeric value
+#                                       zero-pads to the static width, and
+#                                       without one only `0` is accepted (Lifi),
+#                                       as the empty byte string
+#   string                           -> UTF-8
+#
+# Values may be JSON numbers, booleans, strings (decimal or 0x-hex for
+# numbers, hex for addresses/bytes) or `$.metadata.constants.*` references.
+# ---------------------------------------------------------------------
+
+_LEAF_UINT = "uint"
+_LEAF_INT = "int"
+_LEAF_ADDRESS = "address"
+_LEAF_BOOL = "bool"
+_LEAF_BYTES = "bytes"
+_LEAF_STRING = "string"
+
+
+def _rule_leaf_type(
+    path: ERC7730Path, kind: str, ctx: _FormatContext
+) -> tuple[str, int | None]:
+    """The (leaf type, size) a rule's values are encoded as.
+
+    `size` is the bit width for uint/int leaves, the static byte length (or
+    None) for bytes leaves, and None otherwise.
+
+    Read from the final ABI tree, so a uint leaf retyped to address by an
+    `addressName` reinterpretation encodes as an address.
+    """
+    if "container_path" in path:
+        return (_LEAF_UINT, 256) if kind == KIND_NUMERIC else (_LEAF_ADDRESS, None)
+    if "slice_start" in path or "slice_end" in path:
+        n = _nominal_slice_length(path.get("slice_start"), path.get("slice_end"))
+        return (_LEAF_ADDRESS, None) if n == 20 else (_LEAF_BYTES, n)
+    node = _abi_leaf_at(ctx.parameter_definitions, list(path.get("path", [])))
+    abi = str((node or {}).get("atomic") or (node or {}).get("dynamic") or "")
+    if abi == "ABI_ADDRESS":
+        return _LEAF_ADDRESS, None
+    if abi == "ABI_BOOL":
+        return _LEAF_BOOL, None
+    if abi.startswith("ABI_UINT"):
+        return _LEAF_UINT, int(abi.removeprefix("ABI_UINT"))
+    if abi.startswith("ABI_INT"):
+        return _LEAF_INT, int(abi.removeprefix("ABI_INT"))
+    if abi == "ABI_STRING":
+        return _LEAF_STRING, None
+    if abi == "ABI_BYTES":
+        return _LEAF_BYTES, None
+    if abi.startswith("ABI_BYTES"):
+        return _LEAF_BYTES, int(abi.removeprefix("ABI_BYTES"))
+    raise UnsupportedFeature("conditional-visibility", f"rule on a {abi or kind} leaf")
+
+
+def _parse_int(value: Any) -> int | None:
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        s = value.strip()
+        try:
+            return int(s, 16) if s.lower().startswith("0x") else int(s, 10)
+        except ValueError:
+            return None
+    return None
+
+
+def _abi_word(n: int) -> str:
+    """`n` as its 32-byte ABI word, hex; two's complement for negatives."""
+    return (n % 2**256).to_bytes(32, "big").hex()
+
+
+def _encode_rule_value(value: Any, leaf: str, size: int | None) -> str | None:
+    """Encode one rule value as hex (no `0x`) for `leaf`; None if it can't be (logged and function dropped)."""
+    if value is None:
+        return None
+    if leaf in (_LEAF_UINT, _LEAF_INT):
+        n = _parse_int(value)  # JSON value -> int
+        assert size is not None  # bit width
+        lo, hi = (  # the type's range
+            (0, 2**size)
+            if leaf == _LEAF_UINT
+            else (-(2 ** (size - 1)), 2 ** (size - 1))
+        )
+        if n is None or not lo <= n < hi:  # unrepresentable: drop
+            return None
+        return _abi_word(n)
+    if leaf == _LEAF_BOOL:
+        # Overengineered for all cases but the registry just does "true"/"false" strings. For now :)
+        if isinstance(value, str) and value.lower() in ("true", "false"):
+            return _abi_word(value.lower() == "true")
+        n = _parse_int(value)
+        return _abi_word(n) if n in (0, 1) else None
+    if leaf == _LEAF_STRING:
+        return str(value).encode().hex() if isinstance(value, str) else None
+    # address / bytes: a hex string, or (for a numeric literal) a big-endian
+    # integer of the leaf's static width.
+    width = 20 if leaf == _LEAF_ADDRESS else size
+    if isinstance(value, str) and value.lower().startswith("0x"):
+        h = _normalize_hex(value)
+        if h and not _is_hex(h):
+            return None
+    else:
+        n = _parse_int(value)
+        if width is None and n == 0 and not isinstance(value, bool):
+            # Dynamic `bytes` has no width to zero-pad to: `0` means
+            # "unset", i.e. empty (lifi's `nonEVMReceiver: ifNotIn [0]`).
+            # An all-zero payload stays shown — the safe side for a hide rule.
+            return ""
+        if n is None or n < 0 or width is None or n >= 2 ** (8 * width):
+            return None
+        h = n.to_bytes(width, "big").hex()
+    if width is not None and len(h) != 2 * width:
+        return None
+    return h
+
+
+def _apply_visibility_rule(
+    out: ERC7730Field,
+    rule: tuple[str, list[Any]],
+    path: ERC7730Path,
+    kind: str,
+    label: str,
+    ctx: _FormatContext,
+) -> None:
+    """Encode an `ifNotIn` / `mustMatch` rule into `out` (see section comment)."""
+    name, values = rule
+    leaf, size = _rule_leaf_type(path, kind, ctx)
+    encoded: list[str] = []
+    for v in values:
+        if isinstance(v, str) and v.startswith("$"):
+            resolved = _resolve_constant(v, ctx.constants)
+            if resolved is None:
+                raise UnsupportedFeature(
+                    "unresolvable-visibility-value", f"{name} {v!r} (field {label!r})"
+                )
+            v = resolved
+        e = _encode_rule_value(v, leaf, size)
+        if e is None:
+            raise UnsupportedFeature(
+                "invalid-visibility-value",
+                f"{name} {v!r} is not a valid {leaf} value (field {label!r})",
+            )
+        if e not in encoded:
+            encoded.append(e)
+    out["if_not_in" if name == "ifNotIn" else "must_match"] = encoded
+    ctx.adjust(
+        "conditional-visibility",
+        f"{name} over {leaf}: {len(encoded)} value(s) (field {label!r})",
+    )
+
+
+def _reject_rule_on_constant(field_def: dict[str, Any]) -> None:
+    """A constant field's value is known statically; a rule on it is a
+    descriptor oddity we don't fold away — drop rather than guess."""
+    if _visibility_rule(field_def) is not None:
+        raise UnsupportedFeature(
+            "conditional-visibility",
+            f"rule on constant field (label {field_def.get('label')!r})",
+        )
+
+
+# ---------------------------------------------------------------------
+# 4d. Calldata-bound fields (per-formatter `params` handling: params.py)
 # ---------------------------------------------------------------------
 
 
@@ -980,13 +1191,19 @@ def _build_path_field(
     if not _field_is_displayed(field_def, ctx):
         return None
 
-    fmt = field_def["format"]  # present, else _field_is_displayed is False
-    label = field_def.get("label", "")
+    rule = _visibility_rule(field_def)
+    must_match = rule is not None and rule[0] == "mustMatch"
+    path_str = str(field_def.get("path") or "")
+    # A mustMatch field is never shown: it is emitted as RAW (no params, no
+    # token lookups) purely so the firmware can check its value. The proto
+    # requires a label, but mustMatch fields may omit one (never shown), so
+    # fall back to the path for the firmware's mismatch error.
+    fmt = "raw" if must_match else field_def["format"]
+    label = field_def.get("label") or (path_str if must_match else "")
     if not label:
         raise UnsupportedFeature(
             "missing-label", f"{fmt} field at {field_def.get('path')!r}"
         )
-    path_str = str(field_def.get("path") or "")
     if not path_str:
         raise UnsupportedFeature("missing-path", f"field {label!r}")
 
@@ -995,6 +1212,7 @@ def _build_path_field(
         const = _resolve_constant(path_str, ctx.constants)
         if const is None:
             raise UnsupportedFeature("descriptor-path", f"{path_str} (field {label!r})")
+        _reject_rule_on_constant(field_def)
         return _const_value_field(label, fmt, const, ctx, already_resolved=True)
 
     try:
@@ -1011,6 +1229,16 @@ def _build_path_field(
         "label": label,
         "formatter": _FORMATTER_MAP[fmt],
     }
+    if rule is not None:
+        _apply_visibility_rule(out, rule, path, kind, label, ctx)
+    if must_match:
+        if field_def.get("format") not in (None, "raw"):
+            ctx.adjust(
+                "must-match-as-raw",
+                f"{path_str}: format {field_def['format']!r} not used, the "
+                f"field is never shown (field {label!r})",
+            )
+        return out
     params = field_def.get("params") or {}
     if fmt == "addressName":
         apply_address_name_params(out, params, label, ctx)
