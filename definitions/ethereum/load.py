@@ -105,7 +105,7 @@ ENABLED_PROVIDERS = frozenset(
         "relay",
         "rocketpool",
         # "safe", Unsupported. TODO.
-        "sei",
+        # "sei", Removed upstream (registry #3042, unverifiable on Sourcify).
         "serenita", # Multicall. Not supported in FW yet. TODO
         "sky",
         "slice",
