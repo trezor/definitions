@@ -83,6 +83,7 @@ _missing_proto += [
         "ABI_INT128",
         "ABI_INT160",
         "ABI_INT256",
+        "ABI_UINT216",
     )
     if not hasattr(EthereumABIType, name)
 ]
