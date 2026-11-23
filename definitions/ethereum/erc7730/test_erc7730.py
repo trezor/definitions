@@ -1472,6 +1472,49 @@ def test_duration_on_non_numeric_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
 
 
+def test_chain_id_is_chain_id_formatter():
+    desc = _single_field_desc(
+        "f(uint256 c)", {"path": "c", "label": "Chain", "format": "chainId"}
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    assert rec["field_definitions"] == [
+        {"path": {"path": [0]}, "label": "Chain", "formatter": "FORMATTER_CHAIN_ID"}
+    ]
+    assert adjustments == []
+
+
+def test_chain_id_over_container_chain_id():
+    desc = _single_field_desc(
+        "f(uint256 c)", {"path": "@.chainId", "label": "Chain", "format": "chainId"}
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["formatter"] == "FORMATTER_CHAIN_ID"
+    assert field["path"] == {"container_path": "CHAIN_ID"}
+
+
+def test_chain_id_on_non_numeric_skips_file():
+    desc = _single_field_desc(
+        "f(address x)", {"path": "x", "label": "L", "format": "chainId"}
+    )
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
+
+
+def test_chain_id_serializes_to_proto():
+    from trezorlib.messages import EthereumERC7730FieldFormatterType
+
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {"path": {"path": [0]}, "label": "Chain", "formatter": "FORMATTER_CHAIN_ID"}
+    )
+    assert info.formatter == EthereumERC7730FieldFormatterType.FORMATTER_CHAIN_ID
+
+
 # =====================================================================
 #                array (multi-value) formatters via `.[]`
 # =====================================================================
@@ -4018,19 +4061,6 @@ def test_registry_rule_override_on_ref():
             "per-element-field-path",
             id="per-element-path",
         ),
-        # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/across/calldata-Ethereum_SpokePool.json#L43
-        # `chainId` has no formatter here, rule or not.
-        pytest.param(
-            "f(uint256 destinationChainId)",
-            {
-                "path": "destinationChainId",
-                "label": "Destination Chain",
-                "format": "chainId",
-                "visible": {"ifNotIn": [130, 143]},
-            },
-            "unsupported-formatter",
-            id="chainId-format",
-        ),
     ],
 )
 def test_registry_rule_shapes_that_drop(sig, field, feature):
@@ -4040,6 +4070,29 @@ def test_registry_rule_shapes_that_drop(sig, field, feature):
             _descriptor(formats={sig: {"fields": [field]}}), unsupported=unsupported
         )
     assert {feat for _src, feat, _det in unsupported} == {feature}
+
+
+def test_chain_id_format_with_if_not_in():
+    # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/across/calldata-Ethereum_SpokePool.json#L43
+    [rec] = build_display_formats(
+        _descriptor(
+            formats={
+                "f(uint256 destinationChainId)": {
+                    "fields": [
+                        {
+                            "path": "destinationChainId",
+                            "label": "Destination Chain",
+                            "format": "chainId",
+                            "visible": {"ifNotIn": [130, 143]},
+                        }
+                    ]
+                }
+            }
+        )
+    )
+    [out] = rec["field_definitions"]
+    assert out["formatter"] == "FORMATTER_CHAIN_ID"
+    assert out["if_not_in"] == [_w(130), _w(143)]
 
 
 def test_visibility_rules_serialize_to_proto():
