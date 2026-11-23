@@ -2658,14 +2658,149 @@ def test_enum_non_numeric_key_skips_file():
     assert {feat for _src, feat, _det in unsupported} == {"invalid-enum-entry"}
 
 
-def test_enum_key_out_of_uint32_range_skips_file():
-    desc = _enum_desc(
-        {"$ref": "$.metadata.enums.bad"}, enums={"bad": {"4294967296": "X"}}
-    )
+def _enum_skip_reason(entries, sig="f(uint256 mode)"):
+    desc = _enum_desc({"$ref": "$.metadata.enums.e"}, enums={"e": entries}, sig=sig)
     unsupported: list = []
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"invalid-enum-entry"}
+    return {feat for _src, feat, _det in unsupported}
+
+
+def _enum_fields(entries, sig="f(uint256 mode)", path="mode"):
+    """Return (enum_values, adjustment kinds) for one enum field over `entries`."""
+    desc = _enum_desc(
+        {"$ref": "$.metadata.enums.e"}, enums={"e": entries}, sig=sig, path=path
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    return rec["field_definitions"][0]["enum_values"], [k for _s, k, _d in adjustments]
+
+
+def test_enum_wide_key_emits_wide_key_and_guard():
+    values, kinds = _enum_fields({"1": "One", "4294967296": "Big"})
+    assert values == [
+        {"key": 1, "value": "One"},
+        {"key": 0xFFFFFFFF, "wide_key": "0100000000", "value": "Big"},
+        # guard: old firmware (no wide_key) sees a duplicate 0xFFFFFFFF key
+        # and rejects the format instead of mislabelling calldata 0xFFFFFFFF
+        {"key": 0xFFFFFFFF, "value": ""},
+    ]
+    assert kinds == ["enum-wide-keys", "enum-field"]
+
+
+def test_enum_key_0xffffffff_is_wide():
+    values, _ = _enum_fields({"0xFFFFFFFF": "Max32", "0xFFFFFFFE": "Below"})
+    assert values == [
+        {"key": 0xFFFFFFFF, "wide_key": "ffffffff", "value": "Max32"},
+        {"key": 0xFFFFFFFE, "value": "Below"},
+        {"key": 0xFFFFFFFF, "value": ""},
+    ]
+
+
+def test_enum_multiple_wide_keys_get_one_trailing_guard():
+    max256 = str(2**256 - 1)
+    values, _ = _enum_fields({max256: "Max", "0x1" + "00" * 8: "Mid", "0": "Zero"})
+    assert values == [
+        {"key": 0xFFFFFFFF, "wide_key": "ff" * 32, "value": "Max"},
+        {"key": 0xFFFFFFFF, "wide_key": "01" + "00" * 8, "value": "Mid"},
+        {"key": 0, "value": "Zero"},
+        {"key": 0xFFFFFFFF, "value": ""},
+    ]
+    assert sum("wide_key" not in v and v["key"] == 0xFFFFFFFF for v in values) == 1
+
+
+def test_enum_without_wide_keys_has_no_guard():
+    values, kinds = _enum_fields({"0": "A", "0xFFFFFFFE": "B"})
+    assert values == [{"key": 0, "value": "A"}, {"key": 0xFFFFFFFE, "value": "B"}]
+    assert kinds == ["enum-field"]
+
+
+def test_enum_registry_symbiotic_bytes32_roles():
+    # OpenZeppelin AccessControl role ids are keccak256 hashes, so all but the
+    # default admin role (0x00) are wide keys.
+    # enum: https://github.com/ethereum/clear-signing-erc7730-registry/blob/7ba25fba5d7128930fb6683de99e0f0271f5e267/registry/symbiotic/calldata-UniversalDelegator-USDC.json#L48-L58
+    # field: https://github.com/ethereum/clear-signing-erc7730-registry/blob/7ba25fba5d7128930fb6683de99e0f0271f5e267/registry/symbiotic/calldata-UniversalDelegator-USDC.json#L606-L634
+    roles = {
+        "0": "Default admin",
+        "28243793089499064125200153067652308998873306605553429215694165115908920544912": "Allocate",
+        "50560985435110027382313390568851860548267030219879002177657449806772213243098": "Deallocate",
+        "88028664841565611520124839424531247632261927938012923435453451797300661270411": "Add adapter",
+        "13264166804651107049971627042331359793689282905202948908894025771814477460686": "Swap adapter priority",
+        "105913733732141619592880755283964529773244964259727493881968401745811500302826": "Remove adapter",
+        "6873058840399056807680468190230370004676513393731428383794203968452095283877": "Force deallocate",
+        "63526308245397922697810000530681480955750031233709255612285696458110986554933": "Set adapter limits",
+        "58123140167707441986822184994193659285996543482856171670093325408374456504393": "Set allocation order",
+    }
+    desc = _enum_desc(
+        {"$ref": "$.metadata.enums.roles"},
+        enums={"roles": roles},
+        sig="grantRole(bytes32 role,address account)",
+        path="role.[0:32]",
+    )
+    adjustments: list = []
+    [rec] = build_display_formats(desc, adjustments=adjustments)
+    [field] = rec["field_definitions"]
+    values = field["enum_values"]
+
+    assert field["path"] == {"path": [0], "slice_start": 0, "slice_end": 32}
+    assert values[0] == {"key": 0, "value": "Default admin"}
+    # 8 wide entries in descriptor order, then exactly one trailing guard
+    assert len(values) == 1 + 8 + 1
+    assert all(v["key"] == 0xFFFFFFFF and "wide_key" in v for v in values[1:-1])
+    assert [v["value"] for v in values[1:-1]] == list(roles.values())[1:]
+    assert values[-1] == {"key": 0xFFFFFFFF, "value": ""}
+    # "Force deallocate" starts with a zero nibble, not a zero byte: still 32 bytes
+    assert values[6] == {
+        "key": 0xFFFFFFFF,
+        "wide_key": "0f3203713f9a3f4a9748f1aee9bca713a30bc811b67a4b93434667911e0e92a5",
+        "value": "Force deallocate",
+    }
+    assert [k for _s, k, _d in adjustments] == ["enum-wide-keys", "enum-field"]
+
+
+def test_enum_registry_rarible_bytes4_asset_class_stays_narrow():
+    # bytes4 asset-class ids all fit uint32, the largest being 0xF63C2825, so
+    # there is no wide_key and no guard. The registry descriptor is EIP-712
+    # (`AssetType(bytes4 assetClass,bytes data)`); a calldata stand-in with the
+    # same bytes4 slice exercises the same key handling.
+    # enum: https://github.com/ethereum/clear-signing-erc7730-registry/blob/7ba25fba5d7128930fb6683de99e0f0271f5e267/registry/rarible/eip712-rarible-exchange-v2.json#L15-L24
+    # field: https://github.com/ethereum/clear-signing-erc7730-registry/blob/7ba25fba5d7128930fb6683de99e0f0271f5e267/registry/rarible/eip712-rarible-exchange-v2.json#L33-L38
+    asset_class = {
+        "2863578810": "ETH",
+        "2330484100": "ERC20",
+        "1940726086": "ERC721",
+        "2537272896": "ERC1155",
+        "4131137573": "Collection, any id",
+        "1047235028": "CryptoPunk",
+        "3640221889": "ERC721 lazy mint",
+        "484420160": "ERC1155 lazy mint",
+    }
+    values, kinds = _enum_fields(
+        asset_class, sig="f(bytes4 assetClass)", path="assetClass.[0:4]"
+    )
+    assert values == [{"key": int(k), "value": v} for k, v in asset_class.items()]
+    assert {"key": 0xF63C2825, "value": "Collection, any id"} in values
+    assert kinds == ["enum-field"]
+
+
+def test_enum_key_wider_than_32_bytes_skips_file():
+    assert _enum_skip_reason({str(2**256): "X"}) == {"invalid-enum-entry"}
+
+
+def test_enum_negative_key_skips_file():
+    assert _enum_skip_reason({"-1": "X"}) == {"invalid-enum-entry"}
+
+
+@pytest.mark.parametrize(
+    "entries",
+    [
+        {"1": "A", "0x1": "B"},
+        {"true": "Yes", "1": "One"},
+        {"4294967296": "A", "0x100000000": "B"},
+    ],
+)
+def test_enum_duplicate_key_values_skip_file(entries):
+    assert _enum_skip_reason(entries) == {"invalid-enum-entry"}
 
 
 def test_enum_on_address_skips_file():
@@ -2694,6 +2829,29 @@ def test_enum_values_serialize_to_proto():
     )
     [entry] = info.enum_values
     assert (entry.key, entry.value) == (1, "Stable")
+
+
+def test_enum_wide_key_serializes_to_proto():
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": {"path": [0]},
+            "label": "Mode",
+            "formatter": "FORMATTER_ENUM",
+            "enum_values": [
+                {"key": 0xFFFFFFFF, "wide_key": "0100000000", "value": "Big"},
+                {"key": 0xFFFFFFFF, "value": ""},
+            ],
+        }
+    )
+    wide, guard = info.enum_values
+    assert (wide.key, wide.wide_key, wide.value) == (
+        0xFFFFFFFF,
+        bytes.fromhex("0100000000"),
+        "Big",
+    )
+    assert (guard.key, guard.wide_key, guard.value) == (0xFFFFFFFF, None, "")
 
 
 # =====================================================================
