@@ -131,6 +131,7 @@ _ABI_TYPE_MAP: dict[str, tuple[bool, str]] = {
     "uint120": (False, "ABI_UINT120"),
     "uint128": (False, "ABI_UINT128"),
     "uint160": (False, "ABI_UINT160"),
+    "uint216": (False, "ABI_UINT216"),
     "uint248": (False, "ABI_UINT248"),
     "uint256": (False, "ABI_UINT256"),
 }
