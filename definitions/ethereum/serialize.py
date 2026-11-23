@@ -44,6 +44,7 @@ _missing_proto = [
         "FORMATTER_DURATION",
         "FORMATTER_CALLDATA",
         "FORMATTER_ENUM",
+        "FORMATTER_CHAIN_ID",
     )
     if not hasattr(EthereumERC7730FieldFormatterType, name)
 ]
