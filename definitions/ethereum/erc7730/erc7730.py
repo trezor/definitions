@@ -563,6 +563,7 @@ _FORMATTER_MAP = {
     "duration": "FORMATTER_DURATION",
     "calldata": "FORMATTER_CALLDATA",
     "enum": "FORMATTER_ENUM",
+    "chainId": "FORMATTER_CHAIN_ID",
 }
 
 # The leaf-value kind(s) each formatter accepts. `_check_kind_or_reinterpret`
@@ -580,6 +581,8 @@ _FORMATTER_VALUE_KIND = {
     # enum keys are small uints; KIND_BYTES admits the bool case
     # (True/False keys over a bool value, mapped to 1/0).
     "enum": frozenset({KIND_NUMERIC, KIND_BYTES}),
+    # Firmware ChainIdFormatter takes a uint only (rejects byte slices / bools).
+    "chainId": frozenset({KIND_NUMERIC}),
 }
 
 
