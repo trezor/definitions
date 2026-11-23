@@ -3398,6 +3398,7 @@ def _device_bytes(v: Any) -> bytes:
         ("f(int160 x)", "x", -2, -2),
         ("f(int24 x)", "x", -(2**23), -(2**23)),
         ("f(int256 x)", "x", 2**255 - 1, 2**255 - 1),
+        ("f(uint216 x)", "x", 2**216 - 1, 2**216 - 1),
         ("f(bool b)", "b", False, False),
         ("f(bool b)", "b", 1, True),
         ("f(address a)", "a", "0x" + "AB" * 20, bytes.fromhex("ab" * 20)),
@@ -3520,6 +3521,7 @@ def test_if_not_in_without_format_stays_hidden():
         ("f(int160 x)", "x", {"ifNotIn": [2**159]}, "invalid-visibility-value"),
         ("f(int160 x)", "x", {"ifNotIn": [-(2**159) - 1]}, "invalid-visibility-value"),
         ("f(int24 x)", "x", {"ifNotIn": [2**23]}, "invalid-visibility-value"),
+        ("f(uint216 x)", "x", {"ifNotIn": [2**216]}, "invalid-visibility-value"),
         ("f(int256 x)", "x", {"ifNotIn": [-(2**255) - 1]}, "invalid-visibility-value"),
         ("f()", "@.value", {"ifNotIn": [-1]}, "invalid-visibility-value"),
         ("f(uint256 x)", "x", {"ifNotIn": ["abc"]}, "invalid-visibility-value"),
@@ -4137,6 +4139,22 @@ def test_build_abi_value_signed_ints(bits):
     sig = f"f(int{bits} x)"
     assert build_abi_value(_component(sig)) == {"atomic": f"ABI_INT{bits}"}
     assert path_to_dict("x", _inputs(sig))[1] == KIND_NUMERIC
+
+
+@pytest.mark.parametrize(
+    "bits", [8, 16, 24, 32, 40, 48, 64, 72, 96, 112, 120, 128, 160, 216, 248, 256]
+)
+def test_build_abi_value_unsigned_ints(bits):
+    # Every unsigned width the firmware's `_get_parser` decodes.
+    sig = f"f(uint{bits} x)"
+    assert build_abi_value(_component(sig)) == {"atomic": f"ABI_UINT{bits}"}
+    assert path_to_dict("x", _inputs(sig))[1] == KIND_NUMERIC
+
+
+def test_build_abi_value_unsupported_unsigned_int():
+    # A width the firmware doesn't decode stays unrepresentable.
+    with pytest.raises(ValueError, match="unknown ABI type"):
+        build_abi_value(_component("f(uint208 x)"))
 
 
 def test_build_abi_value_unsupported_signed_int():
