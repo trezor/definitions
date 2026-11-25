@@ -27,6 +27,7 @@ from .erc7730 import (
     _nominal_slice_length,
     _normalize_hex,
     _parse_int,
+    _path_slice,
     _resolve_constant,
     _retype_uint_leaf_as_address,
     path_to_dict,
@@ -123,10 +124,8 @@ def _resolve_address_path(
         ) from None
     if kind == KIND_ADDRESS:
         return path
-    if (
-        kind == KIND_NUMERIC
-        and "path" in path
-        and _retype_uint_leaf_as_address(ctx.parameter_definitions, path["path"])
+    if kind == KIND_NUMERIC and _retype_uint_leaf_as_address(
+        ctx.parameter_definitions, path
     ):
         ctx.adjust(
             f"{what}-address-in-numeric",
@@ -197,15 +196,14 @@ def _resolve_selector_path(
             "unresolvable-selector-path",
             f"{path_str}: [{e.feature}] {e.detail} (field {label!r})",
         ) from None
-    if "path" in path:
-        if "slice_start" in path or "slice_end" in path:
-            n = _nominal_slice_length(path.get("slice_start"), path.get("slice_end"))
-            if n == 4:
-                return path
-        else:
-            node = _abi_leaf_at(ctx.parameter_definitions, list(path["path"]))
-            if (node or {}).get("atomic") == "ABI_BYTES4":
-                return path
+    slice_ = _path_slice(path)
+    if slice_ is not None:
+        if _nominal_slice_length(*slice_) == 4:
+            return path
+    elif (_abi_leaf_at(ctx.parameter_definitions, path) or {}).get(
+        "atomic"
+    ) == "ABI_BYTES4":
+        return path
     raise UnsupportedFeature(
         "unresolvable-selector-path",
         f"{path_str} is not a 4-byte selector (field {label!r})",
