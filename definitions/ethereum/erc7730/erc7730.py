@@ -298,6 +298,17 @@ def _nominal_slice_length(start: int | None, end: int | None) -> int | None:
     return None
 
 
+def _path_slice(path: ERC7730Path) -> tuple[int | None, int | None] | None:
+    """The trailing byte slice `(start, end)` of a data path, or None.
+    """
+    if "path" not in path:
+        return None
+    start, end = path.get("slice_start"), path.get("slice_end")
+    if start is None and end is None:
+        return None
+    return start, end
+
+
 def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, str]:
     """Convert an ERC-7730 path string to `(proto path, leaf kind)`.
 
@@ -868,12 +879,12 @@ def _check_kind_or_reinterpret(
     if (
         fmt in ("date", "duration")
         and kind == KIND_BYTES
-        and ("slice_start" in path or "slice_end" in path)
+        and _path_slice(path) is not None
     ):
         return
 
-    if fmt == "addressName" and kind == KIND_NUMERIC and "path" in path:
-        if _retype_uint_leaf_as_address(ctx.parameter_definitions, path["path"]):
+    if fmt == "addressName" and kind == KIND_NUMERIC:
+        if _retype_uint_leaf_as_address(ctx.parameter_definitions, path):
             ctx.adjust(
                 "address-in-numeric",
                 f"{path_str} is numeric but formatted as addressName — "
@@ -904,9 +915,12 @@ def _check_kind_or_reinterpret(
 
 
 def _abi_leaf_at(
-    parameter_definitions: list[ABIValue], indices: list[int]
+    parameter_definitions: list[ABIValue], path: ERC7730Path
 ) -> ABIValue | None:
-    """Return the ABI tree node a proto data path points at, or None.
+    """Return the ABI tree node a data path points at, or None.
+
+    None also for container paths and constants, which don't walk calldata.
+    A trailing byte slice is ignored: the node returned is the sliced value's.
 
     The walk mirrors how paths are built in section 2. Worked example for
     `uniswapV3Swap(uint256 amount, uint256 minReturn, uint256[] pools)` with
@@ -920,6 +934,7 @@ def _abi_leaf_at(
     index appended): the firmware formats each element, so the element type
     is still the leaf — the final unwrap loop handles that.
     """
+    indices = list(path.get("path", []))
     if not indices or not 0 <= indices[0] < len(parameter_definitions):
         return None
     node = parameter_definitions[indices[0]]
@@ -953,20 +968,17 @@ def _narrow_word_slice_to_address(path: ERC7730Path) -> bool:
     Returns False (leave the path untouched) unless the path is a data path
     whose trailing slice statically selects 32 bytes.
     """
-    if "path" not in path:
+    slice_ = _path_slice(path)
+    if slice_ is None or _nominal_slice_length(*slice_) != 32:
         return False
-    start = path.get("slice_start")
-    end = path.get("slice_end")
-    if _nominal_slice_length(start, end) != 32:
-        return False
-    path["slice_start"] = (start or 0) + 12
+    path["slice_start"] = (slice_[0] or 0) + 12
     return True
 
 
 def _retype_uint_leaf_as_address(
-    parameter_definitions: list[ABIValue], indices: list[int]
+    parameter_definitions: list[ABIValue], path: ERC7730Path
 ) -> bool:
-    """Flip the uint ABI leaf at `indices` to ABI_ADDRESS, in place.
+    """Flip the uint ABI leaf `path` points at to ABI_ADDRESS, in place.
 
     See the section 4b comment for why this is sound (identical one-word
     encoding; dirty values degrade to blind signing on-device).
@@ -977,10 +989,11 @@ def _retype_uint_leaf_as_address(
     intent (the whole array holds packed addresses) and is logged by the
     caller as an adjustment.
 
-    Returns False if the walk fails or the leaf isn't a uint — the caller
-    then treats the field as a plain formatter/type mismatch (DROP).
+    Returns False if the walk fails, the path isn't a data path, or the leaf
+    isn't a uint — the caller then treats the field as a plain formatter/type
+    mismatch (DROP).
     """
-    node = _abi_leaf_at(parameter_definitions, indices)
+    node = _abi_leaf_at(parameter_definitions, path)
     if node is None:
         return False
     if node.get("atomic") == "ABI_ADDRESS":
@@ -1041,10 +1054,11 @@ def _rule_leaf_type(
     """
     if "container_path" in path:
         return (_LEAF_UINT, 256) if kind == KIND_NUMERIC else (_LEAF_ADDRESS, None)
-    if "slice_start" in path or "slice_end" in path:
-        n = _nominal_slice_length(path.get("slice_start"), path.get("slice_end"))
+    slice_ = _path_slice(path)
+    if slice_ is not None:
+        n = _nominal_slice_length(*slice_)
         return (_LEAF_ADDRESS, None) if n == 20 else (_LEAF_BYTES, n)
-    node = _abi_leaf_at(ctx.parameter_definitions, list(path.get("path", [])))
+    node = _abi_leaf_at(ctx.parameter_definitions, path)
     abi = str((node or {}).get("atomic") or (node or {}).get("dynamic") or "")
     if abi == "ABI_ADDRESS":
         return _LEAF_ADDRESS, None
