@@ -10,6 +10,7 @@ from .types import (
     ERC7730Field,
     ERC7730Path,
     Network,
+    PathStep,
 )
 
 try:
@@ -24,6 +25,7 @@ try:
         EthereumERC7730FieldFormatterType,
         EthereumERC7730FieldInfo,
         EthereumERC7730Path,
+        EthereumERC7730PathStep,
         EthereumNetworkInfo,
         EthereumTokenInfo,
     )
@@ -54,8 +56,8 @@ if not any(
     _missing_proto.append("EthereumERC7730FieldInfo.const_token_address")
 if not any(f.name == "const_value" for f in EthereumERC7730Path.FIELDS.values()):
     _missing_proto.append("EthereumERC7730Path.const_value")
-if not any(f.name == "slice_start" for f in EthereumERC7730Path.FIELDS.values()):
-    _missing_proto.append("EthereumERC7730Path.slice_start")
+if not any(f.name == "steps" for f in EthereumERC7730Path.FIELDS.values()):
+    _missing_proto.append("EthereumERC7730Path.steps")
 if not any(f.name == "callee_path" for f in EthereumERC7730FieldInfo.FIELDS.values()):
     _missing_proto.append("EthereumERC7730FieldInfo.callee_path")
 if not any(f.name == "enum_values" for f in EthereumERC7730FieldInfo.FIELDS.values()):
@@ -140,7 +142,7 @@ def serialize_token(token: ERC20Token, timestamp: int, version: int) -> bytes:
 
 
 _ABI_VARIANT_KEYS = frozenset({"atomic", "dynamic", "tuple", "array"})
-_PATH_VARIANT_KEYS = frozenset({"container_path", "path", "const_value"})
+_PATH_VARIANT_KEYS = frozenset({"container_path", "steps", "const_value"})
 
 
 def _build_abi_value_info(d: ABIValue) -> EthereumABIValueInfo:
@@ -176,15 +178,20 @@ def _build_erc7730_path(d: ERC7730Path) -> EthereumERC7730Path:
         return EthereumERC7730Path(
             container_path=EthereumERC7730ContainerPath[d["container_path"]]
         )
-    if "path" in d:
-        return EthereumERC7730Path(
-            path=list(d["path"]),
-            slice_start=d.get("slice_start"),
-            slice_end=d.get("slice_end"),
-        )
+    if "steps" in d:
+        # Only `steps`: the deprecated `path` / `slice_*` are never set, so
+        # firmware that predates steps sees an empty path and blind-signs.
+        return EthereumERC7730Path(steps=[_build_path_step(s) for s in d["steps"]])
     if "const_value" in d:
         return EthereumERC7730Path(const_value=d["const_value"])
     raise AssertionError("unreachable")
+
+
+def _build_path_step(s: PathStep) -> EthereumERC7730PathStep:
+    is_slice = "slice_start" in s or "slice_end" in s
+    if sum(("field" in s, "index" in s, "each" in s, is_slice)) != 1:
+        raise ValueError(f"PathStep must have exactly one kind: {s}")
+    return EthereumERC7730PathStep(**s)
 
 
 def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:

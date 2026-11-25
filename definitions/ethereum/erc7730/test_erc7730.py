@@ -27,6 +27,45 @@ def _inputs(signature: str) -> list[Component]:
     return list(parse_signature(signature).inputs or [])
 
 
+# Expected data paths, as `steps` (types.PathStep).
+def F(i: int) -> dict[str, Any]:
+    return {"field": i}
+
+
+def IX(i: int) -> dict[str, Any]:
+    return {"index": i}
+
+
+EACH: dict[str, Any] = {"each": True}
+
+
+def SL(start: int | None = None, end: int | None = None) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    if start is not None:
+        out["slice_start"] = start
+    if end is not None:
+        out["slice_end"] = end
+    return out
+
+
+def steps(*s: dict[str, Any]) -> dict[str, Any]:
+    return {"steps": list(s)}
+
+
+def _proto_path(p: Any) -> dict[str, Any]:
+    """A serialized EthereumERC7730Path's steps, in the `steps(...)` shape."""
+    return steps(
+        *(
+            {
+                f.name: getattr(s, f.name)
+                for f in s.FIELDS.values()
+                if getattr(s, f.name) is not None
+            }
+            for s in p.steps
+        )
+    )
+
+
 def _descriptor(
     formats: dict[str, Any],
     definitions: dict[str, Any] | None = None,
@@ -62,41 +101,41 @@ def test_path_to_dict_chain_id_container():
 
 def test_path_to_dict_address():
     assert path_to_dict("recipient", _inputs("f(address recipient)")) == (
-        {"path": [0]},
+        steps(F(0)),
         KIND_ADDRESS,
     )
 
 
 def test_path_to_dict_numeric():
     assert path_to_dict("amount", _inputs("f(uint256 amount)")) == (
-        {"path": [0]},
+        steps(F(0)),
         KIND_NUMERIC,
     )
 
 
 def test_path_to_dict_bytes_and_string_and_bool_are_kind_bytes():
     # Scalar bytes/string/bool leaves are renderable only by `raw`.
-    assert path_to_dict("data", _inputs("f(bytes data)")) == ({"path": [0]}, KIND_BYTES)
-    assert path_to_dict("s", _inputs("f(string s)")) == ({"path": [0]}, KIND_BYTES)
-    assert path_to_dict("ok", _inputs("f(bool ok)")) == ({"path": [0]}, KIND_BYTES)
-    assert path_to_dict("h", _inputs("f(bytes32 h)")) == ({"path": [0]}, KIND_BYTES)
+    assert path_to_dict("data", _inputs("f(bytes data)")) == (steps(F(0)), KIND_BYTES)
+    assert path_to_dict("s", _inputs("f(string s)")) == (steps(F(0)), KIND_BYTES)
+    assert path_to_dict("ok", _inputs("f(bool ok)")) == (steps(F(0)), KIND_BYTES)
+    assert path_to_dict("h", _inputs("f(bytes32 h)")) == (steps(F(0)), KIND_BYTES)
 
 
 def test_path_to_dict_into_tuple():
     inputs = _inputs("swap((address srcToken, uint256 amount) desc)")
-    assert path_to_dict("desc.srcToken", inputs) == ({"path": [0, 0]}, KIND_ADDRESS)
-    assert path_to_dict("desc.amount", inputs) == ({"path": [0, 1]}, KIND_NUMERIC)
+    assert path_to_dict("desc.srcToken", inputs) == (steps(F(0), F(0)), KIND_ADDRESS)
+    assert path_to_dict("desc.amount", inputs) == (steps(F(0), F(1)), KIND_NUMERIC)
 
 
 def test_path_to_dict_array_element_peels_one_dimension():
     # Indexing a uint256[] yields a uint256 scalar.
     assert path_to_dict("pools.[-1]", _inputs("f(uint256[] pools)")) == (
-        {"path": [0, -1]},
+        steps(F(0), IX(-1)),
         KIND_NUMERIC,
     )
     # Indexing an address[] yields an address scalar.
     assert path_to_dict("xs.[0]", _inputs("f(address[] xs)")) == (
-        {"path": [0, 0]},
+        steps(F(0), IX(0)),
         KIND_ADDRESS,
     )
 
@@ -104,24 +143,24 @@ def test_path_to_dict_array_element_peels_one_dimension():
 def test_path_to_dict_unindexed_array_is_other():
     # A whole, un-indexed array is not a scalar — no formatter can render it.
     assert path_to_dict("xs", _inputs("f(address[] xs)")) == (
-        {"path": [0]},
+        steps(F(0)),
         KIND_OTHER,
     )
 
 
 def test_path_to_dict_array_iteration_peels_to_element_kind():
-    # A trailing `.[]` points the path at the array itself (no extra index); the
-    # returned kind is the per-element type, so a scalar formatter accepts it.
+    # A trailing `.[]` ends the path in `each`; the returned kind is the
+    # per-element type, so a scalar formatter accepts it.
     assert path_to_dict("amounts.[]", _inputs("f(uint256[] amounts)")) == (
-        {"path": [0]},
+        steps(F(0), EACH),
         KIND_NUMERIC,
     )
     assert path_to_dict("xs.[]", _inputs("f(address[] xs)")) == (
-        {"path": [0]},
+        steps(F(0), EACH),
         KIND_ADDRESS,
     )
     assert path_to_dict("ds.[]", _inputs("f(bytes[] ds)")) == (
-        {"path": [0]},
+        steps(F(0), EACH),
         KIND_BYTES,
     )
 
@@ -135,25 +174,65 @@ def test_path_to_dict_array_iteration_on_non_array_raises():
 def test_path_to_dict_array_iteration_leaving_nested_array_is_other():
     # One `.[]` over a 2D array still leaves an array element — not flat-iterable.
     assert path_to_dict("x.[]", _inputs("f(uint256[][] x)")) == (
-        {"path": [0]},
+        steps(F(0), EACH),
         KIND_OTHER,
     )
 
 
-def test_path_to_dict_double_array_iteration_raises():
-    # Nothing may follow a `.[]` — including a second `.[]`.
+@pytest.mark.parametrize(
+    "path, sig",
+    [
+        ("x.[].[]", "f(uint256[][] x)"),
+        ("xs.[].ys.[]", "f((uint256[] ys)[] xs)"),
+    ],
+)
+def test_path_to_dict_second_iteration_raises(path, sig):
+    # At most one `.[]` per path: two would display a list of lists.
     with pytest.raises(UnsupportedFeature) as exc:
-        path_to_dict("x.[].[]", _inputs("f(uint256[][] x)"))
-    assert exc.value.feature == "per-element-field-path"
+        path_to_dict(path, _inputs(sig))
+    assert exc.value.feature == "nested-each-path"
 
 
-def test_path_to_dict_non_trailing_array_iteration_raises():
-    # A per-element field extraction (`[].fieldname`) can't be expressed as a
-    # flat index path — and gets its own drop reason in the log.
+def test_path_to_dict_one_iteration_in_a_2d_array():
+    # One `.[]` plus an index over `uint256[][]` reaches a scalar.
+    inputs = _inputs("f(uint256[][] x)")
+    assert path_to_dict("x.[0].[]", inputs) == (
+        steps(F(0), IX(0), EACH),
+        KIND_NUMERIC,
+    )
+    assert path_to_dict("x.[].[-1]", inputs) == (
+        steps(F(0), EACH, IX(-1)),
+        KIND_NUMERIC,
+    )
+
+
+def test_path_to_dict_per_element_member():
+    # The rest of the path after `.[]` walks into each element; the kind is
+    # the per-element member's.
     inputs = _inputs("f((address t, bytes d)[] swaps)")
+    assert path_to_dict("swaps.[].t", inputs) == (
+        steps(F(0), EACH, F(0)),
+        KIND_ADDRESS,
+    )
+    assert path_to_dict("swaps.[].d", inputs) == (
+        steps(F(0), EACH, F(1)),
+        KIND_BYTES,
+    )
+
+
+@pytest.mark.parametrize(
+    "path, sig",
+    [
+        ("amounts.[].x", "f(uint256[] amounts, uint256 x)"),
+        ("a.x", "f(uint256 a, uint256 x)"),
+        ("swaps.t", "f((address t)[] swaps)"),
+    ],
+)
+def test_path_to_dict_member_of_non_tuple_raises(path, sig):
+    # Only a tuple has members, even when an outer one has a member by that name.
     with pytest.raises(UnsupportedFeature) as exc:
-        path_to_dict("swaps.[].t", inputs)
-    assert exc.value.feature == "per-element-field-path"
+        path_to_dict(path, _inputs(sig))
+    assert exc.value.feature == "unknown-path-segment"
 
 
 def test_path_to_dict_container_paths():
@@ -179,24 +258,24 @@ def test_path_to_dict_unsupported_paths_raise_distinct_features():
 
 def test_path_to_dict_20_byte_slice_is_address_kind():
     # The packed-address pattern: a uint256 whose low 20 bytes are an address
-    # (1inch `Address` type). The slice rides in slice_start/slice_end.
+    # (1inch `Address` type). The slice is the path's last step.
     assert path_to_dict("token.[-20:]", _inputs("f(uint256 token)")) == (
-        {"path": [0], "slice_start": -20},
+        steps(F(0), SL(-20)),
         KIND_ADDRESS,
     )
     assert path_to_dict("data.[0:20]", _inputs("f(bytes data)")) == (
-        {"path": [0], "slice_start": 0, "slice_end": 20},
+        steps(F(0), SL(0, 20)),
         KIND_ADDRESS,
     )
 
 
 def test_path_to_dict_other_slices_are_bytes_kind():
     assert path_to_dict("goodUntil.[-4:]", _inputs("f(uint256 goodUntil)")) == (
-        {"path": [0], "slice_start": -4},
+        steps(F(0), SL(-4)),
         KIND_BYTES,
     )
     assert path_to_dict("takerTraits.[:1]", _inputs("f(uint256 takerTraits)")) == (
-        {"path": [0], "slice_end": 1},
+        steps(F(0), SL(end=1)),
         KIND_BYTES,
     )
 
@@ -204,7 +283,7 @@ def test_path_to_dict_other_slices_are_bytes_kind():
 def test_path_to_dict_slice_of_array_element_is_supported():
     # Indexing peels the array dimension first; the element word then slices.
     assert path_to_dict("pools.[-1].[-20:]", _inputs("f(uint256[] pools)")) == (
-        {"path": [0, -1], "slice_start": -20},
+        steps(F(0), IX(-1), SL(-20)),
         KIND_ADDRESS,
     )
 
@@ -222,11 +301,11 @@ def test_path_to_dict_non_trailing_slice_raises():
     assert exc.value.feature == "non-trailing-slice"
 
 
-def test_path_to_dict_slice_after_iteration_raises():
-    # The firmware would slice the array itself, not each element.
-    with pytest.raises(UnsupportedFeature) as exc:
-        path_to_dict("xs.[].[-20:]", _inputs("f(uint256[] xs)"))
-    assert exc.value.feature == "per-element-field-path"
+def test_path_to_dict_slice_after_iteration_slices_each_element():
+    assert path_to_dict("xs.[].[-20:]", _inputs("f(uint256[] xs)")) == (
+        steps(F(0), EACH, SL(-20)),
+        KIND_ADDRESS,
+    )
 
 
 def test_path_to_dict_unsupported_container_raises():
@@ -436,7 +515,7 @@ def test_lookup_address_serializes_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [0]},
+            "path": steps(F(0)),
             "label": "To",
             "formatter": "FORMATTER_ADDRESS_NAME",
             "lookup_address": True,
@@ -456,7 +535,7 @@ def test_token_ticker_becomes_address_name_with_lookup():
     [rec] = build_display_formats(desc, adjustments=adjustments)
     assert rec["field_definitions"] == [
         {
-            "path": {"path": [0]},
+            "path": steps(F(0)),
             "label": "Token",
             "formatter": "FORMATTER_ADDRESS_NAME",
             "lookup_address": True,
@@ -496,7 +575,7 @@ def test_token_ticker_over_array_iteration():
     "params, expected",
     [
         ({"chainId": 10}, {"const_chain_id": 10}),
-        ({"chainIdPath": "dstChain"}, {"chain_id_path": {"path": [1]}}),
+        ({"chainIdPath": "dstChain"}, {"chain_id_path": steps(F(1))}),
     ],
     ids=["chainId", "chainIdPath"],
 )
@@ -709,7 +788,7 @@ def test_tokenpath_address_is_kept():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["token_path"] == {"path": [1]}
+    assert field["token_path"] == steps(F(1))
 
 
 def test_tokenpath_on_uint_retypes_leaf_to_address():
@@ -732,7 +811,7 @@ def test_tokenpath_on_uint_retypes_leaf_to_address():
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
     [field] = rec["field_definitions"]
-    assert field["token_path"] == {"path": [1]}
+    assert field["token_path"] == steps(F(1))
     assert rec["parameter_definitions"] == [
         {"atomic": "ABI_UINT256"},
         {"atomic": "ABI_ADDRESS"},
@@ -886,7 +965,7 @@ def test_const_token_address_serializes_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [0]},
+            "path": steps(F(0)),
             "label": "Amt",
             "formatter": "FORMATTER_TOKEN_AMOUNT",
             "const_token_address": "ab" * 20,
@@ -900,7 +979,7 @@ def test_native_currency_address_serializes_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [0]},
+            "path": steps(F(0)),
             "label": "Amt",
             "formatter": "FORMATTER_TOKEN_AMOUNT",
             "const_token_address": "0" * 40,
@@ -918,7 +997,7 @@ def test_threshold_message_serializes_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [0]},
+            "path": steps(F(0)),
             "label": "Amt",
             "formatter": "FORMATTER_TOKEN_AMOUNT",
             "threshold": "ff",
@@ -937,20 +1016,39 @@ def test_const_value_path_serializes_to_proto():
     assert info.container_path is None
 
 
-def test_negative_index_path_serializes_to_proto():
-    # `pools.[-1]` style paths: the proto field is sint32, negatives round-trip.
+@pytest.mark.parametrize(
+    "path",
+    [
+        steps(F(0), IX(-1)),  # `pools.[-1]`: index is sint32, negatives round-trip
+        steps(F(1), EACH),  # `amounts.[]`
+        steps(F(0), IX(-1), SL(-20)),  # `pools.[-1].[-20:]`
+        steps(F(0), SL(0, 4)),  # `data.[0:4]`
+    ],
+    ids=["negative-index", "each", "index-then-slice", "two-bound-slice"],
+)
+def test_steps_path_serializes_to_proto(path):
     import io
 
     from trezorlib import protobuf
 
     from ..serialize import _build_erc7730_path
 
-    info = _build_erc7730_path({"path": [0, -1]})
+    info = _build_erc7730_path(path)
     buf = io.BytesIO()
     protobuf.dump_message(buf, info)
     buf.seek(0)
     decoded = protobuf.load_message(buf, type(info))
-    assert list(decoded.path) == [0, -1]
+    assert _proto_path(decoded) == path
+    # Steps only: the deprecated flat form is never set.
+    assert decoded.path == []
+    assert decoded.slice_start is None and decoded.slice_end is None
+
+
+def test_path_step_with_two_kinds_is_rejected():
+    from ..serialize import _build_erc7730_path
+
+    with pytest.raises(ValueError):
+        _build_erc7730_path({"steps": [{"field": 0, "index": 1}]})
 
 
 def _tokenamount_native_desc(native_addresses, constants=None):
@@ -1039,7 +1137,7 @@ def test_tokenamount_shared_definition_null_native_needs_own_token_path():
     assert swap["func_sig"] == "0xd004f0f7"  # swap(address,uint256)
     [field] = swap["field_definitions"]
     assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
-    assert field["token_path"] == {"path": [0]}
+    assert field["token_path"] == steps(F(0))
     assert field["native_currency_address"] == ["ee" * 20, "0" * 40]
     assert "const_token_address" not in field
     [field] = unoswap["field_definitions"]
@@ -1479,7 +1577,7 @@ def test_chain_id_is_chain_id_formatter():
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
     assert rec["field_definitions"] == [
-        {"path": {"path": [0]}, "label": "Chain", "formatter": "FORMATTER_CHAIN_ID"}
+        {"path": steps(F(0)), "label": "Chain", "formatter": "FORMATTER_CHAIN_ID"}
     ]
     assert adjustments == []
 
@@ -1510,7 +1608,7 @@ def test_chain_id_serializes_to_proto():
     from ..serialize import _build_erc7730_field_info
 
     info = _build_erc7730_field_info(
-        {"path": {"path": [0]}, "label": "Chain", "formatter": "FORMATTER_CHAIN_ID"}
+        {"path": steps(F(0)), "label": "Chain", "formatter": "FORMATTER_CHAIN_ID"}
     )
     assert info.formatter == EthereumERC7730FieldFormatterType.FORMATTER_CHAIN_ID
 
@@ -1522,7 +1620,7 @@ def test_chain_id_serializes_to_proto():
 
 def test_amount_over_array_is_kept():
     # `amounts.[]` renders the amount formatter once per array element on-device;
-    # the emitted path points at the array itself.
+    # the emitted path ends in `each`.
     desc = _single_field_desc(
         "f(uint256[] amounts)",
         {
@@ -1534,7 +1632,7 @@ def test_amount_over_array_is_kept():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["path"] == {"path": [0]}
+    assert field["path"] == steps(F(0), EACH)
     assert field["formatter"] == "FORMATTER_UNIT"
 
 
@@ -1574,9 +1672,182 @@ def test_tokenamount_over_array_with_shared_token_path():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["path"] == {"path": [0]}
+    assert field["path"] == steps(F(0), EACH)
     assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
-    assert field["token_path"] == {"path": [1]}
+    assert field["token_path"] == steps(F(1))
+
+
+def test_tokenamount_over_array_with_per_element_token_path():
+    # Amount i is shown with token i: the firmware pairs a per-element param
+    # with the field's elements by index.
+    desc = _single_field_desc(
+        "f(uint256[] amounts, address[] tokens)",
+        {
+            "path": "amounts.[]",
+            "label": "Amounts",
+            "format": "tokenAmount",
+            "params": {"tokenPath": "tokens.[]"},
+        },
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == steps(F(0), EACH)
+    assert field["token_path"] == steps(F(1), EACH)
+
+
+@pytest.mark.parametrize(
+    "signature, field",
+    [
+        (
+            "f(uint256 amount, address[] tokens)",
+            {
+                "path": "amount",
+                "format": "tokenAmount",
+                "params": {"tokenPath": "tokens.[]"},
+            },
+        ),
+        (
+            "f(bytes data, address[] targets)",
+            {
+                "path": "data",
+                "format": "calldata",
+                "params": {"calleePath": "targets.[]"},
+            },
+        ),
+    ],
+)
+def test_per_element_param_on_scalar_field_skips_file(signature, field):
+    # A single value has no "element i" to pair the param's elements with.
+    desc = _single_field_desc(signature, {"label": "L", **field})
+    unsupported: list = []
+    with pytest.raises(UnsupportedFeature):
+        build_display_formats(desc, unsupported=unsupported)
+    assert {feat for _src, feat, _det in unsupported} == {
+        "per-element-param-without-each"
+    }
+
+
+def test_registry_morpho_offer_fills():
+    # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/4b7ff1c2df803f3e14f801bea9ecc779b6fa8b79/registry/morpho/calldata-MidnightBundlesV2.json#L237
+    # Each fill's units in its offer's loan token. The hidden field's second
+    # `.[]` doesn't drop the format: hidden fields aren't built.
+    desc = _descriptor(
+        formats={
+            "f(((address maker, (address loanToken, (address token, uint256 lltv)[]"
+            " collateralParams) market) offer, uint256 units)[] offerFills)": {
+                "fields": [
+                    {
+                        "path": "#.offerFills.[].units",
+                        "label": "Fill amount",
+                        "format": "tokenAmount",
+                        "params": {
+                            "tokenPath": "#.offerFills.[].offer.market.loanToken"
+                        },
+                    },
+                    {
+                        "path": "#.offerFills.[].offer.market.collateralParams.[].token",
+                        "label": "Collateral token",
+                        "format": "raw",
+                        "visible": "never",
+                    },
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == steps(F(0), EACH, F(1))
+    assert field["token_path"] == steps(F(0), EACH, F(0), F(1), F(0))
+
+
+def test_registry_morpho_bundle_calls():
+    # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/4b7ff1c2df803f3e14f801bea9ecc779b6fa8b79/registry/morpho/calldata-MorphoBundlerV3.json#L18
+    desc = _descriptor(
+        formats={
+            "multicall((address to, bytes data, uint256 value, bool skipRevert,"
+            " bytes32 callbackHash)[] bundle)": {
+                "fields": [
+                    {
+                        "path": "#.bundle.[].data",
+                        "label": "Action",
+                        "format": "calldata",
+                        "params": {
+                            "calleePath": "#.bundle.[].to",
+                            "amountPath": "#.bundle.[].value",
+                        },
+                    }
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == steps(F(0), EACH, F(1))
+    assert field["callee_path"] == steps(F(0), EACH, F(0))
+    assert field["amount_path"] == steps(F(0), EACH, F(2))
+
+
+def test_registry_lifi_swap_steps():
+    # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/4b7ff1c2df803f3e14f801bea9ecc779b6fa8b79/registry/lifi/calldata-LIFIDiamond.json#L3296
+    # Every swap step has its own token (WETH, then USDC, ...): paired by index.
+    desc = _descriptor(
+        formats={
+            "f((address receiver, uint256 minAmount) _bridgeData, (address callTo,"
+            " address approveTo, address sendingAssetId, address receivingAssetId,"
+            " uint256 fromAmount, bytes callData, bool requiresDeposit)[] _swapData)": {
+                "fields": [
+                    {
+                        "path": "_swapData.[].fromAmount",
+                        "label": "Swap Step Input",
+                        "format": "tokenAmount",
+                        "params": {
+                            "tokenPath": "_swapData.[].sendingAssetId",
+                            "nativeCurrencyAddress": "0x" + "00" * 20,
+                        },
+                    },
+                    {
+                        "path": "_swapData.[].requiresDeposit",
+                        "label": "Swap Step Taken From Wallet",
+                        "format": "raw",
+                    },
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    amount, deposit = rec["field_definitions"]
+    assert amount["path"] == steps(F(1), EACH, F(4))
+    assert amount["token_path"] == steps(F(1), EACH, F(2))
+    assert deposit["path"] == steps(F(1), EACH, F(6))
+
+
+def test_registry_lifi_squid_source_calls():
+    # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/4b7ff1c2df803f3e14f801bea9ecc779b6fa8b79/registry/lifi/calldata-LIFIDiamond.json#L1468
+    desc = _descriptor(
+        formats={
+            "f((uint8 routeType, (uint8 callType, address target, uint256 value,"
+            " bytes callData, bytes payload)[] sourceCalls) _squidData)": {
+                "fields": [
+                    {
+                        "path": "_squidData.sourceCalls.[].target",
+                        "label": "Source Call Target",
+                        "format": "addressName",
+                        "params": {"types": ["eoa", "contract"]},
+                    },
+                    {
+                        "path": "_squidData.sourceCalls.[].callData",
+                        "label": "Source Call Data",
+                        "format": "raw",
+                    },
+                ]
+            }
+        }
+    )
+    [rec] = build_display_formats(desc)
+    target, data = rec["field_definitions"]
+    assert target["path"] == steps(F(0), F(1), EACH, F(1))
+    assert target["formatter"] == "FORMATTER_ADDRESS_NAME"
+    assert data["path"] == steps(F(0), F(1), EACH, F(3))
 
 
 def test_unindexed_array_without_iteration_skips_file():
@@ -1824,7 +2095,7 @@ def test_addressname_on_20_byte_slice_no_retype_no_adjustment():
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
     [field] = rec["field_definitions"]
-    assert field["path"] == {"path": [1], "slice_start": -20}
+    assert field["path"] == steps(F(1), SL(-20))
     assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
     # The declared ABI type stays uint256 — the slice does the interpreting.
     assert rec["parameter_definitions"] == [
@@ -1852,7 +2123,7 @@ def test_date_on_sliced_word_is_kept():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["path"] == {"path": [0], "slice_start": -4}
+    assert field["path"] == steps(F(0), SL(-4))
     assert field["formatter"] == "FORMATTER_DATE"
 
 
@@ -1885,7 +2156,7 @@ def test_duration_on_sliced_word_is_kept():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["path"] == {"path": [0], "slice_start": -4}
+    assert field["path"] == steps(F(0), SL(-4))
     assert field["formatter"] == "FORMATTER_DURATION"
 
 
@@ -1920,7 +2191,7 @@ def test_tokenpath_with_20_byte_slice_is_kept():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["token_path"] == {"path": [0], "slice_start": -20}
+    assert field["token_path"] == steps(F(0), SL(-20))
     # No retype: the slice yields address bytes at runtime.
     assert rec["parameter_definitions"][0] == {"atomic": "ABI_UINT256"}
 
@@ -1942,7 +2213,7 @@ def test_raw_on_sliced_word_is_kept():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["path"] == {"path": [0], "slice_end": 1}
+    assert field["path"] == steps(F(0), SL(end=1))
     assert field["formatter"] == "FORMATTER_RAW"
 
 
@@ -1959,25 +2230,6 @@ def test_amount_on_sliced_word_skips_file():
     with pytest.raises(UnsupportedFeature):
         build_display_formats(desc, unsupported=unsupported)
     assert {feat for _src, feat, _det in unsupported} == {"formatter-type-mismatch"}
-
-
-def test_sliced_path_serializes_to_proto():
-    import io
-
-    from trezorlib import protobuf
-
-    from ..serialize import _build_erc7730_path
-
-    info = _build_erc7730_path({"path": [0, -1], "slice_start": -20})
-    assert info.slice_start == -20
-    assert info.slice_end is None
-    buf = io.BytesIO()
-    protobuf.dump_message(buf, info)
-    buf.seek(0)
-    decoded = protobuf.load_message(buf, type(info))
-    assert list(decoded.path) == [0, -1]
-    assert decoded.slice_start == -20
-    assert decoded.slice_end is None
 
 
 def test_tokenpath_32_byte_word_slice_is_narrowed():
@@ -2001,7 +2253,7 @@ def test_tokenpath_32_byte_word_slice_is_narrowed():
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
     [field] = rec["field_definitions"]
-    assert field["token_path"] == {"path": [1], "slice_start": 304, "slice_end": 324}
+    assert field["token_path"] == steps(F(1), SL(304, 324))
     assert [k for _s, k, _d in adjustments] == ["address-in-word-slice"]
 
 
@@ -2016,7 +2268,7 @@ def test_addressname_on_32_byte_word_slice_is_narrowed():
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
     [field] = rec["field_definitions"]
-    assert field["path"] == {"path": [0], "slice_start": -20}
+    assert field["path"] == steps(F(0), SL(-20))
     assert field["formatter"] == "FORMATTER_ADDRESS_NAME"
     assert [k for _s, k, _d in adjustments] == ["address-in-word-slice"]
 
@@ -2038,11 +2290,7 @@ def test_calldata_callee_in_word_slice_is_narrowed():
     )
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
-    assert rec["field_definitions"][0]["callee_path"] == {
-        "path": [0],
-        "slice_start": 12,
-        "slice_end": 32,
-    }
+    assert rec["field_definitions"][0]["callee_path"] == steps(F(0), SL(12, 32))
     assert [k for _s, k, _d in adjustments] == ["address-in-word-slice"]
 
 
@@ -2092,7 +2340,7 @@ def test_calldata_with_callee_path_is_kept():
     [rec] = build_display_formats(desc, adjustments=adjustments)
     [field] = rec["field_definitions"]
     assert field["formatter"] == "FORMATTER_CALLDATA"
-    assert field["callee_path"] == {"path": [0]}
+    assert field["callee_path"] == steps(F(0))
     assert "selector" not in field
     assert adjustments == []
 
@@ -2193,7 +2441,7 @@ def test_calldata_callee_in_packed_uint_is_retyped():
     )
     adjustments: list = []
     [rec] = build_display_formats(desc, adjustments=adjustments)
-    assert rec["field_definitions"][0]["callee_path"] == {"path": [0]}
+    assert rec["field_definitions"][0]["callee_path"] == steps(F(0))
     assert rec["parameter_definitions"][0] == {"atomic": "ABI_ADDRESS"}
     assert [kind for _src, kind, _det in adjustments] == ["callee-address-in-numeric"]
 
@@ -2224,14 +2472,14 @@ def test_calldata_serializes_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [1]},
+            "path": steps(F(1)),
             "label": "Call",
             "formatter": "FORMATTER_CALLDATA",
-            "callee_path": {"path": [0]},
+            "callee_path": steps(F(0)),
             "selector": "12345678",
         }
     )
-    assert list(info.callee_path.path) == [0]
+    assert _proto_path(info.callee_path) == steps(F(0))
     assert info.selector == bytes.fromhex("12345678")
 
 
@@ -2275,67 +2523,67 @@ def _calldata_desc(params, constants=None):
         (
             {"calleePath": "target", "amountPath": "amount"},
             None,
-            {"callee_path": {"path": [0]}, "amount_path": {"path": [2]}},
+            {"callee_path": steps(F(0)), "amount_path": steps(F(2))},
         ),
         (
             {"calleePath": "target", "amountPath": "@.value"},
             None,
-            {"callee_path": {"path": [0]}, "amount_path": {"container_path": "VALUE"}},
+            {"callee_path": steps(F(0)), "amount_path": {"container_path": "VALUE"}},
         ),
         (
             {"calleePath": "target", "spenderPath": "safe"},
             None,
-            {"callee_path": {"path": [0]}, "spender_path": {"path": [3]}},
+            {"callee_path": steps(F(0)), "spender_path": steps(F(3))},
         ),
         (
             {"calleePath": "target", "spenderPath": "@.from"},
             None,
-            {"callee_path": {"path": [0]}, "spender_path": {"container_path": "FROM"}},
+            {"callee_path": steps(F(0)), "spender_path": {"container_path": "FROM"}},
         ),
         (
             {"calleePath": "target", "spender": "0x" + "ef" * 20},
             None,
-            {"callee_path": {"path": [0]}, "const_spender": "ef" * 20},
+            {"callee_path": steps(F(0)), "const_spender": "ef" * 20},
         ),
         (
             {"calleePath": "target", "amount": 10**18},
             None,
-            {"callee_path": {"path": [0]}, "const_amount": "0de0b6b3a7640000"},
+            {"callee_path": steps(F(0)), "const_amount": "0de0b6b3a7640000"},
         ),
         (
             {"calleePath": "target", "amount": 0},
             None,
-            {"callee_path": {"path": [0]}, "const_amount": "00"},
+            {"callee_path": steps(F(0)), "const_amount": "00"},
         ),
         (
             {"calleePath": "target", "amount": 2**256 - 1},
             None,
-            {"callee_path": {"path": [0]}, "const_amount": "ff" * 32},
+            {"callee_path": steps(F(0)), "const_amount": "ff" * 32},
         ),
         (
             {"calleePath": "target", "amount": "$.metadata.constants.fee"},
             {"fee": "0x100"},
-            {"callee_path": {"path": [0]}, "const_amount": "0100"},
+            {"callee_path": steps(F(0)), "const_amount": "0100"},
         ),
         (
             {"calleePath": "target", "selectorPath": "sel"},
             None,
-            {"callee_path": {"path": [0]}, "selector_path": {"path": [6]}},
+            {"callee_path": steps(F(0)), "selector_path": steps(F(6))},
         ),
         (
             {"calleePath": "target", "selectorPath": "word.[0:4]"},
             None,
             {
-                "callee_path": {"path": [0]},
-                "selector_path": {"path": [7], "slice_start": 0, "slice_end": 4},
+                "callee_path": steps(F(0)),
+                "selector_path": steps(F(7), SL(0, 4)),
             },
         ),
         (
             {"calleePath": "target", "selectorPath": "data.[:4]"},
             None,
             {
-                "callee_path": {"path": [0]},
-                "selector_path": {"path": [1], "slice_end": 4},
+                "callee_path": steps(F(0)),
+                "selector_path": steps(F(1), SL(end=4)),
             },
         ),
     ],
@@ -2386,7 +2634,7 @@ def test_calldata_spender_in_packed_uint_is_retyped():
         _calldata_desc({"calleePath": "target", "spenderPath": "packed"}),
         adjustments=adjustments,
     )
-    assert rec["field_definitions"][0]["spender_path"] == {"path": [4]}
+    assert rec["field_definitions"][0]["spender_path"] == steps(F(4))
     assert rec["parameter_definitions"][4] == {"atomic": "ABI_ADDRESS"}
     assert [kind for _src, kind, _det in adjustments] == ["spender-address-in-numeric"]
 
@@ -2477,24 +2725,24 @@ def test_calldata_new_params_serialize_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [1]},
+            "path": steps(F(1)),
             "label": "Call",
             "formatter": "FORMATTER_CALLDATA",
             "const_callee": "ab" * 20,
-            "selector_path": {"path": [6]},
+            "selector_path": steps(F(6)),
             "const_amount": "0de0b6b3a7640000",
             "amount_path": {"container_path": "VALUE"},
-            "spender_path": {"path": [3]},
+            "spender_path": steps(F(3)),
             "const_spender": "cd" * 20,
         }
     )
     assert info.callee_path is None
     assert info.const_callee == bytes.fromhex("ab" * 20)
-    assert list(info.selector_path.path) == [6]
+    assert _proto_path(info.selector_path) == steps(F(6))
     assert info.selector is None
     assert int.from_bytes(info.const_amount, "big") == 10**18
     assert info.amount_path.container_path == 2  # VALUE
-    assert list(info.spender_path.path) == [3]
+    assert _proto_path(info.spender_path) == steps(F(3))
     assert info.const_spender == bytes.fromhex("cd" * 20)
 
 
@@ -2532,7 +2780,7 @@ def _token_chain_desc(params, constants=None):
             {"dst": 8453},
             {"const_chain_id": 8453},
         ),
-        ({"chainIdPath": "dstChain"}, None, {"chain_id_path": {"path": [2]}}),
+        ({"chainIdPath": "dstChain"}, None, {"chain_id_path": steps(F(2))}),
         (
             {"chainIdPath": "@.chainId"},
             None,
@@ -2544,7 +2792,7 @@ def _token_chain_desc(params, constants=None):
 def test_token_amount_chain_id_emitted(params, constants, expected):
     [rec] = build_display_formats(_token_chain_desc(params, constants))
     [field] = rec["field_definitions"]
-    assert field["token_path"] == {"path": [0]}
+    assert field["token_path"] == steps(F(0))
     emitted = {k: field[k] for k in ("const_chain_id", "chain_id_path") if k in field}
     assert emitted == expected
 
@@ -2595,10 +2843,10 @@ def test_chain_id_serializes_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [1]},
+            "path": steps(F(1)),
             "label": "Amount",
             "formatter": "FORMATTER_TOKEN_AMOUNT",
-            "token_path": {"path": [0]},
+            "token_path": steps(F(0)),
             "chain_id_path": {"container_path": "CHAIN_ID"},
         }
     )
@@ -2607,7 +2855,7 @@ def test_chain_id_serializes_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [1]},
+            "path": steps(F(1)),
             "label": "Amount",
             "formatter": "FORMATTER_TOKEN_AMOUNT",
             "const_token_address": "ab" * 20,
@@ -2785,7 +3033,7 @@ def test_enum_registry_symbiotic_bytes32_roles():
     [field] = rec["field_definitions"]
     values = field["enum_values"]
 
-    assert field["path"] == {"path": [0], "slice_start": 0, "slice_end": 32}
+    assert field["path"] == steps(F(0), SL(0, 32))
     assert values[0] == {"key": 0, "value": "Default admin"}
     # 8 wide entries in descriptor order, then exactly one trailing guard
     assert len(values) == 1 + 8 + 1
@@ -2864,7 +3112,7 @@ def test_enum_values_serialize_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [0]},
+            "path": steps(F(0)),
             "label": "Mode",
             "formatter": "FORMATTER_ENUM",
             "enum_values": [{"key": 1, "value": "Stable"}],
@@ -2879,7 +3127,7 @@ def test_enum_wide_key_serializes_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [0]},
+            "path": steps(F(0)),
             "label": "Mode",
             "formatter": "FORMATTER_ENUM",
             "enum_values": [
@@ -3022,8 +3270,8 @@ def test_nested_field_group_is_flattened():
     fields = rec["field_definitions"]
     # display order preserved: group members first, then the sibling field
     assert [f["label"] for f in fields] == ["Loan Token", "LLTV", "Assets"]
-    assert fields[0]["path"] == {"path": [0, 0]}
-    assert fields[1]["path"] == {"path": [0, 1]}
+    assert fields[0]["path"] == steps(F(0), F(0))
+    assert fields[1]["path"] == steps(F(0), F(1))
     assert [k for _s, k, _d in adjustments] == ["nested-fields-flattened"]
 
 
@@ -3051,30 +3299,35 @@ def test_nested_group_within_group_is_flattened():
     # the inner group's own (empty) path passes members through with the
     # already-joined outer prefix intact.
     [rec] = build_display_formats(desc)
-    assert rec["field_definitions"][0]["path"] == {"path": [0, 0]}
+    assert rec["field_definitions"][0]["path"] == steps(F(0), F(0))
 
 
-def test_group_over_array_still_drops_per_element():
-    # Flattening a group whose path crosses an array needs per-element field
-    # extraction — still unrepresentable, with the precise reason.
+def test_group_over_array_gives_per_element_fields():
+    # Members of a group over an array (Morpho's `#.offerFills.[]`) and their
+    # `*Path` params join onto the group's path, so they iterate too.
     desc = _descriptor(
         formats={
-            "f((address t, bytes d)[] swaps)": {
+            "f((address t, uint256 a)[] swaps)": {
                 "fields": [
                     {
                         "path": "#.swaps.[]",
                         "fields": [
-                            {"path": "t", "label": "T", "format": "addressName"}
+                            {
+                                "path": "a",
+                                "label": "A",
+                                "format": "tokenAmount",
+                                "params": {"tokenPath": "t"},
+                            }
                         ],
                     }
                 ]
             }
         }
     )
-    unsupported: list = []
-    with pytest.raises(UnsupportedFeature):
-        build_display_formats(desc, unsupported=unsupported)
-    assert {feat for _src, feat, _det in unsupported} == {"per-element-field-path"}
+    [rec] = build_display_formats(desc)
+    [field] = rec["field_definitions"]
+    assert field["path"] == steps(F(0), EACH, F(1))
+    assert field["token_path"] == steps(F(0), EACH, F(0))
 
 
 def test_hidden_group_is_skipped():
@@ -3145,8 +3398,8 @@ def test_group_member_path_params_are_joined_too():
     )
     [rec] = build_display_formats(desc)
     [field] = rec["field_definitions"]
-    assert field["path"] == {"path": [0, 1]}
-    assert field["token_path"] == {"path": [0, 0]}
+    assert field["path"] == steps(F(0), F(1))
+    assert field["token_path"] == steps(F(0), F(0))
 
 
 def test_group_member_with_absolute_path_is_not_joined():
@@ -3165,7 +3418,7 @@ def test_group_member_with_absolute_path_is_not_joined():
         }
     )
     [rec] = build_display_formats(desc)
-    assert rec["field_definitions"][0]["path"] == {"path": [1]}
+    assert rec["field_definitions"][0]["path"] == steps(F(1))
 
 
 def test_bad_format_is_skipped_clean_formats_kept():
@@ -3385,7 +3638,6 @@ def test_if_not_in_is_emitted_with_encoded_values():
         ("f(string s)", "s", ["", "hi"], ["", "6869"]),
         ("f(uint256 x)", "x.[-4:]", [0], ["00000000"]),
         ("f(uint256 x)", "x.[-20:]", ["0x" + "cd" * 20], ["cd" * 20]),
-        ("f(uint256[] xs)", "xs.[]", [7], [_w(7)]),
         # the 32-byte ABI word; two's complement for negatives
         (
             "f(uint8 x)",
@@ -3517,7 +3769,7 @@ def test_must_match_is_emitted_as_raw_even_without_format():
     to, token, v = rec["field_definitions"]
     assert "must_match" not in to
     assert token == {
-        "path": {"path": [1]},
+        "path": steps(F(1)),
         "label": "token",
         "formatter": "FORMATTER_RAW",
         "must_match": ["22" * 20],
@@ -4049,7 +4301,7 @@ def test_registry_rule_override_on_ref():
     "sig, field, feature",
     [
         # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/3d332d5fb832b78e4745ee6c7046a0c2ea100426/registry/pendle/calldata-PendleRouterV4.json#L1625
-        # Drops on its per-element path, before the rule is looked at.
+        # The firmware checks a rule against one value, not per element.
         pytest.param(
             "f((address target, bool allowFailure, bytes callData)[] calls)",
             {
@@ -4058,8 +4310,19 @@ def test_registry_rule_override_on_ref():
                 "format": "raw",
                 "visible": {"mustMatch": [False]},
             },
-            "per-element-field-path",
+            "conditional-visibility",
             id="per-element-path",
+        ),
+        pytest.param(
+            "f(uint256[] xs)",
+            {
+                "path": "xs.[]",
+                "label": "Xs",
+                "format": "raw",
+                "visible": {"ifNotIn": [7]},
+            },
+            "conditional-visibility",
+            id="whole-array-path",
         ),
     ],
 )
@@ -4100,7 +4363,7 @@ def test_visibility_rules_serialize_to_proto():
 
     info = _build_erc7730_field_info(
         {
-            "path": {"path": [0]},
+            "path": steps(F(0)),
             "label": "L",
             "formatter": "FORMATTER_RAW",
             "if_not_in": ["00", "0100"],
@@ -4164,7 +4427,7 @@ def test_ref_resolves_definition_end_to_end():
     assert field["label"] == "Amount to Send"
     assert field["formatter"] == "FORMATTER_TOKEN_AMOUNT"
     # tokenPath from the field merged with the definition and resolved to srcToken.
-    assert field["token_path"] == {"path": [0]}
+    assert field["token_path"] == steps(F(0))
 
 
 # =====================================================================
@@ -4446,15 +4709,15 @@ def test_build_abi_value_kyberswap_struct_in_struct():
 
     inputs = _inputs(sig)
     assert path_to_dict("execution.desc.amount", inputs) == (
-        {"path": [0, 3, 7]},
+        steps(F(0), F(3), F(7)),
         KIND_NUMERIC,
     )
     assert path_to_dict("execution.desc.srcToken", inputs) == (
-        {"path": [0, 3, 0]},
+        steps(F(0), F(3), F(0)),
         KIND_ADDRESS,
     )
     assert path_to_dict("execution.desc.dstReceiver", inputs) == (
-        {"path": [0, 3, 6]},
+        steps(F(0), F(3), F(6)),
         KIND_ADDRESS,
     )
 
@@ -4548,7 +4811,7 @@ def test_build_abi_value_flare_nested_static_struct_in_array():
     # The index path reaches the grandchild leaf, matching the firmware's
     # decoded `[([proof_leaf], (7, beneficiary, 99, 1))]`.
     assert path_to_dict("proofs.[0].body.amount", _inputs(sig)) == (
-        {"path": [0, 0, 1, 2]},
+        steps(F(0), IX(0), F(1), F(2)),
         KIND_NUMERIC,
     )
 
