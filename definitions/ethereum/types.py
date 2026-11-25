@@ -60,11 +60,18 @@ class _ContainerPath(t.TypedDict):
     container_path: str  # "FROM" | "VALUE" | "TO" | "CHAIN_ID"
 
 
+class PathStep(t.TypedDict, total=False):
+    """One EthereumERC7730PathStep: exactly one kind (a slice may set both bounds)."""
+
+    field: int  # tuple member or top-level parameter
+    index: int  # array element, negative = from the end
+    each: bool  # `.[]`
+    slice_start: int  # byte slice of the walked value (e.g. `token.[-20:]`)
+    slice_end: int
+
+
 class _DataPath(t.TypedDict):
-    path: list[int]
-    # trailing byte slice of the walked value (e.g. `token.[-20:]`)
-    slice_start: t.NotRequired[int]
-    slice_end: t.NotRequired[int]
+    steps: list[PathStep]
 
 
 class _ConstValuePath(t.TypedDict):
@@ -132,6 +139,10 @@ class ERC7730Field(t.TypedDict):
     # must_match: cancel signing; the value must be one of those listed.
     if_not_in: t.NotRequired[list[str]]
     must_match: t.NotRequired[list[str]]
+
+    # Iterating fields of one `iteration: bundled` group share an id (unique
+    # within the display format): element i of each is shown together.
+    bundle_id: t.NotRequired[int]  # uint32
 
 
 class ERC20DisplayFormat(t.TypedDict):

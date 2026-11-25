@@ -58,7 +58,14 @@ from erc7730.model.paths import (
 from erc7730.model.paths import Field as PathField
 from erc7730.model.paths.path_parser import to_path
 
-from ..types import ABITuple, ABIValue, ERC20DisplayFormat, ERC7730Field, ERC7730Path
+from ..types import (
+    ABITuple,
+    ABIValue,
+    ERC20DisplayFormat,
+    ERC7730Field,
+    ERC7730Path,
+    PathStep,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -232,17 +239,19 @@ def build_abi_value(c: Component, depth: int = 0, arrays: int = 0) -> ABIValue:
 #   "params.amountIn"  into calldata (relative to the signature's inputs),
 #   "@.value"          a transaction-container field,
 #   "$.metadata.…"     a descriptor-internal reference (handled in section 3).
-# We turn a calldata path into a flat list of integer indices into the ABI
-# type tree of section 1 — the firmware walks the decoded values with the
-# same indices. Alongside the proto path we return the *kind* of leaf the
-# path lands on, so section 4 can check it against the field's formatter.
+# We turn a calldata path into a list of steps (proto EthereumERC7730PathStep)
+# into the ABI type tree of section 1: `field` (a parameter or tuple member),
+# `index` (an array element), `each` (`.[]`, at most one per path) or a byte
+# slice. The firmware walks the decoded values with the same steps; after an
+# `each` it walks the rest of the path on every element. Alongside the proto
+# path we return the *kind* of leaf the path lands on, so section 4 can check
+# it against the field's formatter.
 #
 # A path may end in a byte slice (`token.[-20:]`, `goodUntil.[-4:]`): the
 # firmware views the sliced word as 32 big-endian bytes and takes the slice
-# (`_word_bytes` in clear_signing.py), carried in the proto as the optional
-# `slice_start` / `slice_end` fields next to the index list. Descriptors use
-# this to unpack values crammed into one word — e.g. 1inch's `Address` type,
-# a uint256 whose low 20 bytes are an address.
+# (`_word_bytes` in clear_signing.py). Descriptors use this to unpack values
+# crammed into one word — e.g. 1inch's `Address` type, a uint256 whose low
+# 20 bytes are an address.
 # =====================================================================
 
 
@@ -262,6 +271,10 @@ _CONTAINER_MAP = {
     "@.to": ("TO", KIND_ADDRESS),
     "@.chainId": ("CHAIN_ID", KIND_NUMERIC),
 }
+
+# Mirror core/src/apps/ethereum/clear_signing.py: `.[]` steps in one path.
+# Two would display a list of lists, which nothing needs.
+_MAX_EACH_STEPS = 1
 
 
 def _classify_kind(base_type: str, array_depth: int) -> str:
@@ -298,32 +311,49 @@ def _nominal_slice_length(start: int | None, end: int | None) -> int | None:
     return None
 
 
+def _path_slice(path: ERC7730Path) -> tuple[int | None, int | None] | None:
+    """The trailing byte slice `(start, end)` of a data path, or None."""
+    steps = path.get("steps")
+    if not steps:
+        return None
+    last = steps[-1]
+    if "slice_start" not in last and "slice_end" not in last:
+        return None
+    return last.get("slice_start"), last.get("slice_end")
+
+
+def _has_each(path: ERC7730Path) -> bool:
+    """Whether a data path iterates an array (has a `.[]` step)."""
+    return any("each" in s for s in path.get("steps", ()))
+
+
 def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, str]:
     """Convert an ERC-7730 path string to `(proto path, leaf kind)`.
 
-    A trailing `.[]` (whole-array iteration) is supported: the proto path
-    points at the array itself and the firmware formats each element, so the
-    returned kind is the *element* kind (`amounts.[]` over `uint256[]` is
-    numeric).
+    One `.[]` per path is supported, anywhere in it: the firmware walks the
+    rest of the path on each element and formats every value it reaches, so
+    the returned kind is the per-element kind (`amounts.[]` over `uint256[]`
+    is numeric, `swaps.[].t` over `(address t, …)[]` is an address).
 
     A trailing byte slice on a scalar leaf is supported (see the section
-    comment): the bounds ride in the proto's `slice_start` / `slice_end` and
-    the sliced value is bytes on-device. The returned kind is KIND_ADDRESS
-    when the slice statically selects 20 bytes (`token.[-20:]` — the packed
-    address pattern), else KIND_BYTES.
+    comment): it is the path's last step and the sliced value is bytes
+    on-device. The returned kind is KIND_ADDRESS when the slice statically
+    selects 20 bytes (`token.[-20:]` — the packed address pattern), else
+    KIND_BYTES.
 
     Every unsupported path raises `UnsupportedFeature` with a distinct feature
     tag, so the drop reason is visible in the log:
       * `descriptor-path` — `$.…` paths (callers resolve constants *before*
         calling; one reaching this function is not a constants lookup we handle)
-      * `per-element-field-path` — anything following a `.[]`
-        (e.g. `swaps.[].amount`), which can't be expressed as a flat index path
+      * `nested-each-path` — more than one `.[]` (`xs.[].ys.[]`), which would
+        display a 2D list
       * `array-slice-path` — a slice we can't represent: applied to an array
         or tuple rather than a scalar word, or with out-of-range bounds
       * `non-trailing-slice` — path elements after a slice (the proto carries
         exactly one trailing slice)
       * `iteration-over-non-array` — a `.[]` applied to a non-array leaf
-      * `unknown-path-segment` — a name not present in the ABI signature
+      * `unknown-path-segment` — a name not present in the ABI signature, or
+        a name applied to a value that is not a tuple
       * `unparseable-path` — the path string didn't parse at all
       * `unsupported-container-path` — anything under `@.` other than
         `value` / `from` / `to` / `chainId` (transaction-level,
@@ -353,25 +383,25 @@ def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, s
 
     # Walk the signature's components along the path, translating each name to
     # its positional index and tracking the Solidity type of the current leaf.
-    indices: list[int] = []
+    steps: list[PathStep] = []
     current = inputs
     leaf_base: str | None = None
     leaf_array_depth = 0
-    saw_array_iter = False
+    each_steps = 0
     slice_bounds: tuple[int | None, int | None] | None = None
     for element in parsed.elements:
         if slice_bounds is not None:
             # The proto carries exactly one slice, applied after all indices —
             # so a slice must be the path's final element.
             raise UnsupportedFeature("non-trailing-slice", path_str)
-        if saw_array_iter:
-            # `.[]` resolves the path to the whole array, formatted element by
-            # element — nothing may follow it. A per-element field extraction
-            # (`swaps.[].amount`) has no flat-index representation, and a
-            # per-element slice (`xs.[].[-20:]`) would be misapplied by the
-            # firmware to the array itself rather than to each element.
-            raise UnsupportedFeature("per-element-field-path", path_str)
         if isinstance(element, PathField):
+            if leaf_base is not None and (leaf_base != "tuple" or leaf_array_depth):
+                # Only a tuple has members; `current` would still list the
+                # enclosing tuple's (`amounts.[].x` over `uint256[]`).
+                raise UnsupportedFeature(
+                    "unknown-path-segment",
+                    f"{path_str} (segment {element.identifier!r} of a non-tuple)",
+                )
             name_to_idx = {p.name: i for i, p in enumerate(current) if p.name}
             if element.identifier not in name_to_idx:
                 raise UnsupportedFeature(
@@ -379,24 +409,34 @@ def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, s
                     f"{path_str} (segment {element.identifier!r})",
                 )
             i = name_to_idx[element.identifier]
-            indices.append(i)
+            steps.append({"field": i})
             sub_component = current[i]
             leaf_base, leaf_array_depth = _split_array_suffix(sub_component.type)
             if sub_component.components:
                 current = sub_component.components
         elif isinstance(element, ArrayElement):
-            indices.append(element.index)
+            if not -(2**31) <= element.index < 2**31:  # proto field is sint32
+                raise UnsupportedFeature(
+                    "unparseable-path",
+                    f"{path_str} (index {element.index} out of sint32 range)",
+                )
+            steps.append({"index": element.index})
             if leaf_array_depth > 0:
                 leaf_array_depth -= 1  # indexing peels one array dimension
         elif isinstance(element, Array):
-            # Trailing `.[]`: point at the array itself (no index appended) and
-            # peel one dimension so the kind reflects the per-element type. A
-            # leaf that is *still* an array afterwards (`uint256[][]`)
-            # classifies as KIND_OTHER — only flat scalar arrays iterate.
+            # `.[]` peels one dimension like an index: the rest of the path
+            # (if any) walks into each element. A leaf that is *still* an
+            # array afterwards (`uint256[][]`) classifies as KIND_OTHER.
             if leaf_array_depth <= 0:
                 raise UnsupportedFeature("iteration-over-non-array", path_str)
+            each_steps += 1
+            if each_steps > _MAX_EACH_STEPS:
+                raise UnsupportedFeature(
+                    "nested-each-path",
+                    f"{path_str} (at most {_MAX_EACH_STEPS} `.[]` per path)",
+                )
+            steps.append({"each": True})
             leaf_array_depth -= 1
-            saw_array_iter = True
         elif isinstance(element, ArraySlice):
             # A byte slice of a scalar word (`token.[-20:]`): the firmware
             # views the value as big-endian bytes and slices those. Slicing an
@@ -427,13 +467,15 @@ def path_to_dict(path_str: str, inputs: list[Component]) -> tuple[ERC7730Path, s
                 "unparseable-path", f"{path_str}: unhandled element {element!r}"
             )
 
-    out: ERC7730Path = {"path": indices}
+    out: ERC7730Path = {"steps": steps}
     if slice_bounds is not None:
         start, end = slice_bounds
+        slice_step: PathStep = {}
         if start is not None:
-            out["slice_start"] = start
+            slice_step["slice_start"] = start
         if end is not None:
-            out["slice_end"] = end
+            slice_step["slice_end"] = end
+        steps.append(slice_step)
         # The sliced value is bytes on-device. A statically 20-byte slice is
         # the packed-address pattern and renders/behaves as an address.
         kind = KIND_ADDRESS if _nominal_slice_length(start, end) == 20 else KIND_BYTES
@@ -602,10 +644,16 @@ class _FormatContext:
     parameter_definitions: list[ABIValue]
     enums: dict[str, Any] = dataclasses.field(default_factory=dict)
     adjustments: list[tuple[str, str]] = dataclasses.field(default_factory=list)
+    next_bundle_id: int = 1
 
     def adjust(self, kind: str, detail: str) -> None:
         LOG.info("adjustment %s: %s", kind, detail)
         self.adjustments.append((kind, detail))
+
+    def new_bundle_id(self) -> int:
+        """A `bundle_id` unique within this display format."""
+        self.next_bundle_id += 1
+        return self.next_bundle_id - 1
 
 
 _VISIBILITY_RULES = ("ifNotIn", "mustMatch")
@@ -683,9 +731,9 @@ def _flatten_field_group(
     `#.marketParams`, paraswap's `#.swapData`) and itself has no `format`.
     Each sub-field's relative path is joined onto the group's — `loanToken`
     under `#.marketParams` becomes `#.marketParams.loanToken` — after which
-    the sub-fields build exactly like top-level ones. Nothing new needs to be
-    representable: a group whose members would require per-element extraction
-    (a group path over an array) still drops via per-element-field-path.
+    the sub-fields build exactly like top-level ones. A group over an array
+    (Morpho's `#.offerFills.[]`) gives per-element sub-fields
+    (`#.offerFills.[].units`).
 
     Path-valued params are relative to the group as well (paraswap's
     `#.swapData` members use `tokenPath: srcToken`), so any `*Path` param
@@ -694,6 +742,8 @@ def _flatten_field_group(
     themselves be groups; the caller re-queues them. Respects group-level
     visibility (`never` hides the whole group, `optional` hides and logs,
     rule objects drop). Every flattened group is logged as an adjustment.
+    Sub-fields of an `iteration: bundled` group carry an internal `_bundle_id`
+    (see `_build_path_field`).
     """
     visible = group.get("visible")
     if visible in (False, "never"):
@@ -710,6 +760,13 @@ def _flatten_field_group(
             f"visible={visible!r} (group {group.get('path')!r})",
         )
 
+    # `iteration: bundled` shows element i of every sub-field together. A
+    # plain group nested inside a bundled one stays in its bundle.
+    bundle_id = (
+        ctx.new_bundle_id()
+        if group.get("iteration") == "bundled"
+        else group.get("_bundle_id")
+    )
     base = str(group.get("path") or "").rstrip(".")
     flattened: list[dict[str, Any]] = []
     for sub in group["fields"]:
@@ -717,6 +774,9 @@ def _flatten_field_group(
             raise UnsupportedFeature(
                 "malformed-field-entry", f"{sub!r} (in group {base!r})"
             )
+        sub = dict(sub)
+        if bundle_id is not None:
+            sub["_bundle_id"] = bundle_id  # internal key: `_` avoids spec keys
         if base:
 
             def _join(p: Any) -> Any:
@@ -724,7 +784,6 @@ def _flatten_field_group(
                     return f"{base}.{p}"
                 return p
 
-            sub = dict(sub)
             if "path" in sub:
                 sub["path"] = _join(sub["path"])
             params = sub.get("params")
@@ -868,12 +927,12 @@ def _check_kind_or_reinterpret(
     if (
         fmt in ("date", "duration")
         and kind == KIND_BYTES
-        and ("slice_start" in path or "slice_end" in path)
+        and _path_slice(path) is not None
     ):
         return
 
-    if fmt == "addressName" and kind == KIND_NUMERIC and "path" in path:
-        if _retype_uint_leaf_as_address(ctx.parameter_definitions, path["path"]):
+    if fmt == "addressName" and kind == KIND_NUMERIC:
+        if _retype_uint_leaf_as_address(ctx.parameter_definitions, path):
             ctx.adjust(
                 "address-in-numeric",
                 f"{path_str} is numeric but formatted as addressName — "
@@ -904,37 +963,47 @@ def _check_kind_or_reinterpret(
 
 
 def _abi_leaf_at(
-    parameter_definitions: list[ABIValue], indices: list[int]
+    parameter_definitions: list[ABIValue], path: ERC7730Path
 ) -> ABIValue | None:
-    """Return the ABI tree node a proto data path points at, or None.
+    """Return the ABI tree node a data path points at, or None.
+
+    None also for container paths and constants, which don't walk calldata.
+    A trailing byte slice is ignored: the node returned is the sliced value's.
 
     The walk mirrors how paths are built in section 2. Worked example for
     `uniswapV3Swap(uint256 amount, uint256 minReturn, uint256[] pools)` with
-    path `pools.[-1]`, i.e. indices `[2, -1]`:
+    path `pools.[-1]`, i.e. steps `[{field: 2}, {index: -1}]`:
 
         parameter_definitions[2]  == {"array": {"atomic": "ABI_UINT256"}}
         index -1 steps INTO the array; all elements share the one element
         type, so the node becomes   {"atomic": "ABI_UINT256"}   <- the leaf
 
-    A path may also point at a whole array (trailing `.[]` iteration, no
-    index appended): the firmware formats each element, so the element type
-    is still the leaf — the final unwrap loop handles that.
+    An `each` step (`swaps.[].t`) steps into the elements like an index. The
+    final unwrap loop covers a path that ends on an array (`x.[]` over
+    `uint256[][]`).
     """
-    if not indices or not 0 <= indices[0] < len(parameter_definitions):
+    steps = path.get("steps", [])
+    if _path_slice(path) is not None:
+        steps = steps[:-1]  # the node is the sliced value's
+    if not steps:
         return None
-    node = parameter_definitions[indices[0]]
-    for idx in indices[1:]:
+    root = steps[0].get("field", steps[0].get("index"))
+    if root is None or not 0 <= root < len(parameter_definitions):
+        return None
+    node = parameter_definitions[root]
+    for step in steps[1:]:
         if "array" in node:
-            node = node["array"]  # element index: elements share one type
+            node = node["array"]  # index / each: elements share one type
         elif "tuple" in node:
+            idx = step.get("field", step.get("index"))
             fields = node["tuple"]["fields"]
-            if not 0 <= idx < len(fields):
+            if idx is None or not 0 <= idx < len(fields):
                 return None
             node = fields[idx]
         else:
             return None  # path walks past a scalar leaf — shouldn't happen
     while "array" in node:
-        node = node["array"]  # trailing `.[]`: the element is what's formatted
+        node = node["array"]  # whole-array leaf: the element is what's formatted
     return node
 
 
@@ -953,20 +1022,17 @@ def _narrow_word_slice_to_address(path: ERC7730Path) -> bool:
     Returns False (leave the path untouched) unless the path is a data path
     whose trailing slice statically selects 32 bytes.
     """
-    if "path" not in path:
+    slice_ = _path_slice(path)
+    if slice_ is None or _nominal_slice_length(*slice_) != 32:
         return False
-    start = path.get("slice_start")
-    end = path.get("slice_end")
-    if _nominal_slice_length(start, end) != 32:
-        return False
-    path["slice_start"] = (start or 0) + 12
+    path["steps"][-1]["slice_start"] = (slice_[0] or 0) + 12
     return True
 
 
 def _retype_uint_leaf_as_address(
-    parameter_definitions: list[ABIValue], indices: list[int]
+    parameter_definitions: list[ABIValue], path: ERC7730Path
 ) -> bool:
-    """Flip the uint ABI leaf at `indices` to ABI_ADDRESS, in place.
+    """Flip the uint ABI leaf `path` points at to ABI_ADDRESS, in place.
 
     See the section 4b comment for why this is sound (identical one-word
     encoding; dirty values degrade to blind signing on-device).
@@ -977,10 +1043,11 @@ def _retype_uint_leaf_as_address(
     intent (the whole array holds packed addresses) and is logged by the
     caller as an adjustment.
 
-    Returns False if the walk fails or the leaf isn't a uint — the caller
-    then treats the field as a plain formatter/type mismatch (DROP).
+    Returns False if the walk fails, the path isn't a data path, or the leaf
+    isn't a uint — the caller then treats the field as a plain formatter/type
+    mismatch (DROP).
     """
-    node = _abi_leaf_at(parameter_definitions, indices)
+    node = _abi_leaf_at(parameter_definitions, path)
     if node is None:
         return False
     if node.get("atomic") == "ABI_ADDRESS":
@@ -1041,10 +1108,11 @@ def _rule_leaf_type(
     """
     if "container_path" in path:
         return (_LEAF_UINT, 256) if kind == KIND_NUMERIC else (_LEAF_ADDRESS, None)
-    if "slice_start" in path or "slice_end" in path:
-        n = _nominal_slice_length(path.get("slice_start"), path.get("slice_end"))
+    slice_ = _path_slice(path)
+    if slice_ is not None:
+        n = _nominal_slice_length(*slice_)
         return (_LEAF_ADDRESS, None) if n == 20 else (_LEAF_BYTES, n)
-    node = _abi_leaf_at(ctx.parameter_definitions, list(path.get("path", [])))
+    node = _abi_leaf_at(ctx.parameter_definitions, path)
     abi = str((node or {}).get("atomic") or (node or {}).get("dynamic") or "")
     if abi == "ABI_ADDRESS":
         return _LEAF_ADDRESS, None
@@ -1137,6 +1205,11 @@ def _apply_visibility_rule(
 ) -> None:
     """Encode an `ifNotIn` / `mustMatch` rule into `out` (see section comment)."""
     name, values = rule
+    if _has_each(path):
+        # The firmware checks a rule against one value, not per element.
+        raise UnsupportedFeature(
+            "conditional-visibility", f"{name} on a per-element path (field {label!r})"
+        )
     leaf, size = _rule_leaf_type(path, kind, ctx)
     encoded: list[str] = []
     for v in values:
@@ -1241,6 +1314,9 @@ def _build_path_field(
         "label": label,
         "formatter": _FORMATTER_MAP[fmt],
     }
+    if "_bundle_id" in field_def and _has_each(path):
+        # Only an iterating field has an element i to show with the others'.
+        out["bundle_id"] = field_def["_bundle_id"]
     if rule is not None:
         _apply_visibility_rule(out, rule, path, kind, label, ctx)
     if must_match:
@@ -1267,6 +1343,15 @@ def _build_path_field(
         apply_calldata_params(out, params, path_str, label, ctx)
     elif fmt == "enum":
         apply_enum_params(out, params, path_str, label, ctx)
+    if not _has_each(path):
+        # The firmware pairs a per-element param with the field's elements by
+        # index, so a field showing a single value has nothing to pair it with.
+        for key, value in out.items():
+            if key.endswith("_path") and isinstance(value, dict) and _has_each(value):
+                raise UnsupportedFeature(
+                    "per-element-param-without-each",
+                    f"{key} iterates but {path_str} does not (field {label!r})",
+                )
     return out
 
 
