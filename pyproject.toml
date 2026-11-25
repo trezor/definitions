@@ -55,4 +55,4 @@ exclude-newer-package = { urllib3 = "2026-05-08" }
 # and the ERC-7730 clear-signing proto (wide_key, signed ints, v2 params).
 # TODO: remove once trezor >= 0.20.3 ships
 [tool.uv.sources]
-trezor = { git = "https://github.com/trezor/trezor-firmware.git", subdirectory = "python", rev = "2cf3e696b22be2412bfcc6486b346e1e2c4acafb" }
+trezor = { git = "https://github.com/trezor/trezor-firmware.git", subdirectory = "python", rev = "d4e62c373aa851ea245ba8c8c55cf4a86ccf2f4e" }

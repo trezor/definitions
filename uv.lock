@@ -267,7 +267,7 @@ requires-dist = [
     { name = "readchar", specifier = ">=4.2.0,<5" },
     { name = "requests", specifier = ">=2.28.2,<3" },
     { name = "rich", specifier = ">=13.8.0,<14" },
-    { name = "trezor", git = "https://github.com/trezor/trezor-firmware.git?subdirectory=python&rev=2cf3e696b22be2412bfcc6486b346e1e2c4acafb" },
+    { name = "trezor", git = "https://github.com/trezor/trezor-firmware.git?subdirectory=python&rev=d4e62c373aa851ea245ba8c8c55cf4a86ccf2f4e" },
     { name = "urllib3", specifier = ">=2.7.0,<3" },
 ]
 
@@ -1034,7 +1034,7 @@ wheels = [
 [[package]]
 name = "trezor"
 version = "0.20.3"
-source = { git = "https://github.com/trezor/trezor-firmware.git?subdirectory=python&rev=2cf3e696b22be2412bfcc6486b346e1e2c4acafb#2cf3e696b22be2412bfcc6486b346e1e2c4acafb" }
+source = { git = "https://github.com/trezor/trezor-firmware.git?subdirectory=python&rev=d4e62c373aa851ea245ba8c8c55cf4a86ccf2f4e#d4e62c373aa851ea245ba8c8c55cf4a86ccf2f4e" }
 dependencies = [
     { name = "click" },
     { name = "construct" },
