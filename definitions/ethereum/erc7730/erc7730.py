@@ -644,10 +644,16 @@ class _FormatContext:
     parameter_definitions: list[ABIValue]
     enums: dict[str, Any] = dataclasses.field(default_factory=dict)
     adjustments: list[tuple[str, str]] = dataclasses.field(default_factory=list)
+    next_bundle_id: int = 1
 
     def adjust(self, kind: str, detail: str) -> None:
         LOG.info("adjustment %s: %s", kind, detail)
         self.adjustments.append((kind, detail))
+
+    def new_bundle_id(self) -> int:
+        """A `bundle_id` unique within this display format."""
+        self.next_bundle_id += 1
+        return self.next_bundle_id - 1
 
 
 _VISIBILITY_RULES = ("ifNotIn", "mustMatch")
@@ -736,6 +742,8 @@ def _flatten_field_group(
     themselves be groups; the caller re-queues them. Respects group-level
     visibility (`never` hides the whole group, `optional` hides and logs,
     rule objects drop). Every flattened group is logged as an adjustment.
+    Sub-fields of an `iteration: bundled` group carry an internal `_bundle_id`
+    (see `_build_path_field`).
     """
     visible = group.get("visible")
     if visible in (False, "never"):
@@ -752,6 +760,13 @@ def _flatten_field_group(
             f"visible={visible!r} (group {group.get('path')!r})",
         )
 
+    # `iteration: bundled` shows element i of every sub-field together. A
+    # plain group nested inside a bundled one stays in its bundle.
+    bundle_id = (
+        ctx.new_bundle_id()
+        if group.get("iteration") == "bundled"
+        else group.get("_bundle_id")
+    )
     base = str(group.get("path") or "").rstrip(".")
     flattened: list[dict[str, Any]] = []
     for sub in group["fields"]:
@@ -759,6 +774,9 @@ def _flatten_field_group(
             raise UnsupportedFeature(
                 "malformed-field-entry", f"{sub!r} (in group {base!r})"
             )
+        sub = dict(sub)
+        if bundle_id is not None:
+            sub["_bundle_id"] = bundle_id  # internal key: `_` avoids spec keys
         if base:
 
             def _join(p: Any) -> Any:
@@ -766,7 +784,6 @@ def _flatten_field_group(
                     return f"{base}.{p}"
                 return p
 
-            sub = dict(sub)
             if "path" in sub:
                 sub["path"] = _join(sub["path"])
             params = sub.get("params")
@@ -1297,6 +1314,9 @@ def _build_path_field(
         "label": label,
         "formatter": _FORMATTER_MAP[fmt],
     }
+    if "_bundle_id" in field_def and _has_each(path):
+        # Only an iterating field has an element i to show with the others'.
+        out["bundle_id"] = field_def["_bundle_id"]
     if rule is not None:
         _apply_visibility_rule(out, rule, path, kind, label, ctx)
     if must_match:
