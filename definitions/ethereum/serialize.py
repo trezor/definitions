@@ -101,6 +101,7 @@ for _name in (
     "spender_path",
     "const_callee",
     "const_spender",
+    "bundle_id",
 ):
     if not any(f.name == _name for f in EthereumERC7730FieldInfo.FIELDS.values()):
         _missing_proto.append(f"EthereumERC7730FieldInfo.{_name}")
@@ -264,6 +265,7 @@ def _build_erc7730_field_info(d: ERC7730Field) -> EthereumERC7730FieldInfo:
         must_match=(
             [bytes.fromhex(v) for v in d["must_match"]] if "must_match" in d else None
         ),
+        bundle_id=d.get("bundle_id"),
     )
 
 

@@ -3330,6 +3330,130 @@ def test_group_over_array_gives_per_element_fields():
     assert field["token_path"] == steps(F(0), EACH, F(0))
 
 
+def _bundle_ids(sig: str, fields: list[dict[str, Any]]) -> dict[str, int | None]:
+    [rec] = build_display_formats(_descriptor(formats={sig: {"fields": fields}}))
+    return {f["label"]: f.get("bundle_id") for f in rec["field_definitions"]}
+
+
+def test_bundled_groups_get_one_id_each():
+    ids = _bundle_ids(
+        "f((address a, uint256 b)[] xs, address[] ys, uint256[] zs)",
+        [
+            {
+                "path": "#.xs.[]",
+                "iteration": "bundled",
+                "fields": [
+                    {"path": "a", "label": "A", "format": "addressName"},
+                    {"path": "b", "label": "B", "format": "raw"},
+                ],
+            },
+            # No group path: bundles parallel arrays (Disperse, Surge).
+            {
+                "iteration": "bundled",
+                "fields": [
+                    {"path": "ys.[]", "label": "Y", "format": "addressName"},
+                    {"path": "zs.[]", "label": "Z", "format": "raw"},
+                ],
+            },
+        ],
+    )
+    assert ids == {"A": 1, "B": 1, "Y": 2, "Z": 2}
+
+
+@pytest.mark.parametrize("iteration", ["sequential", None])
+def test_unbundled_group_gets_no_bundle_id(iteration):
+    group: dict[str, Any] = {
+        "path": "#.xs.[]",
+        "fields": [{"path": "a", "label": "A", "format": "addressName"}],
+    }
+    if iteration is not None:
+        group["iteration"] = iteration
+    assert _bundle_ids("f((address a)[] xs)", [group]) == {"A": None}
+
+
+def test_bundle_id_only_on_iterating_fields():
+    ids = _bundle_ids(
+        "f(uint256[] xs, address to, (uint256[] ys) inner)",
+        [
+            {
+                "iteration": "bundled",
+                "fields": [
+                    {"path": "xs.[]", "label": "X", "format": "raw"},
+                    # a single value: nothing to show per element
+                    {"path": "to", "label": "To", "format": "addressName"},
+                    # a plain group inside the bundle stays in it
+                    {
+                        "path": "#.inner",
+                        "fields": [{"path": "ys.[]", "label": "Y", "format": "raw"}],
+                    },
+                ],
+            }
+        ],
+    )
+    assert ids == {"X": 1, "To": None, "Y": 1}
+
+
+def test_registry_morpho_bundled_collateral_params():
+    # similar to https://github.com/ethereum/clear-signing-erc7730-registry/blob/4b7ff1c2df803f3e14f801bea9ecc779b6fa8b79/registry/morpho/calldata-Midnight.json#L165
+    ids = _bundle_ids(
+        "f((address loanToken, (address token, uint256 lltv, uint256"
+        " liquidationCursor, address oracle)[] collateralParams) market)",
+        [
+            {
+                "label": "Loan token",
+                "format": "addressName",
+                "path": "#.market.loanToken",
+            },
+            {
+                "path": "#.market.collateralParams.[]",
+                "iteration": "bundled",
+                "fields": [
+                    {
+                        "label": "Collateral token",
+                        "format": "addressName",
+                        "path": "token",
+                    },
+                    {
+                        "label": "LLTV",
+                        "format": "unit",
+                        "params": {"base": "%", "decimals": 16},
+                        "path": "lltv",
+                    },
+                    {"label": "Oracle", "format": "addressName", "path": "oracle"},
+                    {
+                        "label": "Liquidation cursor",
+                        "format": "raw",
+                        "path": "liquidationCursor",
+                        "visible": "never",
+                    },
+                ],
+            },
+        ],
+    )
+    assert ids == {"Loan token": None, "Collateral token": 1, "LLTV": 1, "Oracle": 1}
+
+
+def test_bundle_id_serializes_to_proto():
+    import io
+
+    from trezorlib import protobuf
+
+    from ..serialize import _build_erc7730_field_info
+
+    info = _build_erc7730_field_info(
+        {
+            "path": steps(F(0), EACH),
+            "label": "X",
+            "formatter": "FORMATTER_RAW",
+            "bundle_id": 3,
+        }
+    )
+    buf = io.BytesIO()
+    protobuf.dump_message(buf, info)
+    buf.seek(0)
+    assert protobuf.load_message(buf, type(info)).bundle_id == 3
+
+
 def test_hidden_group_is_skipped():
     desc = _descriptor(
         formats={

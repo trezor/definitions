@@ -140,6 +140,10 @@ class ERC7730Field(t.TypedDict):
     if_not_in: t.NotRequired[list[str]]
     must_match: t.NotRequired[list[str]]
 
+    # Iterating fields of one `iteration: bundled` group share an id (unique
+    # within the display format): element i of each is shown together.
+    bundle_id: t.NotRequired[int]  # uint32
+
 
 class ERC20DisplayFormat(t.TypedDict):
     chain_id: int
