@@ -60,11 +60,18 @@ class _ContainerPath(t.TypedDict):
     container_path: str  # "FROM" | "VALUE" | "TO" | "CHAIN_ID"
 
 
+class PathStep(t.TypedDict, total=False):
+    """One EthereumERC7730PathStep: exactly one kind (a slice may set both bounds)."""
+
+    field: int  # tuple member or top-level parameter
+    index: int  # array element, negative = from the end
+    each: bool  # `.[]`
+    slice_start: int  # byte slice of the walked value (e.g. `token.[-20:]`)
+    slice_end: int
+
+
 class _DataPath(t.TypedDict):
-    path: list[int]
-    # trailing byte slice of the walked value (e.g. `token.[-20:]`)
-    slice_start: t.NotRequired[int]
-    slice_end: t.NotRequired[int]
+    steps: list[PathStep]
 
 
 class _ConstValuePath(t.TypedDict):
